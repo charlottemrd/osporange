@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,13 +20,25 @@ class ProfilRepository extends ServiceEntityRepository
         parent::__construct($registry, Profil::class);
     }
 
-    public function findProfils($fournisseur)
-    {
-        $qb = $this->createQueryBuilder('u');
 
-        $qb->where('u.fournisseur = :fournisseur')
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Profil[]
+     */
+    public function findProfils($fournisseur): array
+    {
+
+
+        $query = $this
+            ->createQueryBuilder('o');
+
+
+        $query = $query
+            ->andWhere('o.fournisseur =:fournisseur')
             ->setParameter('fournisseur', $fournisseur);
-        return $qb;
+
+        return $query->getQuery()->getResult();
+
     }
 
 

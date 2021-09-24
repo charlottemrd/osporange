@@ -66,6 +66,9 @@ class ProjetType extends AbstractType
                 'required' => true,
                 'class' => Fournisseur::class,
                 'placeholder'=>'',
+                'attr' => [
+                    'class' => 'projet_fournisseur'
+                ]
 
             ])
 
@@ -148,8 +151,14 @@ class ProjetType extends AbstractType
                 'required'=>true,
             ])
 
-            ->add('couts', CollectionType::class, []
-            );
+            ->add('couts', CollectionType::class, array(
+                'entry_type'   => CoutType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype'=> true,
+
+            ));
 
 
 
@@ -166,32 +175,7 @@ class ProjetType extends AbstractType
 
 
 
-            $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
 
-                $data = $event->getData();
-                /* @var $fournisseur Fournisseur */
-                $fournisseur = $data->getFournisseur();
-                $form = $event->getForm();
-
-                if ($fournisseur) {
-                    // On récupère le département et la région
-                    $profil = $fournisseur->getProfils();
-                    foreach ($profil as $pp){
-                        $projet = new Projet();
-                        $cout1 = new Cout();
-                        $cout1->setProfil(pp);
-                        $cout1->setNombreprofil();
-                        $projet->getTags()->add($cout1);
-                    }
-                }
-
-
-
-
-
-
-
-        });
 
 
 

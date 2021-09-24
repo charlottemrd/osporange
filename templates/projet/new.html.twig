@@ -325,6 +325,31 @@
 
 
     $(document).ready(function () {
+        $('.projet_fournisseur').change(function() {
+            $phasin=document.getElementById('projet_fournisseur').value;
+            $.ajax({
+            method: "POST",
+            url: "{{ path('projet_new') }}",
+            data: {id: $phasin},
+            dataType: "json",
+            success: function(html) {
+                console.log(html);
+                }
+
+
+        }).done( function(response) {
+            //alert(123);
+            var htmlToDisplay = response.trim();
+            $("#your_div").html(response);
+        }).fail(function(jxh,textmsg,errorThrown){
+            console.log(textmsg);
+            console.log(errorThrown);
+        });
+        });
+
+
+
+
 
 
         $('.projet_Phase').change(function() {

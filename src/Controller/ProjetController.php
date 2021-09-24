@@ -1,18 +1,27 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Cout;
+use App\Entity\Fournisseur;
+use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\ProjetType;
 use App\Form\SearchType;
 use App\Entity\SearchData;
 use App\Repository\ProjetRepository;
+use App\Repository\ProfilRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 #[Route('/projet')]
 class ProjetController extends AbstractController
@@ -54,7 +63,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
-    public function new(ProjetRepository $projetRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
@@ -88,8 +97,8 @@ class ProjetController extends AbstractController
 
 
         $projet->setIsplanningrespecte('yes');
-        $form = $this->createForm(ProjetType::class, $projet);
 
+        $form = $this->createForm(ProjetType::class, $projet);
 
 
         $form->handleRequest($request);
@@ -103,10 +112,27 @@ class ProjetController extends AbstractController
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
 
+
+
+        if ($request->isXmlHttpRequest()) {
+
+            $profils = $profilRepository->findProfils($_POST['id']);
+            foreach ($profils as $pp) {
+                $cout1 = new Cout();
+                $cout1->setProfil($pp);
+                $projet->getCouts()->add($cout1);
+            }
+            $couts = array();
+            $couts = $projet->getCouts();
+            return $this->json(array('couts' => $couts));
+        }
+
         return $this->renderForm('projet/new.html.twig', [
             'projet' => $projet,
             'form' => $form,
         ]);
+
+
     }
 
     #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
