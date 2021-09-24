@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Projet{% endblock %}
+
+{% block body %}
+    <h1>Projet</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ projet.id }}</td>
+            </tr>
+            <tr>
+                <th>Reference</th>
+                <td>{{ projet.reference }}</td>
+            </tr>
+            <tr>
+                <th>Domaine</th>
+                <td>{{ projet.domaine }}</td>
+            </tr>
+            <tr>
+                <th>Sdomaine</th>
+                <td>{{ projet.sdomaine }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ projet.description }}</td>
+            </tr>
+            <tr>
+                <th>Taux</th>
+                <td>{{ projet.taux }}</td>
+            </tr>
+            <tr>
+                <th>Isplanningrespecte</th>
+                <td>{{ projet.isplanningrespecte ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Highestphase</th>
+                <td>{{ projet.highestphase }}</td>
+            </tr>
+            <tr>
+                <th>Datel1</th>
+                <td>{{ projet.datel1 ? projet.datel1|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date0</th>
+                <td>{{ projet.date0 ? projet.date0|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date1</th>
+                <td>{{ projet.date1 ? projet.date1|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date2</th>
+                <td>{{ projet.date2 ? projet.date2|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date3</th>
+                <td>{{ projet.date3 ? projet.date3|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datecrea</th>
+                <td>{{ projet.datecrea ? projet.datecrea|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datespec</th>
+                <td>{{ projet.datespec ? projet.datespec|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datemaj</th>
+                <td>{{ projet.datemaj ? projet.datemaj|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('projet_index') }}">back to list</a>
+
+    <a href="{{ path('projet_edit', {'id': projet.id}) }}">edit</a>
+
+    {{ include('projet/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+ {% endblock  %}
+
+
+{% block body  %}
+    <style>
+
+        body {
+            max-width: 100%;
+            margin: 0;
+        }
+        body {
+            min-height:100vh;
+        }
+        .flex-fill {
+            flex:1 1 auto;
+        }
+
+
+.form-signin{
+    padding-bottom: 2%;
+    padding-top: 2%;
+    padding-right: 15%;
+    padding-left: 15%;
+
+    }
+
+.halfD,.halfG{
+
+    padding-right: 1%;
+    float: left;
+}
+
+.halfG{ width: 60%;
+    padding-left: 13%;
+
+}
+
+.halfD{ width: 25%;}
+
+table,tr,th,td{
+    border:black solid 1px;
+
+}
+thead{
+    background-color: lightgrey;
+}
+        @media (max-width:765px)
+        {
+            .form-signin{
+                padding-bottom: 0%;
+                padding-top: 7%;
+                padding-right: 8%;
+                padding-left: 8%;
+
+            }
+        }
+
+
+
+
+    </style>
+
+
+<body class="d-flex flex-column">
+<main class="container-fluid flex-fill ">
+    <h1 class="text-center">Fournisseur : {{ fournisseur.name }}</h1>
+    <br>
+    <div class="form-signin">
+        <div class="halfG">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend " style="width: 40%">
+                <span class="input-group-text" id="basic-addon1">Nom</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{ fournisseur.name }}" disabled=true" aria-describedby="basic-addon1">
+        </div>
+
+        {%if fournisseur.phone!=null %}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend " style="width: 40%">
+                <span class="input-group-text" id="basic-addon1">Numéro de téléphone</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{ fournisseur.phone }}" disabled=true" aria-describedby="basic-addon1">
+        </div>
+        {% endif %}
+
+        {%if fournisseur.mail!=null %}
+        <div class="input-group mb-3">
+            <div class="input-group-prepend " style="width: 40%">
+                <span class="input-group-text" id="basic-addon1">Adresse e-mail</span>
+            </div>
+            <input type="text" class="form-control" placeholder="{{ fournisseur.mail }}" disabled=true" aria-describedby="basic-addon1">
+        </div>
+        {% endif %}
+
+        {%if fournisseur.adress!=null %}
+        <div class="input-group">
+            <div class="input-group-prepend " style="width: 40%">
+                <span class="input-group-text" id="basic-addon1">Adresse</span>
+            </div>
+            <textarea class="form-control"  disabled=true" placeholder="{{ fournisseur.adress }}" aria-label="With textarea"></textarea>
+        </div>
+        {% endif %}
+        </div>
+        <div class="halfD">
+
+            <table class="tableP" id="tableP">
+                <thead>
+                <tr>
+                    <th class="text-center " style="width: 10%">Profil</th>
+                    <th class="text-left" style="width: 40%">Tarif</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for profil in profils %}
+                    <tr>
+                        <td class="text-center " style="width: 25%">{{ profil.name }}</td>
+                        <td class="text-left " style="width: 25%">{{ profil.tarif }}</td>
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="12">Le fournisseur n'a pas de profil</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+    <br>
+    <div>
+        <button class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey"> <a style="text-decoration: none" href="{{ path('fournisseur_liste_edit', {'id': fournisseur.id}) }}">Modifier</a></button>
+    </div>
+    </div>
+</main>
+</body>
+{% endblock %}

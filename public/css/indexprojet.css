@@ -1,0 +1,42 @@
+body {
+    max-width: 100%;
+    margin: 0;
+}
+body {
+    min-height:100vh;
+}
+
+.flex-fill {
+    flex:1 1 auto;
+}
+
+div.dataTables_length select {
+    width: 0px;
+}
+
+.form-signin{
+    padding-bottom: 2%;
+    padding-top: 2%;
+    padding-right: 10%;
+    padding-left: 10%;
+
+}
+
+td,table, thead, th,tr{
+    border:black solid 1px;
+}
+
+
+.searching{
+    display: inline-block;
+}
+@media (max-width:765px)
+{
+    .form-signin{
+        padding-bottom: 0%;
+        padding-top: 7%;
+        padding-right: 8%;
+        padding-left: 8%;
+
+    }
+}

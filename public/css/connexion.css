@@ -1,0 +1,38 @@
+
+body {
+    max-width: 100%;
+    margin: 0;
+}
+body {
+    min-height:100vh;
+}
+
+.flex-fill {
+    flex:1 1 auto;
+}
+
+
+.form-signin{
+    padding-bottom: 7%;
+    padding-top: 7%;
+    padding-right: 37%;
+    padding-left: 37%;
+
+}
+
+
+
+@media (max-width:765px)
+{
+    .form-signin{
+        padding-bottom: 7%;
+        padding-top: 7%;
+        padding-right: 8%;
+        padding-left: 8%;
+
+    }
+}
+
+
+
+

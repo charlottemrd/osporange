@@ -1,0 +1,258 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <style>
+
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+
+
+
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Modification du fournisseur - {{ fournisseur.name }}</h1>
+        <br>
+        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
+        <div id="smartwizard">
+
+            <ul class="nav" >
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        Step 1
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        Step 2
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        Step 3
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content" id="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <table style="border-color: white">
+                        <tr style="border-color: white">
+                            <th>
+
+                                {{ form_label(form, 'Nom', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>
+                                {{ form_widget(form.name, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Numéro de téléphone', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.phone, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Adresse e-mail', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.mail, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Adresse', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.adress, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+
+
+
+
+
+                    {% macro information_prototype(profil) %}
+                        <br>
+                        <table>
+                            <tr>
+                                <th>
+                                    {{ form_label(profil.name, 'Nom', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(profil.name, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(profil.tarif, 'Tarif', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(profil.tarif, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                        </table>
+                        <br>
+
+
+                    {% endmacro %}
+
+
+
+
+
+                    <ul class="profils" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.profils.vars.prototype)|e }}">
+
+                      {% for profilField in form.profils %}
+
+                            <li>
+                                <table>
+                                <tr>
+                                    <th>
+                                {{ form_label(profilField.name, 'Nom', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                    </th>
+                                    <th>
+                                {{ form_widget(profilField.name, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                                    </th>
+                                </tr>
+
+                                <tr>
+                                    <th>
+
+                                {{ form_label(profilField.tarif, 'Tarif', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                    </th>
+                                    <th>
+                                {{ form_widget(profilField.tarif, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                                    </th>
+                                </tr>
+                                </table>
+                                <br>
+                            </li>
+                        {% endfor %}
+
+
+                    </ul>
+                </div>
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    Veuillez vérifier vos données avant de soumettre le formulaire
+                </div>
+
+            </div>
+        </div>
+
+
+        {{ form_end(form) }}
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+
+
+    <script src="{{ asset('javascript/editFournisseurs.js') }}"></script>
+
+
+
+{% endblock  %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+ {% endblock %}
+
+{% block body %}
+<body class="d-flex flex-column">
+<header>
+</header>
+<main class="container-fluid flex-fill ">
+    <div class="borderbox">
+        <main class="form-signin " >
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger "style="background-color: lightgrey;border-color: lightgrey; color: black" >{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+    <h1 class="h2 mb-3 fw-normal text-center">Connectez-vous</h1>
+    <br>
+    <div class="form-floating">
+        <input type="email" value="{{ last_username }}" class="form-control" name="email" id="inputEmail" autocomplete="email" required autofocus>
+        <label for="inputEmail">Adresse e-mail</label>
+    </div>
+    <br>
+    <div class="form-floating">
+        <input type="password" class="form-control" id="inputPassword" name="password" placeholder="Password" autocomplete="current-password" required>
+        <label for="inputPassword">Mot de passe</label>
+    </div>
+
+    <br>
+
+
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+
+    {#
+        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+        See https://symfony.com/doc/current/security/remember_me.html
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Remember me
+            </label>
+        </div>
+    #}
+
+    <button class="w-100 btn btn-lg text-black " style="background-color: #FF7900" type="submit">Connexion</button>
+
+</form>
+        </main>
+    </div>
+</main>
+
+
+
+</main>
+</body>
+{% endblock %}

@@ -1,0 +1,9 @@
+
+
+
+<div class="formsize">
+<form method="post" action="{{ path('fournisseur_liste_delete', {'id': fournisseur.id}) }}" onsubmit="return confirm('Etes-vous sûre de supprimer ce fournisseur');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ fournisseur.id) }}">
+    <button class="btn"><img src="/photo/delete.png "  width="25%" height="25%"></button>
+</form>
+</div>

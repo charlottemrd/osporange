@@ -1,0 +1,35 @@
+.site-footer
+{
+    background-color:black;
+
+    font-size:15px;
+    line-height:24px;
+    justify-content: center;
+    text-align: center;
+}
+
+
+.copyright-text
+{
+    color:white;
+
+}
+@media (max-width:990px)
+{
+    .site-footer [class^=col-]
+    {
+        margin-bottom:30px
+    }
+}
+@media (max-width:765px)
+{
+    .site-footer
+    {
+        padding-bottom:0
+    }
+    .site-footer .copyright-text
+    {
+        text-align:center
+    }
+}
+
