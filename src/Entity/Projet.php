@@ -137,9 +137,15 @@ class Projet
      */
     private $couts;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Modalites::class, mappedBy="projet")
+     */
+    private $modalites;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
+        $this->modalites = new ArrayCollection();
     }
 
 
@@ -439,6 +445,36 @@ class Projet
             // set the owning side to null (unless already changed)
             if ($cout->getProjet() === $this) {
                 $cout->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Modalites[]
+     */
+    public function getModalites(): Collection
+    {
+        return $this->modalites;
+    }
+
+    public function addModalite(Modalites $modalite): self
+    {
+        if (!$this->modalites->contains($modalite)) {
+            $this->modalites[] = $modalite;
+            $modalite->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModalite(Modalites $modalite): self
+    {
+        if ($this->modalites->removeElement($modalite)) {
+            // set the owning side to null (unless already changed)
+            if ($modalite->getProjet() === $this) {
+                $modalite->setProjet(null);
             }
         }
 
