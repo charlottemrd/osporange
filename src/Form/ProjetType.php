@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Cout;
 use App\Entity\Fournisseur;
+use App\Entity\Paiement;
 use App\Entity\Priorite;
 use App\Entity\Projet;
 use App\Entity\Phase;
@@ -11,6 +12,7 @@ use App\Entity\Risque;
 use App\Entity\User;
 use App\Entity\TypeBU;
 use App\Form\CoutType;
+use App\Form\ModalitesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -21,6 +23,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
+
+
+
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class ProjetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -82,6 +90,9 @@ class ProjetType extends AbstractType
                 'required' => true,
                 'class' => TypeBU::class,
                 'placeholder'=>'',
+                'attr' => [
+                    'class' => 'projet_typebu'
+                ]
 
             ])
 
@@ -96,27 +107,23 @@ class ProjetType extends AbstractType
                 'required' => false,
                 'class' => Risque::class,
                 'placeholder'=>'',
-
-
             ])
+            ->add('paiement',EntityType::class, [
+                'required' => true,
+                'class' => Paiement::class,
+                'placeholder'=>'',
+                'attr' => [
+                    'class' => 'projet_paiement'
+                ]])
 
 
-
-
-
-
-
-
-
-
-
-            ->add('paiement')
-
-
-            ->add('datel1', DateType::class, [
+            ->add('datel1', DateType::class,
+  [
                 'label'=>'invoice_date',
                 'widget'=>'single_text',
                 'required'=>true,
+
+
             ])
 
             ->add('date0', DateType::class, [
@@ -158,8 +165,23 @@ class ProjetType extends AbstractType
                 'by_reference' => false,
                 'prototype'=> true,
 
-            ));
+            ))
 
+              ->add('modalites', CollectionType::class, array(
+                  'entry_type' => ModalitesType::class,
+                  'allow_add' => true,
+                  'allow_delete' => true,
+                  'by_reference' => false,
+                  'prototype' => true,
+                  'attr' => [
+                      'class' => 'projet_modalites'
+                  ],
+                  "row_attr" => [
+                      "class" => "d-none"
+                  ],
+              ));
+
+    ;
 
 
         ;
@@ -185,13 +207,24 @@ class ProjetType extends AbstractType
 
 
 
+
+
+
+
+
     }
+
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Projet::class,
+
+
+
+
+
         ]);
     }
 }

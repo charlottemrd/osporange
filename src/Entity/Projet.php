@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
+
 /**
  * @ORM\Entity(repositoryClass=ProjetRepository::class)
  */
@@ -138,7 +140,7 @@ class Projet
     private $couts;
 
     /**
-     * @ORM\OneToMany(targetEntity=Modalites::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=Modalites::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $modalites;
 
@@ -420,6 +422,18 @@ class Projet
 
         return $this;
     }
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * @return Collection|Cout[]

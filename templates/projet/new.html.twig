@@ -119,18 +119,18 @@
 
             <div class="tab-content" id="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-                    <table style="border-color: white;width: 100%">
+                    <table style="border-color: white">
                         <tr style="border-color: white">
-                            <th width="15%">
+                            <th>
 
                                 {{ form_label(form, 'Référence FL', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">
+                            <th>
                                 {{ form_widget(form.reference, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th width="50%">
+                            <th>
                                 {{ form_label(form.reference) }}
                             </th>
 
@@ -211,6 +211,7 @@
                             </th>
 
                         </tr>
+
                         <tr>
                             <th> {{ form_label(form, 'Description', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -279,10 +280,63 @@
 
 
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <tr style="border-color: white" >
+                        <th>
 
+                            {{ form_label(form, 'Couts', {
+                                'label_attr': {'class': 'input-group-text'}}) }}</th>
+                        <th>
+                            {{ form_widget(form.couts, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+                        </th>
+                    </tr>
                 </div>
 
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    {% macro information_prototype(modalite) %}
+
+                        <br>
+                        <table>
+                            <tr>
+                                <p>Jalon</p>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(modalite.conditions, 'Condition', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.conditions, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(modalite.pourcentage, 'Pourcentage', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.pourcentage, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(modalite.description, 'Commentaire', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.description, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                        </table>
+                        <br>
+                    {% endmacro %}
                     <table>
                         <tr>
                             <th> {{ form_label(form, 'Mode de paiement', {
@@ -292,6 +346,15 @@
                                 ) }}</th>
                         </tr>
                     </table>
+                    <br>
+                    <table>
+                            <div id = "modalites" style="display: none">
+                                <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
+                                </ul>
+                            </div>
+                    </table>
+
+
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
@@ -325,7 +388,7 @@
 
 
     $(document).ready(function () {
-        $('.projet_fournisseur').change(function() {
+      /*  $('.projet_fournisseur').change(function() {
             $phasin=document.getElementById('projet_fournisseur').value;
             $.ajax({
             method: "POST",
@@ -346,8 +409,11 @@
             console.log(errorThrown);
         });
         });
+ })
 
 
+
+*/
 
 
 
@@ -362,6 +428,7 @@
             document.getElementById('projet_datespec').value=null;
             var selectValue = $phasing.options[$phasing.selectedIndex].value;
             if ((selectValue=='1')|| (selectValue=='2')|| (selectValue=='3')){//abondonne
+
 
                 document.getElementById('projet_datel1').style.display="none";
                 document.getElementById('datel1').style.display="none";
@@ -507,43 +574,65 @@
         });
 
 
+        var $collectionHolder;
+        var $boutonAjouter = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un jalon</button>');
+        var $nouveau = $('<li></li>').append($boutonAjouter )
+        ;
+        jQuery(document).ready(function () {$collectionHolder = $('ul.modalites');
+            $collectionHolder.find('li').each(function () {
+                addModaliteFormDeleteLink($(this));
+            });
+            $collectionHolder.append($nouveau);
+            $collectionHolder.data('index', $collectionHolder.find('input').length);
+            $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+            });
 
-    var $collectionHolder;
-    var $boutonAjouter = $('<button type="button" className="btn-toolbar add_profil_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un profil</button>');
-    var $nouveau = $('<li></li>').append($boutonAjouter )
-    ;
-    jQuery(document).ready(function () {$collectionHolder = $('ul.profils');
-    $collectionHolder.find('li').each(function () {
-    addProfilFormDeleteLink($(this));
-    });
-    $collectionHolder.append($nouveau);
-    $collectionHolder.data('index', $collectionHolder.find('input').length);
-    $boutonAjouter.on('click', function (e) {addProfilForm($collectionHolder, $nouveau);
-    });
-
-    function addProfilForm($collectionHolder, $newLinkLi) {
-    var prototype = $collectionHolder.data('prototype');
-    var index = $collectionHolder.data('index');
-    var newForm = prototype;
-    newForm = newForm.replace(/__name__/g, index);
-    $collectionHolder.data('index', index + 1);
-    var $newFormLi = $('<li></li>').append(newForm);
-    $newLinkLi.before($newFormLi);
-    addProfilFormDeleteLink($newFormLi);
-    document.getElementById('smartwizard').style.height = "200%";
-    document.getElementById('tab-content').style.height = "200%";
+            function addModaliteForm($collectionHolder, $newLinkLi) {
+                var prototype = $collectionHolder.data('prototype');
+                var index = $collectionHolder.data('index');
+                var newForm = prototype;
+                newForm = newForm.replace(/__name__/g, index);
+                $collectionHolder.data('index', index + 1);
+                var $newFormLi = $('<li></li>').append(newForm);
+                $newLinkLi.before($newFormLi);
+                addModaliteFormDeleteLink($newFormLi);
+                document.getElementById('smartwizard').style.height = "200%";
+                document.getElementById('tab-content').style.height = "200%";
+            }
+            function addModaliteFormDeleteLink($tagFormLi) {
+                var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
+                $tagFormLi.append($removeFormButton);
+                $removeFormButton.on('click', function (e) {
+                    $tagFormLi.remove();
+                });
+            }
 
 
-    }
-    function addProfilFormDeleteLink($tagFormLi) {
-    var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le profil</button>');
-    $tagFormLi.append($removeFormButton);
-    $removeFormButton.on('click', function (e) {
-    $tagFormLi.remove();
-    });
-    }
-    })
-    ;
+
+
+            $('.projet_paiement').change(function() {
+                $phasing2=document.getElementById('projet_paiement');
+                var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
+                if (selectValue2=='1'){
+                    document.getElementById('modalites').style.display="none";
+                    $collectionHolder.empty();
+                    $collectionHolder.append($nouveau);
+                    $collectionHolder.data('index', $collectionHolder.find('input').length);
+                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                    });
+                }
+                if (selectValue2=='2'){
+                    document.getElementById('modalites').style.display="block";
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                }
+            });
+
+
+        })
+        ;
+
+
 
 
     var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
@@ -604,11 +693,6 @@
 
 
 
-
-
-    $("#myForm").validate( {
-
-    });
 
     $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
     if ($('#myForm').valid()) {
