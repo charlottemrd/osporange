@@ -7,7 +7,13 @@
      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
      <style>
 
+       input,select{
+            width: 100%;
+        }
+       textarea {
 
+           width: 100%;
+       }
 
          .sw-theme-arrows>.nav .nav-link.done {
              border-color: darkgrey;
@@ -111,7 +117,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#step-5">
-                        Step 5
+                        Confirmation
                     </a>
                 </li>
 
@@ -119,20 +125,19 @@
 
             <div class="tab-content" id="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-                    <table style="border-color: white">
+                    <table style="border-color: white;width:100%">
                         <tr style="border-color: white">
-                            <th>
+                            <th  width="15%">
 
                                 {{ form_label(form, 'Référence FL', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>
+                            <th  width="20%">
                                 {{ form_widget(form.reference, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th>
-                                {{ form_label(form.reference) }}
-                            </th>
+                            <th  width="50%" ></th>
+
 
                         </tr>
                         <tr>
@@ -150,11 +155,13 @@
 
                                 {{ form_label(form, 'Phase', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>
+                            <th  width="20%">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
+                            <th style="padding-left: 1%"><label id="projet_Phase-error" class="error" for="projet_Phase"></label></th>
+
 
                         </tr>
                         <tr>
@@ -163,6 +170,8 @@
                             <th>{{ form_widget(form.domaine, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th style="padding-left: 1%"><label id="projet_domaine-error" class="error" for="projet_domaine"></label></th>
+
 
                         </tr>
                         <tr>
@@ -171,6 +180,8 @@
                             <th>{{ form_widget(form.sdomaine, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th style="padding-left: 1%"><label id="projet_sdomaine-error" class="error" for="projet_sdomaine"></label></th>
+
 
                         </tr>
 
@@ -180,6 +191,8 @@
                             <th>{{ form_widget(form.fournisseur, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th style="padding-left: 1%"><label id="projet_fournisseur-error" class="error" for="projet_fournisseur"></label></th>
+
 
                         </tr>
 
@@ -189,6 +202,8 @@
                             <th>{{ form_widget(form.typebu, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th style="padding-left: 1%"><label id="projet_typebu-error" class="error" for="projet_typebu"></label></th>
+
 
                         </tr>
                         <tr>
@@ -197,6 +212,8 @@
                             <th>{{ form_widget(form.priorite, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th style="padding-left: 1%"><label id="projet_priorite-error" class="error" for="projet_priorite"></label></th>
+
 
                         </tr>
                         <tr style="border-color: white">
@@ -208,6 +225,8 @@
                                 {{ form_widget(form.risque, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
+                            <th style="padding-left: 1%"><label id="projet_risque_error" class="error" for="projet_risque"></label></th>
+
                             </th>
 
                         </tr>
@@ -218,7 +237,7 @@
                             <th>{{ form_widget(form.description, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-
+                            <th style="padding-left: 1%"><label id="projet_description-error" class="error" for="projet_description"></label></th>
                         </tr>
 
 
@@ -229,54 +248,62 @@
 
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
 
-                    <table style="border-color: white">
+                    <table style="border-color: white;width:100%">
 
-                       <tr id="datespec">
-                            <th> {{ form_label(form, 'Date de spécifications', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                        </tr>
+
 
                         <tr id="datel1">
-                            <th> {{ form_label(form, 'Date T-1', {
+                            <th width="15%"> {{ form_label(form, 'Date T-1', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.datel1, {
+                            <th width="20%">{{ form_widget(form.datel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_datel1-error" class="error" for="projet_datel1"></label></th>
                         </tr>
                         <tr id="date0">
-                            <th> {{ form_label(form, 'Date T0', {
+                            <th width="15%"> {{ form_label(form, 'Date T0', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.date0, {
+                            <th width="20%">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_date0-error" class="error" for="projet_date0"></label></th>
                         </tr>
 
                         <tr id="date1">
-                            <th> {{ form_label(form, 'Date T1', {
+                            <th width="15%"> {{ form_label(form, 'Date T1', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.date1, {
+                            <th width="20%">{{ form_widget(form.date1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_date1-error" class="error" for="projet_date1"></label></th>
                         </tr>
                         <tr id="date2">
-                            <th> {{ form_label(form, 'Date T2', {
+                            <th width="15%"> {{ form_label(form, 'Date T2', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.date2, {
+                            <th width="20%">{{ form_widget(form.date2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_date2-error" class="error" for="projet_date2"></label></th>
                         </tr>
                         <tr id="date3">
-                            <th> {{ form_label(form, 'Date T3', {
+                            <th width="15%"> {{ form_label(form, 'Date T3', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.date3, {
+                            <th width="20%">{{ form_widget(form.date3, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_date3-error" class="error" for="projet_date3"></label></th>
                         </tr>
                         <tr>
                             <th> <p id="messerror1"></p></th>
+                        </tr>
+                        <tr id="datespec">
+                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%" >{{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
+
                         </tr>
                     </table>
                 </div>
@@ -317,8 +344,9 @@
                             </tr>
                             <tr>
                                 <th>
+                                    <div id="addressList">
                                     {{ form_label(modalite.pourcentage, 'Pourcentage', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                        'label_attr': {'class': 'input-group-text'}}) }}</div>
                                 </th>
                                 <th>
                                     {{ form_widget(modalite.pourcentage, {
@@ -362,6 +390,7 @@
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
                     Veuillez vérifier vos données avant de soumettre le formulaire
+
                 </div>
 
             </div>
@@ -694,8 +723,21 @@
 
     });
 
+
+
+
+
+
+
+
+
+
+
+
+
         function validateSteps(stepnumber){
             var isStepValid = true;
+
             if (stepnumber==1) {
                 if (document.getElementById('projet_Phase').value == 5) {
                     if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date0').value != null) &&( (document.getElementById('projet_datel1').value > document.getElementById('projet_date0').value)||(document.getElementById('projet_datel1').value==(document.getElementById('projet_date0').value)))){
@@ -709,47 +751,47 @@
                     }
                 }
                 if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)) {
-                    if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date0').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date0').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date0').value)) {
+                    if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date0').value != null) &&( (document.getElementById('projet_datel1').value > document.getElementById('projet_date0').value)&&(document.getElementById('projet_datel1').value==(document.getElementById('projet_date0').value)))){
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T0';
                     }
-                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date1').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date1').value)){
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date1').value)&& (document.getElementById('projet_datel1').value==document.getElementById('projet_date1').value)){
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T1';
                     }
-                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date2').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date2').value)){
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date2').value)&& (document.getElementById('projet_datel1').value==document.getElementById('projet_date2').value)){
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T2';
                     }
-                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_datel1').value==document.getElementById('projet_date3').value)){
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date3').value)&&(document.getElementById('projet_datel1').value==document.getElementById('projet_date3').value)){
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T3';
                     }
 
-                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date1').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date1').value)) {
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date1').value)&&(document.getElementById('projet_date0').value==document.getElementById('projet_date1').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T1';
                     }
-                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date2').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date2').value)) {
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date2').value)&&(document.getElementById('projet_date0').value==document.getElementById('projet_date2').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T2';
                     }
 
-                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date3').value)) {
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date3').value)&&(document.getElementById('projet_date0').value==document.getElementById('projet_date3').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T3';
                     }
 
-                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date2').value)||(document.getElementById('projet_date1').value==document.getElementById('projet_date2').value)) {
+                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date2').value)&&(document.getElementById('projet_date1').value==document.getElementById('projet_date2').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T2';
                     }
-                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_date1').value==document.getElementById('projet_date3').value)) {
+                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date3').value)&&(document.getElementById('projet_date1').value==document.getElementById('projet_date3').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T3';
                     }
 
-                   else if ((document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date2').value > document.getElementById('projet_date3').value)|| (document.getElementById('projet_date2').value==document.getElementById('projet_date3').value)) {
+                   else if ((document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date2').value > document.getElementById('projet_date3').value)&& (document.getElementById('projet_date2').value==document.getElementById('projet_date3').value)) {
                         isStepValid = false;
                         document.getElementById('messerror1').innerHTML = 'La date T2 est programmé avant la date T3';
                     }
@@ -762,23 +804,7 @@
 
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             } //endif step1
-
 
 
 
