@@ -275,6 +275,9 @@
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
+                        <tr>
+                            <th> <p id="messerror1"></p></th>
+                        </tr>
                     </table>
                 </div>
 
@@ -691,11 +694,105 @@
 
     });
 
+        function validateSteps(stepnumber){
+            var isStepValid = true;
+            if (stepnumber==1) {
+                if (document.getElementById('projet_Phase').value == 5) {
+                    if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date0').value != null) &&( (document.getElementById('projet_datel1').value > document.getElementById('projet_date0').value)||(document.getElementById('projet_datel1').value==(document.getElementById('projet_date0').value)))){
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T0';
+                    }
+                    else {
+                        isStepValid = true;
+                        document.getElementById('messerror1').innerHTML = '';
 
+                    }
+                }
+                if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)) {
+                    if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date0').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date0').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date0').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T0';
+                    }
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date1').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date1').value)){
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T1';
+                    }
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date2').value)|| (document.getElementById('projet_datel1').value==document.getElementById('projet_date2').value)){
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T2';
+                    }
+                   else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_datel1').value==document.getElementById('projet_date3').value)){
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T3';
+                    }
+
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date1').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date1').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T1';
+                    }
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date2').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date2').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T2';
+                    }
+
+                   else if ((document.getElementById('projet_date0').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date0').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_date0').value==document.getElementById('projet_date3').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T3';
+                    }
+
+                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date2').value)||(document.getElementById('projet_date1').value==document.getElementById('projet_date2').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T2';
+                    }
+                   else if ((document.getElementById('projet_date1').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date1').value > document.getElementById('projet_date3').value)||(document.getElementById('projet_date1').value==document.getElementById('projet_date3').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T3';
+                    }
+
+                   else if ((document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date2').value > document.getElementById('projet_date3').value)|| (document.getElementById('projet_date2').value==document.getElementById('projet_date3').value)) {
+                        isStepValid = false;
+                        document.getElementById('messerror1').innerHTML = 'La date T2 est programmé avant la date T3';
+                    }
+
+                    else  {
+                        isStepValid = true;
+                        document.getElementById('messerror1').innerHTML = '';
+                    }
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            } //endif step1
+
+
+
+
+
+
+
+
+
+            return isStepValid;
+        }
 
 
     $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-    if ($('#myForm').valid()) {
+    if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
     if(stepDirection == "4") //here is the final step: Note: 0,1,2
     {
     $('.sw-btn-group-extra').removeClass('d-none');
@@ -705,9 +802,6 @@
     $('.sw-btn-group-extra').addClass('d-none');
     return true;
     }
-
-
-
     } else {
     return false
     }
