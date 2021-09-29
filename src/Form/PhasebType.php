@@ -7,6 +7,7 @@ namespace App\Form;
 namespace App\Form;
 
 use App\Entity\Cout;
+use App\Entity\DateLone;
 use App\Entity\Fournisseur;
 use App\Entity\Paiement;
 use App\Repository\PhaseRepository;
@@ -34,14 +35,15 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class PhaseaType extends AbstractType
+class PhasebType extends AbstractType
 {
-
     private $phaseRepository;
     public function __construct(PhaseRepository $phaseRepository)
     {
         $this->phaseRepository = $phaseRepository;
     }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -51,43 +53,34 @@ class PhaseaType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                   $this->phaseRepository->reqPhase(3)
-
-                        ,
+                    $this->phaseRepository->reqPhase(4)
 
 
 
 
-
-
+                ,
 
 
                 'attr' => [
-                    'class' => 'phasea_Phase',
+                    'class' => 'phaseb_Phase',
 
                 ]
             ])
-
 
             ->add('paiement', EntityType::class, [
                 'required' => true,
                 'class' => Paiement::class,
                 'placeholder' => '',
                 'attr' => [
-                    'class' => 'phasea_paiement'
+                    'class' => 'phaseb_paiement'
                 ]])
-            ->add('datel1', DateType::class,
-                [
-                    'label' => 'invoice_date',
-                    'widget' => 'single_text',
-                    'required' => true,
 
+            //->add('DateLone')
 
-                ])
             ->add('date0', DateType::class, [
                 'label' => 'invoice_date',
                 'widget' => 'single_text',
-                'required' => false,
+                'required' => true,
             ])
             ->add('date1', DateType::class, [
                 'label' => 'invoice_date',
@@ -126,7 +119,7 @@ class PhaseaType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
                 'attr' => [
-                    'class' => 'phasea_modalites'
+                    'class' => 'phaseb_modalites'
                 ],
                 "row_attr" => [
                     "class" => "d-none"

@@ -144,10 +144,16 @@ class Projet
      */
     private $modalites;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DateLone::class, mappedBy="projet")
+     */
+    private $dateLones;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
         $this->modalites = new ArrayCollection();
+        $this->dateLones = new ArrayCollection();
     }
 
 
@@ -489,6 +495,36 @@ class Projet
             // set the owning side to null (unless already changed)
             if ($modalite->getProjet() === $this) {
                 $modalite->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DateLone[]
+     */
+    public function getDateLones(): Collection
+    {
+        return $this->dateLones;
+    }
+
+    public function addDateLone(DateLone $dateLone): self
+    {
+        if (!$this->dateLones->contains($dateLone)) {
+            $this->dateLones[] = $dateLone;
+            $dateLone->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateLone(DateLone $dateLone): self
+    {
+        if ($this->dateLones->removeElement($dateLone)) {
+            // set the owning side to null (unless already changed)
+            if ($dateLone->getProjet() === $this) {
+                $dateLone->setProjet(null);
             }
         }
 

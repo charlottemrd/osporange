@@ -19,6 +19,9 @@ class PhaseRepository extends ServiceEntityRepository
         parent::__construct($registry, Phase::class);
     }
 
+
+
+
     /**
      * Récupère les produits en lien avec une recherche
      * @return Phase[]
@@ -31,28 +34,7 @@ class PhaseRepository extends ServiceEntityRepository
 
 
         $query = $query
-            ->andWhere('o.id >:av')
-            ->setParameter('av', $avant)
-            ;
-
-        return $query->getQuery()->getResult();
-
-    }
-
-
-    /**
-     * Récupère les produits en lien avec une recherche
-     * @return Phase[]
-     */
-    public function reqPhaseb( int $avant) : array
-    {
-
-        $query = $this
-            ->createQueryBuilder('o');
-
-
-        $query = $query
-            ->andWhere('o.ordere >=:av')
+            ->andWhere('o.ordere >:av')
             ->setParameter('av', $avant)
             ->orderBy('o.ordere', 'ASC');
         ;
