@@ -247,11 +247,12 @@
 
 
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-
+                    <div id="navdate" style="display: none" >
+                        Pas de dates demandées
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
                     <table style="border-color: white;width:100%">
-
-
-
                         <tr id="datel1">
                             <th width="15%"> {{ form_label(form, 'Date T-1', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -310,7 +311,14 @@
 
 
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                    <tr style="border-color: white" >
+                    <div id="navcout" style="display: none" >
+                        Pas de coûts demandés
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
+                    <table>
+
+                    <tr style="border-color: white" id="couts">
                         <th>
 
                             {{ form_label(form, 'Couts', {
@@ -321,6 +329,7 @@
                             ) }}
                         </th>
                     </tr>
+                    </table>
                 </div>
 
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
@@ -368,8 +377,14 @@
                         </table>
                         <br>
                     {% endmacro %}
+                    <div id="navmode" style="display: none">
+                        Pas de modalités de réceptions demandées
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
                     <table>
-                        <tr>
+
+                        <tr id="mode">
                             <th> {{ form_label(form, 'Mode de paiement', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.paiement, {
@@ -458,8 +473,11 @@
             document.getElementById('projet_date2').value=null;
             document.getElementById('projet_date3').value=null;
             document.getElementById('projet_datespec').value=null;
+            document.getElementById('projet_couts').value=null;
+            document.getElementById('projet_paiement').value=null;
             var selectValue = $phasing.options[$phasing.selectedIndex].value;
-            if ((selectValue=='1')|| (selectValue=='2')|| (selectValue=='3')){//abondonne
+            if ((selectValue=='1')|| (selectValue=='2')|| (selectValue=='3')){
+                //abondonne non demarre suspendu
 
 
                 document.getElementById('projet_datel1').style.display="none";
@@ -486,11 +504,32 @@
                 document.getElementById('datespec').style.display="none";
                 document.getElementById("projet_datespec").required=false;
 
+                document.getElementById('navdate').style.display="block";
+
+                document.getElementById('navcout').style.display="block";
+                document.getElementById("couts").style.display="none";
+
+                document.getElementById('navmode').style.display="block";
+                document.getElementById('mode').style.display="none";
+                document.getElementById("projet_paiement").required=false;
+
+                document.getElementById('modalites').style.display="none";
+                $collectionHolder.empty();
+                $collectionHolder.append($nouveau);
+                $collectionHolder.data('index', $collectionHolder.find('input').length);
+                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                });
+
+
+
+
+
+
             }
 
 
 
-            else if (selectValue=='4'){//cadrage
+            else if (selectValue=='4'){//cadrage t-1
 
                 document.getElementById('projet_datel1').style.display="block";
                 document.getElementById('datel1').style.display="block";
@@ -516,8 +555,23 @@
                 document.getElementById('datespec').style.display="none";
                 document.getElementById("projet_datespec").required=false;
 
+                document.getElementById('navdate').style.display="none";
+
+                document.getElementById('navcout').style.display="block";
+                document.getElementById("couts").style.display="none";
+
+                document.getElementById('navmode').style.display="block";
+                document.getElementById('mode').style.display="none";
+                document.getElementById("projet_paiement").required=false;
+
+                $collectionHolder.empty();
+                $collectionHolder.append($nouveau);
+                $collectionHolder.data('index', $collectionHolder.find('input').length);
+                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                });
+
             }
-            else if (selectValue=='5'){//etude
+            else if (selectValue=='5'){//etude t0
 
                 document.getElementById('projet_datel1').style.display="block";
                 document.getElementById('datel1').style.display="block";
@@ -542,6 +596,21 @@
                 document.getElementById('projet_datespec').style.display="none";
                 document.getElementById('datespec').style.display="none";
                 document.getElementById("projet_datespec").required=false;
+
+                document.getElementById('navdate').style.display="none";
+
+                document.getElementById('navcout').style.display="block";
+                document.getElementById("couts").style.display="none";
+
+                document.getElementById('navmode').style.display="block";
+                document.getElementById('mode').style.display="none";
+                document.getElementById("projet_paiement").required=false;
+
+                $collectionHolder.empty();
+                $collectionHolder.append($nouveau);
+                $collectionHolder.data('index', $collectionHolder.find('input').length);
+                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                });
 
             }
 
@@ -569,11 +638,20 @@
                 document.getElementById('projet_datespec').style.display="block";
                 document.getElementById('datespec').style.display="block";
                 document.getElementById("projet_datespec").required=true;
+                document.getElementById('projet_paiement').required=true;
+
+                document.getElementById('navdate').style.display="none";
+
+                document.getElementById('navcout').style.display="none";
+                document.getElementById("couts").style.display="block";
+
+                document.getElementById('navmode').style.display="none";
+                document.getElementById('mode').style.display="block";
             }
 
 
 
-            else if ((selectValue=='6')|| (selectValue=='7')|| (selectValue=='8')|| (selectValue=='9')){//construction
+            else if ( (selectValue=='7')|| (selectValue=='8')|| (selectValue=='9')){//test recette prod
                 document.getElementById('projet_datel1').style.display="block";
                 document.getElementById('datel1').style.display="block";
                 document.getElementById("projet_datel1").required=false;
@@ -597,6 +675,16 @@
                 document.getElementById('projet_datespec').style.display="block";
                 document.getElementById('datespec').style.display="block";
                 document.getElementById("projet_datespec").required=false;
+
+
+                document.getElementById('navdate').style.display="none";
+
+                document.getElementById('navcout').style.display="none";
+                document.getElementById("couts").style.display="block";
+
+                document.getElementById('navmode').style.display="none";
+                document.getElementById('mode').style.display="block";
+                document.getElementById("projet_paiement").required=true;
             }
 
 

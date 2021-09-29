@@ -20,12 +20,9 @@ class ModalitesType extends AbstractType
             ->add('pourcentage',IntegerType::class,['required'=>true])
             ->add('conditions', ChoiceType::class, ['required' => true,'placeholder'=>'',
                 'choices'  => [
-                    'changer de phase vers cadrage' =>'changer de phase vers cadrage',
-                    'changer de phase vers en etude' =>'changer de phase vers en etude',
-                    'changer de phase vers en construction' =>'changer de phase vers en construction',
-                    'changer de phase vers en test' =>'changer de phase vers en test',
-                    'changer de phase vers en recette' =>'changer de phase vers en recette',
-                    'changer de phase vers en production' =>'changer de phase vers en production',
+                    'date T1 atteinte' =>'date T1 atteinte',
+                    'date T2 atteinte' =>'date T2 atteinte',
+                    'date T3 atteinte' =>'date T3 atteinte',
                 ]])
             ->add('description',TextareaType::class, array('required' => false))
         ;

@@ -165,6 +165,7 @@ class ProjetType extends AbstractType
                 'by_reference' => false,
                 'prototype'=> true,
 
+
             ))
 
               ->add('modalites', CollectionType::class, array(
