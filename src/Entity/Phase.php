@@ -34,6 +34,11 @@ class Phase
      */
     private $projets;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $ordere;
+
     public function __construct()
     {
         $this->projets = new ArrayCollection();
@@ -102,6 +107,18 @@ class Phase
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getOrdere(): ?int
+    {
+        return $this->ordere;
+    }
+
+    public function setOrdere(?int $ordere): self
+    {
+        $this->ordere = $ordere;
+
+        return $this;
     }
 
 

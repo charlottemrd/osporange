@@ -135,7 +135,7 @@ class ProjetController extends AbstractController
 
 
 
-        if ($request->isXmlHttpRequest()) {
+        /*if ($request->isXmlHttpRequest()) {
 
             $profils = $profilRepository->findProfils($_POST['id']);
             foreach ($profils as $pp) {
@@ -146,7 +146,7 @@ class ProjetController extends AbstractController
             $couts = array();
             $couts = $projet->getCouts();
             return $this->json(array('couts' => $couts));
-        }
+        }*/
 
         return $this->renderForm('projet/new.html.twig', [
             'projet' => $projet,
@@ -189,14 +189,31 @@ class ProjetController extends AbstractController
             $form = $this->createForm(PhaseaType::class, $projet);
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $projet->setHighestphase($projet->getPhase()->getId());
+                $projet->setDatecrea(new \DateTime());
+
+                if(($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)||($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2))
+
+
+                    foreach ($projet->getCouts() as $c)
+                        {
+
+                            $c->setNombreprofil(0);
+
+                        }
+
+
+                    $this->getDoctrine()->getManager()->flush();
+
+                    return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
         return $this->renderForm('projet/phasea.html.twig', [
             'projet' => $projet,
             'form' => $form,
+            'couts' => $projet->getFournisseur()->getProfils(),
         ]);
         }
 

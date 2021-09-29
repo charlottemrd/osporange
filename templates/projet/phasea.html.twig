@@ -15,6 +15,21 @@
              width: 100%;
          }
 
+
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+
          .sw-theme-arrows>.nav .nav-link.done {
              border-color: darkgrey;
              border-top-color: darkgrey;
@@ -221,19 +236,26 @@
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table id="couts" >
-                        <thead>
-                        <tr>
-                    {% for coutField in form.couts %}
-                                    <th>
+                    <table id="couts" style="display:none" >
+                        <thead border="black 1px solid">
+                        <tr border="red 1px solid" >
+                            <th>
+                                <span class="input-group-text" id="basic-addon1">Profil</span>
+                            </th>
+                            {% for cout in couts %}
+                                <td >
+                                    <span class="form-control">{{ cout.name}}</span>
 
-                                        {{ form_widget(coutField.profil)}}
-                                    </th>
-                     {% endfor %}
+
+                                </td>
+                            {% endfor %}
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
+                            <th>
+                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                            </th>
                             {% for coutField in form.couts %}
                                 <td>
                                     {{ form_widget(coutField.nombreprofil, {
@@ -386,12 +408,56 @@
                 document.getElementById('phasea_date2').value=null;
                 document.getElementById('phasea_date3').value=null;
                 document.getElementById('phasea_datespec').value=null;
-                //document.getElementById('phasea_couts').value=null;
                 document.getElementById('phasea_paiement').value=null;
+                document.getElementById('modalites').style.display="none";
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
 
+                if ((selectValue=='1')|| (selectValue=='2')){
+                    //abondonne non demarre suspendu
 
-                if (selectValue=='4'){//cadrage t-1
+
+                    document.getElementById('phasea_datel1').style.display="none";
+                    document.getElementById('datel1').style.display="none";
+                    document.getElementById("phasea_datel1").required=true;
+
+                    document.getElementById('phasea_date0').style.display="none";
+                    document.getElementById('date0').style.display="none";
+                    document.getElementById("phasea_date0").required=false;
+
+                    document.getElementById('phasea_date1').style.display="none";
+                    document.getElementById('date1').style.display="none";
+                    document.getElementById("phasea_date1").required=false;
+
+                    document.getElementById('phasea_date2').style.display="none";
+                    document.getElementById('date2').style.display="none";
+                    document.getElementById("phasea_date2").required=false;
+
+                    document.getElementById('phasea_date3').style.display="none";
+                    document.getElementById('date3').style.display="none";
+                    document.getElementById("phasea_date3").required=false;
+
+                    document.getElementById('phasea_datespec').style.display="none";
+                    document.getElementById('datespec').style.display="none";
+                    document.getElementById("phasea_datespec").required=false;
+
+                    document.getElementById('navdate').style.display="block";
+
+                    document.getElementById('navcout').style.display="block";
+                    document.getElementById("couts").style.display="none";
+
+                    document.getElementById('navmode').style.display="block";
+                    document.getElementById('mode').style.display="none";
+                    document.getElementById("phasea_paiement").required=false;
+
+                    document.getElementById('modalites').style.display="none";
+                    $collectionHolder.empty();
+                    $collectionHolder.append($nouveau);
+                    $collectionHolder.data('index', $collectionHolder.find('input').length);
+                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                    });}
+
+
+                else if (selectValue=='4'){//cadrage t-1
 
                     document.getElementById('phasea_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";

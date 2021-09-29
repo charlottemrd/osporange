@@ -15,7 +15,10 @@ class CoutType extends AbstractType
         $builder
             ->add('nombreprofil')
             ->add('profil', EntityType::class,[
-                'class' => Profil::class]
+                'class' => Profil::class,
+                'attr' => array(
+                'class' => 'select23',
+    )]
             )
 
         ;

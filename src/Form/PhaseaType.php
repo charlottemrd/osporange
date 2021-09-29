@@ -36,6 +36,12 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 class PhaseaType extends AbstractType
 {
+
+    private $phaseRepository;
+    public function __construct(PhaseRepository $phaseRepository)
+    {
+        $this->phaseRepository = $phaseRepository;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
@@ -44,12 +50,22 @@ class PhaseaType extends AbstractType
             ->add('Phase', EntityType::class, [
                 'required' => true,
                 'class' => Phase::class,
-                'query_builder' => function (PhaseRepository $er)  {
-                    return $er->createQueryBuilder('t')
-                        ->andWhere('t.id >:rank')
-                       ->setParameter('rank', 3);},
+                'choices' =>
+                    $this->phaseRepository->reqPhase(3)
+                    +$this->phaseRepository->reqPhaseb(2)
+
+                        ,
+
+
+
+
+
+
+
+
                 'attr' => [
-                    'class' => 'phasea_Phase'
+                    'class' => 'phasea_Phase',
+                    'placeholder'=>'3',
                 ]
             ])
 
@@ -100,6 +116,9 @@ class PhaseaType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
             ))
             ->add('modalites', CollectionType::class, array(
                 'entry_type' => ModalitesType::class,

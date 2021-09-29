@@ -78,46 +78,55 @@ class UserFixtures extends Fixture
         $phase = new Phase();
         $phase->setName('abandonné');
         $phase->setRang('1');
+        $phase->setOrdere('10');
         $manager->persist($phase);
 
         $phase2 = new Phase();
         $phase2->setName('stand-by');
         $phase2->setRang('2');
+        $phase2->setOrdere('11');
         $manager->persist($phase2);
 
         $phase3 = new Phase();
         $phase3->setName('non demarré');
         $phase3->setRang('3');
+        $phase3->setOrdere('3');
         $manager->persist($phase3);
 
         $phase4 = new Phase();
         $phase4->setName('cadrage');
         $phase4->setRang('4');
+        $phase4->setOrdere('4');
         $manager->persist($phase4);
 
         $phase5 = new Phase();
         $phase5->setName('en étude');
         $phase5->setRang('5');
+        $phase5->setOrdere('5');
         $manager->persist($phase5);
 
         $phase6 = new Phase();
         $phase6->setName('en construction');
         $phase6->setRang('6');
+        $phase6->setOrdere('6');
         $manager->persist($phase6);
 
         $phase7 = new Phase();
         $phase7->setName('en test');
         $phase7->setRang('7');
+        $phase7->setOrdere('7');
         $manager->persist($phase7);
 
         $phase8 = new Phase();
         $phase8->setName('en recette');
         $phase8->setRang('8');
+        $phase8->setOrdere('8');
         $manager->persist($phase8);
 
         $phase9 = new Phase();
         $phase9->setName('en production');
         $phase9->setRang('9');
+        $phase9->setOrdere('9');
         $manager->persist($phase9);
 
 
