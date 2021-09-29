@@ -7,6 +7,7 @@ use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\ProjetType;
 use App\Form\SearchType;
+use App\Form\PhaseaType;
 use App\Entity\SearchData;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
@@ -98,6 +99,11 @@ class ProjetController extends AbstractController
 
         $projet->setIsplanningrespecte('yes');
 
+
+
+
+
+
         $form = $this->createForm(ProjetType::class, $projet);
 
 
@@ -105,6 +111,21 @@ class ProjetController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $projet->setHighestphase($projet->getPhase()->getRang());
+
+
+            //to change after
+            if(($projet->getPhase()->getId()!=8)||($projet->getPhase()->getId()!=6)($projet->getPhase()->getId()!=7)($projet->getPhase()->getId()!=9)){
+                $fournisseur=$projet->getFournisseur();
+                $profils=$fournisseur->getProfils();
+                foreach ($profils as $p){
+                    $cout= new Cout();
+                    $cout->setProfil($p);
+                    $cout->setNombreprofil(0);
+                    $cout->setProjet($projet);
+                    $projet->getCouts()->add($cout);
+                }
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
             $entityManager->flush();
@@ -159,6 +180,29 @@ class ProjetController extends AbstractController
             'projet' => $projet,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
+    public function phase(Request $request, Projet $projet): Response
+    {
+        if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
+            $form = $this->createForm(PhaseaType::class, $projet);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+        return $this->renderForm('projet/phasea.html.twig', [
+            'projet' => $projet,
+            'form' => $form,
+        ]);
+        }
+
+        else{
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
     #[Route('/{id}', name: 'projet_delete', methods: ['POST'])]

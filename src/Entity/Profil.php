@@ -42,7 +42,7 @@ class Profil
     private $fournisseur;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cout::class, mappedBy="profil")
+     * @ORM\OneToMany(targetEntity=Cout::class, mappedBy="profil",orphanRemoval=true, cascade={"persist"})
      */
     private $couts;
 

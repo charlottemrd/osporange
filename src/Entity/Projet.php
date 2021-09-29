@@ -135,7 +135,7 @@ class Projet
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Cout::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=Cout::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $couts;
 
