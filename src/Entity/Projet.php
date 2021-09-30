@@ -154,11 +154,22 @@ class Projet
      */
     private $datereell1;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DateZero::class, mappedBy="projet")
+     */
+    private $dateZeros;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datereel0;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
         $this->modalites = new ArrayCollection();
         $this->dateLones = new ArrayCollection();
+        $this->dateZeros = new ArrayCollection();
     }
 
 
@@ -544,6 +555,48 @@ class Projet
     public function setDatereell1(?\DateTimeInterface $datereell1): self
     {
         $this->datereell1 = $datereell1;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DateZero[]
+     */
+    public function getDateZeros(): Collection
+    {
+        return $this->dateZeros;
+    }
+
+    public function addDateZero(DateZero $dateZero): self
+    {
+        if (!$this->dateZeros->contains($dateZero)) {
+            $this->dateZeros[] = $dateZero;
+            $dateZero->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateZero(DateZero $dateZero): self
+    {
+        if ($this->dateZeros->removeElement($dateZero)) {
+            // set the owning side to null (unless already changed)
+            if ($dateZero->getProjet() === $this) {
+                $dateZero->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDatereel0(): ?\DateTimeInterface
+    {
+        return $this->datereel0;
+    }
+
+    public function setDatereel0(?\DateTimeInterface $datereel0): self
+    {
+        $this->datereel0 = $datereel0;
 
         return $this;
     }

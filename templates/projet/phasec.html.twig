@@ -1,0 +1,771 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     <style>
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+
+         input,select{
+             width: 100%;
+         }
+         textarea {
+
+             width: 100%;
+         }
+
+
+
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Changement de phase </h1>
+        <br>
+        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
+        <div id="smartwizard">
+
+            <ul class="nav" >
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        Description
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        Avancement
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        Planification
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-4">
+                        Coût
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-5">
+                        Modalités de réception
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-6">
+                        Confirmation
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content" id="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <table style="border-color: white;width:100%">
+
+                        <tr style="border-color: white" >
+                            <th width="15%">
+
+                                {{ form_label(form, 'Phase', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.Phase, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%"><label id="phasec_Phase-error" class="error" for="phasec_Phase"></label></th>
+                    </table>
+
+                </div>
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <table>
+                        <tr id="boxchoix10">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T0 ? </td>
+                            <th>{{ form_widget(form.choix10, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phasec_choix10-error" class="error" for="phasec_choix10"></label></th>
+                        </tr>
+                    </table>
+                    <table style="border-color: white;width:100%">
+
+                        <tr id="datereel0" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T0', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.datereel0, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_datereel0-error" class="error" for="phasec_datereel0"></label></th>
+                        </tr>
+                        <br>
+                    </table>
+
+                </div>
+
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <div id="navdate" style="display: none" >
+                        Pas de dates demandées
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
+                    <table style="border-color: white;width:100%">
+
+
+
+                        <tr id="date1">
+                            <th width="15%"> {{ form_label(form, 'Date T1', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.date1, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_date1-error" class="error" for="phasec_date1"></label></th>
+                        </tr>
+                        <tr id="date2">
+                            <th width="15%"> {{ form_label(form, 'Date T2', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.date2, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_date2-error" class="error" for="phasec_date2"></label></th>
+                        </tr>
+                        <tr id="date3">
+                            <th width="15%"> {{ form_label(form, 'Date T3', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.date3, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_date3-error" class="error" for="phasec_date3"></label></th>
+                        </tr>
+                        <tr id="datespec">
+                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%" >{{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_datespec-error" class="error" for="phasec_datespec"></label></th>
+                        </tr>
+                    </table>
+                    <p style="font-weight: bold"   id="messerror1"></p>
+                </div>
+
+
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    <div id="navcout" style="display: none" >
+                        Pas de coûts demandés
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
+                    <table id="couts" style="display:block" >
+                        <thead border="black 1px solid">
+                        <tr border="red 1px solid" >
+                            <th>
+                                <span class="input-group-text" id="basic-addon1">Profil</span>
+                            </th>
+                            {% for cout in couts %}
+                                <td >
+                                    <span class="form-control">{{ cout.name}}</span>
+
+
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>
+                                <span class="input-group-text" id="basic-addon1">Nombre</span>
+                            </th>
+                            {% for coutField in form.couts %}
+                                <td>
+                                    {{ form_widget(coutField.nombreprofil, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    {% macro information_prototype(modalite) %}
+
+                        <br>
+                        <table>
+                            <tr>
+                                <p>Jalon</p>
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(modalite.conditions, 'Condition', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.conditions, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+
+                            </tr>
+                            <tr>
+                                <th>
+                                    <div id="addressList">
+                                        {{ form_label(modalite.pourcentage, 'Pourcentage', {
+                                            'label_attr': {'class': 'input-group-text'}}) }}</div>
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.pourcentage, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+
+                            </tr>
+                            <tr>
+                                <th>
+                                    {{ form_label(modalite.description, 'Commentaire', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th>
+                                    {{ form_widget(modalite.description, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                            </tr>
+                        </table>
+                        <br>
+                    {% endmacro %}
+                    <div id="navmode" style="display: none">
+                        Pas de modalités de réceptions demandées
+                        <br>
+                        Vous pouvez passer à l'étape suivante
+                    </div>
+                    <table>
+
+                        <tr id="mode">
+                            <th> {{ form_label(form, 'Mode de paiement', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.paiement, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_paiement-error" class="error" for="phasec_paiement"></label></th>
+
+                        </tr>
+                    </table>
+                    <br>
+                    <table>
+                        <div id = "modalites" style="display: none">
+                            <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
+                            </ul>
+                        </div>
+                    </table>
+
+
+                </div>
+
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                    Veuillez vérifier vos données avant de soumettre le formulaire
+
+                </div>
+
+            </div>
+        </div>
+        {#        </form>#}
+
+        {{ form_end(form) }}
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+
+
+
+
+        $(document).ready(function () {
+            /*  $('.phasec_fournisseur').change(function() {
+                  $phasin=document.getElementById('phasec_fournisseur').value;
+                  $.ajax({
+                  method: "POST",
+                  url://
+            data: {id: $phasin},
+            dataType: "json",
+            success: function(html) {
+                console.log(html);
+                }
+
+
+        }).done( function(response) {
+            //alert(123);
+            var htmlToDisplay = response.trim();
+            $("#your_div").html(response);
+        }).fail(function(jxh,textmsg,errorThrown){
+            console.log(textmsg);
+            console.log(errorThrown);
+        });
+        });
+ })
+
+
+
+*/
+
+
+
+
+            $('.phasec_Phase').change(function() {
+                $phasing=document.getElementById('phasec_Phase');
+                document.getElementById('phasec_choix10').value=null;
+                document.getElementById('phasec_date1').value=null;
+                document.getElementById('phasec_date2').value=null;
+                document.getElementById('phasec_date3').value=null;
+                document.getElementById('phasec_datespec').value=null;
+                document.getElementById('phasec_paiement').value=null;
+                document.getElementById('modalites').style.display="none";
+                var selectValue = $phasing.options[$phasing.selectedIndex].value;
+                if ((selectValue=='1')|| (selectValue=='2')){
+                    //abondonne non demarre suspendu
+                    document.getElementById('phasec_date1').style.display="none";
+                    document.getElementById('date1').style.display="none";
+                    document.getElementById("phasec_date1").required=false;
+
+                    document.getElementById('phasec_date2').style.display="none";
+                    document.getElementById('date2').style.display="none";
+                    document.getElementById("phasec_date2").required=false;
+
+                    document.getElementById('phasec_date3').style.display="none";
+                    document.getElementById('date3').style.display="none";
+                    document.getElementById("phasec_date3").required=false;
+
+                    document.getElementById('phasec_datespec').style.display="none";
+                    document.getElementById('datespec').style.display="none";
+                    document.getElementById("phasec_datespec").required=false;
+
+                    document.getElementById('navdate').style.display="block";
+
+                    document.getElementById('navcout').style.display="block";
+                    document.getElementById("couts").style.display="none";
+
+                    document.getElementById('navmode').style.display="block";
+                    document.getElementById('mode').style.display="none";
+                    document.getElementById("phasec_paiement").required=false;
+
+                    document.getElementById('modalites').style.display="none";
+                    $collectionHolder.empty();
+                    $collectionHolder.append($nouveau);
+                    $collectionHolder.data('index', $collectionHolder.find('input').length);
+                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                    });
+
+
+
+
+
+
+                }
+
+                else if ((selectValue=='6')){//construction
+                    document.getElementById('phasec_date1').style.display="block";
+                    document.getElementById('date1').style.display="block";
+                    document.getElementById("phasec_date1").required=true;
+
+                    document.getElementById('phasec_date2').style.display="block";
+                    document.getElementById('date2').style.display="block";
+                    document.getElementById("phasec_date2").required=true;
+
+                    document.getElementById('phasec_date3').style.display="block";
+                    document.getElementById('date3').style.display="block";
+                    document.getElementById("phasec_date3").required=true;
+
+                    document.getElementById('phasec_datespec').style.display="block";
+                    document.getElementById('datespec').style.display="block";
+                    document.getElementById("phasec_datespec").required=true;
+                    document.getElementById('phasec_paiement').required=true;
+
+                    document.getElementById('navdate').style.display="none";
+
+                    document.getElementById('navcout').style.display="none";
+                    document.getElementById("couts").style.display="block";
+
+                    document.getElementById('navmode').style.display="none";
+                    document.getElementById('mode').style.display="block";
+                }
+
+
+
+
+
+
+            });
+
+
+            var $collectionHolder;
+            var $boutonAjouter = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un jalon</button>');
+            var $nouveau = $('<li></li>').append($boutonAjouter )
+            ;
+            jQuery(document).ready(function () {$collectionHolder = $('ul.modalites');
+                $collectionHolder.find('li').each(function () {
+                    addModaliteFormDeleteLink($(this));
+                });
+                $collectionHolder.append($nouveau);
+                $collectionHolder.data('index', $collectionHolder.find('input').length);
+                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                });
+
+                function addModaliteForm($collectionHolder, $newLinkLi) {
+                    var prototype = $collectionHolder.data('prototype');
+                    var index = $collectionHolder.data('index');
+                    var newForm = prototype;
+                    newForm = newForm.replace(/__name__/g, index);
+                    $collectionHolder.data('index', index + 1);
+                    var $newFormLi = $('<li></li>').append(newForm);
+                    $newLinkLi.before($newFormLi);
+                    addModaliteFormDeleteLink($newFormLi);
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                }
+                function addModaliteFormDeleteLink($tagFormLi) {
+                    var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
+                    $tagFormLi.append($removeFormButton);
+                    $removeFormButton.on('click', function (e) {
+                        $tagFormLi.remove();
+                    });
+                }
+
+                $('.phasec_choix10').change(function() {
+
+                    $phasi=document.getElementById('phasec_choix10');
+                    var selectValue7 = $phasi.options[$phasi.selectedIndex].value;
+
+                    if(selectValue7==1){
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('phasec_datereel0').required=true;
+                        document.getElementById('datereel0').style.display="block";
+                        document.getElementById('phasec_datereel0').style.display="block";
+
+                    }
+                    else if(selectValue7==2) {
+
+                        document.getElementById('phasec_datereel0').required=false;
+                        document.getElementById('datereel0').style.display="none";
+                        document.getElementById('phasec_datereel0').style.display="none";
+                        document.getElementById('phasec_datereel0').value=null;
+
+                    }
+
+
+
+                });
+
+
+                $('.phasec_paiement').change(function() {
+                    $phasing2=document.getElementById('phasec_paiement');
+                    var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
+                    if (selectValue2=='1'){
+                        document.getElementById('modalites').style.display="none";
+                        $collectionHolder.empty();
+                        $collectionHolder.append($nouveau);
+                        $collectionHolder.data('index', $collectionHolder.find('input').length);
+                        $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
+                        });
+                    }
+                    if (selectValue2=='2'){
+                        document.getElementById('modalites').style.display="block";
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                    }
+                });
+
+
+            })
+            ;
+
+
+
+
+            var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+                .on('click', function(){
+
+
+                    onsubmit();
+
+
+                });
+
+
+
+            $('#smartwizard').smartWizard({
+                selected: 0, // Initial selected step, 0 = first step
+                theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
+                justified: true, // Nav menu justification. true/false
+                darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+                autoAdjustHeight: true, // Automatically adjust content height
+                cycleSteps: false, // Allows to cycle the navigation of steps
+                backButtonSupport: true, // Enable the back button support
+                enableURLhash: false, // Enable selection of the step based on url hash
+                transition: {
+                    animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                    speed: '400', // Transion animation speed
+                    easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+                },
+                toolbarSettings: {
+                    toolbarPosition: 'bottom', // none, top, bottom, both
+                    toolbarButtonPosition: 'right', // left, right, center
+                    showNextButton: true, // show/hide a Next button
+                    showPreviousButton: true, // show/hide a Previous button
+                    toolbarExtraButtons: [btnFinish] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+
+                },
+                anchorSettings: {
+                    anchorClickable: true, // Enable/Disable anchor navigation
+                    enableAllAnchors: false, // Activates all anchors clickable all times
+                    markDoneStep: true, // Add done state on navigation
+                    markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                    removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+                    enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+                },
+                keyboardSettings: {
+                    keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                    keyLeft: [37], // Left key code
+                    keyRight: [39] // Right key code
+                },
+                lang: { // Language variables for button
+                    next: 'Suivant',
+                    previous: 'Précédant'
+                },
+                disabledSteps: [], // Array Steps disabled
+                errorSteps: [], // Highlight step with errors
+                hiddenSteps: [], // Hidden steps
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function validateSteps(stepnumber){
+                var isStepValid = true;
+
+                if (stepnumber==2) {
+
+                    if ((document.getElementById('phasec_Phase').value == 6)) {
+
+
+
+
+                        if ((document.getElementById('phasec_date1').value != null) && (document.getElementById('phasec_date2').value != null) && (document.getElementById('phasec_date1').value > document.getElementById('phasec_date2').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmée après la date T2';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+                        else if ((document.getElementById('phasec_date1').value != null) && (document.getElementById('phasec_date3').value != null) && (document.getElementById('phasec_date1').value > document.getElementById('phasec_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmée après la date T3';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+
+                        else if ((document.getElementById('phasec_date2').value != null) && (document.getElementById('phasec_date3').value != null) && (document.getElementById('phasec_date2').value > document.getElementById('phasec_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmée après la date T3';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+
+
+
+                        else if ((document.getElementById('phasec_date1').value != null) && (document.getElementById('phasec_date2').value != null) && (document.getElementById('phasec_date1').value === document.getElementById('phasec_date2').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmée en même temps que la date T2';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+                        else if ((document.getElementById('phasec_date1').value != null) && (document.getElementById('phasec_date3').value != null) && (document.getElementById('phasec_date1').value === document.getElementById('phasec_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmée en même temps que la date T3';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+
+                        else if ((document.getElementById('phasec_date2').value != null) && (document.getElementById('phasec_date3').value != null) && (document.getElementById('phasec_date2').value === document.getElementById('phasec_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmée en même temps que la date T3';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
+
+
+
+                        else  {
+                            isStepValid = true;
+                            document.getElementById('messerror1').innerHTML = '';
+                        }
+
+
+                    }
+
+                } //endif step1
+
+
+
+
+
+
+
+
+                return isStepValid;
+            }
+
+
+            $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
+                    if(stepDirection == "5") //here is the final step: Note: 0,1,2
+                    {
+                        $('.sw-btn-group-extra').removeClass('d-none');
+                    }
+                    else
+                    {
+                        $('.sw-btn-group-extra').addClass('d-none');
+                        return true;
+                    }
+                } else {
+                    return false
+                }
+                return true;
+
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+
+    </script>
+
+
+{% endblock  %}
