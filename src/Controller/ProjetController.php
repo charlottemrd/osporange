@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 use App\Entity\Cout;
+use App\Entity\DataTrois;
 use App\Entity\DateLone;
+use App\Entity\DateOnePlus;
+use App\Entity\DateTwo;
 use App\Entity\DateZero;
 use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\PhasecType;
+use App\Form\PhasedType;
 use App\Form\ProjetType;
 use App\Form\SearchType;
 use App\Form\PhaseaType;
@@ -255,12 +259,17 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
-                if($projet->getDatereell0()!=null){
+                if($projet->getDatereel0()!=null){
                     $daten=new DateZero();
                     $daten->setDatezero($projet->getDate0());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
+                }
+                if($projet->getPhase()->getId()==1||($projet->getPhase()->getId()==2)) {
+                    foreach ($projet->getCouts() as $c) {
+                        $c->setNombreprofil(0);
+                    }
                 }
 
 
@@ -271,7 +280,59 @@ class ProjetController extends AbstractController
 
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
-            return $this->renderForm('projet/phasec.html.twig', [
+            return $this->renderForm('projet/phased.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+        else if($projet->getPhase()->getId()==6) { //phase actuelle= en etude
+            $form = $this->createForm(PhasedType::class,$projet);
+            $form->handleRequest($request);
+
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+                $projet->setDatemaj(new \DateTime());
+
+                if($projet->getDatereel1()!=null){
+                    $daten1=new DateOnePlus();
+                    $daten1->setDate($projet->getDate1());
+                    $daten1->setProjet($projet);
+                    $projet->getDateOnePluses()->add($daten1);
+                    $projet->setDate1($projet->getDatereel1());
+                }
+
+                if($projet->getDatereel2()!=null){
+                    $daten2=new DateTwo();
+                    $daten2->setDatetwo($projet->getDate2());
+                    $daten2->setProjet($projet);
+                    $projet->getDateTwos()->add($daten2);
+                    $projet->setDate2($projet->getDatereel2());
+                }
+
+                if($projet->getDatereel3()!=null){
+                    $daten3=new DataTrois();
+                    $daten3->setDatet($projet->getDate3());
+                    $daten3->setProjet($projet);
+                    $projet->getDataTrois()->add($daten3);
+                    $projet->setDate3($projet->getDatereel3());
+                }
+
+
+
+
+
+
+
+
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phased.html.twig', [
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),

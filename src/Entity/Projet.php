@@ -145,7 +145,7 @@ class Projet
     private $modalites;
 
     /**
-     * @ORM\OneToMany(targetEntity=DateLone::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=DateLone::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $dateLones;
 
@@ -155,7 +155,7 @@ class Projet
     private $datereell1;
 
     /**
-     * @ORM\OneToMany(targetEntity=DateZero::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=DateZero::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $dateZeros;
 
@@ -164,12 +164,45 @@ class Projet
      */
     private $datereel0;
 
+    /**
+     * @ORM\OneToMany(targetEntity=DateOnePlus::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
+     */
+    private $dateOnePluses;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DateTwo::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
+     */
+    private $dateTwos;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DataTrois::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
+     */
+    private $dataTrois;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datereel1;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datereel2;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datereel3;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
         $this->modalites = new ArrayCollection();
         $this->dateLones = new ArrayCollection();
         $this->dateZeros = new ArrayCollection();
+        $this->dateOnePluses = new ArrayCollection();
+        $this->dateTwos = new ArrayCollection();
+        $this->dataTrois = new ArrayCollection();
     }
 
 
@@ -597,6 +630,132 @@ class Projet
     public function setDatereel0(?\DateTimeInterface $datereel0): self
     {
         $this->datereel0 = $datereel0;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DateOnePlus[]
+     */
+    public function getDateOnePluses(): Collection
+    {
+        return $this->dateOnePluses;
+    }
+
+    public function addDateOnePlus(DateOnePlus $dateOnePlus): self
+    {
+        if (!$this->dateOnePluses->contains($dateOnePlus)) {
+            $this->dateOnePluses[] = $dateOnePlus;
+            $dateOnePlus->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateOnePlus(DateOnePlus $dateOnePlus): self
+    {
+        if ($this->dateOnePluses->removeElement($dateOnePlus)) {
+            // set the owning side to null (unless already changed)
+            if ($dateOnePlus->getProjet() === $this) {
+                $dateOnePlus->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DateTwo[]
+     */
+    public function getDateTwos(): Collection
+    {
+        return $this->dateTwos;
+    }
+
+    public function addDateTwo(DateTwo $dateTwo): self
+    {
+        if (!$this->dateTwos->contains($dateTwo)) {
+            $this->dateTwos[] = $dateTwo;
+            $dateTwo->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDateTwo(DateTwo $dateTwo): self
+    {
+        if ($this->dateTwos->removeElement($dateTwo)) {
+            // set the owning side to null (unless already changed)
+            if ($dateTwo->getProjet() === $this) {
+                $dateTwo->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|DataTrois[]
+     */
+    public function getDataTrois(): Collection
+    {
+        return $this->dataTrois;
+    }
+
+    public function addDataTroi(DataTrois $dataTroi): self
+    {
+        if (!$this->dataTrois->contains($dataTroi)) {
+            $this->dataTrois[] = $dataTroi;
+            $dataTroi->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDataTroi(DataTrois $dataTroi): self
+    {
+        if ($this->dataTrois->removeElement($dataTroi)) {
+            // set the owning side to null (unless already changed)
+            if ($dataTroi->getProjet() === $this) {
+                $dataTroi->setProjet(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDatereel1(): ?\DateTimeInterface
+    {
+        return $this->datereel1;
+    }
+
+    public function setDatereel1(?\DateTimeInterface $datereel1): self
+    {
+        $this->datereel1 = $datereel1;
+
+        return $this;
+    }
+
+    public function getDatereel2(): ?\DateTimeInterface
+    {
+        return $this->datereel2;
+    }
+
+    public function setDatereel2(?\DateTimeInterface $datereel2): self
+    {
+        $this->datereel2 = $datereel2;
+
+        return $this;
+    }
+
+    public function getDatereel3(): ?\DateTimeInterface
+    {
+        return $this->datereel3;
+    }
+
+    public function setDatereel3(?\DateTimeInterface $datereel3): self
+    {
+        $this->datereel3 = $datereel3;
 
         return $this;
     }
