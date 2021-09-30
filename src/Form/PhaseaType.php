@@ -51,7 +51,7 @@ class PhaseaType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                   $this->phaseRepository->reqPhase(3)
+                    $this->phaseRepository->reqaPhase(5,4,10,11)
 
                         ,
 
@@ -69,13 +69,7 @@ class PhaseaType extends AbstractType
             ])
 
 
-            ->add('paiement', EntityType::class, [
-                'required' => true,
-                'class' => Paiement::class,
-                'placeholder' => '',
-                'attr' => [
-                    'class' => 'phasea_paiement'
-                ]])
+
             ->add('datel1', DateType::class,
                 [
                     'label' => 'invoice_date',
@@ -89,49 +83,10 @@ class PhaseaType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
             ])
-            ->add('date1', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => false,
-            ])
-            ->add('date2', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => false,
-            ])
-            ->add('date3', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => false,
-            ])
-            ->add('datespec', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => true,
-            ])
-            ->add('couts', CollectionType::class, array(
-                'entry_type' => CoutType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ))
-            ->add('modalites', CollectionType::class, array(
-                'entry_type' => ModalitesType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-                'attr' => [
-                    'class' => 'phasea_modalites'
-                ],
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ));
+
+
+
+            ;
 
 
 

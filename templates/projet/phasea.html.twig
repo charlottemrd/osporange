@@ -190,42 +190,11 @@
                             <th  width="50%" style="padding-left: 1%"><label id="phasea_date0-error" class="error" for="phasea_date0"></label></th>
                         </tr>
 
-                        <tr id="date1" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T1', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date1, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_date1-error" class="error" for="phasea_date1"></label></th>
-                        </tr>
-                        <tr id="date2" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T2', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date2, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_date2-error" class="error" for="phasea_date2"></label></th>
-                        </tr>
-                        <tr id="date3" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T3', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date3, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_date3-error" class="error" for="phasea_date3"></label></th>
-                        </tr>
+
                         <tr>
                             <th> <p id="messerror1"></p></th>
                         </tr>
-                        <tr id="datespec" style="display: none">
-                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%" >{{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_datespec-error" class="error" for="phasea_datespec"></label></th>
 
-                        </tr>
                     </table>
                 </div>
 
@@ -236,105 +205,17 @@
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table id="couts" style="display:none" >
-                        <thead border="black 1px solid">
-                        <tr border="red 1px solid" >
-                            <th>
-                                <span class="input-group-text" id="basic-addon1">Profil</span>
-                            </th>
-                            {% for cout in couts %}
-                                <td >
-                                    <span class="form-control">{{ cout.name}}</span>
 
-
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>
-                                <span class="input-group-text" id="basic-addon1">Nombre</span>
-                            </th>
-                            {% for coutField in form.couts %}
-                                <td>
-                                    {{ form_widget(coutField.nombreprofil, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
 
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                    {% macro information_prototype(modalite) %}
 
-                        <br>
-                        <table>
-                            <tr>
-                                <p>Jalon</p>
-                            </tr>
-                            <tr>
-                                <th>
-                                    {{ form_label(modalite.conditions, 'Condition', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.conditions, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <div id="addressList">
-                                        {{ form_label(modalite.pourcentage, 'Pourcentage', {
-                                            'label_attr': {'class': 'input-group-text'}}) }}</div>
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.pourcentage, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    {{ form_label(modalite.description, 'Commentaire', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.description, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                        </table>
-                        <br>
-                    {% endmacro %}
                     <div id="navmode" style="display: block">
                         Pas de modalités de réceptions demandées
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table>
 
-                        <tr id="mode" style="display: none">
-                            <th> {{ form_label(form, 'Mode de paiement', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.paiement, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                        </tr>
-                    </table>
-                    <br>
-                    <table>
-                        <div id = "modalites" style="display: none">
-                            <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
-                            </ul>
-                        </div>
-                    </table>
 
 
                 </div>
@@ -404,57 +285,22 @@
                 $phasing=document.getElementById('phasea_Phase');
                 document.getElementById('phasea_datel1').value=null;
                 document.getElementById('phasea_date0').value=null;
-                document.getElementById('phasea_date1').value=null;
-                document.getElementById('phasea_date2').value=null;
-                document.getElementById('phasea_date3').value=null;
-                document.getElementById('phasea_datespec').value=null;
-                document.getElementById('phasea_paiement').value=null;
-                document.getElementById('modalites').style.display="none";
+
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
 
                 if ((selectValue=='1')|| (selectValue=='2')){
                     //abondonne non demarre suspendu
 
-
+                    document.getElementById('navdate').style.display="block";
                     document.getElementById('phasea_datel1').style.display="none";
                     document.getElementById('datel1').style.display="none";
-                    document.getElementById("phasea_datel1").required=true;
+                    document.getElementById("phasea_datel1").required=false;
 
                     document.getElementById('phasea_date0').style.display="none";
                     document.getElementById('date0').style.display="none";
                     document.getElementById("phasea_date0").required=false;
 
-                    document.getElementById('phasea_date1').style.display="none";
-                    document.getElementById('date1').style.display="none";
-                    document.getElementById("phasea_date1").required=false;
-
-                    document.getElementById('phasea_date2').style.display="none";
-                    document.getElementById('date2').style.display="none";
-                    document.getElementById("phasea_date2").required=false;
-
-                    document.getElementById('phasea_date3').style.display="none";
-                    document.getElementById('date3').style.display="none";
-                    document.getElementById("phasea_date3").required=false;
-
-                    document.getElementById('phasea_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phasea_datespec").required=false;
-
-                    document.getElementById('navdate').style.display="block";
-
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
-
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="none";
-                    document.getElementById("phasea_paiement").required=false;
-
-                    document.getElementById('modalites').style.display="none";
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });}
+                    }
 
 
                 else if (selectValue=='4'){//cadrage t-1
@@ -467,36 +313,11 @@
                     document.getElementById('date0').style.display="none";
                     document.getElementById("phasea_date0").required=false;
 
-                    document.getElementById('phasea_date1').style.display="none";
-                    document.getElementById('date1').style.display="none";
-                    document.getElementById("phasea_date1").required=false;
 
-                    document.getElementById('phasea_date2').style.display="none";
-                    document.getElementById('date2').style.display="none";
-                    document.getElementById("phasea_date2").required=false;
 
-                    document.getElementById('phasea_date3').style.display="none";
-                    document.getElementById('date3').style.display="none";
-                    document.getElementById("phasea_date3").required=false;
 
-                    document.getElementById('phasea_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phasea_datespec").required=false;
 
-                    document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
-
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="none";
-                    document.getElementById("phasea_paiement").required=false;
-
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });
 
                 }
                 else if (selectValue=='5'){//etude t0
@@ -509,110 +330,8 @@
                     document.getElementById('date0').style.display="block";
                     document.getElementById("phasea_date0").required=true;
 
-                    document.getElementById('phasea_date1').style.display="none";
-                    document.getElementById('date1').style.display="none";
-                    document.getElementById("phasea_date1").required=false;
-
-                    document.getElementById('phasea_date2').style.display="none";
-                    document.getElementById('date2').style.display="none";
-                    document.getElementById("phasea_date2").required=false;
-
-                    document.getElementById('phasea_date3').style.display="none";
-                    document.getElementById('date3').style.display="none";
-                    document.getElementById("phasea_date3").required=false;
-
-                    document.getElementById('phasea_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phasea_datespec").required=false;
-
-                    document.getElementById('navdate').style.display="none";
-
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
-
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="none";
-                    document.getElementById("phasea_paiement").required=false;
-
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });
-
-                }
-
-                else if ((selectValue=='6')){//construction
-                    document.getElementById('phasea_datel1').style.display="block";
-                    document.getElementById('datel1').style.display="block";
-                    document.getElementById("phasea_datel1").required=false;
-
-                    document.getElementById('phasea_date0').style.display="block";
-                    document.getElementById('date0').style.display="block";
-                    document.getElementById("phasea_date0").required=false;
-
-                    document.getElementById('phasea_date1').style.display="block";
-                    document.getElementById('date1').style.display="block";
-                    document.getElementById("phasea_date1").required=true;
-
-                    document.getElementById('phasea_date2').style.display="block";
-                    document.getElementById('date2').style.display="block";
-                    document.getElementById("phasea_date2").required=true;
-
-                    document.getElementById('phasea_date3').style.display="block";
-                    document.getElementById('date3').style.display="block";
-                    document.getElementById("phasea_date3").required=true;
-
-                    document.getElementById('phasea_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("phasea_datespec").required=true;
-                    document.getElementById('phasea_paiement').required=true;
-
-                    document.getElementById('navdate').style.display="none";
-
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
-
-                    document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="block";
-                }
 
 
-
-                else if ( (selectValue=='7')|| (selectValue=='8')|| (selectValue=='9')){//test recette prod
-                    document.getElementById('phasea_datel1').style.display="block";
-                    document.getElementById('datel1').style.display="block";
-                    document.getElementById("phasea_datel1").required=false;
-
-                    document.getElementById('phasea_date0').style.display="block";
-                    document.getElementById('date0').style.display="block";
-                    document.getElementById("phasea_date0").required=false;
-
-                    document.getElementById('phasea_date1').style.display="block";
-                    document.getElementById('date1').style.display="block";
-                    document.getElementById("phasea_date1").required=false;
-
-                    document.getElementById('phasea_date2').style.display="block";
-                    document.getElementById('date2').style.display="block";
-                    document.getElementById("phasea_date2").required=false;
-
-                    document.getElementById('phasea_date3').style.display="block";
-                    document.getElementById('date3').style.display="block";
-                    document.getElementById("phasea_date3").required=false;
-
-                    document.getElementById('phasea_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("phasea_datespec").required=false;
-
-
-                    document.getElementById('navdate').style.display="none";
-
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
-
-                    document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="block";
-                    document.getElementById("phasea_paiement").required=true;
                 }
 
 
@@ -622,63 +341,6 @@
             });
 
 
-            var $collectionHolder;
-            var $boutonAjouter = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un jalon</button>');
-            var $nouveau = $('<li></li>').append($boutonAjouter )
-            ;
-            jQuery(document).ready(function () {$collectionHolder = $('ul.modalites');
-                $collectionHolder.find('li').each(function () {
-                    addModaliteFormDeleteLink($(this));
-                });
-                $collectionHolder.append($nouveau);
-                $collectionHolder.data('index', $collectionHolder.find('input').length);
-                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                });
-
-                function addModaliteForm($collectionHolder, $newLinkLi) {
-                    var prototype = $collectionHolder.data('prototype');
-                    var index = $collectionHolder.data('index');
-                    var newForm = prototype;
-                    newForm = newForm.replace(/__name__/g, index);
-                    $collectionHolder.data('index', index + 1);
-                    var $newFormLi = $('<li></li>').append(newForm);
-                    $newLinkLi.before($newFormLi);
-                    addModaliteFormDeleteLink($newFormLi);
-                    document.getElementById('smartwizard').style.height = "200%";
-                    document.getElementById('tab-content').style.height = "200%";
-                }
-                function addModaliteFormDeleteLink($tagFormLi) {
-                    var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
-                    $tagFormLi.append($removeFormButton);
-                    $removeFormButton.on('click', function (e) {
-                        $tagFormLi.remove();
-                    });
-                }
-
-
-
-
-                $('.phasea_paiement').change(function() {
-                    $phasing2=document.getElementById('phasea_paiement');
-                    var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
-                    if (selectValue2=='1'){
-                        document.getElementById('modalites').style.display="none";
-                        $collectionHolder.empty();
-                        $collectionHolder.append($nouveau);
-                        $collectionHolder.data('index', $collectionHolder.find('input').length);
-                        $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                        });
-                    }
-                    if (selectValue2=='2'){
-                        document.getElementById('modalites').style.display="block";
-                        document.getElementById('smartwizard').style.height = "200%";
-                        document.getElementById('tab-content').style.height = "200%";
-                    }
-                });
-
-
-            })
-            ;
 
 
 
@@ -765,59 +427,6 @@
                             document.getElementById('messerror1').innerHTML = '';
 
                         }
-                    }
-                    if ((document.getElementById('phasea_Phase').value == 6)||(document.getElementById('phasea_Phase').value == 7)||(document.getElementById('phasea_Phase').value == 8)||(document.getElementById('phasea_Phase').value == 9)) {
-                        if ((document.getElementById('phasea_datel1').value != null) && (document.getElementById('phasea_date0').value != null) &&( (document.getElementById('phasea_datel1').value > document.getElementById('phasea_date0').value)&&(document.getElementById('phasea_datel1').value==(document.getElementById('phasea_date0').value)))){
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T0';
-                        }
-                        else if ((document.getElementById('phasea_datel1').value != null) && (document.getElementById('phasea_date1').value != null) && (document.getElementById('phasea_datel1').value > document.getElementById('phasea_date1').value)&& (document.getElementById('phasea_datel1').value==document.getElementById('phasea_date1').value)){
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T1';
-                        }
-                        else if ((document.getElementById('phasea_datel1').value != null) && (document.getElementById('phasea_date2').value != null) && (document.getElementById('phasea_datel1').value > document.getElementById('phasea_date2').value)&& (document.getElementById('phasea_datel1').value==document.getElementById('phasea_date2').value)){
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T2';
-                        }
-                        else if ((document.getElementById('phasea_datel1').value != null) && (document.getElementById('phasea_date3').value != null) && (document.getElementById('phasea_datel1').value > document.getElementById('phasea_date3').value)&&(document.getElementById('phasea_datel1').value==document.getElementById('phasea_date3').value)){
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T-1 est programmé avant la date T3';
-                        }
-
-                        else if ((document.getElementById('phasea_date0').value != null) && (document.getElementById('phasea_date1').value != null) && (document.getElementById('phasea_date0').value > document.getElementById('phasea_date1').value)&&(document.getElementById('phasea_date0').value==document.getElementById('phasea_date1').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T1';
-                        }
-                        else if ((document.getElementById('phasea_date0').value != null) && (document.getElementById('phasea_date2').value != null) && (document.getElementById('phasea_date0').value > document.getElementById('phasea_date2').value)&&(document.getElementById('phasea_date0').value==document.getElementById('phasea_date2').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T2';
-                        }
-
-                        else if ((document.getElementById('phasea_date0').value != null) && (document.getElementById('phasea_date3').value != null) && (document.getElementById('phasea_date0').value > document.getElementById('phasea_date3').value)&&(document.getElementById('phasea_date0').value==document.getElementById('phasea_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T3';
-                        }
-
-                        else if ((document.getElementById('phasea_date1').value != null) && (document.getElementById('phasea_date2').value != null) && (document.getElementById('phasea_date1').value > document.getElementById('phasea_date2').value)&&(document.getElementById('phasea_date1').value==document.getElementById('phasea_date2').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T2';
-                        }
-                        else if ((document.getElementById('phasea_date1').value != null) && (document.getElementById('phasea_date3').value != null) && (document.getElementById('phasea_date1').value > document.getElementById('phasea_date3').value)&&(document.getElementById('phasea_date1').value==document.getElementById('phasea_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T3';
-                        }
-
-                        else if ((document.getElementById('phasea_date2').value != null) && (document.getElementById('phasea_date3').value != null) && (document.getElementById('phasea_date2').value > document.getElementById('phasea_date3').value)&& (document.getElementById('phasea_date2').value==document.getElementById('phasea_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmé avant la date T3';
-                        }
-
-                        else  {
-                            isStepValid = true;
-                            document.getElementById('messerror1').innerHTML = '';
-                        }
-
-
                     }
 
                 } //endif step1
