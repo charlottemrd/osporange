@@ -21,6 +21,7 @@ use App\Form\CoutType;
 use App\Form\ModalitesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -53,7 +54,7 @@ class PhasebType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                    $this->phaseRepository->reqPhase(4)
+                    $this->phaseRepository->reqbPhase(5,10,11)
 
 
 
@@ -67,13 +68,7 @@ class PhasebType extends AbstractType
                 ]
             ])
 
-            ->add('paiement', EntityType::class, [
-                'required' => true,
-                'class' => Paiement::class,
-                'placeholder' => '',
-                'attr' => [
-                    'class' => 'phaseb_paiement'
-                ]])
+
 
             //->add('DateLone')
 
@@ -82,49 +77,28 @@ class PhasebType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
             ])
-            ->add('date1', DateType::class, [
+            ->add('datereell1', DateType::class, [
                 'label' => 'invoice_date',
                 'widget' => 'single_text',
                 'required' => false,
-            ])
-            ->add('date2', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => false,
-            ])
-            ->add('date3', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => false,
-            ])
-            ->add('datespec', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => true,
-            ])
-            ->add('couts', CollectionType::class, array(
-                'entry_type' => CoutType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ))
-            ->add('modalites', CollectionType::class, array(
-                'entry_type' => ModalitesType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
                 'attr' => [
-                    'class' => 'phaseb_modalites'
+                    'class' => 'phaseb_datereell1',
+
+                ]
+            ])
+            ->add('choix1', ChoiceType::class, ['placeholder'=>'',
+                    'mapped'=>false,
+                'attr' => [
+                    'class' => 'phaseb_choix1',
+
                 ],
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ));
+                'choices'  => [
+                    'Oui' =>1,
+                    'Non' =>2,
+                ]]
+
+            )
+           ;
 
 
 

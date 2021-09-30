@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Cout;
+use App\Entity\DateLone;
 use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use App\Entity\Projet;
@@ -193,23 +194,24 @@ class ProjetController extends AbstractController
 
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $projet->setHighestphase($projet->getPhase()->getId());
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+
                 $projet->setDatemaj(new \DateTime());
-
-                if(($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)||($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2))
-
-
-                    foreach ($projet->getCouts() as $c)
-                        {
-
-                            $c->setNombreprofil(0);
-
-                        }
+                if($projet->getDatereell1()!=null){
+                    $daten=new DateLone();
+                    $daten->setDatereel($projet->getDatel1());
+                    $daten->setProjet($projet);
+                    $projet->getDateLones()->add($daten);
+                    $projet->setDate1($projet->getDatereell1());
+                }
 
 
-                    $this->getDoctrine()->getManager()->flush();
 
-                    return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
         return $this->renderForm('projet/phasea.html.twig', [
             'projet' => $projet,
@@ -225,23 +227,17 @@ class ProjetController extends AbstractController
 
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $projet->setHighestphase($projet->getPhase()->getId());
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
 
-                if(($projet->getPhase()->getId()==5)||($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2))
 
 
-                    foreach ($projet->getCouts() as $c)
-                    {
-
-                        $c->setNombreprofil(0);
-
-                    }
 
 
-                $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
             return $this->renderForm('projet/phaseb.html.twig', [
                 'projet' => $projet,

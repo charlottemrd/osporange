@@ -164,7 +164,28 @@
 
 
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-                   retard date
+
+                    <table>
+                        <tr id="boxchoix1">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard dans la date T-1</td>
+                            <th>{{ form_widget(form.choix1, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phaseb_choix1-error" class="error" for="phaseb_choix1"></label></th>
+                        </tr>
+                    </table>
+                    <table style="border-color: white;width:100%">
+
+                        <tr id="datereell1" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T-1', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.datereell1, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phaseb_datereell1-error" class="error" for="phaseb_datereell1"></label></th>
+                        </tr>
+                    <br>
+                    </table>
                 </div>
 
 
@@ -184,43 +205,10 @@
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phaseb_date0-error" class="error" for="phaseb_date0"></label></th>
                         </tr>
-
-                        <tr id="date1" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T1', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date1, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phaseb_date1-error" class="error" for="phaseb_date1"></label></th>
-                        </tr>
-                        <tr id="date2" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T2', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date2, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phaseb_date2-error" class="error" for="phaseb_date2"></label></th>
-                        </tr>
-                        <tr id="date3" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Date T3', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date3, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phaseb_date3-error" class="error" for="phaseb_date3"></label></th>
-                        </tr>
                         <tr>
                             <th> <p id="messerror1"></p></th>
                         </tr>
-                        <tr id="datespec" style="display: none">
-                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%" >{{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phaseb_datespec-error" class="error" for="phaseb_datespec"></label></th>
 
-                        </tr>
                     </table>
                 </div>
 
@@ -231,106 +219,16 @@
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table id="couts" style="display:none" >
-                        <thead border="black 1px solid">
-                        <tr border="red 1px solid" >
-                            <th>
-                                <span class="input-group-text" id="basic-addon1">Profil</span>
-                            </th>
-                            {% for cout in couts %}
-                                <td >
-                                    <span class="form-control">{{ cout.name}}</span>
 
-
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <th>
-                                <span class="input-group-text" id="basic-addon1">Nombre</span>
-                            </th>
-                            {% for coutField in form.couts %}
-                                <td>
-                                    {{ form_widget(coutField.nombreprofil, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </td>
-                            {% endfor %}
-                        </tr>
-                        </tbody>
-                    </table>
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-                    {% macro information_prototype(modalite) %}
 
-                        <br>
-                        <table>
-                            <tr>
-                                <p>Jalon</p>
-                            </tr>
-                            <tr>
-                                <th>
-                                    {{ form_label(modalite.conditions, 'Condition', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.conditions, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    <div id="addressList">
-                                        {{ form_label(modalite.pourcentage, 'Pourcentage', {
-                                            'label_attr': {'class': 'input-group-text'}}) }}</div>
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.pourcentage, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                            <tr>
-                                <th>
-                                    {{ form_label(modalite.description, 'Commentaire', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}
-                                </th>
-                                <th>
-                                    {{ form_widget(modalite.description, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                            </tr>
-                        </table>
-                        <br>
-                    {% endmacro %}
                     <div id="navmode" style="display: block">
                         Pas de modalités de réceptions demandées
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table>
-
-                        <tr id="mode" style="display: none">
-                            <th> {{ form_label(form, 'Mode de paiement', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.paiement, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                        </tr>
-                    </table>
-                    <br>
-                    <table>
-                        <div id = "modalites" style="display: none">
-                            <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
-                            </ul>
-                        </div>
-                    </table>
-
 
                 </div>
 
@@ -398,55 +296,18 @@
             $('.phaseb_Phase').change(function() {
                 $phasing=document.getElementById('phaseb_Phase');
                 document.getElementById('phaseb_date0').value=null;
-                document.getElementById('phaseb_date1').value=null;
-                document.getElementById('phaseb_date2').value=null;
-                document.getElementById('phaseb_date3').value=null;
-                document.getElementById('phaseb_datespec').value=null;
-                document.getElementById('phaseb_paiement').value=null;
-                document.getElementById('modalites').style.display="none";
+                document.getElementById('phaseb_choix1').value=null;
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
 
                 if ((selectValue=='1')|| (selectValue=='2')){
                     //abondonne non demarre suspendu
-
-
-
-
                     document.getElementById('phaseb_date0').style.display="none";
                     document.getElementById('date0').style.display="none";
                     document.getElementById("phaseb_date0").required=false;
 
-                    document.getElementById('phaseb_date1').style.display="none";
-                    document.getElementById('date1').style.display="none";
-                    document.getElementById("phaseb_date1").required=false;
-
-                    document.getElementById('phaseb_date2').style.display="none";
-                    document.getElementById('date2').style.display="none";
-                    document.getElementById("phaseb_date2").required=false;
-
-                    document.getElementById('phaseb_date3').style.display="none";
-                    document.getElementById('date3').style.display="none";
-                    document.getElementById("phaseb_date3").required=false;
-
-                    document.getElementById('phaseb_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phaseb_datespec").required=false;
 
                     document.getElementById('navdate').style.display="block";
-
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
-
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="none";
-                    document.getElementById("phaseb_paiement").required=false;
-
-                    document.getElementById('modalites').style.display="none";
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });}
+                    }
 
 
 
@@ -458,107 +319,12 @@
                     document.getElementById('date0').style.display="block";
                     document.getElementById("phaseb_date0").required=true;
 
-                    document.getElementById('phaseb_date1').style.display="none";
-                    document.getElementById('date1').style.display="none";
-                    document.getElementById("phaseb_date1").required=false;
-
-                    document.getElementById('phaseb_date2').style.display="none";
-                    document.getElementById('date2').style.display="none";
-                    document.getElementById("phaseb_date2").required=false;
-
-                    document.getElementById('phaseb_date3').style.display="none";
-                    document.getElementById('date3').style.display="none";
-                    document.getElementById("phaseb_date3").required=false;
-
-                    document.getElementById('phaseb_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phaseb_datespec").required=false;
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
-
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="none";
-                    document.getElementById("phaseb_paiement").required=false;
-
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });
 
                 }
 
-                else if ((selectValue=='6')){//construction
-
-
-                    document.getElementById('phaseb_date0').style.display="block";
-                    document.getElementById('date0').style.display="block";
-                    document.getElementById("phaseb_date0").required=false;
-
-                    document.getElementById('phaseb_date1').style.display="block";
-                    document.getElementById('date1').style.display="block";
-                    document.getElementById("phaseb_date1").required=true;
-
-                    document.getElementById('phaseb_date2').style.display="block";
-                    document.getElementById('date2').style.display="block";
-                    document.getElementById("phaseb_date2").required=true;
-
-                    document.getElementById('phaseb_date3').style.display="block";
-                    document.getElementById('date3').style.display="block";
-                    document.getElementById("phaseb_date3").required=true;
-
-                    document.getElementById('phaseb_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("phaseb_datespec").required=true;
-                    document.getElementById('phaseb_paiement').required=true;
-
-                    document.getElementById('navdate').style.display="none";
-
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
-
-                    document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="block";
-                }
-
-
-
-                else if ( (selectValue=='7')|| (selectValue=='8')|| (selectValue=='9')){//test recette prod
-
-
-                    document.getElementById('phaseb_date0').style.display="block";
-                    document.getElementById('date0').style.display="block";
-                    document.getElementById("phaseb_date0").required=false;
-
-                    document.getElementById('phaseb_date1').style.display="block";
-                    document.getElementById('date1').style.display="block";
-                    document.getElementById("phaseb_date1").required=false;
-
-                    document.getElementById('phaseb_date2').style.display="block";
-                    document.getElementById('date2').style.display="block";
-                    document.getElementById("phaseb_date2").required=false;
-
-                    document.getElementById('phaseb_date3').style.display="block";
-                    document.getElementById('date3').style.display="block";
-                    document.getElementById("phaseb_date3").required=false;
-
-                    document.getElementById('phaseb_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("phaseb_datespec").required=false;
-
-
-                    document.getElementById('navdate').style.display="none";
-
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
-
-                    document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="block";
-                    document.getElementById("phaseb_paiement").required=true;
-                }
 
 
 
@@ -566,64 +332,42 @@
 
             });
 
+            $('.phaseb_choix1').change(function() {
 
-            var $collectionHolder;
-            var $boutonAjouter = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un jalon</button>');
-            var $nouveau = $('<li></li>').append($boutonAjouter )
-            ;
-            jQuery(document).ready(function () {$collectionHolder = $('ul.modalites');
-                $collectionHolder.find('li').each(function () {
-                    addModaliteFormDeleteLink($(this));
-                });
-                $collectionHolder.append($nouveau);
-                $collectionHolder.data('index', $collectionHolder.find('input').length);
-                $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                });
+                $phasin=document.getElementById('phaseb_choix1');
+                var selectValue5 = $phasin.options[$phasin.selectedIndex].value;
 
-                function addModaliteForm($collectionHolder, $newLinkLi) {
-                    var prototype = $collectionHolder.data('prototype');
-                    var index = $collectionHolder.data('index');
-                    var newForm = prototype;
-                    newForm = newForm.replace(/__name__/g, index);
-                    $collectionHolder.data('index', index + 1);
-                    var $newFormLi = $('<li></li>').append(newForm);
-                    $newLinkLi.before($newFormLi);
-                    addModaliteFormDeleteLink($newFormLi);
-                    document.getElementById('smartwizard').style.height = "200%";
-                    document.getElementById('tab-content').style.height = "200%";
+                if(selectValue5==1){
+                document.getElementById('smartwizard').style.height = "200%";
+                document.getElementById('tab-content').style.height = "200%";
+                document.getElementById('phaseb_datereell1').required=true;
+                document.getElementById('datereell1').style.display="block";
+                document.getElementById('phaseb_datereell1').style.display="block";
+
                 }
-                function addModaliteFormDeleteLink($tagFormLi) {
-                    var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
-                    $tagFormLi.append($removeFormButton);
-                    $removeFormButton.on('click', function (e) {
-                        $tagFormLi.remove();
-                    });
+                else if(selectValue5==2) {
+
+                    document.getElementById('phaseb_datereell1').required=false;
+                    document.getElementById('datereell1').style.display="none";
+                    document.getElementById('phaseb_datereell1').style.display="none";
+                    document.getElementById('phaseb_datereell1').value=null;
+
                 }
 
 
 
-
-                $('.phaseb_paiement').change(function() {
-                    $phasing2=document.getElementById('phaseb_paiement');
-                    var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
-                    if (selectValue2=='1'){
-                        document.getElementById('modalites').style.display="none";
-                        $collectionHolder.empty();
-                        $collectionHolder.append($nouveau);
-                        $collectionHolder.data('index', $collectionHolder.find('input').length);
-                        $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                        });
-                    }
-                    if (selectValue2=='2'){
-                        document.getElementById('modalites').style.display="block";
-                        document.getElementById('smartwizard').style.height = "200%";
-                        document.getElementById('tab-content').style.height = "200%";
-                    }
-                });
+            });
 
 
-            })
-            ;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -701,54 +445,16 @@
 
                 if (stepnumber==2) {
 
-                    if ((document.getElementById('phaseb_Phase').value == 6)||(document.getElementById('phaseb_Phase').value == 7)||(document.getElementById('phaseb_Phase').value == 8)||(document.getElementById('phaseb_Phase').value == 9)) {
 
 
-                         if ((document.getElementById('phaseb_date0').value != null) && (document.getElementById('phaseb_date1').value != null) && (document.getElementById('phaseb_date0').value > document.getElementById('phaseb_date1').value)&&(document.getElementById('phaseb_date0').value==document.getElementById('phaseb_date1').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T1';
-                        }
-                        else if ((document.getElementById('phaseb_date0').value != null) && (document.getElementById('phaseb_date2').value != null) && (document.getElementById('phaseb_date0').value > document.getElementById('phaseb_date2').value)&&(document.getElementById('phaseb_date0').value==document.getElementById('phaseb_date2').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T2';
-                        }
-
-                        else if ((document.getElementById('phaseb_date0').value != null) && (document.getElementById('phaseb_date3').value != null) && (document.getElementById('phaseb_date0').value > document.getElementById('phaseb_date3').value)&&(document.getElementById('phaseb_date0').value==document.getElementById('phaseb_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T0 est programmé avant la date T3';
-                        }
-
-                        else if ((document.getElementById('phaseb_date1').value != null) && (document.getElementById('phaseb_date2').value != null) && (document.getElementById('phaseb_date1').value > document.getElementById('phaseb_date2').value)&&(document.getElementById('phaseb_date1').value==document.getElementById('phaseb_date2').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T2';
-                        }
-                        else if ((document.getElementById('phaseb_date1').value != null) && (document.getElementById('phaseb_date3').value != null) && (document.getElementById('phaseb_date1').value > document.getElementById('phaseb_date3').value)&&(document.getElementById('phaseb_date1').value==document.getElementById('phaseb_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T1 est programmé avant la date T3';
-                        }
-
-                        else if ((document.getElementById('phaseb_date2').value != null) && (document.getElementById('phaseb_date3').value != null) && (document.getElementById('phaseb_date2').value > document.getElementById('phaseb_date3').value)&& (document.getElementById('phaseb_date2').value==document.getElementById('phaseb_date3').value)) {
-                            isStepValid = false;
-                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmé avant la date T3';
-                        }
-
-                        else  {
                             isStepValid = true;
                             document.getElementById('messerror1').innerHTML = '';
-                        }
 
 
-                    }
+
+
 
                 } //endif step1
-
-
-
-
-
-
-
-
                 return isStepValid;
             }
 

@@ -21,12 +21,11 @@ class PhaseRepository extends ServiceEntityRepository
 
 
 
-
     /**
      * Récupère les produits en lien avec une recherche
      * @return Phase[]
      */
-    public function reqPhase( int $avant) : array
+    public function reqbPhase( int $avant, int $cad,int $susp) : array
     {
 
         $query = $this
@@ -34,10 +33,11 @@ class PhaseRepository extends ServiceEntityRepository
 
 
         $query = $query
-            ->andWhere('o.ordere >:av')
+            ->andWhere('o.ordere =:av  OR o.ordere =:ca OR o.ordere =:sus')
             ->setParameter('av', $avant)
+            ->setParameter('ca', $cad)
+            ->setParameter('sus', $susp)
             ->orderBy('o.ordere', 'ASC');
-        ;
 
         return $query->getQuery()->getResult();
 

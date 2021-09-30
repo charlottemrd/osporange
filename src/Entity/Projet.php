@@ -149,6 +149,11 @@ class Projet
      */
     private $dateLones;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datereell1;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
@@ -527,6 +532,18 @@ class Projet
                 $dateLone->setProjet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDatereell1(): ?\DateTimeInterface
+    {
+        return $this->datereell1;
+    }
+
+    public function setDatereell1(?\DateTimeInterface $datereell1): self
+    {
+        $this->datereell1 = $datereell1;
 
         return $this;
     }
