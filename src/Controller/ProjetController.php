@@ -12,6 +12,7 @@ use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\ModifyaType;
 use App\Form\ModifybType;
+use App\Form\ModifycType;
 use App\Form\PhasecType;
 use App\Form\PhasedType;
 use App\Form\PhaseeType;
@@ -226,6 +227,42 @@ class ProjetController extends AbstractController
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
             return $this->renderForm('projet/modifyb.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==5) { //phase actuelle= etude
+            $date0avant=$projet->getDate0();
+            $datereell1avant=$projet->getDatereell1();
+            $form = $this->createForm(ModifycType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                if($date0avant!=$projet->getDate0()){
+                    $daten=new DateZero();
+                    $daten->setDatezero($date0avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateZeros()->add($daten);
+                }
+
+                if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null)
+                {
+                    $daten2=new DateLone();
+                    $daten2->setDatereel($datereell1avant);
+                    $daten2->setProjet($projet);
+                    $projet->getDateLones()->add($daten2);
+                }
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifyc.html.twig', [
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),

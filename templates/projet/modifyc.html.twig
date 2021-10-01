@@ -1,0 +1,529 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     <style>
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+
+         input,select{
+             width: 100%;
+         }
+         textarea {
+
+             width: 100%;
+         }
+
+
+
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Modification du projet </h1>
+        <br>
+        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
+        <div id="smartwizard">
+
+            <ul class="nav" >
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        Description
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        Avancement
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        Planification
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-4">
+                        Confirmation
+                    </a>
+                </li>
+
+            </ul>
+
+            <div class="tab-content" id="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <table style="border-color: white;width:100%">
+                        <tr style="border-color: white">
+                            <th width="15%">
+
+                                {{ form_label(form, 'Référence', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.reference, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%;width: 50%"><label id="modifyc_reference-error" class="error" for="modifyc_reference"></label></th>
+                        </tr>
+                        <tr style="border-color: white" >
+                            <th>
+
+                                {{ form_label(form, 'Chef de projet', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.user, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%"><label id="modifyc_user-error" class="error" for="modifyc_user"></label></th>
+
+
+                        </tr>
+
+                        <tr style="border-color: white" >
+                            <th>
+
+                                {{ form_label(form, 'Phase', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.Phase, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%"><label id="modifyc_Phase-error" class="error" for="modifyc_Phase"></label></th>
+
+
+                        </tr>
+
+
+                        <tr>
+                            <th> {{ form_label(form, 'Domaine', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.domaine, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="modifyc_domaine-error" class="error" for="modifyc_domaine"></label></th>
+
+
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Sous-domaine', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.sdomaine, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="modifyc_sdomaine-error" class="error" for="modifyc_sdomaine"></label></th>
+
+
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Fournisseur', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.fournisseur, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="modifyc_fournisseur-error" class="error" for="modifyc_fournisseur"></label></th>
+
+
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Type de BU', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.typebu, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="modifyc_typebu-error" class="error" for="modifyc_typebu"></label></th>
+
+
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Description', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.description, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="modifyc_description-error" class="error" for="modifyc_description"></label></th>
+                        </tr>
+                    </table>
+
+                </div>
+
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <table style="border-color: white;width:100%">
+                        <tr>
+                            <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%)', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.taux, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%;width:50%" ><label id="modifyc_taux-error" class="error" for="modifyc_taux"></label></th>
+                        </tr>
+                        <tr>
+                            <th width="15%"> {{ form_label(form, 'Respect du planning', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%;width:50%" ><label id="modifyc_isplanningrespecte-error" class="error" for="modifyc_isplanningrespecte"></label></th>
+                        </tr>
+                        <tr>
+                            <th width="15%"> {{ form_label(form, 'Priorité', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.priorite, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%;width:50%" ><label id="modifyc_priorite-error" class="error" for="modifyc_priorite"></label></th>
+                        </tr>
+                        <tr style="border-color: white">
+                            <th>
+
+                                {{ form_label(form, 'Risque', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>
+                                {{ form_widget(form.risque, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            <th style="padding-left: 1%"><label id="modifyc_risque_error" class="error" for="modifyc_risque"></label></th>
+
+                            </th>
+
+                        </tr>
+
+                    </table>
+                    <table>
+                        <tr>
+                            <th> <p id="messerrortaux"></p></th>
+                        </tr>
+                    </table>
+                </div>
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <table style="border-color: white;width:100%">
+
+
+                        {%if projet.datel1!=null %}
+                            <tr style="border-color: white;display: block">
+                            <th width="15%">
+
+                                {{ form_label(form, 'Date reel T-1', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.datereell1, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%;width: 50%"><label id="modifyc_datereell1-error" class="error" for="modifyc_datereell1"></label></th>
+                        </tr>
+                        {%endif%}
+
+
+                        <tr style="border-color: white">
+                            <th width="15%">
+
+                                {{ form_label(form, 'Date T0', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.date0, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%;width: 50%"><label id="modifyc_date0-error" class="error" for="modifyc_date0"></label></th>
+                        </tr>
+                    </table>
+
+                </div>
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    Veuillez vérifier vos données avant de soumettre le formulaire
+
+                </div>
+
+            </div>
+        </div>
+        {#        </form>#}
+
+        {{ form_end(form) }}
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+
+
+
+
+        $(document).ready(function () {
+            /*  $('.phased_fournisseur').change(function() {
+                  $phasin=document.getElementById('phased_fournisseur').value;
+                  $.ajax({
+                  method: "POST",
+                  url://
+            data: {id: $phasin},
+            dataType: "json",
+            success: function(html) {
+                console.log(html);
+                }
+
+
+        }).done( function(response) {
+            //alert(123);
+            var htmlToDisplay = response.trim();
+            $("#your_div").html(response);
+        }).fail(function(jxh,textmsg,errorThrown){
+            console.log(textmsg);
+            console.log(errorThrown);
+        });
+        });
+ })
+
+
+
+*/
+
+
+
+
+
+
+
+
+
+            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
+                .on('click', function(){
+
+
+                    onsubmit();
+
+
+                });
+
+
+
+            $('#smartwizard').smartWizard({
+                selected: 0, // Initial selected step, 0 = first step
+                theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
+                justified: true, // Nav menu justification. true/false
+                darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+                autoAdjustHeight: true, // Automatically adjust content height
+                cycleSteps: false, // Allows to cycle the navigation of steps
+                backButtonSupport: true, // Enable the back button support
+                enableURLhash: false, // Enable selection of the step based on url hash
+                transition: {
+                    animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                    speed: '400', // Transion animation speed
+                    easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+                },
+                toolbarSettings: {
+                    toolbarPosition: 'bottom', // none, top, bottom, both
+                    toolbarButtonPosition: 'right', // left, right, center
+                    showNextButton: true, // show/hide a Next button
+                    showPreviousButton: true, // show/hide a Previous button
+                    toolbarExtraButtons: [btnFinish] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+
+                },
+                anchorSettings: {
+                    anchorClickable: true, // Enable/Disable anchor navigation
+                    enableAllAnchors: false, // Activates all anchors clickable all times
+                    markDoneStep: true, // Add done state on navigation
+                    markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                    removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+                    enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+                },
+                keyboardSettings: {
+                    keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                    keyLeft: [37], // Left key code
+                    keyRight: [39] // Right key code
+                },
+                lang: { // Language variables for button
+                    next: 'Suivant',
+                    previous: 'Précédant'
+                },
+                disabledSteps: [], // Array Steps disabled
+                errorSteps: [], // Highlight step with errors
+                hiddenSteps: [], // Hidden steps
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+            function validateSteps(stepnumber){
+                var isStepValid = true;
+                if(stepnumber==1){
+                    if(document.getElementById('modifyc_taux').value <0) {
+                        isStepValid=false;
+                        document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
+                    }
+                    else if(document.getElementById('modifyc_taux').value >100) {
+                        isStepValid=false;
+                        document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
+                    }
+                    else{
+                        isStepValid=true;
+                    }
+                }
+
+
+
+
+
+
+
+                return isStepValid;
+            }
+
+
+            $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
+                    if(stepDirection == "3") //here is the final step: Note: 0,1,2
+                    {
+                        $('.sw-btn-group-extra').removeClass('d-none');
+                    }
+                    else
+                    {
+                        $('.sw-btn-group-extra').addClass('d-none');
+                        return true;
+                    }
+                } else {
+                    return false
+                }
+                return true;
+
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        })
+
+    </script>
+
+
+{% endblock  %}
