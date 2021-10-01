@@ -117,23 +117,9 @@
                         Avancement
                     </a>
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="#step-3">
-                        Planification
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-4">
-                        Coût
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-5">
-                        Modalités de réception
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-6">
                         Confirmation
                     </a>
                 </li>
@@ -160,12 +146,12 @@
                 </div>
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table>
-                        <tr id="boxchoix10">
-                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T0 ? </td>
-                            <th>{{ form_widget(form.choix10, {
+                        <tr id="boxchoix11">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T1 ? </td>
+                            <th>{{ form_widget(form.choix11, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="40%" style="padding-left: 1%"><label id="phased_choix10-error" class="error" for="phased_choix10"></label></th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phased_choix11-error" class="error" for="phased_choix11"></label></th>
                         </tr>
                     </table>
                     <table style="border-color: white;width:100%">
@@ -173,7 +159,7 @@
                         <tr id="datereel1" style="display: none" >
                             <th width="15%"> {{ form_label(form, 'Date réelle T1', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.datereel0, {
+                            <th width="20%">{{ form_widget(form.datereel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phased_datereel1-error" class="error" for="phased_datereel1"></label></th>
@@ -181,39 +167,54 @@
                         <br>
                     </table>
 
+                    <table>
+                        <tr id="boxchoix20">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T2 ? </td>
+                            <th>{{ form_widget(form.choix20, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phased_choix20-error" class="error" for="phased_choix20"></label></th>
+                        </tr>
+                    </table>
+                    <table style="border-color: white;width:100%">
+
+                        <tr id="datereel2" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T2', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.datereel2, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phased_datereel2-error" class="error" for="phased_datereel2"></label></th>
+                        </tr>
+                        <br>
+                    </table>
+
+
+                    <table>
+                        <tr id="boxchoix30">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T3 ? </td>
+                            <th>{{ form_widget(form.choix30, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phased_choix30-error" class="error" for="phased_choix30"></label></th>
+                        </tr>
+                    </table>
+                    <table style="border-color: white;width:100%">
+
+                        <tr id="datereel3" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T3', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.datereel3, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phased_datereel3-error" class="error" for="phased_datereel3"></label></th>
+                        </tr>
+                        <br>
+                    </table>
+
                 </div>
 
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                    <div id="navdate" style="display: block" >
-                        Pas de dates demandées
-                        <br>
-                        Vous pouvez passer à l'étape suivante
-                    </div>
-                </div>
-
-
-                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                    <div id="navcout" style="display: block" >
-                        Pas de coûts demandés
-                        <br>
-                        Vous pouvez passer à l'étape suivante
-                    </div>
-
-                </div>
-
-                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-
-                    <div id="navmode" style="display: block">
-                        Pas de modalités de réceptions demandées
-                        <br>
-                        Vous pouvez passer à l'étape suivante
-                    </div>
-
-
-
-                </div>
-
-                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     Veuillez vérifier vos données avant de soumettre le formulaire
 
                 </div>
@@ -277,15 +278,18 @@
 
             $('.phased_Phase').change(function() {
                 $phasing=document.getElementById('phased_Phase');
-                document.getElementById('phased_choix10').value=null;
-
-
+                document.getElementById('phased_choix11').value=null;
+                document.getElementById('phased_choix20').value=null;
+                document.getElementById('phased_choix30').value=null;
+                document.getElementById('phased_datereel1').value=null;
+                document.getElementById('phased_datereel2').value=null;
+                document.getElementById('phased_datereel3').value=null;
             });
 
 
-            $('.phased_choix10').change(function() {
+            $('.phased_choix11').change(function() {
 
-                $phasip=document.getElementById('phased_choix10');
+                $phasip=document.getElementById('phased_choix11');
                 var selectValue4 = $phasip.options[$phasip.selectedIndex].value;
 
                 if(selectValue4==1){
@@ -310,9 +314,58 @@
             });
 
 
+            $('.phased_choix20').change(function() {
+
+                $phasim=document.getElementById('phased_choix20');
+                var selectValue8 = $phasim.options[$phasim.selectedIndex].value;
+
+                if(selectValue8==1){
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                    document.getElementById('phased_datereel2').required=true;
+                    document.getElementById('datereel2').style.display="block";
+                    document.getElementById('phased_datereel2').style.display="block";
+
+                }
+                else if(selectValue8==2) {
+
+                    document.getElementById('phased_datereel2').required=false;
+                    document.getElementById('datereel2').style.display="none";
+                    document.getElementById('phased_datereel2').style.display="none";
+                    document.getElementById('phased_datereel2').value=null;
+
+                }
 
 
 
+            });
+
+
+            $('.phased_choix30').change(function() {
+
+                $phasil=document.getElementById('phased_choix30');
+                var selectValue5 = $phasil.options[$phasil.selectedIndex].value;
+
+                if(selectValue5==1){
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                    document.getElementById('phased_datereel3').required=true;
+                    document.getElementById('datereel3').style.display="block";
+                    document.getElementById('phased_datereel3').style.display="block";
+
+                }
+                else if(selectValue5==2) {
+
+                    document.getElementById('phased_datereel3').required=false;
+                    document.getElementById('datereel3').style.display="none";
+                    document.getElementById('phased_datereel3').style.display="none";
+                    document.getElementById('phased_datereel3').value=null;
+
+                }
+
+
+
+            });
 
 
 
@@ -400,7 +453,7 @@
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
                 if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
-                    if(stepDirection == "5") //here is the final step: Note: 0,1,2
+                    if(stepDirection == "2") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
                     }

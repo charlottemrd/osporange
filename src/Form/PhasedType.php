@@ -104,7 +104,7 @@ class PhasedType extends AbstractType
             ->add('choix11', ChoiceType::class, ['placeholder'=>'',
                     'mapped'=>false,
                     'attr' => [
-                        'class' => 'phased_choix10',
+                        'class' => 'phased_choix11',
 
                     ],
                     'choices'  => [
@@ -117,7 +117,7 @@ class PhasedType extends AbstractType
             ->add('choix20', ChoiceType::class, ['placeholder'=>'',
                     'mapped'=>false,
                     'attr' => [
-                        'class' => 'phased_choix10',
+                        'class' => 'phased_choix20',
 
                     ],
                     'choices'  => [
@@ -130,7 +130,7 @@ class PhasedType extends AbstractType
             ->add('choix30', ChoiceType::class, ['placeholder'=>'',
                     'mapped'=>false,
                     'attr' => [
-                        'class' => 'phased_choix10',
+                        'class' => 'phased_choix30',
 
                     ],
                     'choices'  => [
