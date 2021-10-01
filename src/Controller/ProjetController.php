@@ -12,6 +12,10 @@ use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\PhasecType;
 use App\Form\PhasedType;
+use App\Form\PhaseeType;
+use App\Form\PhasefType;
+use App\Form\PhasegType;
+use App\Form\PhasehType;
 use App\Form\ProjetType;
 use App\Form\SearchType;
 use App\Form\PhaseaType;
@@ -19,6 +23,7 @@ use App\Form\PhasebType;
 use App\Entity\SearchData;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
+use App\Repository\PhaseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -191,7 +196,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(Request $request, Projet $projet): Response
+    public function phase(PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -207,6 +212,7 @@ class ProjetController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
 
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
         return $this->renderForm('projet/phasea.html.twig', [
@@ -216,7 +222,7 @@ class ProjetController extends AbstractController
         ]);
         }
 
-        else if($projet->getPhase()->getId()==4) { //phase actuelle= non demarre
+        else if($projet->getPhase()->getId()==4) { //phase actuelle= cadrage
             $form = $this->createForm(PhasebType::class, $projet);
             $form->handleRequest($request);
 
@@ -233,13 +239,16 @@ class ProjetController extends AbstractController
                     $projet->getDateLones()->add($daten);
                     $projet->setDatel1($projet->getDatereell1());
                 }
+                else{
+                    $projet->setDatereell1($projet->getDatel1());
+                }
 
 
 
 
 
             $this->getDoctrine()->getManager()->flush();
-
+            $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
             return $this->renderForm('projet/phaseb.html.twig', [
@@ -266,6 +275,9 @@ class ProjetController extends AbstractController
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
                 }
+                else{
+                    $projet->setDatereel0($projet->getDate0());
+                }
                 if($projet->getPhase()->getId()==1||($projet->getPhase()->getId()==2)) {
                     foreach ($projet->getCouts() as $c) {
                         $c->setNombreprofil(0);
@@ -277,16 +289,17 @@ class ProjetController extends AbstractController
 
 
                 $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
 
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
-            return $this->renderForm('projet/phased.html.twig', [
+            return $this->renderForm('projet/phasec.html.twig', [
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
             ]);
         }
-        else if($projet->getPhase()->getId()==6) { //phase actuelle= en etude
+        else if($projet->getPhase()->getId()==6) { //phase actuelle= construction
             $form = $this->createForm(PhasedType::class,$projet);
             $form->handleRequest($request);
 
@@ -304,6 +317,9 @@ class ProjetController extends AbstractController
                     $projet->getDateOnePluses()->add($daten1);
                     $projet->setDate1($projet->getDatereel1());
                 }
+                else{
+                    $projet->setDatereel1($projet->getDate1());
+                }
 
                 if($projet->getDatereel2()!=null){
                     $daten2=new DateTwo();
@@ -312,6 +328,9 @@ class ProjetController extends AbstractController
                     $projet->getDateTwos()->add($daten2);
                     $projet->setDate2($projet->getDatereel2());
                 }
+                else{
+                    $projet->setDatereel2($projet->getDate2());
+                }
 
                 if($projet->getDatereel3()!=null){
                     $daten3=new DataTrois();
@@ -319,6 +338,9 @@ class ProjetController extends AbstractController
                     $daten3->setProjet($projet);
                     $projet->getDataTrois()->add($daten3);
                     $projet->setDate3($projet->getDatereel3());
+                }
+                else{
+                    $projet->setDatereel3($projet->getDate3());
                 }
 
 
@@ -329,7 +351,7 @@ class ProjetController extends AbstractController
 
 
                 $this->getDoctrine()->getManager()->flush();
-
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
             return $this->renderForm('projet/phased.html.twig', [
@@ -339,7 +361,101 @@ class ProjetController extends AbstractController
             ]);
         }
 
+        else if($projet->getPhase()->getId()==7) { //phase actuelle= en etude
+            $form = $this->createForm(PhaseeType::class,$projet);
+            $form->handleRequest($request);
 
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phasee.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==8) { //phase actuelle= recette
+            $form = $this->createForm(PhasefType::class,$projet);
+            $form->handleRequest($request);
+
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phasef.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==9) { //phase actuelle= recette
+            $form = $this->createForm(PhasegType::class,$projet);
+            $form->handleRequest($request);
+
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phaseg.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==1) { //abandonne
+
+            $notifier->send(new Notification('Vous ne pouvez pas changer de phase car le projet est abandonné', ['browser']));
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else if($projet->getPhase()->getId()==2) { //stand by
+
+            $namephaseint=$projet->getHighestphase();
+            $namephase = $phaseRepository->find( $namephaseint)->getName();
+
+            $form = $this->createForm(PhasehType::class,$projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $projet->setPhase($phaseRepository->find( $projet->getHighestphase()));
+                $projet->setDatemaj(new \DateTime());
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet n\'est plus en stand by', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phaseh.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'namephase'=>$namephase,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+        }
 
         else{
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);

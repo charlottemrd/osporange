@@ -325,10 +325,10 @@
                         <tr id="mode">
                             <th> {{ form_label(form, 'Mode de paiement', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.paiement, {
+                            <th id="xmode">{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasec_paiement-error" class="error" for="phasec_paiement"></label></th>
+                            <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="phasec_paiement-error" class="error" for="phasec_paiement"></label></th>
 
                         </tr>
                     </table>
@@ -469,6 +469,8 @@
                     document.getElementById('date3').style.display="block";
                     document.getElementById("phasec_date3").required=true;
 
+                    document.getElementById('xmode').style.width='100%';
+                    document.getElementById('bmode').style.width='200%';
                     document.getElementById('phasec_datespec').style.display="block";
                     document.getElementById('datespec').style.display="block";
                     document.getElementById("phasec_datespec").required=true;

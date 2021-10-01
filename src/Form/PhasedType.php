@@ -54,7 +54,7 @@ class PhasedType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                    $this->phaseRepository->reqbPhase(8,10,11)
+                    $this->phaseRepository->reqbPhase(7,10,11)
 
 
 
