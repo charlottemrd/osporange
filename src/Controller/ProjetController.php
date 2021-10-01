@@ -10,6 +10,7 @@ use App\Entity\DateZero;
 use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use App\Entity\Projet;
+use App\Form\ModifyaType;
 use App\Form\PhasecType;
 use App\Form\PhasedType;
 use App\Form\PhaseeType;
@@ -24,6 +25,7 @@ use App\Entity\SearchData;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
+use PhpParser\Node\Expr\AssignOp\Mod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -178,21 +180,34 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'projet_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Projet $projet): Response
+    public function edit(Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
-        $form = $this->createForm(ProjetType::class, $projet);
-        $form->handleRequest($request);
+        if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
+            $form = $this->createForm(ModifyaType::class, $projet);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
 
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifya.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+        else{
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->renderForm('projet/edit.html.twig', [
-            'projet' => $projet,
-            'form' => $form,
-        ]);
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]

@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\EntityType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 
@@ -17,7 +17,7 @@ class ProfilType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('tarif' , IntegerType::class,
+            ->add('tarif' , IntegerType::class
             );
     }
 
