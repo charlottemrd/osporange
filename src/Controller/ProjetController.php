@@ -11,6 +11,7 @@ use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\ModifyaType;
+use App\Form\ModifybType;
 use App\Form\PhasecType;
 use App\Form\PhasedType;
 use App\Form\PhaseeType;
@@ -189,8 +190,6 @@ class ProjetController extends AbstractController
 
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
-                    $projet->setHighestphase($projet->getPhase()->getRang());}
 
                 $projet->setDatemaj(new \DateTime());
 
@@ -205,6 +204,35 @@ class ProjetController extends AbstractController
                 'couts' => $projet->getFournisseur()->getProfils(),
             ]);
         }
+
+        else if($projet->getPhase()->getId()==4) { //phase actuelle= cadrage
+            $dateTl1avant=$projet->getDatel1();
+            $form = $this->createForm(ModifybType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                if($dateTl1avant!=$projet->getDatel1()){
+                    $daten=new DateLone();
+                    $daten->setDatereel($dateTl1avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateLones()->add($daten);
+                }
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifyb.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+
         else{
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
