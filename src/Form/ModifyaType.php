@@ -15,6 +15,7 @@ use App\Form\CoutType;
 use App\Form\ModalitesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -52,14 +53,21 @@ class ModifyaType extends AbstractType
                 'class' => Priorite::class,
                 'placeholder'=>'',
 
+
             ])
 
             ->add('taux',IntegerType::class, [
                 'label' => false,
+                'attr' => [
+                    'class' => 'modifya_taux'
+                ]
             ])
 
-            ->add('isplanningrespecte')
-
+            ->add('isplanningrespecte', ChoiceType::class,[
+                'choices'  => [
+                    'Le planning n\'est pas respecté' =>'0',
+                    'Le planning est respecté' =>'1',
+                ]])
 
             ->add('risque', EntityType::class, [
                 'required' => false,

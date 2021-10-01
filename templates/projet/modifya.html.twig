@@ -101,7 +101,7 @@
     <body class="d-flex flex-column">
     <main class="container-fluid flex-fill ">
         <br>
-        <h1 class="text-center">Changement de phase </h1>
+        <h1 class="text-center">Modification du projet </h1>
         <br>
         {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
         <div id="smartwizard">
@@ -120,7 +120,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#step-2">
+                    <a class="nav-link" href="#step-3">
                        Confirmation
                     </a>
                 </li>
@@ -133,16 +133,14 @@
                         <tr style="border-color: white">
                             <th width="15%">
 
-                                {{ form_label(form, 'Phase', {
+                                {{ form_label(form, 'Référence', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
-                                {{ form_widget(form.Phase, {
+                                {{ form_widget(form.reference, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-
-
-
+                            <th style="padding-left: 1%;width: 50%"><label id="modifya_reference-error" class="error" for="modifya_reference"></label></th>
                         </tr>
                         <tr style="border-color: white" >
                             <th>
@@ -243,7 +241,7 @@
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Respect du planning', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.isplanningrespecte, {
+                            <th width="20%" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th style="padding-left: 1%;width:50%" ><label id="modifya_isplanningrespecte-error" class="error" for="modifya_isplanningrespecte"></label></th>
@@ -270,6 +268,12 @@
                         </th>
 
                     </tr>
+
+                    </table>
+                    <table>
+                        <tr>
+                            <th> <p id="messerrortaux"></p></th>
+                        </tr>
                     </table>
                 </div>
 
@@ -340,7 +344,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -410,7 +414,19 @@
 
             function validateSteps(stepnumber){
                 var isStepValid = true;
-
+                    if(stepnumber==1){
+                        if(document.getElementById('modifya_taux').value <0) {
+                            isStepValid=false;
+                            document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
+                        }
+                        else if(document.getElementById('modifya_taux').value >100) {
+                            isStepValid=false;
+                            document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
+                        }
+                        else{
+                            isStepValid=true;
+                        }
+                    }
 
 
 
