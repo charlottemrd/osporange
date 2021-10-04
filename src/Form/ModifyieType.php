@@ -31,7 +31,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-class ModifydType extends AbstractType
+class ModifyieType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -59,7 +59,7 @@ class ModifydType extends AbstractType
             ->add('taux',IntegerType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'modifyd_taux'
+                    'class' => 'modifyie_taux'
                 ]
             ])
 
@@ -68,40 +68,39 @@ class ModifydType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyd_datereel0'
+                        'class' => 'modifyie_datereel0'
                     ]
 
                 ])
 
 
-            ->add('date1', DateType::class,
+            ->add('datereel1', DateType::class,
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyd_date1'
+                        'class' => 'modifyie_datereel1'
                     ]
 
                 ])
 
-            ->add('date2', DateType::class,
+            ->add('datereel2', DateType::class,
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyd_date2'
+                        'class' => 'modifyie_datereel2'
                     ]
 
                 ])
 
-            ->add('date3', DateType::class,
+            ->add('datereel3', DateType::class,
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyd_date3'
+                        'class' => 'modifyie_datereel3'
                     ]
-
                 ])
 
             ->add('datereell1', DateType::class,
@@ -109,7 +108,7 @@ class ModifydType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyd_datereell1'
+                        'class' => 'modifyie_datereell1'
                     ]
 
                 ])
@@ -125,35 +124,7 @@ class ModifydType extends AbstractType
                 'class' => Risque::class,
                 'placeholder'=>'',
             ])
-            ->add('datespec', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => true,
-            ])
 
-            ->add('modalites', CollectionType::class, array(
-                'entry_type' => ModalitesType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ))
-
-            ->add('couts', CollectionType::class, array(
-                'entry_type'   => CoutType::class,
-                'allow_add'    => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype'=> true,
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-
-
-            ))
 
 
 

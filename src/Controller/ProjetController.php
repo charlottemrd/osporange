@@ -257,6 +257,8 @@ class ProjetController extends AbstractController
                     $daten2->setDatereel($datereell1avant);
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
+
+                    $projet->setDatel1($projet->getDatereell1());
                 }
 
                 $projet->setDatemaj(new \DateTime());
@@ -290,6 +292,8 @@ class ProjetController extends AbstractController
                     $daten2->setDatereel($datereell1avant);
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
+
+                    $projet->setDatel1($projet->getDatereell1());
                 }
 
 
@@ -299,6 +303,7 @@ class ProjetController extends AbstractController
                     $daten->setDatezero($datereel0avant);
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
+                    $projet->setDate0($projet->getDatereel0());
                 }
 
                 if($date1avant!=$projet->getDate1()){
@@ -339,6 +344,87 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
             ]);
+        }
+        else if(($projet->getPhase()->getId()==7)||($projet->getPhase()->getId()==8)||($projet->getPhase()->getId()==9)) { //phase actuelle= test/prodution/recette
+            $datereel0avant=$projet->getDatereel0();
+            $datereell1avant=$projet->getDatereell1();
+            $datereel1avant=$projet->getDatereel1();
+            $datereel2avant=$projet->getDatereel2();
+            $datereel3avant=$projet->getDatereel3();
+            $date1avant=$projet->getDate1();
+            $date2avant=$projet->getDate2();
+            $date3avant=$projet->getDate3();
+            $form = $this->createForm(ModifyieType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+
+
+                if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
+                {
+                    $daten2=new DateLone();
+                    $daten2->setDatereel($datereell1avant);
+                    $daten2->setProjet($projet);
+                    $projet->getDateLones()->add($daten2);
+                    $projet->setDatel1($projet->getDatereell1());
+                }
+
+
+                if( $datereel0avant!=$projet->getDatereel0()) //datereel t 0
+                {
+                    $daten=new DateZero();
+                    $daten->setDatezero($datereel0avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateZeros()->add($daten);
+                    $projet->setDate0($projet->getDatereel0());
+                }
+
+                if($datereel1avant!=$projet->getDatereel1()){
+                    $daten3=new DateOnePlus();
+                    $daten3->setDate($datereel1avant);
+                    $daten3->setProjet($projet);
+                    $projet->getDateOnePluses()->add($daten3);
+                    $projet->setDate1($projet->getDatereel1());
+                }
+
+                if($datereel2avant!=$projet->getDatereel2()){
+                    $daten4=new DateTwo();
+                    $daten4->setDatetwo($datereel2avant);
+                    $daten4->setProjet($projet);
+                    $projet->getDateTwos()->add($daten4);
+                    $projet->setDate2($projet->getDatereel2());
+                }
+
+                if($datereel3avant!=$projet->getDatereel3()){
+                    $daten5=new DataTrois();
+                    $daten5->setDatet($datereel3avant);
+                    $daten5->setProjet($projet);
+                    $projet->getDataTrois()->add($daten5);
+                    $projet->setDate3($projet->getDatereel2());
+                }
+
+
+
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifyie.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+        else if($projet->getPhase()->getId()==1) { //abandonne
+            $notifier->send(new Notification('Vous ne pouvez pas modifier le projet car il est abandonné', ['browser']));
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+        }
+        else if($projet->getPhase()->getId()==2) { //abandonne
+            $notifier->send(new Notification('Vous ne pouvez pas modifier le projet car il est en stand by', ['browser']));
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
 
         else{
