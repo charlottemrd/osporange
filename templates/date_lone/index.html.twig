@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DateLone index{% endblock %}
+
+{% block body %}
+    <h1>DateLone index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Datereel</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for date_lone in date_lones %}
+            <tr>
+                <td>{{ date_lone.id }}</td>
+                <td>{{ date_lone.datereel ? date_lone.datereel|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('date_lone_show', {'id': date_lone.id}) }}">show</a>
+                    <a href="{{ path('date_lone_edit', {'id': date_lone.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('date_lone_new') }}">Create new</a>
+{% endblock %}

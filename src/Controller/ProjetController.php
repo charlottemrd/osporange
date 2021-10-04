@@ -182,6 +182,12 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
             ]);
         }
+        else if($projet->getPhase()->getId()==4){ //cadrage
+            return $this->render('projet/showb.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+            ]);
+        }
 
 
 
