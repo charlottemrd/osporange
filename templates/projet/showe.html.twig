@@ -124,6 +124,18 @@
                         Retard dans la planification
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-5">
+                        Coûts
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-6">
+                        Modalités de réception
+                    </a>
+                </li>
             </ul>
 
             <div class="tab-content" id="tab-content">
@@ -246,59 +258,61 @@
                                 <input type="text" class="form-control" placeholder="{{ projet.datereell1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
-                        {%if projet.date0!=null %}
+                        {%if projet.datereel0!=null %}
                             <div class="input-group mb-3" style="width: 50%">
                                 <div class="input-group-prepend " style="width: 40%">
-                                    <span class="input-group-text" id="basic-addon1">Date T0</span>
+                                    <span class="input-group-text" id="basic-addon1">Date réel T0</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.date0|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel0|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.date1!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T1</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.date2!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T2</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel2|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.date3!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T3</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel3|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                     </table>
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
                     {%if projet.datel1!=null%}
-                    <div style="display: inline-flex;width: 100%">
-                    <div style="width: 50%;text-align: center">
-                        <p>Ancienne dates T-1</p>
-                        <table class="table" style="border: black solid 1px;padding-right: 5%" >
-                            <tr style="border: black solid 1px">
-                                <th class="text-center ">Dates</th>
-                            </tr>
-                            {%for date_lone in date_lones%}
-                                <tr>
-                                    <td class="text-center ">{{ date_lone.datereel ? date_lone.datereel|date('d/m/Y') : '' }}</td>
-                                </tr>
-                            {% else %}
-                                <tr>
-                                    <td colspan="6">Pas de données trouvées</td>
-                                </tr>
-                            {% endfor %}
-                        </table>
-                    </div>
-                        <div style="width: 50%;text-align: center;padding-left: 5%">
-                            <p>Ancienne dates T0</p>
-                            <table class="table" style="border: black solid 1px" >
-                                <tr style="border: black solid 1px">
-                                    <th class="text-center ">Dates</th>
-                                </tr>
-                                {%for date_zero in date_zeros%}
-                                    <tr>
-                                        <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
-                                    </tr>
-                                {% else %}
-                                    <tr>
-                                        <td colspan="6">Pas de données trouvées</td>
-                                    </tr>
-                                {% endfor %}
-                            </table>
-                        </div>
-                        </div>
-                    {%endif%}
-
-                    {%if projet.datel1==null%}
                         <div style="display: inline-flex;width: 100%">
-                            <div style="width: 30%;text-align: center">
+                            <div style="width: 20%;text-align: center">
+                                <p>Ancienne dates T-1</p>
+                                <table class="table" style="border: black solid 1px;padding-right: 2%" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_lone in date_lones%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_lone.datereel ? date_lone.datereel|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 20%;text-align: center;padding-left: 1%">
                                 <p>Ancienne dates T0</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
@@ -315,6 +329,129 @@
                                     {% endfor %}
                                 </table>
                             </div>
+                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T1</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_one_plus in date_one_pluses%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_one_plus.date ? date_one_plus.date|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T2</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_two in date_twos%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_two.datetwo ? date_two.datetwo|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T3</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for data_trois in data_troises%}
+                                        <tr>
+                                            <td class="text-center ">{{ data_trois.datet ? data_trois.datet|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                        </div>
+                    {%endif%}
+
+                    {%if projet.datel1==null%}
+                            <div style="width: 25%;text-align: center">
+                                <p>Ancienne dates T0</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_zero in date_zeros%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 25%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T1</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_one_plus in date_one_pluses%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_zero_plus.date ? date_zero_plus.date|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 25%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T2</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_two in date_twos%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_two.datetwo ? date_two.datetwo|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <div style="width: 25%;text-align: center;padding-left: 1%">
+                                <p>Ancienne dates T3</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for data_trois in data_troises%}
+                                        <tr>
+                                            <td class="text-center ">{{ data_trois.datet ? date_trois.datet|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
                         </div>
                     {%endif%}
 
@@ -322,6 +459,79 @@
 
                 </div>
 
+            <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                <p>Les coûts du projet :</p>
+                <table id="couts" width="80%" style="margin-left: 10%" style="border: black 1px solid" >
+                    <thead style="border: black 1px solid">
+                    <tr >
+                        <td width="10%" style="text-align: center">
+                            Profil
+                        </td>
+                        {% for cout in couts %}
+                            <td width="10%" style="text-align: center;border: black 1px solid">
+                                {{ cout.profil}}
+                            </td>
+                        {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody style="border: black 1px solid">
+                    <tr>
+                        <td style="text-align: center">
+                            Nombre de profil
+                        </td>
+                        {% for cout in couts %}
+                            <td width="10%" style="text-align: center;border: black 1px solid">
+                                {{ cout.nombreprofil}}
+                            </td>
+                        {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                    {%if projet.paiement!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Mode de paiement</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.paiement }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.paiement=="paiement par modalités" %}
+                        <p>Jalons : </p>
+                        <table width="80%" style="margin-left: 10%">
+                            <thead>
+                            <tr>
+                                <td style="border: black 1px solid;text-align: center">Conditions</td>
+                                <td style="border: black 1px solid;text-align: center">Pourcentage</td>
+                                <td style="border: black 1px solid;text-align: center">Description</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {% for modalite in modalites %}
+                            <tr><td  style="border: black 1px solid;text-align: center">{{ modalite.conditions }}</td>
+                            <td  style="border: black 1px solid;text-align: center">{{ modalite.pourcentage }}</td>
+                           <td  style="border: black 1px solid;text-align: center">{{ modalite.description }}</td></tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Pas de données trouvées</td>
+                            </tr>
+                        {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+
+            </div>
 
 
 

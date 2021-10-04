@@ -177,22 +177,46 @@ class ProjetController extends AbstractController
     #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
     public function show(Projet $projet): Response
     {
-        if($projet->getPhase()->getId()==3){
+        if(($projet->getPhase()->getId()==3)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==3))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==3))){//non demarre
             return $this->render('projet/showa.html.twig', [
                 'projet' => $projet,
             ]);
         }
-        else if($projet->getPhase()->getId()==4){ //cadrage
+        else if(($projet->getPhase()->getId()==4)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==4))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==4))){ //cadrage
             return $this->render('projet/showb.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
             ]);
         }
-        else if($projet->getPhase()->getId()==5){ //cadrage
+        else if(($projet->getPhase()->getId()==5)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==5))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==5))){ //cadrage
             return $this->render('projet/showc.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
+            ]);
+        }
+        else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
+            return $this->render('projet/showd.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
+            ]);
+        }
+        else
+        {return $this->render('projet/showd.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
             ]);
         }
 

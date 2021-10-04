@@ -109,6 +109,27 @@ class PhaseRepository extends ServiceEntityRepository
         return $query->getQuery();
 
     }
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Phase []
+     */
+    public function reqhPhase( int $ph,int $m)
+    {
+
+        $query = $this
+            ->createQueryBuilder('o');
+
+
+        $query = $query
+            ->andWhere(' o.id =:pha OR o.id=:mp')
+
+            ->setParameter('pha', $ph)
+            ->setParameter('mp', $m)
+            ->orderBy('o.name');
+
+        return $query->getQuery()->getResult();
+
+    }
 
 
     // /**
