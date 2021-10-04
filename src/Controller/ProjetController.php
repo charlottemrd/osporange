@@ -177,9 +177,14 @@ class ProjetController extends AbstractController
     #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
     public function show(Projet $projet): Response
     {
-        return $this->render('projet/show.html.twig', [
-            'projet' => $projet,
-        ]);
+        if($projet->getPhase()->getId()==3){
+            return $this->render('projet/showa.html.twig', [
+                'projet' => $projet,
+            ]);
+        }
+
+
+
     }
 
     #[Route('/{id}/edit', name: 'projet_edit', methods: ['GET', 'POST'])]
