@@ -67,7 +67,6 @@ class ModifycType extends AbstractType
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
-                    'required'=>true,
                     'attr' => [
                         'class' => 'modifyc_date0'
                     ]
@@ -79,7 +78,6 @@ class ModifycType extends AbstractType
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
-                    'required'=>true,
                     'attr' => [
                         'class' => 'modifyc_datereell1'
                     ]

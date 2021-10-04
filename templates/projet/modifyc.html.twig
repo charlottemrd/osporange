@@ -286,7 +286,7 @@
 
 
                         {%if projet.datel1!=null %}
-                            <tr style="border-color: white;display: block">
+                            <tr style="border-color: white">
                             <th width="15%">
 
                                 {{ form_label(form, 'Date reel T-1', {
@@ -298,21 +298,48 @@
                             </th>
                             <th style="padding-left: 1%;width: 50%"><label id="modifyc_datereell1-error" class="error" for="modifyc_datereell1"></label></th>
                         </tr>
+                            <tr style="border-color: white" >
+                                <th width="15%">
+
+                                    {{ form_label(form, 'Date T0', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                <th  width="20%">
+                                    {{ form_widget(form.date0, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyc_date0-error" class="error" for="modifyc_date0"></label></th>
+                            </tr>
+                        {%endif%}
+                        {%if projet.datel1==null %}
+                            <tr style="border-color: white;display: none">
+                                <th width="15%">
+
+                                    {{ form_label(form, 'Date réel T-1', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                <th  width="20%">
+                                    {{ form_widget(form.datereell1, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyc_datereell1-error" class="error" for="modifyc_datereell1"></label></th>
+                            </tr>
+                            <tr style="border-color: white;display:block" >
+                                <th width="15%">
+
+                                    {{ form_label(form, 'Date T0', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                <th  width="20%">
+                                    {{ form_widget(form.date0, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyc_date0-error" class="error" for="modifyc_date0"></label></th>
+                            </tr>
                         {%endif%}
 
 
-                        <tr style="border-color: white">
-                            <th width="15%">
 
-                                {{ form_label(form, 'Date T0', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
-                                {{ form_widget(form.date0, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}
-                            </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modifyc_date0-error" class="error" for="modifyc_date0"></label></th>
-                        </tr>
                     </table>
 
                 </div>
