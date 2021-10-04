@@ -120,9 +120,6 @@ class PhasecType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
-                'attr' => [
-                    'class' => 'phasec_modalites'
-                ],
                 "row_attr" => [
                     "class" => "d-none"
                 ],
