@@ -188,7 +188,13 @@ class ProjetController extends AbstractController
                 'date_lones'=>$projet->getDateLones(),
             ]);
         }
-
+        else if($projet->getPhase()->getId()==5){ //cadrage
+            return $this->render('projet/showc.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+            ]);
+        }
 
 
     }
