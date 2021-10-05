@@ -244,9 +244,7 @@
                             </th>
                             {% for cout in couts %}
                                 <td >
-                                    <span class="form-control">{{ cout.name}}</span>
-
-
+                                    <span class="form-control">{{ cout.tarif}}</span>
                                 </td>
                             {% endfor %}
                         </tr>
@@ -266,6 +264,8 @@
                         </tr>
                         </tbody>
                     </table>
+                    <br>
+                    <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
@@ -401,8 +401,36 @@
 
 
 */
+            //for(cout in couts) {
+               // alert(document.getElementById('phasec_couts_0_nombreprofil').value);//for the First Element
+
+           // }
 
 
+
+
+            var tarifs=new Array();
+            {% for cout in couts %}
+                tarifs.push({{ cout.tarif }});
+            {% endfor %}
+            //
+
+           // <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
+
+            //alert(prix);
+            var prix=0;
+            $('.id_nombreprofil').change(function (){
+
+                for (i=0;i<tarifs.length;i++){
+                    prix=prix+((document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
+                    //nb.push(document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value);
+                }
+                document.getElementById('divprix').style.display="block";
+                document.getElementById('price').innerText=prix;
+                document.getElementById('smartwizard').style.height = "200%";
+                document.getElementById('tab-content').style.height = "200%";
+
+            });
 
 
             $('.phasec_Phase').change(function() {

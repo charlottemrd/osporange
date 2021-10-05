@@ -314,6 +314,7 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
+
             ]);
         }
 

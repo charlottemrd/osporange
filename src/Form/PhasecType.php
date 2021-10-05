@@ -110,6 +110,10 @@ class PhasecType extends AbstractType
                 "row_attr" => [
                     "class" => "d-none"
                 ],
+                'attr' => [
+                    'class' => 'phasec_couts',
+
+                ]
 
 
             ))

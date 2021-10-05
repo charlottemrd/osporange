@@ -14,7 +14,10 @@ class CoutType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombreprofil',IntegerType::class)
+            ->add('nombreprofil',IntegerType::class, ['attr' => [
+        'class' => 'id_nombreprofil']
+
+    ])
             ->add('profil', EntityType::class,[
                 'class' => Profil::class,
                 'attr' => array(
