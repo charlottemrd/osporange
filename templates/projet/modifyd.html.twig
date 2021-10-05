@@ -148,7 +148,7 @@
                         <tr style="border-color: white">
                             <th width="15%">
 
-                                {{ form_label(form, 'Référence', {
+                                {{ form_label(form, 'Référence *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.reference, {
@@ -262,7 +262,7 @@
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table style="border-color: white;width:100%">
                         <tr>
-                            <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%)', {
+                            <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%) *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.taux, {
                                     'label_attr': {'class': 'form_control'}}
@@ -323,119 +323,109 @@
                             <tr style="border-color: white">
                                 <th width="15%">
 
-                                    {{ form_label(form, 'Date reel T-1', {
+                                    {{ form_label(form, 'Date reel T-1 *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
                                 <th  width="20%">
                                     {{ form_widget(form.datereell1, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_datereell1-error" class="error" for="modify
-                                modifyd_datereell1"></label></th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereell1-error" class="error" for="modifyd_datereell1"></label></th>
+
                             </tr>
                             <tr style="border-color: white" >
                                 <th width="15%">
 
-                                    {{ form_label(form, 'Date réel T0', {
+                                    {{ form_label(form, 'Date réel T0 *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
                                 <th  width="20%">
                                     {{ form_widget(form.datereel0, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_datereel0-error" class="error" for="modify
-                                modifyd_datereel0"></label></th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereel0-error" class="error" for="modifyd_datereel0"></label></th>
+
                             </tr>
                         {%endif%}
                         {%if projet.datel1==null %}
                             <tr style="border-color: white;display: none">
                                 <th width="15%">
 
-                                    {{ form_label(form, 'Date réel T-1', {
+                                    {{ form_label(form, 'Date réel T-1 *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
                                 <th  width="20%">
                                     {{ form_widget(form.datereell1, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_datereell1-error" class="error" for="modify
-                                modifyd_datereell1"></label></th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereell1-error" class="error" for="modifyd_datereell1"></label></th>
+
                             </tr>
                             <tr style="border-color: white;display:block" >
                                 <th width="15%">
 
-                                    {{ form_label(form, 'Date réel T0', {
+                                    {{ form_label(form, 'Date réel T0 *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
                                 <th  width="20%">
                                     {{ form_widget(form.datereel0, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_datereel0-error" class="error" for="modify
-                                modifyd_datereel0"></label></th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereel0-error" class="error" for="modifyd_datereel0"></label></th>
+
                             </tr>
                         {%endif%}
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Date T1', {
+                                {{ form_label(form, 'Date T1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.date1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_date1-error" class="error" for="modify
-                                modifyd_date1"></label></th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_date1-error" class="error" for="modifyd_date1"></label></th>
+
                         </tr>
 
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Date T2', {
+                                {{ form_label(form, 'Date T2 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.date2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_date2-error" class="error" for="modify
-                                modifyd_date2"></label></th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_date2-error" class="error" for="modifyd_date2"></label></th>
                         </tr>
 
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Date T3', {
+                                {{ form_label(form, 'Date T3 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.date3, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_date3-error" class="error" for="modify
-                                modifyd_date3"></label></th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_date3-error" class="error" for="modifyd_date3"></label></th>
+
                         </tr>
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Date des spécifications', {
+                                {{ form_label(form, 'Date des spécifications *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modify
-                                modifyd_datespec-error" class="error" for="modify
-                                modifyd_datespec"></label></th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_datespec-error" class="error" for="modifyd_datespec"></label></th>
                         </tr>
 
 
@@ -549,7 +539,7 @@
                                     </tr>
                                     <tr>
                                         <th>
-                                            {{ form_label(modaliteField.conditions, 'Condition', {
+                                            {{ form_label(modaliteField.conditions, 'Condition *', {
                                                 'label_attr': {'class': 'input-group-text'}}) }}
                                         </th>
                                         <th>
@@ -563,7 +553,7 @@
                                     <tr>
                                         <th>
                                             <div id="addressList">
-                                                {{ form_label(modaliteField.pourcentage, 'Pourcentage', {
+                                                {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
                                                     'label_attr': {'class': 'input-group-text'}}) }}</div>
                                         </th>
                                         <th>

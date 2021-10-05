@@ -147,7 +147,7 @@
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Phase', {
+                                {{ form_label(form, 'Phase *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.Phase, {
@@ -161,7 +161,7 @@
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table>
                         <tr id="boxchoix10">
-                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T0 ? </td>
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T0 ? *</td>
                             <th>{{ form_widget(form.choix10, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -171,7 +171,7 @@
                     <table style="border-color: white;width:100%">
 
                         <tr id="datereel0" style="display: none" >
-                            <th width="15%"> {{ form_label(form, 'Date réelle T0', {
+                            <th width="15%"> {{ form_label(form, 'Date réelle T0 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.datereel0, {
                                     'label_attr': {'class': 'form_control'}}
@@ -194,7 +194,7 @@
 
 
                         <tr id="date1">
-                            <th width="15%"> {{ form_label(form, 'Date T1', {
+                            <th width="15%"> {{ form_label(form, 'Date T1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date1, {
                                     'label_attr': {'class': 'form_control'}}
@@ -202,7 +202,7 @@
                             <th  width="50%" style="padding-left: 1%"><label id="phasec_date1-error" class="error" for="phasec_date1"></label></th>
                         </tr>
                         <tr id="date2">
-                            <th width="15%"> {{ form_label(form, 'Date T2', {
+                            <th width="15%"> {{ form_label(form, 'Date T2 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date2, {
                                     'label_attr': {'class': 'form_control'}}
@@ -210,7 +210,7 @@
                             <th  width="50%" style="padding-left: 1%"><label id="phasec_date2-error" class="error" for="phasec_date2"></label></th>
                         </tr>
                         <tr id="date3">
-                            <th width="15%"> {{ form_label(form, 'Date T3', {
+                            <th width="15%"> {{ form_label(form, 'Date T3 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date3, {
                                     'label_attr': {'class': 'form_control'}}
@@ -218,7 +218,7 @@
                             <th  width="50%" style="padding-left: 1%"><label id="phasec_date3-error" class="error" for="phasec_date3"></label></th>
                         </tr>
                         <tr id="datespec">
-                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
+                            <th width="15%" > {{ form_label(form, 'Date de spécifications *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%" >{{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
@@ -278,7 +278,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{ form_label(modalite.conditions, 'Condition', {
+                                    {{ form_label(modalite.conditions, 'Condition *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
                                 <th>
@@ -291,7 +291,7 @@
                             <tr>
                                 <th>
                                     <div id="addressList">
-                                        {{ form_label(modalite.pourcentage, 'Pourcentage', {
+                                        {{ form_label(modalite.pourcentage, 'Pourcentage *', {
                                             'label_attr': {'class': 'input-group-text'}}) }}</div>
                                 </th>
                                 <th>
@@ -323,7 +323,7 @@
                     <table>
 
                         <tr id="mode">
-                            <th> {{ form_label(form, 'Mode de paiement', {
+                            <th> {{ form_label(form, 'Mode de paiement *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th id="xmode">{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}

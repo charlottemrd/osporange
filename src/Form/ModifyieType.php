@@ -39,7 +39,7 @@ class ModifyieType extends AbstractType
         $builder
             ->add('reference',TextType::class, [
                 'label' => false,
-                'required' => false,
+                'required' => true,
             ])
 
 
@@ -113,6 +113,16 @@ class ModifyieType extends AbstractType
 
                 ])
 
+            ->add('datespec', DateType::class,
+                [
+                    'label'=>'invoice_date',
+                    'widget'=>'single_text',
+                    'attr' => [
+                        'class' => 'modifyie_datespec'
+                    ]
+
+                ])
+
             ->add('isplanningrespecte', ChoiceType::class,[
                 'choices'  => [
                     'Le planning n\'est pas respecté' =>'0',
@@ -160,9 +170,7 @@ class ModifyieType extends AbstractType
                 ->add('typebu', EntityType::class,array('disabled' => ($typebu !== null), 'required' => true,
                     'class' =>TypeBU::class,
                     'placeholder' => ''))
-                ->add('paiement', EntityType::class,array('disabled' => ($paiement !== null), 'required' => true,
-                    'class' =>Paiement::class,
-                    'placeholder' => ''))
+
             ;
         });
 

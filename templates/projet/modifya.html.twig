@@ -133,7 +133,7 @@
                         <tr style="border-color: white">
                             <th width="15%">
 
-                                {{ form_label(form, 'Référence', {
+                                {{ form_label(form, 'Référence *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.reference, {
@@ -231,7 +231,7 @@
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table style="border-color: white;width:100%">
                         <tr>
-                            <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%)', {
+                            <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%) *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th width="20%">{{ form_widget(form.taux, {
                                     'label_attr': {'class': 'form_control'}}

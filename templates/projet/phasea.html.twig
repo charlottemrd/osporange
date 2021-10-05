@@ -164,8 +164,8 @@
                     </div>
                     <table style="border-color: white;width:100%">
                         <tr id="datel1">
-                            <th width="15%"> {{ form_label(form, 'Date T-1', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="15%"> {{ form_label(form, 'Date T-1 *', {
+                                    'label_attr': {'class': 'input-group-text','id': 'label_datel1'}}) }}</th>
                             <th width="20%">{{ form_widget(form.datel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -173,7 +173,7 @@
                         </tr>
                         <tr id="date0" style="display: none">
                             <th width="15%"> {{ form_label(form, 'Date T0', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_date0'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -254,7 +254,8 @@
                 $phasing=document.getElementById('phasea_Phase');
                 document.getElementById('phasea_datel1').value=null;
                 document.getElementById('phasea_date0').value=null;
-
+                document.getElementById('label_datel1').innerText='Date T-1';
+                document.getElementById('label_date0').innerText='Date T0';
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
 
                 if ((selectValue=='1')|| (selectValue=='2')){
@@ -273,6 +274,7 @@
 
 
                 else if (selectValue=='4'){//cadrage t-1
+                    document.getElementById('label_datel1').innerText='Date T-1 *';
 
                     document.getElementById('navdate').style.display="none";
                     document.getElementById('phasea_datel1').style.display="block";
@@ -291,6 +293,8 @@
 
                 }
                 else if (selectValue=='5'){//etude t0
+                    document.getElementById('label_date0').innerText='Date T0 *';
+
                     document.getElementById('navdate').style.display="none";
                     document.getElementById('phasea_datel1').style.display="none";
                     document.getElementById('datel1').style.display="none";

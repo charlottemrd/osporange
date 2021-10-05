@@ -39,7 +39,7 @@ class ModifybType extends AbstractType
         $builder
             ->add('reference',TextType::class, [
                 'label' => false,
-                'required' => false,
+                'required' =>true,
             ])
 
 
