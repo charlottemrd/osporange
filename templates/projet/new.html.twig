@@ -164,7 +164,7 @@
                         <tr style="border-color: white" >
                             <th>
 
-                                {{ form_label(form, 'Phase', {
+                                {{ form_label(form, 'Phase *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.Phase, {
@@ -176,7 +176,7 @@
 
                         </tr>
                         <tr>
-                            <th> {{ form_label(form, 'Domaine', {
+                            <th> {{ form_label(form, 'Domaine *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.domaine, {
                                     'label_attr': {'class': 'form_control'}}
@@ -186,8 +186,8 @@
 
                         </tr>
                         <tr>
-                            <th> {{ form_label(form, 'Sous-domaine', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th> {{ form_label(form, 'Sous-domaine *', {
+                                    'label_attr': {'class': 'input-group-text','id': 'pedit'}}) }}</th>
                             <th>{{ form_widget(form.sdomaine, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -197,7 +197,7 @@
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Fournisseur', {
+                            <th> {{ form_label(form, 'Fournisseur *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.fournisseur, {
                                     'label_attr': {'class': 'form_control'}}
@@ -208,7 +208,7 @@
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Type de BU', {
+                            <th> {{ form_label(form, 'Type de BU *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.typebu, {
                                     'label_attr': {'class': 'form_control'}}
@@ -218,7 +218,7 @@
 
                         </tr>
                         <tr>
-                            <th> {{ form_label(form, 'Priorité', {
+                            <th> {{ form_label(form, 'Priorité ', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.priorite, {
                                     'label_attr': {'class': 'form_control'}}
@@ -243,7 +243,7 @@
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Description', {
+                            <th> {{ form_label(form, 'Description *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.description, {
                                     'label_attr': {'class': 'form_control'}}
@@ -265,8 +265,8 @@
                     </div>
                     <table style="border-color: white;width:100%">
                         <tr id="datel1">
-                            <th width="15%"> {{ form_label(form, 'Date T-1', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="15%"> {{ form_label(form, 'Date T-1',{
+                                    'label_attr': {'class': 'input-group-text','id': 'label_tl1'}}) }}</th>
                             <th width="20%">{{ form_widget(form.datel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -274,7 +274,7 @@
                         </tr>
                         <tr id="date0">
                             <th width="15%"> {{ form_label(form, 'Date T0', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_t0'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -283,7 +283,7 @@
 
                         <tr id="date1">
                             <th width="15%"> {{ form_label(form, 'Date T1', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_t1'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -291,7 +291,7 @@
                         </tr>
                         <tr id="date2">
                             <th width="15%"> {{ form_label(form, 'Date T2', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_t2'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
@@ -299,23 +299,22 @@
                         </tr>
                         <tr id="date3">
                             <th width="15%"> {{ form_label(form, 'Date T3', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_t3'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date3, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="projet_date3-error" class="error" for="projet_date3"></label></th>
                         </tr>
-                        <tr>
-                            <th> <p id="messerror1"></p></th>
-                        </tr>
                         <tr id="datespec">
                             <th width="15%" > {{ form_label(form, 'Date de spécifications', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    'label_attr': {'class': 'input-group-text','id': 'label_spec'}}) }}</th>
                             <th width="20%" >{{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
-
+                        </tr>
+                        <tr>
+                            <th> <p id="messerror1"></p></th>
                         </tr>
                     </table>
                 </div>
@@ -353,7 +352,7 @@
                             </tr>
                             <tr>
                                 <th>
-                                    {{ form_label(modalite.conditions, 'Condition', {
+                                    {{ form_label(modalite.conditions, 'Condition *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
                                 <th>
@@ -365,7 +364,7 @@
                             <tr>
                                 <th>
                                     <div id="addressList">
-                                        {{ form_label(modalite.pourcentage, 'Pourcentage', {
+                                        {{ form_label(modalite.pourcentage, 'Pourcentage *', {
                                             'label_attr': {'class': 'input-group-text'}}) }}</div>
                                 </th>
                                 <th>
@@ -396,11 +395,14 @@
                     <table>
 
                         <tr id="mode">
-                            <th> {{ form_label(form, 'Mode de paiement', {
+                            <th> {{ form_label(form, 'Mode de paiement *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.paiement, {
+                            <th id="xmode">{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="projet_paiement-error" class="error" for="projet_paiement"></label></th>
+
+                        </tr>
                         </tr>
                     </table>
                     <br>
@@ -486,11 +488,15 @@
                 document.getElementById('projet_datespec').value=null;
                 document.getElementById('projet_paiement').value=null;
                 document.getElementById('modalites').style.display="none";
+                document.getElementById('label_tl1').innerText='Date T-1';
+                document.getElementById('label_t0').innerText='Date T0';
+                document.getElementById('label_t1').innerText='Date T1';
+                document.getElementById('label_t2').innerText='Date T2';
+                document.getElementById('label_t3').innerText='Date T3';
+                document.getElementById('label_spec').innerText='Date de spécifications';
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
                 if ((selectValue=='1')|| (selectValue=='2')|| (selectValue=='3')){
                     //abondonne non demarre suspendu
-
-
                     document.getElementById('projet_datel1').style.display="none";
                     document.getElementById('datel1').style.display="none";
                     document.getElementById("projet_datel1").required=false;
@@ -542,6 +548,8 @@
 
                 else if (selectValue=='4'){//cadrage t-1
 
+                    document.getElementById('label_tl1').innerText='Date T-1 *';
+
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
                     document.getElementById("projet_datel1").required=true;
@@ -583,6 +591,7 @@
 
                 }
                 else if (selectValue=='5'){//etude t0
+                    document.getElementById('label_t0').innerText='Date T0 *';
 
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
@@ -626,6 +635,14 @@
                 }
 
                 else if ((selectValue=='6')){//construction
+                    document.getElementById('label_t1').innerText='Date T1 *';
+                    document.getElementById('label_t2').innerText='Date T2 *';
+                    document.getElementById('label_t3').innerText='Date T3 *';
+                    document.getElementById('label_spec').innerText='Date de spécifications *';
+
+                    document.getElementById('bmode').style.width='200%';
+                    document.getElementById('xmode').style.width='100%';
+
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
                     document.getElementById("projet_datel1").required=false;
