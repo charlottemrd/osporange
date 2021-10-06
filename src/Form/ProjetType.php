@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Commentaire;
 use App\Entity\Cout;
 use App\Entity\Fournisseur;
 use App\Entity\Paiement;
@@ -180,7 +181,20 @@ class ProjetType extends AbstractType
                   "row_attr" => [
                       "class" => "d-none"
                   ],
-              ));
+              ))
+
+            ->add('commentaires', CollectionType::class, [
+                'entry_type' => CommentaireType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+            ])
+
+        ;
 
     ;
 

@@ -194,6 +194,11 @@ class Projet
      */
     private $datereel3;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
+     */
+    private $commentaires;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
@@ -203,6 +208,7 @@ class Projet
         $this->dateOnePluses = new ArrayCollection();
         $this->dateTwos = new ArrayCollection();
         $this->dataTrois = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
 
@@ -756,6 +762,36 @@ class Projet
     public function setDatereel3(?\DateTimeInterface $datereel3): self
     {
         $this->datereel3 = $datereel3;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getProjet() === $this) {
+                $commentaire->setProjet(null);
+            }
+        }
 
         return $this;
     }

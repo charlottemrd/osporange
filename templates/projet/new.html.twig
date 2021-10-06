@@ -128,6 +128,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#step-5">
+                        Commentaire
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-6">
                         Confirmation
                     </a>
                 </li>
@@ -417,6 +422,12 @@
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    <ul class="commentaires" style="list-style-type: none;" data-prototype="{{ form_widget(form.commentaires.
+                    vars.prototype)|e('html_attr') }}">
+                    </ul>
+
+                </div>
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     Veuillez vérifier vos données avant de soumettre le formulaire
 
                 </div>
@@ -785,6 +796,43 @@
             ;
 
 
+            var $collectionHolderCom;
+            var $boutonAjouterCom = $('<button type="button" class="add_commentaire_link"> Ajouter un commentaire</button>');
+            var $nouveauCom = $('<li></li>').append($boutonAjouterCom);
+            jQuery(document).ready(function () {
+                $collectionHolderCom = $('ul.commentaires');
+                $collectionHolderCom.find('li').each(function () {
+                    addCommentaireFormDeleteLinkCom($(this));
+                });
+                $collectionHolderCom.append($nouveauCom);
+                $collectionHolderCom.data('index', $collectionHolderCom.find('input').length);
+                $boutonAjouterCom.on('click', function (e) {
+                    addCommentaireFormCom($collectionHolderCom, $nouveauCom);
+                });
+
+
+                function addCommentaireFormCom($collectionHolderCom, $newLinkLiCom) {
+                    var prototype = $collectionHolderCom.data('prototype');
+                    var index = $collectionHolderCom.data('index');
+                    var newFormCom = prototype;
+                    newFormCom = newFormCom.replace(/__name__/g, index);
+                    $collectionHolderCom.data('index', index + 1);
+                    var $newFormLiCom = $('<li></li>').append(newFormCom);
+                    $newLinkLiCom.before($newFormLiCom);
+                    addCommentaireFormDeleteLinkCom($newFormLiCom);
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                }
+                function addCommentaireFormDeleteLinkCom($tagFormLiCom) {
+                    var $removeFormButtonCom = $('<button type="button">Supprimer le commentaire</button>');
+                    $tagFormLiCom.append($removeFormButtonCom);
+                    $removeFormButtonCom.on('click', function (e) {
+                        $tagFormLiCom.remove();
+                    });
+                }
+            });
+
+
 
 
             var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
@@ -1000,7 +1048,7 @@
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
                 if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
-                    if(stepDirection == "4") //here is the final step: Note: 0,1,2
+                    if(stepDirection == "5") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
                     }
