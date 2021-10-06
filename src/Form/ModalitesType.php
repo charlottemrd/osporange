@@ -17,7 +17,8 @@ class ModalitesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pourcentage',IntegerType::class,['required'=>true])
+            ->add('pourcentage',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'id_nombreprofil']])
             ->add('conditions', ChoiceType::class, ['required' => true,'placeholder'=>'',
                 'choices'  => [
                     'date T1 atteinte' =>'date T1 atteinte',

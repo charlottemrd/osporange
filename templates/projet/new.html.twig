@@ -343,13 +343,11 @@
                 </div>
 
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+
                     {% macro information_prototype(modalite) %}
 
                         <br>
                         <table>
-                            <tr>
-                                <p>Jalon</p>
-                            </tr>
                             <tr>
                                 <th>
                                     {{ form_label(modalite.conditions, 'Condition *', {
@@ -387,6 +385,8 @@
                         </table>
                         <br>
                     {% endmacro %}
+                    <br>
+                    <p id="tauxerror"></p>
                     <div id="navmode" style="display: none">
                         Pas de modalités de réceptions demandées
                         <br>
@@ -713,6 +713,10 @@
                     document.getElementById('navmode').style.display="none";
                     document.getElementById('mode').style.display="block";
                     document.getElementById("projet_paiement").required=true;
+
+                    document.getElementById('bmode').style.width='200%';
+                    document.getElementById('xmode').style.width='100%';
+
                 }
 
 
@@ -962,6 +966,44 @@
                     }
 
                 } //endif step1
+                if(stepnumber==3){
+                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)){
+                        if ($phasing2.options[$phasing2.selectedIndex].value=='2'){
+                            var tailletaux=$('ul.modalites').find('input').length;
+                            var sommetaux=parseInt(0);
+                            for (a=0;a<tailletaux;a++){
+                                sommetaux=sommetaux+parseInt(document.getElementById('projet_modalites_'+[a]+'_pourcentage').value);
+                            }
+                            if(sommetaux!=100){
+                                isStepValid = false;
+                                document.getElementById('tauxerror').innerText='La somme des taux d\'avancement des differents jalons doit valoir 100 %';
+                            }
+                            else{
+                                isStepValid = true;
+                                document.getElementById('tauxerror').innerText='';
+                            }
+                        }
+                    }
+                }
+
+                if(stepnumber==3){
+                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)){
+                        if ($phasing2.options[$phasing2.selectedIndex].value=='2'){
+                            var tailletaux=$('ul.modalites').find('input').length;
+                            for (a=0;a<tailletaux;a++){
+                                if(parseInt(document.getElementById('projet_modalites_'+[a]+'_pourcentage').value)<=0){
+                                    document.getElementById('tauxerror').innerText='Les pourcentage des jalons ne peuvent pas être négatifs ou nuls ';
+                                    isStepValid = false;
+                                    break;
+                                }
+                                else{
+                                    isStepValid = true;
+                                    document.getElementById('tauxerror').innerText='';
+                                }
+                            }
+                        }
+                    }
+                }
 
 
 
