@@ -422,8 +422,32 @@
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-                    <ul class="commentaires" style="list-style-type: none;" data-prototype="{{ form_widget(form.commentaires.
-                    vars.prototype)|e('html_attr') }}">
+
+
+                    {% macro information_prototype(commentaire) %}
+
+                        <br>
+                        <table>
+                            <tr>
+                                <th width="15%">
+                                    {{ form_label(commentaire.description, 'Commentaire *', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                </th>
+                                <th width="60%">
+                                    {{ form_widget(commentaire.description, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                                <th  width="50%" style="padding-left: 1%"><label id="projet_commentaire-error" class="error" for="projet_commentaire"></label></th>
+
+                            </tr>
+
+                        </table>
+                        <br>
+                    {% endmacro %}
+
+
+                    <ul class="commentaires" style="list-style-type: none;" data-prototype="{{ _self.information_prototype(form.commentaires.vars.prototype)|e }}">
                     </ul>
 
                 </div>
@@ -797,7 +821,7 @@
 
 
             var $collectionHolderCom;
-            var $boutonAjouterCom = $('<button type="button" class="add_commentaire_link"> Ajouter un commentaire</button>');
+            var $boutonAjouterCom = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey"> Ajouter un commentaire</button>');
             var $nouveauCom = $('<li></li>').append($boutonAjouterCom);
             jQuery(document).ready(function () {
                 $collectionHolderCom = $('ul.commentaires');
@@ -824,7 +848,7 @@
                     document.getElementById('tab-content').style.height = "200%";
                 }
                 function addCommentaireFormDeleteLinkCom($tagFormLiCom) {
-                    var $removeFormButtonCom = $('<button type="button">Supprimer le commentaire</button>');
+                    var $removeFormButtonCom = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le commentaire</button>');
                     $tagFormLiCom.append($removeFormButtonCom);
                     $removeFormButtonCom.on('click', function (e) {
                         $tagFormLiCom.remove();

@@ -151,6 +151,14 @@ class ProjetController extends AbstractController
                 }
 
 
+            $com=$projet->getCommentaires();
+            foreach ($com as $c){
+                if ($c->getDescription()==null){
+                    $c->setDate(new \DateTime());
+                }
+            }
+
+
 
 
 
