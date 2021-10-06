@@ -273,6 +273,7 @@
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    <p id="tauxerror"></p>
                     {% macro information_prototype(modalite) %}
 
                         <br>
@@ -611,7 +612,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -766,7 +767,30 @@
 
 
 
-                }
+                }//step 3
+
+                if(stepnumber==4){
+                    if ((document.getElementById('phasec_Phase').value == 6)) {
+                        if ($phasing2.options[$phasing2.selectedIndex].value == '2') {
+                            var tailletaux = $('ul.modalites').find('input').length;
+                            for (ab = 0; ab < tailletaux; ab++) {
+                                if (parseInt(document.getElementById('phasec_modalites_' + [ab] + '_pourcentage').value) <= 0) {
+                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
+                                    isStepValid=false;
+                                    break
+                                } else {
+                                    document.getElementById('tauxerror').innerText='';
+                                    isStepValid=true;
+                                }
+                            }
+
+
+                        }
+
+                    }
+
+                }//endif step 3
+
 
 
 
