@@ -274,6 +274,7 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
 
+
             ]);
         }
 
@@ -386,6 +387,7 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
             ]);
         }
         else if(($projet->getPhase()->getId()==7)||($projet->getPhase()->getId()==8)||($projet->getPhase()->getId()==9)) { //phase actuelle= test/prodution/recette

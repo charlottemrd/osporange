@@ -446,6 +446,8 @@
 
                                 </td>
                             {% endfor %}
+
+
                         </tr>
                         </thead>
                         <tbody>
@@ -463,7 +465,9 @@
                         </tr>
                         </tbody>
                     </table>
-
+                    <br>
+                    <p id="price"></p>
+                    <p id="messageerrorprix"></p>
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
 
@@ -475,7 +479,7 @@
                             <th id="xmode">{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="phasec_paiement-error" class="error" for="phasec_paiement"></label></th>
+                            <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="modifyd_paiement-error" class="error" for="modifyd_paiement"></label></th>
 
                         </tr>
                     </table>
@@ -660,6 +664,39 @@
 
                 });
 
+            var tarifs=new Array();
+            {% for cout in couts %}
+            tarifs.push({{ cout.tarif }});
+            {% endfor %}
+            var prixav=0;
+            for (j=0;j<tarifs.length;j++){
+                prixav=prixav+((document.getElementById('modifyd_couts_'+[j]+'_nombreprofil').value)*tarifs[j]);
+                //nb.push(document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value);
+            }
+            document.getElementById('price').innerText='Le prix du projet est '+ prixav+'{{ fournisseur.devise }}';
+
+
+
+            //
+
+            // <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
+
+            //alert(prix);
+            var prix=0;
+            $('.id_nombreprofil').change(function (){
+                var prix=0;
+                for (i=0;i<tarifs.length;i++){
+                    prix=prix+((document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
+                    //nb.push(document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value);
+                }
+                document.getElementById('price').innerText='Le prix du projet est de '+prix +'{{ fournisseur.devise}}';
+                document.getElementById('smartwizard').style.height = "200%";
+                document.getElementById('tab-content').style.height = "200%";
+
+            });
+
+
+
 
 
             $('#smartwizard').smartWizard({
@@ -733,6 +770,23 @@
                     }
                     else{
                         isStepValid=true;
+                    }
+                }
+                if(stepnumber==3){
+                    for (var i = 0; i < tarifs.length; i++) {
+                        if((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value)<0){
+
+                            isStepValid = false;
+                            document.getElementById('messageerrorprix').innerText='La valeur des  profils ne peut pas être négative, '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur incorrecte';
+                            break;
+                        }
+                        else {
+                            isStepValid = true;
+                            document.getElementById('messageerrorprix').innerText='';
+                        }
+
+
+
                     }
                 }
 
