@@ -213,7 +213,7 @@ class ProjetController extends AbstractController
             ]);
         }
         else
-        {return $this->render('projet/showd.html.twig', [
+        {return $this->render('projet/showe.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
@@ -222,6 +222,8 @@ class ProjetController extends AbstractController
                 'data_troises'=>$projet->getDataTrois(),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
+                'profils' => $projet->getFournisseur()->getProfils(),
+            'fournisseur'=>$projet->getFournisseur(),
             ]);
         }
 

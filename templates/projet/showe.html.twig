@@ -495,6 +495,8 @@
                     </tr>
                     </tbody>
                 </table>
+                <br>
+                <p id="price"></p>
             </div>
 
                 <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
@@ -597,6 +599,21 @@
 
 
 
+
+
+            var tarifs=new Array();
+            {% for profil in profils  %}
+            tarifs.push({{ profil.tarif }});
+            {% endfor %}
+            var tarifsqt=new Array();
+            {% for cout in couts  %}
+            tarifsqt.push({{ cout.nombreprofil }});
+            {% endfor %}
+            var prixav=0;
+            for (j=0;j<tarifs.length;j++){
+                prixav=prixav+((tarifsqt[j])*(tarifs[j]));
+            }
+            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+'{{ fournisseur.devise }}';
 
 
 
