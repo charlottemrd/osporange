@@ -472,7 +472,7 @@ class ProjetController extends AbstractController
                     $daten5->setDatet($datereel3avant);
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
-                    $projet->setDate3($projet->getDatereel2());
+                    $projet->setDate3($projet->getDatereel3());
                 }
 
 

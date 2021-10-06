@@ -384,6 +384,7 @@
                     {%endif%}
 
                     {%if projet.datel1==null%}
+                    <div style="display: inline-flex;width: 100%">
                             <div style="width: 25%;text-align: center">
                                 <p>Ancienne dates T0</p>
                                 <table class="table" style="border: black solid 1px" >
@@ -409,7 +410,7 @@
                                     </tr>
                                     {%for date_one_plus in date_one_pluses%}
                                         <tr>
-                                            <td class="text-center ">{{ date_zero_plus.date ? date_zero_plus.date|date('d/m/Y') : '' }}</td>
+                                            <td class="text-center ">{{ date_one_plus.date ? date_one_plus.date|date('d/m/Y') : '' }}</td>
                                         </tr>
                                     {% else %}
                                         <tr>
@@ -443,7 +444,7 @@
                                     </tr>
                                     {%for data_trois in data_troises%}
                                         <tr>
-                                            <td class="text-center ">{{ data_trois.datet ? date_trois.datet|date('d/m/Y') : '' }}</td>
+                                            <td class="text-center ">{{ data_trois.datet ? data_trois.datet|date('d/m/Y') : '' }}</td>
                                         </tr>
                                     {% else %}
                                         <tr>
@@ -452,12 +453,12 @@
                                     {% endfor %}
                                 </table>
                             </div>
-                        </div>
+                    </div>
                     {%endif%}
 
-
-
                 </div>
+
+
 
             <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
                 <p>Les coûts du projet :</p>
@@ -534,7 +535,6 @@
                 </div>
 
             </div>
-
 
 
 

@@ -223,7 +223,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Respect du planning</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.isplanningrespecte }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" placeholder="{{ projet.isplanningrespecte ? 'Oui' : 'Non' }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.priorite!=null %}
