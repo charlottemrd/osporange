@@ -778,6 +778,10 @@
                                     document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
                                     isStepValid=false;
                                     break
+                                if (parseInt(document.getElementById('phasec_modalites_' + [ab] + '_pourcentage').value) > 100) {
+                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieure à 100%';
+                                    isStepValid=false;
+                                    break
                                 } else {
                                     document.getElementById('tauxerror').innerText='';
                                     isStepValid=true;

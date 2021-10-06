@@ -361,7 +361,7 @@
                                 <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereell1-error" class="error" for="modifyd_datereell1"></label></th>
 
                             </tr>
-                            <tr style="border-color: white;display:block" >
+                            <tr style="border-color: white" >
                                 <th width="15%">
 
                                     {{ form_label(form, 'Date réel T0 *', {
@@ -487,6 +487,7 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
+                        <p id="tauxerror"></p>
                         {% macro information_prototype(modalite) %}
 
                             <br>
@@ -791,6 +792,37 @@
 
                     }
                 }
+                if(stepnumber==4){
+                    $phasing2=document.getElementById('modifyd_paiement');
+
+                    var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
+
+                     if (selectValue2 == '2') {
+                            var tailletaux = $('ul.modalites').find('input').length;
+                            for (a = 0; a < tailletaux; a++) {
+                                if (parseInt(document.getElementById('modifyd_modalites_' + [a] + '_pourcentage').value) <= 0) {
+                                    document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
+                                    isStepValid = false;
+                                    break
+                                }
+                                else if (parseInt(document.getElementById('modifyd_modalites_' + [a] + '_pourcentage').value) > 100) {
+                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                                    isStepValid=false;
+                                    break
+                                } else {
+                                    document.getElementById('tauxerror').innerText='';
+                                    isStepValid=true;
+                                }
+
+
+
+                            }
+
+                    }
+
+                }//endif step 3
+
+
 
 
 

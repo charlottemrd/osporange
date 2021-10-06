@@ -972,9 +972,14 @@
                             var tailletaux = $('ul.modalites').find('input').length;
                             for (a = 0; a < tailletaux; a++) {
                                 if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) <= 0) {
-                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
-                                    isStepValid=false;
+                                    document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
+                                    isStepValid = false;
                                     break
+                                }
+                                else if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) > 100) {
+                                  document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                                  isStepValid=false;
+                                  break
                                 } else {
                                     document.getElementById('tauxerror').innerText='';
                                     isStepValid=true;

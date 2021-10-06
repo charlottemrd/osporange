@@ -133,7 +133,6 @@ class ProjetController extends AbstractController
 
 
             //to change after
-            if(($projet->getPhase()->getId()!=8)||($projet->getPhase()->getId()!=6)($projet->getPhase()->getId()!=7)($projet->getPhase()->getId()!=9)){
                 $fournisseur=$projet->getFournisseur();
                 $profils=$fournisseur->getProfils();
                 foreach ($profils as $p){
@@ -143,7 +142,17 @@ class ProjetController extends AbstractController
                     $cout->setProjet($projet);
                     $projet->getCouts()->add($cout);
                 }
-            }
+
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if ($m->getConditionsatisfield()==null){
+                        $m->setConditionsatisfield(false);
+                    }
+                }
+
+
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
@@ -334,7 +343,12 @@ class ProjetController extends AbstractController
             $form = $this->createForm(ModifydType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if ($m->getConditionsatisfield()==null){
+                        $m->setConditionsatisfield(false);
+                    }
+                }
 
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
