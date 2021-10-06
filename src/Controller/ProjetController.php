@@ -206,6 +206,10 @@ class ProjetController extends AbstractController
                 'data_troises'=>$projet->getDataTrois(),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
+
+                'profils' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+
             ]);
         }
         else
