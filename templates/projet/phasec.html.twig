@@ -769,33 +769,33 @@
 
                 }//step 3
 
-                if(stepnumber==4){
+                if(stepnumber==4) {
                     if ((document.getElementById('phasec_Phase').value == 6)) {
                         if ($phasing2.options[$phasing2.selectedIndex].value == '2') {
                             var tailletaux = $('ul.modalites').find('input').length;
                             for (ab = 0; ab < tailletaux; ab++) {
                                 if (parseInt(document.getElementById('phasec_modalites_' + [ab] + '_pourcentage').value) <= 0) {
-                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
-                                    isStepValid=false;
+                                    document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
+                                    isStepValid = false;
                                     break
-                                if (parseInt(document.getElementById('phasec_modalites_' + [ab] + '_pourcentage').value) > 100) {
-                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieure à 100%';
-                                    isStepValid=false;
-                                    break
-                                } else {
-                                    document.getElementById('tauxerror').innerText='';
-                                    isStepValid=true;
+                                    if (parseInt(document.getElementById('phasec_modalites_' + [ab] + '_pourcentage').value) > 100) {
+                                        document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être supérieure à 100%';
+                                        isStepValid = false;
+                                        break
+                                    } else {
+                                        document.getElementById('tauxerror').innerText = '';
+                                        isStepValid = true;
+                                    }
                                 }
-                            }
 
+
+                            }
 
                         }
 
                     }
 
                 }//endif step 3
-
-
 
 
 
