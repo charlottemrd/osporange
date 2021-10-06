@@ -967,49 +967,26 @@
 
                 } //endif step1
                 if(stepnumber==3){
-                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)){
-                        if ($phasing2.options[$phasing2.selectedIndex].value=='2'){
-                            var tailletaux=$('ul.modalites').find('input').length;
-                            var sommetaux=parseInt(0);
-                            for (a=0;a<tailletaux;a++){
-                                sommetaux=sommetaux+parseInt(document.getElementById('projet_modalites_'+[a]+'_pourcentage').value);
-                            }
-                            if(sommetaux!=100){
-                                isStepValid = false;
-                                document.getElementById('tauxerror').innerText='La somme des taux d\'avancement des differents jalons doit valoir 100 %';
-                            }
-                            else{
-                                isStepValid = true;
-                                document.getElementById('tauxerror').innerText='';
-                            }
-                        }
-                    }
-                }
-
-                if(stepnumber==3){
-                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)){
-                        if ($phasing2.options[$phasing2.selectedIndex].value=='2'){
-                            var tailletaux=$('ul.modalites').find('input').length;
-                            for (a=0;a<tailletaux;a++){
-                                if(parseInt(document.getElementById('projet_modalites_'+[a]+'_pourcentage').value)<=0){
-                                    document.getElementById('tauxerror').innerText='Les pourcentage des jalons ne peuvent pas être négatifs ou nuls ';
-                                    isStepValid = false;
-                                    break;
-                                }
-                                else{
-                                    isStepValid = true;
+                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)) {
+                        if ($phasing2.options[$phasing2.selectedIndex].value == '2') {
+                            var tailletaux = $('ul.modalites').find('input').length;
+                            for (a = 0; a < tailletaux; a++) {
+                                if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) <= 0) {
+                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
+                                    isStepValid=false;
+                                    break
+                                } else {
                                     document.getElementById('tauxerror').innerText='';
+                                    isStepValid=true;
                                 }
                             }
+
+
                         }
+
                     }
-                }
 
-
-
-
-
-
+                        }//endif step 3
 
 
                 return isStepValid;
