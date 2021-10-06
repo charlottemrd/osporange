@@ -227,6 +227,7 @@
                         </tr>
                     </table>
                     <p style="font-weight: bold"   id="messerror1"></p>
+
                 </div>
 
 
@@ -244,7 +245,7 @@
                             </th>
                             {% for cout in couts %}
                                 <td >
-                                    <span class="form-control">{{ cout.tarif}}</span>
+                                    <span class="form-control" >{{ cout.name}}</span>
                                 </td>
                             {% endfor %}
                         </tr>
@@ -265,7 +266,10 @@
                         </tbody>
                     </table>
                     <br>
-                    <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
+                        <p id="price"></p>
+                        <p id="messageerrorprix"></p>
+
+
                 </div>
 
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
@@ -420,13 +424,12 @@
             //alert(prix);
             var prix=0;
             $('.id_nombreprofil').change(function (){
-
+                var prix=0;
                 for (i=0;i<tarifs.length;i++){
                     prix=prix+((document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
                     //nb.push(document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value);
                 }
-                document.getElementById('divprix').style.display="block";
-                document.getElementById('price').innerText=prix;
+                document.getElementById('price').innerText='Le prix du projet est de '+prix +'{{ fournisseur.devise}}';
                 document.getElementById('smartwizard').style.height = "200%";
                 document.getElementById('tab-content').style.height = "200%";
 
@@ -738,8 +741,29 @@
 
                 } //endif step1
 
+                //pri
+
+                if (stepnumber==3) {
+
+                    for (var i = 0; i < tarifs.length; i++) {
+                        if((document.getElementById('phasec_couts_' + [i] + '_nombreprofil').value)<0){
+
+                            isStepValid = false;
+                            document.getElementById('messageerrorprix').innerText='La valeur des  profils ne peut pas être négative, '+ document.getElementById('phasec_couts_' + [i] + '_nombreprofil').value + ' est une valeur incorrecte';
+                            break;
+                        }
+                        else {
+                            isStepValid = true;
+                            document.getElementById('messageerrorprix').innerText='';
+                        }
 
 
+
+                    }
+
+
+
+                }
 
 
 

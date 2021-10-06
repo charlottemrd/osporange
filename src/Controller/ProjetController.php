@@ -577,6 +577,7 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
             ]);
         }
         else if($projet->getPhase()->getId()==6) { //phase actuelle= construction
