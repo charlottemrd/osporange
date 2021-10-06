@@ -87,6 +87,15 @@ thead{
         </div>
         {% endif %}
 
+        {%if fournisseur.devise!=null %}
+            <div class="input-group mb-3">
+                <div class="input-group-prepend " style="width: 40%">
+                    <span class="input-group-text" id="basic-addon1">Devise</span>
+                </div>
+                <input type="text" class="form-control" placeholder="{{ fournisseur.devise }}" disabled=true" aria-describedby="basic-addon1">
+            </div>
+        {% endif %}
+
         {%if fournisseur.mail!=null %}
         <div class="input-group mb-3">
             <div class="input-group-prepend " style="width: 40%">
@@ -111,7 +120,7 @@ thead{
                 <thead>
                 <tr>
                     <th class="text-center " style="width: 10%">Profil</th>
-                    <th class="text-left" style="width: 40%">Tarif</th>
+                    <th class="text-left" style="width: 40%">Tarif ( en {{ fournisseur.devise }} )</th>
 
                 </tr>
                 </thead>

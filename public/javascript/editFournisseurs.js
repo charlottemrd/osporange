@@ -114,6 +114,7 @@ $(document).ready(function () {
             if(stepDirection == "2") //here is the final step: Note: 0,1,2
             {
                 $('.sw-btn-group-extra').removeClass('d-none');
+
             }
             else
             {

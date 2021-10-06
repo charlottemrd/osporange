@@ -52,6 +52,11 @@ class Fournisseur
      */
     private $projets;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $devise;
+
     public function __construct()
     {
         $this->profils = new ArrayCollection();
@@ -174,6 +179,18 @@ class Fournisseur
     public function __toString()
     {
         return $this->getName();
+    }
+
+    public function getDevise(): ?string
+    {
+        return $this->devise;
+    }
+
+    public function setDevise(?string $devise): self
+    {
+        $this->devise = $devise;
+
+        return $this;
     }
 
 

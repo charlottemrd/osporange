@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\CallbackValidator;
 
@@ -20,6 +21,10 @@ class FournisseurType extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('devise',TextType::class,['required'=>true,
+                'attr' => [
+                'class' => 'fournisseur_devise'
+                    ]])
             ->add('adress')
             ->add('mail')
             ->add('phone')

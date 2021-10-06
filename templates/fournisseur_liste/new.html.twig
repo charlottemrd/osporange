@@ -119,6 +119,13 @@
                             </th>
                         </tr>
                         <tr>
+                            <th> {{ form_label(form, 'Devise *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.devise, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                        <tr>
                             <th> {{ form_label(form, 'Numéro de téléphone', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th>{{ form_widget(form.phone, {
@@ -145,7 +152,8 @@
 
 
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-
+                    <br>
+                    <p id="profildevise"></p>
                     {% macro information_prototype(profil) %}
                         <br>
                        <table>

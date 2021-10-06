@@ -2,6 +2,9 @@
 
 $(document).ready(function () {
 
+
+
+
     var $collectionHolder;
     var $boutonAjouter = $('<button type="button" className="btn-toolbar add_profil_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un profil</button>');
     var $nouveau = $('<li></li>').append($boutonAjouter )
@@ -110,6 +113,7 @@ $(document).ready(function () {
     if ($('#myForm').valid()) {
     if(stepDirection == "2") //here is the final step: Note: 0,1,2
 {
+
     $('.sw-btn-group-extra').removeClass('d-none');
 }
     else
@@ -124,6 +128,9 @@ $(document).ready(function () {
     return true;
 
 })
+    $('.fournisseur_devise').change(function (){
+        document.getElementById('profildevise').innerText='Profils du fournisseur en ' + document.getElementById('fournisseur_devise').value+ ' :';
+    });
 
 
 })

@@ -119,6 +119,17 @@
                                 ) }}
                             </th>
                         </tr>
+                        <tr style="border-color: white">
+                            <th>
+
+                                {{ form_label(form, 'Devise *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>
+                                {{ form_widget(form.devise, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                        </tr>
                         <tr>
                             <th> {{ form_label(form, 'Numéro de téléphone', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -187,7 +198,7 @@
 
 
                     <ul class="profils" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.profils.vars.prototype)|e }}">
-
+                        <p id="profildevise">Profils du fournisseur en : {{ fournisseur.devise }}</p>
                       {% for profilField in form.profils %}
 
                             <li>
@@ -252,7 +263,12 @@
 
 
     <script src="{{ asset('javascript/editFournisseurs.js') }}"></script>
+    <script>
+        $('.fournisseur_devise').change(function (){
 
+            document.getElementById('profildevise').innerText='Profils du fournisseur en ' + document.getElementById('fournisseur_devise').value+ ' :';
+        });
+    </script>
 
 
 {% endblock  %}
