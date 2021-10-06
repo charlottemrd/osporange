@@ -266,8 +266,8 @@
                         </tbody>
                     </table>
                     <br>
-                        <p id="price"></p>
-                        <p id="messageerrorprix"></p>
+                    <p id="price"></p>
+                    <p id="messageerrorprix"></p>
 
 
                 </div>
@@ -406,20 +406,22 @@
 
 */
             //for(cout in couts) {
-               // alert(document.getElementById('phasec_couts_0_nombreprofil').value);//for the First Element
+            // alert(document.getElementById('phasec_couts_0_nombreprofil').value);//for the First Element
 
-           // }
+            // }
 
 
 
 
             var tarifs=new Array();
+            var tarifsname=new Array();
             {% for cout in couts %}
-                tarifs.push({{ cout.tarif }});
+            tarifs.push({{ cout.tarif }});
+            tarifsname.push('{{ cout.name }}');
             {% endfor %}
             //
 
-           // <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
+            // <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
 
             //alert(prix);
             var prix=0;
@@ -743,13 +745,14 @@
 
                 //pri
 
+
                 if (stepnumber==3) {
 
                     for (var i = 0; i < tarifs.length; i++) {
                         if((document.getElementById('phasec_couts_' + [i] + '_nombreprofil').value)<0){
 
                             isStepValid = false;
-                            document.getElementById('messageerrorprix').innerText='La valeur des  profils ne peut pas être négative, '+ document.getElementById('phasec_couts_' + [i] + '_nombreprofil').value + ' est une valeur incorrecte';
+                            document.getElementById('messageerrorprix').innerText='La valeur du profil '+ tarifsname[i] + ' est  incorrecte ; '+ document.getElementById('phasec_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
                             break;
                         }
                         else {

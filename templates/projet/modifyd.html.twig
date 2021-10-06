@@ -487,7 +487,7 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
-                       {% macro information_prototype(modalite) %}
+                        {% macro information_prototype(modalite) %}
 
                             <br>
                             <table>
@@ -533,55 +533,55 @@
                             </table>
                             <br>
                         {% endmacro %}
-                    <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
+                        <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
 
-                    {% for modaliteField in form.modalites %}
-                            <li>
-                                <table>
-                                    <tr>
-                                        <p>Jalon</p>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            {{ form_label(modaliteField.conditions, 'Condition *', {
-                                                'label_attr': {'class': 'input-group-text'}}) }}
-                                        </th>
-                                        <th>
-                                            {{ form_widget(modaliteField.conditions, {
-                                                'label_attr': {'class': 'form_control'}}
-                                            ) }}
-                                        </th>
+                            {% for modaliteField in form.modalites %}
+                                <li>
+                                    <table>
+                                        <tr>
+                                            <p>Jalon</p>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                {{ form_label(modaliteField.conditions, 'Condition *', {
+                                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.conditions, {
+                                                    'label_attr': {'class': 'form_control'}}
+                                                ) }}
+                                            </th>
 
-                                    </tr>
+                                        </tr>
 
-                                    <tr>
-                                        <th>
-                                            <div id="addressList">
-                                                {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
-                                                    'label_attr': {'class': 'input-group-text'}}) }}</div>
-                                        </th>
-                                        <th>
-                                            {{ form_widget(modaliteField.pourcentage, {
-                                                'label_attr': {'class': 'form_control'}}
-                                            ) }}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>
-                                            {{ form_label(modaliteField.description, 'Commentaire', {
-                                                'label_attr': {'class': 'input-group-text'}}) }}
-                                        </th>
-                                        <th>
-                                            {{ form_widget(modaliteField.description, {
-                                                'label_attr': {'class': 'form_control'}}
-                                            ) }}
-                                        </th>
-                                    </tr>
-                                </table>
-                                <br>
-                            </li>
-                        {% endfor %}
-                    </ul>
+                                        <tr>
+                                            <th>
+                                                <div id="addressList">
+                                                    {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
+                                                        'label_attr': {'class': 'input-group-text'}}) }}</div>
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.pourcentage, {
+                                                    'label_attr': {'class': 'form_control'}}
+                                                ) }}
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                {{ form_label(modaliteField.description, 'Commentaire', {
+                                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.description, {
+                                                    'label_attr': {'class': 'form_control'}}
+                                                ) }}
+                                            </th>
+                                        </tr>
+                                    </table>
+                                    <br>
+                                </li>
+                            {% endfor %}
+                        </ul>
 
 
                     {%endif %}
@@ -665,15 +665,17 @@
                 });
 
             var tarifs=new Array();
+            var tarifsname=new Array();
             {% for cout in couts %}
             tarifs.push({{ cout.tarif }});
+            tarifsname.push('{{ cout.name }}');
             {% endfor %}
             var prixav=0;
             for (j=0;j<tarifs.length;j++){
                 prixav=prixav+((document.getElementById('modifyd_couts_'+[j]+'_nombreprofil').value)*tarifs[j]);
                 //nb.push(document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value);
             }
-            document.getElementById('price').innerText='Le prix du projet est '+ prixav+'{{ fournisseur.devise }}';
+            document.getElementById('price').innerText='Le prix du projet est de'+ prixav+'{{ fournisseur.devise }}';
 
 
 
@@ -777,7 +779,7 @@
                         if((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value)<0){
 
                             isStepValid = false;
-                            document.getElementById('messageerrorprix').innerText='La valeur des  profils ne peut pas être négative, '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur incorrecte';
+                            document.getElementById('messageerrorprix').innerText='La valeur du profil '+ tarifsname[i] + ' est  incorrecte ; '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
                             break;
                         }
                         else {
