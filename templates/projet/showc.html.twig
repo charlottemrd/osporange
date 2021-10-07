@@ -137,6 +137,22 @@
                             <input   type="text" class="form-control" placeholder="{{ projet.reference }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
+                    {%if projet.datecrea!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Date de création</span>
+                            </div>
+                            <input   type="text" class="form-control" placeholder="{{ projet.datecrea |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.datemaj!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Date de maj</span>
+                            </div>
+                            <input   type="text" class="form-control" placeholder="{{ projet.datemaj |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
                     {%if projet.user!=null %}
                         <div class="input-group mb-3" style="width: 50%">
                             <div class="input-group-prepend " style="width: 40%">
