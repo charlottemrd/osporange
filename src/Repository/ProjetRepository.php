@@ -99,6 +99,36 @@ class ProjetRepository extends ServiceEntityRepository
     }
 
 
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Projet[]
+     */
+    public function findexportSearch(User $user) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('o');
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+
+
+            $user=$user->getId();
+            $query = $query
+                ->andWhere('o.user =:user')
+                ->setParameter('user', $user);
+        }
+
+
+
+
+
+
+        return $query->getQuery()->getResult();
+
+    }
+
+
     /**
      * Récupère les produits en lien avec une recherche
      * @return Projet[]

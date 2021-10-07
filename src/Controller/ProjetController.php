@@ -247,6 +247,8 @@ class ProjetController extends AbstractController
 
     }
 
+
+
     #[Route('/{id}/edit', name: 'projet_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
