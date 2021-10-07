@@ -420,34 +420,27 @@
 
 
                 </div>
-
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-
-
-                    {% macro information_prototype(commentaire) %}
+                    {% macro information_myprototype(commentaire) %}
 
                         <br>
                         <table>
                             <tr>
-                                <th width="15%">
-                                    {{ form_label(commentaire.description, 'Commentaire *', {
+                                <th>
+                                    {{ form_label(commentaire.description, 'Condition *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
-                                <th width="60%">
+                                <th>
                                     {{ form_widget(commentaire.description, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th  width="50%" style="padding-left: 1%"><label id="projet_commentaire-error" class="error" for="projet_commentaire"></label></th>
-
                             </tr>
 
                         </table>
                         <br>
                     {% endmacro %}
-
-
-                    <ul class="commentaires" style="list-style-type: none;" data-prototype="{{ _self.information_prototype(form.commentaires.vars.prototype)|e }}">
+                    <ul  class="commentaires" style="list-style-type: none;" data-prototype="  {{ _self.information_myprototype(form.commentaires.vars.prototype)|e }}">
                     </ul>
 
                 </div>
@@ -765,6 +758,10 @@
             var $boutonAjouter = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un jalon</button>');
             var $nouveau = $('<li></li>').append($boutonAjouter )
             ;
+            var $collectionHolderCom;
+            var $boutonAjouterCom = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey"> Ajouter un commentaire</button>');
+            var $nouveauCom = $('<li></li>').append($boutonAjouterCom);
+
             jQuery(document).ready(function () {$collectionHolder = $('ul.modalites');
                 $collectionHolder.find('li').each(function () {
                     addModaliteFormDeleteLink($(this));
@@ -795,6 +792,40 @@
                 }
 
 
+                jQuery(document).ready(function () {
+                    $collectionHolderCom = $('ul.commentaires');
+                    $collectionHolderCom.find('li').each(function () {
+                        addCommentaireFormDeleteLinkCom($(this));
+                    });
+                    $collectionHolderCom.append($nouveauCom);
+                    $collectionHolderCom.data('index', $collectionHolderCom.find('input').length);
+                    $boutonAjouterCom.on('click', function (e) {
+                        addCommentaireFormCom($collectionHolderCom, $nouveauCom);
+                    });
+
+
+                    function addCommentaireFormCom($collectionHolderCom, $newLinkLiCom) {
+                        var prototype = $collectionHolderCom.data('prototype');
+                        var index = $collectionHolderCom.data('index');
+                        var newFormCom = prototype;
+                        newFormCom = newFormCom.replace(/__name__/g, index);
+                        $collectionHolderCom.data('index', index + 1);
+                        var $newFormLiCom = $('<li></li>').append(newFormCom);
+                        $newLinkLiCom.before($newFormLiCom);
+                        addCommentaireFormDeleteLinkCom($newFormLiCom);
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                    }
+                    function addCommentaireFormDeleteLinkCom($tagFormLiCom) {
+                        var $removeFormButtonCom = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le commentaire</button>');
+                        $tagFormLiCom.append($removeFormButtonCom);
+                        $removeFormButtonCom.on('click', function (e) {
+                            $tagFormLiCom.remove();
+                        });
+                    }
+                });
+
+
 
 
                 $('.projet_paiement').change(function() {
@@ -818,43 +849,6 @@
 
             })
             ;
-
-
-            var $collectionHolderCom;
-            var $boutonAjouterCom = $('<button type="button" className="btn-toolbar add_modalite_link sm btn btn-sm text-black"style="background-color: lightgrey"> Ajouter un commentaire</button>');
-            var $nouveauCom = $('<li></li>').append($boutonAjouterCom);
-            jQuery(document).ready(function () {
-                $collectionHolderCom = $('ul.commentaires');
-                $collectionHolderCom.find('li').each(function () {
-                    addCommentaireFormDeleteLinkCom($(this));
-                });
-                $collectionHolderCom.append($nouveauCom);
-                $collectionHolderCom.data('index', $collectionHolderCom.find('input').length);
-                $boutonAjouterCom.on('click', function (e) {
-                    addCommentaireFormCom($collectionHolderCom, $nouveauCom);
-                });
-
-
-                function addCommentaireFormCom($collectionHolderCom, $newLinkLiCom) {
-                    var prototype = $collectionHolderCom.data('prototype');
-                    var index = $collectionHolderCom.data('index');
-                    var newFormCom = prototype;
-                    newFormCom = newFormCom.replace(/__name__/g, index);
-                    $collectionHolderCom.data('index', index + 1);
-                    var $newFormLiCom = $('<li></li>').append(newFormCom);
-                    $newLinkLiCom.before($newFormLiCom);
-                    addCommentaireFormDeleteLinkCom($newFormLiCom);
-                    document.getElementById('smartwizard').style.height = "200%";
-                    document.getElementById('tab-content').style.height = "200%";
-                }
-                function addCommentaireFormDeleteLinkCom($tagFormLiCom) {
-                    var $removeFormButtonCom = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le commentaire</button>');
-                    $tagFormLiCom.append($removeFormButtonCom);
-                    $removeFormButtonCom.on('click', function (e) {
-                        $tagFormLiCom.remove();
-                    });
-                }
-            });
 
 
 
@@ -945,7 +939,7 @@
                     if ((document.getElementById('projet_Phase').value == 6)) {
 
 
-                       if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date1').value)){
+                        if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value > document.getElementById('projet_date1').value)){
                             isStepValid = false;
                             document.getElementById('messerror1').innerHTML = 'La date T-1 est programmée après la date T1';
                         }
@@ -986,7 +980,7 @@
                             document.getElementById('messerror1').innerHTML = 'La date T2 est programmée après la date T3';
                         }
 
-                       else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value === document.getElementById('projet_date1').value)){
+                        else if ((document.getElementById('projet_datel1').value != null) && (document.getElementById('projet_date1').value != null) && (document.getElementById('projet_datel1').value === document.getElementById('projet_date1').value)){
                             isStepValid = false;
                             document.getElementById('messerror1').innerHTML = 'La date T-1 est programmée en même temps que la date T1';
                         }
@@ -1049,9 +1043,9 @@
                                     break
                                 }
                                 else if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) > 100) {
-                                  document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
-                                  isStepValid=false;
-                                  break
+                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                                    isStepValid=false;
+                                    break
                                 } else {
                                     document.getElementById('tauxerror').innerText='';
                                     isStepValid=true;
@@ -1063,7 +1057,7 @@
 
                     }
 
-                        }//endif step 3
+                }//endif step 3
 
 
                 return isStepValid;

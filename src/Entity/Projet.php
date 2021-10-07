@@ -195,7 +195,7 @@ class Projet
     private $datereel3;
 
     /**
-     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="projet", orphanRemoval=true, cascade={"persist"})
      */
     private $commentaires;
 
@@ -795,7 +795,10 @@ class Projet
 
         return $this;
     }
-
+    public function __toString()
+    {
+        return $this->getReference();
+    }
 
 
 

@@ -18,7 +18,7 @@ class Commentaire
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
@@ -29,6 +29,7 @@ class Commentaire
 
     /**
      * @ORM\ManyToOne(targetEntity=Projet::class, inversedBy="commentaires")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $projet;
 
@@ -42,7 +43,7 @@ class Commentaire
         return $this->description;
     }
 
-    public function setDescription(?string $description): self
+    public function setDescription(string $description): self
     {
         $this->description = $description;
 
@@ -71,5 +72,9 @@ class Commentaire
         $this->projet = $projet;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->getDescription();
     }
 }

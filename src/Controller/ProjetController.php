@@ -130,7 +130,12 @@ class ProjetController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $projet->setHighestphase($projet->getPhase()->getRang());
-
+            $com=$projet->getCommentaires();
+            foreach ($com as $c){
+                if ($c->getDate()==null){
+                    $c->setDate(new \DateTime());
+                }
+            }
 
             //to change after
                 $fournisseur=$projet->getFournisseur();
@@ -151,12 +156,7 @@ class ProjetController extends AbstractController
                 }
 
 
-            $com=$projet->getCommentaires();
-            foreach ($com as $c){
-                if ($c->getDescription()==null){
-                    $c->setDate(new \DateTime());
-                }
-            }
+
 
 
 
@@ -257,6 +257,13 @@ class ProjetController extends AbstractController
 
 
             if ($form->isSubmitted() && $form->isValid()) {
+
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
 
                 $projet->setDatemaj(new \DateTime());
 
@@ -515,10 +522,20 @@ class ProjetController extends AbstractController
 
 
             if ($form->isSubmitted() && $form->isValid()) {
-                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
-                    $projet->setHighestphase($projet->getPhase()->getRang());}
-
                 $projet->setDatemaj(new \DateTime());
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
+                if($projet->getHighestphase()<$projet->getPhase()->getRang())
+                {
+                    $projet->setHighestphase($projet->getPhase()->getRang());
+                }
+
+
+
 
                 $this->getDoctrine()->getManager()->flush();
 
@@ -529,6 +546,7 @@ class ProjetController extends AbstractController
             'projet' => $projet,
             'form' => $form,
             'couts' => $projet->getFournisseur()->getProfils(),
+
         ]);
         }
 
