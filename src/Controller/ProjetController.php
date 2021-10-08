@@ -10,6 +10,7 @@ use App\Entity\DateZero;
 use App\Entity\Fournisseur;
 use App\Entity\Profil;
 use App\Entity\Projet;
+use App\Form\FicheliaisonType;
 use App\Form\ModifyaType;
 use App\Form\ModifybType;
 use App\Form\ModifycType;
@@ -26,6 +27,7 @@ use App\Form\SearchType;
 use App\Form\PhaseaType;
 use App\Form\PhasebType;
 use App\Entity\SearchData;
+use App\Repository\FournisseurRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
@@ -42,10 +44,15 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use TCPDF;
 
+
+use \setasign\Fpdi\FpdfTpl;
 #[Route('/projet')]
 class ProjetController extends AbstractController
 {
+
+
     #[Route('/', name: 'projet_index', methods: ['GET'])]
     public function index(ProjetRepository $projetRepository,Request $request)
     {
@@ -138,22 +145,22 @@ class ProjetController extends AbstractController
             }
 
             //to change after
-                $fournisseur=$projet->getFournisseur();
-                $profils=$fournisseur->getProfils();
-                foreach ($profils as $p){
-                    $cout= new Cout();
-                    $cout->setProfil($p);
-                    $cout->setNombreprofil(0);
-                    $cout->setProjet($projet);
-                    $projet->getCouts()->add($cout);
-                }
+            $fournisseur=$projet->getFournisseur();
+            $profils=$fournisseur->getProfils();
+            foreach ($profils as $p){
+                $cout= new Cout();
+                $cout->setProfil($p);
+                $cout->setNombreprofil(0);
+                $cout->setProjet($projet);
+                $projet->getCouts()->add($cout);
+            }
 
-                $mod=$projet->getModalites();
-                foreach ($mod as $m){
-                    if ($m->getConditionsatisfield()==null){
-                        $m->setConditionsatisfield(false);
-                    }
+            $mod=$projet->getModalites();
+            foreach ($mod as $m){
+                if ($m->getConditionsatisfield()==null){
+                    $m->setConditionsatisfield(false);
                 }
+            }
 
 
 
@@ -231,17 +238,17 @@ class ProjetController extends AbstractController
         }
         else
         {return $this->render('projet/showe.html.twig', [
-                'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
-                'couts'=>$projet->getCouts(),
-                'modalites'=>$projet->getModalites(),
-                'profils' => $projet->getFournisseur()->getProfils(),
+            'projet' => $projet,
+            'date_lones'=>$projet->getDateLones(),
+            'date_zeros'=>$projet->getDateZeros(),
+            'date_one_pluses'=>$projet->getDateOnePluses(),
+            'date_twos'=>$projet->getDateTwos(),
+            'data_troises'=>$projet->getDataTrois(),
+            'couts'=>$projet->getCouts(),
+            'modalites'=>$projet->getModalites(),
+            'profils' => $projet->getFournisseur()->getProfils(),
             'fournisseur'=>$projet->getFournisseur(),
-            ]);
+        ]);
         }
 
 
@@ -544,12 +551,12 @@ class ProjetController extends AbstractController
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
-        return $this->renderForm('projet/phasea.html.twig', [
-            'projet' => $projet,
-            'form' => $form,
-            'couts' => $projet->getFournisseur()->getProfils(),
+            return $this->renderForm('projet/phasea.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
 
-        ]);
+            ]);
         }
 
         else if($projet->getPhase()->getId()==4) { //phase actuelle= cadrage
@@ -577,9 +584,9 @@ class ProjetController extends AbstractController
 
 
 
-            $this->getDoctrine()->getManager()->flush();
-            $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
-            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
             return $this->renderForm('projet/phaseb.html.twig', [
                 'projet' => $projet,
@@ -804,4 +811,151 @@ class ProjetController extends AbstractController
 
         return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
+    #[Route('/{id}/fichefl', name: 'projet_fichefl', methods: ['GET', 'POST'])]
+    public function ficheliaison(Request $request, Projet $projet, FournisseurRepository $fournisseurRepository): Response
+    {
+        $form = $this->createForm(FicheliaisonType::class, $projet);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $referencefl = $form->get('reference')->getData();
+            $prioritefl = $form->get('priorite')->getName();
+            $dateemisfl = $form->get('dateemis')->getData();
+            $emetteurfl = $form->get('emetteur')->getData();
+            $sujetfl = $form->get('sujet')->getData();
+            $descriptionfl = $form->get('description')->getData();
+            $piecejointesfl = $form->get('piecejointes')->getData();
+
+            //$html = $this->render('fournisseur_liste/index.html.twig', [
+               // 'fournisseurs' => $fournisseurRepository->findAll(),
+           // ]);
+
+
+
+            // create new PDF document
+            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+            $pdf->SetTitle('Fiche de liaison');
+            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+            $pdf->SetMargins(PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+            $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM,PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+            $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+            $pdf->setPrintHeader(false);
+            $pdf->setPrintFooter(false);
+            $pdf->SetFont('dejavusans', '', 10);
+            $pdf->AddPage();
+            $html =
+             //   '
+            //<img src="/photo/entetefichefl.png" alt="test alt attribute"  >';
+            $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
+            $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
+            $pdf->writeHTMLCell(150,0,30,30,'<div style="border: red solid 2px" ><p>Référence (FL_CP_aaaammjj_nn)  :  '.$referencefl.'</p>
+           <table cellspacing="0" cellpadding="0" border="1">
+    <tr>
+        
+        <td colspan="2" style="text-align: center;">Entité émettrice</td>
+      
+    </tr>
+    <tr>
+        <td rowspan="1">
+        <p>Date d\'émission </p>
+        <br />text line<br />text line<br />text line<br />text line</td>
+         <td rowspan="1">COL 3 - ROW 2<br />text line<br />text line</td>
+    </tr>
+
+</table>
+
+
+
+</div> ');
+
+
+
+            //$pdf->Cell(0, 5,$pdf->Image('photo/entetefichefl.png', '0', '0', 220, 30, '', '', '', false, 300, '', false, false, 1, false, false, false));
+
+            //$pdf->Ln(6);
+            //$pdf->RadioButton('drink',  array(), array(), 'Milk');
+            //$pdf->Cell('Milk');
+
+
+
+/*
+<div style="border: red 2px solid;margin-left: 25%;margin-right: 25%">
+<p>Référence (FL_CP_aaaammjj_nn) :'.$referencefl.'</p>
+
+
+</div>
+';*/
+
+// output the HTML content
+
+
+
+            $html = <<<EOF
+
+EOF;
+
+// output the HTML content
+            $pdf->writeHTML($html, true, false, true, false, '');
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// reset pointer to the last page
+            $pdf->lastPage();
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+            $pdf->Output('example_006.pdf', 'I');
+
+//============================================================+
+// END OF FILE
+//============================================================+
+
+        }
+
+        /* return new Response( $this->snappy->getOutputFromHtml($html), 200, array(
+          'Content-Type'          => 'application/pdf',
+  'Content-Disposition'   => 'inline; filename="export.pdf"'
+)*/
+
+
+
+        /* return $this->render('projet_index', [
+             'referencefl'=>$referencefl,
+             'prioritefl'=>$prioritefl,
+             'dateemis'=>$dateemisfl,
+             'emetteurfl'=>$emetteurfl,
+             'sujetfl'=>$sujetfl,
+             'descriptionfl'=>$descriptionfl,
+             'piecejointesfl'=>$piecejointesfl,
+         ]);*/
+
+
+        return $this->renderForm('projet/fichefl.html.twig', [
+            'projet' => $projet,
+            'form' => $form,
+        ]);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

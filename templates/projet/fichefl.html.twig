@@ -1,0 +1,226 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     <style>
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+        input,select,textarea{
+            width: 120%;
+        }
+
+
+
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Fiche de liaison du projet : {{ projet.reference }}</h1>
+        <br>
+
+        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
+        <div style="display:flex;justify-content:center">
+<table>
+        <tr>
+            <th> {{ form_label(form, 'Référence de fiche de liaison *', {
+                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.reference, {
+                    'label_attr': {'class': 'form_control'}}
+                ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_reference-error" class="error" for="fichefl_reference"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Date d\'émission *', {
+                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.dateemis, {
+                    'label_attr': {'class': 'form_control'}}
+                ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_dateemis-error" class="error" for="fichefl_dateemis"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Priorité *', {
+                'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.priorite, {
+                'label_attr': {'class': 'form_control'}}
+            ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_priorite-error" class="error" for="fichefl_priorite"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Emetteur *', {
+                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.emetteur, {
+                    'label_attr': {'class': 'form_control'}}
+                ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_emetteur-error" class="error" for="fichefl_emetteur"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Sujet *', {
+                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.sujet, {
+                    'label_attr': {'class': 'form_control'}}
+                ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_sujet-error" class="error" for="fichefl_sujet"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Description *', {
+                'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.description, {
+                'label_attr': {'class': 'form_control'}}
+            ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_piecejointes-error" class="error" for="fichefl_piecejointes"></label></th>
+        </tr>
+    <br>
+        <tr>
+            <th> {{ form_label(form, 'Pièces jointes', {
+                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+            <th>{{ form_widget(form.piecejointes, {
+                    'label_attr': {'class': 'form_control'}}
+                ) }}</th>
+            <th style="padding-left: 1%"><label id="fichefl_piecejointes-error" class="error" for="fichefl_piecejointes"></label></th>
+        </tr>
+
+
+</table>
+    </div>
+        <div style="display:flex;justify-content:center">
+            <button id="btnFinish" class="btn-toolbar btn btn-lg text-black " style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Editer</button>
+        </div>
+        {{ form_end(form) }}
+
+
+
+
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
+            .on('click', function(){
+
+
+                onsubmit();
+
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+{% endblock  %}
