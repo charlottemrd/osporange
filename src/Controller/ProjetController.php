@@ -830,56 +830,63 @@ class ProjetController extends AbstractController
             $sujetfl = $form->get('sujet')->getData();
             $descriptionfl = $form->get('description')->getData();
             $piecejointesfl = $form->get('piecejointes')->getData();
+            try {
+                $this->createfl($referencefl, $prioritefl, $dateemisfl, $emetteurfl, $sujetfl, $descriptionfl, $piecejointesfl);
+            }
+            catch (IOException $exception){}
 
-            //$html = $this->render('fournisseur_liste/index.html.twig', [
-            // 'fournisseurs' => $fournisseurRepository->findAll(),
-            // ]);
+        }
+        return $this->renderForm('projet/fichefl.html.twig', [
+            'projet' => $projet,
+            'form' => $form,
+        ]);
+    }
 
+    function createfl($referencefl,$prioritefl,$dateemisfl,$emetteurfl,$sujetfl,$descriptionfl,$piecejointesfl){
 
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetTitle('Fiche de liaison');
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $pdf->SetMargins(PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM,PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetFont('dejavusans', '', 10);
+        $pdf->AddPage();
 
-            // create new PDF document
-            $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
-            $pdf->SetTitle('Fiche de liaison');
-            $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-            $pdf->SetMargins(PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
-            $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM,PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
-            $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-            $pdf->setPrintHeader(false);
-            $pdf->setPrintFooter(false);
-            $pdf->SetFont('dejavusans', '', 10);
-            $pdf->AddPage();
-
-            $tbl ='';
-            $tbl='<div style="border: red solid 2px" ><p>Référence (FL_CP_aaaammjj_nn)   :  '.$referencefl.'</p>
+        $tbl ='';
+        $tbl='<p>Référence (FL_CP_aaaammjj_nn)   :  '.$referencefl.'</p>
            <table cellspacing="0" cellpadding="0" border="0" >
          <tr>
-           <td colspan="2"  style="border-top: black solid 1px;" >
+           <td colspan="2"  style=" background-color: lightgrey;border-top: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
         </td>
         </tr>
     <tr>
         
-        <td colspan="2" style="text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p>ENTITE EMETTRICE</p></td>
+        <td colspan="2" style=" background-color: lightgrey; text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p style="font-weight: bold">ENTITE EMETTRICE</p></td>
     </tr>
     
       <tr>
-      <td colspan="2"  style="border-bottom: black solid 1px;" >
+      <td colspan="2"  style=" background-color: lightgrey;border-bottom: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
         </td>
       
     </tr>
     
     <tr>
-   <td colspan="2" >
+   <td colspan="2" style="border-right: black solid 1px; border-left: black solid 1px">
       
 </td>
     </tr>
     
     <tr>
-        <td >
+        <td style="border-left: black solid 1px">
      
        Date d\'émission : '.$dateemisfl.' </td>';
 
-            if ($prioritefl=='1') {
-                $tbl.='<td >
+        if ($prioritefl=='1') {
+            $tbl.='<td style="border-right: black solid 1px" >
 <br />
 Priorité:
                 <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
@@ -893,9 +900,9 @@ Priorité:
 
 '; }
 
-            else if ($prioritefl=='2') {
+        else if ($prioritefl=='2') {
 
-                $tbl.='<td >
+            $tbl.='<td style="border-right: black solid 1px" >
 <br />
 Priorité:
                 <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
@@ -904,9 +911,9 @@ Priorité:
                 </td>
 '; }
 
-            else{
+        else{
 
-                $tbl.='<td rowspan="1">
+            $tbl.='<td  style="border-right: black solid 1px">
 Priorité:
                 <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
                 <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
@@ -914,150 +921,163 @@ Priorité:
                 </td>
 '; }
 
-            $tbl.= '</tr>
+        $tbl.= '</tr>
 <tr  >
- <td colspan="2" style="text-align: left;">
-        Emetteur : '.$emetteurfl.'<br /></td>
+<td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
+       
+        Emetteur : &nbsp; &nbsp; &thinsp; &thinsp; 
+        '.$emetteurfl.'<br /></td>
  </tr>
  <tr>
-  <td colspan="2" style="text-align: left;">
-        Sujet : '.$sujetfl.'<br /></td>
+  <td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
+        Sujet : &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &thinsp;
+        '.$sujetfl.'<br /></td>
  </tr>
  
   <tr>
-  <td colspan="2" style="text-align: left;">
-        Description : '.$descriptionfl.' <br /></td>
+ <td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
+       
+        Description : &nbsp; &nbsp; 
+        '.$descriptionfl.' <br /></td>
  </tr>
  
   <tr>
-  <td colspan="2" style="text-align: left;">
-        Pièces jointes : '.$piecejointesfl.' <br /></td>
+  <td colspan="2"  style="border-bottom: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
+       
+         Pièces jointes : 
+        '.$piecejointesfl.' <br /></td>
  </tr>
  
 </table>
-<br>
+
+<table cellspacing="0" cellpadding="0" border="0" >
+         <tr>
+           <td colspan="2"  >
+        </td>
+        </tr>
+         <tr>
+           <td colspan="2"   >
+        </td>
+        </tr>
+         <tr>
+           <td colspan="2" >
+        </td>
+        </tr>
+</table>
+
+
+
 <form method="post" action="http://localhost/printvars.php" >
-<table cellspacing="0" cellpadding="0" border="1" >
+<table cellspacing="0" cellpadding="0" border="0" >
+   <tr>
+           <td colspan="2"  style=" background-color: lightgrey;border-top: black solid 1px;border-left: black solid 1px;border-right: black solid 1px;" >
+        </td>
+        </tr>
     <tr>
         
-        <td colspan="2" style="text-align: center;"><p>ENTITE RECEPTRICE</p></td>
-      
+        <td colspan="2" style=" background-color: lightgrey;text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p style="font-weight: bold">ENTITE RECEPTRICE</p></td>
     </tr>
     
+      <tr>
+      <td colspan="2"  style=" background-color: lightgrey;border-left: black solid 1px;border-right: black solid 1px;" >
+        </td>
+      
+    </tr>
+     <tr>
+   <td colspan="2" style="border-left: black solid 1px;border-right: black solid 1px;border-top: black solid 1px">
+      
+</td>
+    </tr>
     <tr  >
- <td colspan="2" style="text-align: left;">
-<label for="name">Date de réception :</label> <input type="text" name="name" value="" size="6" maxlength="6" />/<input type="text" name="name2" value="" size="6" maxlength="6" />/<input type="text" name="name3" value="" size="6" maxlength="6" /><br />
+ <td colspan="2" style="text-align: left;border-left: black solid 1px;border-right: black solid 1px;">
+<label for="name">
+        Date de réception :</label> <input type="text" name="name" value="" size="6" maxlength="6" />/<input type="text" name="name2" value="" size="6" maxlength="6" />/<input type="text" name="name3" value="" size="6" maxlength="6" /><br />
 
 </td>
  </tr>
  <tr >
- <td colspan="2" rowspan="1" style="text-align: left;">
-<label for="name">Récepteur:</label> <textarea cols="40" rows="1"name="name4" value="" /><br />
+ <td colspan="2" rowspan="1" style="text-align: left;border-left: black solid 1px;border-right: black solid 1px;">
+<label for="name">
+        Récepteur:</label> <textarea cols="40" rows="1"name="name0" value="" /><br />
 </td>
  </tr>
   <tr >
- <td colspan="2" rowspan="1" style="text-align: left;">
-<label for="name">Réponse:</label> <textarea cols="40" rows="1"name="name7" value="" /><br />
+ <td colspan="2" rowspan="4" style="text-align: left;border-left: black solid 1px;border-bottom:  black solid 1px;border-right: black solid 1px;">
+<label for="name">
+        Réponse:&nbsp;&nbsp;&nbsp;</label> <textarea cols="40" rows="3"name="name7" value="" /><br />
 </td>
  </tr>
- 
+ <tr >
+ <td >
+</td>
+ </tr>
+  <tr >
+ <td >
+</td>
+ </tr>
  
 
 
  
 </table>
+
+
+<table cellspacing="0" cellpadding="0" border="0" >
+         <tr>
+           <td colspan="2"  >
+        </td>
+        </tr>
+         <tr>
+           <td colspan="2"   >
+        </td>
+        </tr>
+         <tr>
+           <td colspan="1" >
+            </td>
+             <td colspan="1" style="text-align: right" >
+             <p style="font-size: 10px;">Signature du récepteur</p>
+            </td>
+        </tr>
+</table>
+
+
  </form>
- </div>';
+ ';
 
 
 
 
-            $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
-            $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
-            $pdf->writeHTMLCell(150,0,30,30,$tbl);
+        $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
+        $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
+        $pdf->writeHTMLCell(150,0,30,30,$tbl);
 
 
 
-            //$pdf->Cell(0, 5,$pdf->Image('photo/entetefichefl.png', '0', '0', 220, 30, '', '', '', false, 300, '', false, false, 1, false, false, false));
-
-            //$pdf->Ln(6);
-            //$pdf->RadioButton('drink',  array(), array(), 'Milk');
-            //$pdf->Cell('Milk');
 
 
 
-            /*
-            <div style="border: red 2px solid;margin-left: 25%;margin-right: 25%">
-            <p>Référence (FL_CP_aaaammjj_nn) :'.$referencefl.'</p>
-
-
-            </div>
-            ';*/
-
-// output the HTML content
-
-
-
-            $html = <<<EOF
+        $html = <<<EOF
 
 EOF;
 
 // output the HTML content
-            $pdf->writeHTML($html, true, false, true, false, '');
+        $pdf->writeHTML($html, true, false, true, false, '');
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // reset pointer to the last page
-            $pdf->lastPage();
+        $pdf->lastPage();
 
 // ---------------------------------------------------------
 
 //Close and output PDF document
-            $pdf->Output('example_006.pdf', 'I');
+        $namefl='';
+        $namefl="ficheliaison".$referencefl.".pdf";
+        //;
 
-//============================================================+
-// END OF FILE
-//============================================================+
+        $pdf->Output($namefl, 'D');
 
-        }
-
-        /* return new Response( $this->snappy->getOutputFromHtml($html), 200, array(
-          'Content-Type'          => 'application/pdf',
-  'Content-Disposition'   => 'inline; filename="export.pdf"'
-)*/
-
-
-
-        /* return $this->render('projet_index', [
-             'referencefl'=>$referencefl,
-             'prioritefl'=>$prioritefl,
-             'dateemis'=>$dateemisfl,
-             'emetteurfl'=>$emetteurfl,
-             'sujetfl'=>$sujetfl,
-             'descriptionfl'=>$descriptionfl,
-             'piecejointesfl'=>$piecejointesfl,
-         ]);*/
-
-
-        return $this->renderForm('projet/fichefl.html.twig', [
-            'projet' => $projet,
-            'form' => $form,
-        ]);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
