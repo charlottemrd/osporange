@@ -822,16 +822,18 @@ class ProjetController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $referencefl = $form->get('reference')->getData();
-            $prioritefl = $form->get('priorite')->getName();
-            $dateemisfl = $form->get('dateemis')->getData();
+            $prioritefl = $form->get('priorite')->getViewData();
+            $dateemise = $form->get('dateemis')->getViewData();
+            //$dateemisfl = 'vgh';
+            $dateemisfl=date("d/m/Y",strtotime($dateemise));
             $emetteurfl = $form->get('emetteur')->getData();
             $sujetfl = $form->get('sujet')->getData();
             $descriptionfl = $form->get('description')->getData();
             $piecejointesfl = $form->get('piecejointes')->getData();
 
             //$html = $this->render('fournisseur_liste/index.html.twig', [
-               // 'fournisseurs' => $fournisseurRepository->findAll(),
-           // ]);
+            // 'fournisseurs' => $fournisseurRepository->findAll(),
+            // ]);
 
 
 
@@ -846,30 +848,133 @@ class ProjetController extends AbstractController
             $pdf->setPrintFooter(false);
             $pdf->SetFont('dejavusans', '', 10);
             $pdf->AddPage();
-            $html =
-             //   '
-            //<img src="/photo/entetefichefl.png" alt="test alt attribute"  >';
-            $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
-            $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
-            $pdf->writeHTMLCell(150,0,30,30,'<div style="border: red solid 2px" ><p>Référence (FL_CP_aaaammjj_nn)  :  '.$referencefl.'</p>
-           <table cellspacing="0" cellpadding="0" border="1">
+
+            $tbl ='';
+            $tbl='<div style="border: red solid 2px" ><p>Référence (FL_CP_aaaammjj_nn)   :  '.$referencefl.'</p>
+           <table cellspacing="0" cellpadding="0" border="0" >
+         <tr>
+           <td colspan="2"  style="border-top: black solid 1px;" >
+        </td>
+        </tr>
     <tr>
         
-        <td colspan="2" style="text-align: center;">Entité émettrice</td>
+        <td colspan="2" style="text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p>ENTITE EMETTRICE</p></td>
+    </tr>
+    
+      <tr>
+      <td colspan="2"  style="border-bottom: black solid 1px;" >
+        </td>
       
     </tr>
+    
     <tr>
-        <td rowspan="1">
-        <p>Date d\'émission </p>
-        <br />text line<br />text line<br />text line<br />text line</td>
-         <td rowspan="1">COL 3 - ROW 2<br />text line<br />text line</td>
+   <td colspan="2" >
+      
+</td>
     </tr>
+    
+    <tr>
+        <td >
+     
+       Date d\'émission : '.$dateemisfl.' </td>';
 
+            if ($prioritefl=='1') {
+                $tbl.='<td >
+<br />
+Priorité:
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
+                <input type="checkbox" name="agree" value="0" disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
+                </td>
+
+
+
+
+
+'; }
+
+            else if ($prioritefl=='2') {
+
+                $tbl.='<td >
+<br />
+Priorité:
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
+                </td>
+'; }
+
+            else{
+
+                $tbl.='<td rowspan="1">
+Priorité:
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
+                </td>
+'; }
+
+            $tbl.= '</tr>
+<tr  >
+ <td colspan="2" style="text-align: left;">
+        Emetteur : '.$emetteurfl.'<br /></td>
+ </tr>
+ <tr>
+  <td colspan="2" style="text-align: left;">
+        Sujet : '.$sujetfl.'<br /></td>
+ </tr>
+ 
+  <tr>
+  <td colspan="2" style="text-align: left;">
+        Description : '.$descriptionfl.' <br /></td>
+ </tr>
+ 
+  <tr>
+  <td colspan="2" style="text-align: left;">
+        Pièces jointes : '.$piecejointesfl.' <br /></td>
+ </tr>
+ 
 </table>
+<br>
+<form method="post" action="http://localhost/printvars.php" >
+<table cellspacing="0" cellpadding="0" border="1" >
+    <tr>
+        
+        <td colspan="2" style="text-align: center;"><p>ENTITE RECEPTRICE</p></td>
+      
+    </tr>
+    
+    <tr  >
+ <td colspan="2" style="text-align: left;">
+<label for="name">Date de réception :</label> <input type="text" name="name" value="" size="6" maxlength="6" />/<input type="text" name="name2" value="" size="6" maxlength="6" />/<input type="text" name="name3" value="" size="6" maxlength="6" /><br />
+
+</td>
+ </tr>
+ <tr >
+ <td colspan="2" rowspan="1" style="text-align: left;">
+<label for="name">Récepteur:</label> <textarea cols="40" rows="1"name="name4" value="" /><br />
+</td>
+ </tr>
+  <tr >
+ <td colspan="2" rowspan="1" style="text-align: left;">
+<label for="name">Réponse:</label> <textarea cols="40" rows="1"name="name7" value="" /><br />
+</td>
+ </tr>
+ 
+ 
+
+
+ 
+</table>
+ </form>
+ </div>';
 
 
 
-</div> ');
+
+            $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
+            $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
+            $pdf->writeHTMLCell(150,0,30,30,$tbl);
 
 
 
@@ -881,13 +986,13 @@ class ProjetController extends AbstractController
 
 
 
-/*
-<div style="border: red 2px solid;margin-left: 25%;margin-right: 25%">
-<p>Référence (FL_CP_aaaammjj_nn) :'.$referencefl.'</p>
+            /*
+            <div style="border: red 2px solid;margin-left: 25%;margin-right: 25%">
+            <p>Référence (FL_CP_aaaammjj_nn) :'.$referencefl.'</p>
 
 
-</div>
-';*/
+            </div>
+            ';*/
 
 // output the HTML content
 
