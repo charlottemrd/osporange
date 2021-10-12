@@ -309,10 +309,10 @@
                     </table>
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                    {%if projet.datel1!=null%}
+
                         <div style="display: inline-flex;width: 100%">
-                            <div style="width: 20%;text-align: center">
-                                <p>Ancienne dates T-1</p>
+                            <div id="tableaul1" style="text-align: center">
+                                <div id='backl1'>
                                 <table class="table" style="border: black solid 1px;padding-right: 2%" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -327,8 +327,10 @@
                                         </tr>
                                     {% endfor %}
                                 </table>
+                                </div>
                             </div>
-                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                            <div id="tableau0" style="text-align: center;padding-left: 1%">
+                                <div id='back0'>
                                 <p>Ancienne dates T0</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
@@ -344,8 +346,10 @@
                                         </tr>
                                     {% endfor %}
                                 </table>
+                                </div>
                             </div>
-                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                            <div id="tableau1" style="text-align: center;padding-left: 1%">
+                                <div id='back1'>
                                 <p>Ancienne dates T1</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
@@ -362,7 +366,9 @@
                                     {% endfor %}
                                 </table>
                             </div>
-                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                            </div>
+                            <div id="tableau2" style="text-align: center;padding-left: 1%">
+                                <div id='back2'>
                                 <p>Ancienne dates T2</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
@@ -379,7 +385,9 @@
                                     {% endfor %}
                                 </table>
                             </div>
-                            <div style="width: 20%;text-align: center;padding-left: 1%">
+                            </div>
+                            <div id="tableau3" style="text-align: center;padding-left: 1%">
+                                <div id='back3'>
                                 <p>Ancienne dates T3</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
@@ -396,81 +404,8 @@
                                     {% endfor %}
                                 </table>
                             </div>
+                            </div>
                         </div>
-                    {%endif%}
-
-                    {%if projet.datel1==null%}
-                    <div style="display: inline-flex;width: 100%">
-                            <div style="width: 25%;text-align: center">
-                                <p>Ancienne dates T0</p>
-                                <table class="table" style="border: black solid 1px" >
-                                    <tr style="border: black solid 1px">
-                                        <th class="text-center ">Dates</th>
-                                    </tr>
-                                    {%for date_zero in date_zeros%}
-                                        <tr>
-                                            <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="6">Pas de données trouvées</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            <div style="width: 25%;text-align: center;padding-left: 1%">
-                                <p>Ancienne dates T1</p>
-                                <table class="table" style="border: black solid 1px" >
-                                    <tr style="border: black solid 1px">
-                                        <th class="text-center ">Dates</th>
-                                    </tr>
-                                    {%for date_one_plus in date_one_pluses%}
-                                        <tr>
-                                            <td class="text-center ">{{ date_zero_plus.date ? date_zero_plus.date|date('d/m/Y') : '' }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="6">Pas de données trouvées</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            <div style="width: 25%;text-align: center;padding-left: 1%">
-                                <p>Ancienne dates T2</p>
-                                <table class="table" style="border: black solid 1px" >
-                                    <tr style="border: black solid 1px">
-                                        <th class="text-center ">Dates</th>
-                                    </tr>
-                                    {%for date_two in date_twos%}
-                                        <tr>
-                                            <td class="text-center ">{{ date_two.datetwo ? date_two.datetwo|date('d/m/Y') : '' }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="6">Pas de données trouvées</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                            <div style="width: 25%;text-align: center;padding-left: 1%">
-                                <p>Ancienne dates T3</p>
-                                <table class="table" style="border: black solid 1px" >
-                                    <tr style="border: black solid 1px">
-                                        <th class="text-center ">Dates</th>
-                                    </tr>
-                                    {%for data_trois in data_troises%}
-                                        <tr>
-                                            <td class="text-center ">{{ data_trois.datet ? date_trois.datet|date('d/m/Y') : '' }}</td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="6">Pas de données trouvées</td>
-                                        </tr>
-                                    {% endfor %}
-                                </table>
-                            </div>
-                    </div>
-                    {%endif%}
 
 
             </div>
@@ -526,6 +461,12 @@
                         </div>
                     {% endif %}
                     {%if projet.paiement=="paiement par modalités" %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Durée de la garantie (mois)</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.garanti}}"  aria-describedby="basic-addon1">
+                        </div>
                         <p>Jalons : </p>
                         <table width="80%" style="margin-left: 10%">
                             <thead>
@@ -632,7 +573,69 @@
             }
             document.getElementById('price').innerText='Le prix du projet est de '+ prixav+'{{ fournisseur.devise }}';
 
+            var widthtab=5;
+            {% if (projet.datel1 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('backl1').style.display='none';
+            document.getElementById('tableaul1').style.display='none';
+            {% endif %}
+            {% if (projet.date0 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back0').style.display='none';
+            document.getElementById('tableau0').style.display='none';
+            {% endif %}
+            {% if (projet.date1 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back1').style.display='none';
+            document.getElementById('tableau1').style.display='none';
+            {% endif %}
+            {% if (projet.date2 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back2').style.display='none';
+            document.getElementById('tableau2').style.display='none';
+            {% endif %}
+            {% if (projet.date3 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back3').style.display='none';
+            document.getElementById('tableau3').style.display='none';
+            {% endif %}
 
+            if(widthtab==5){
+
+                document.getElementById('tableaul1').style.width="18%";
+                document.getElementById('tableau0').style.width="18%";
+                document.getElementById('tableau2').style.width="18%";
+                document.getElementById('tableau1').style.width="18%";
+                document.getElementById('tableau3').style.width="18%";
+            }
+            else if(widthtab==4){
+                document.getElementById('tableaul1').style.width="24%";
+                document.getElementById('tableau0').style.width="24%";
+                document.getElementById('tableau2').style.width="24%";
+                document.getElementById('tableau1').style.width="24%";
+                document.getElementById('tableau3').style.width="24%";
+            }
+            else if(widthtab==3){
+                document.getElementById('tableaul1').style.width="32%";
+                document.getElementById('tableau0').style.width="32%";
+                document.getElementById('tableau2').style.width="32%";
+                document.getElementById('tableau1').style.width="32%";
+                document.getElementById('tableau3').style.width="32%";
+            }
+            else if(widthtab==2){
+                document.getElementById('tableaul1').style.width="40%";
+                document.getElementById('tableau0').style.width="40%";
+                document.getElementById('tableau2').style.width="40%";
+                document.getElementById('tableau1').style.width="40%";
+                document.getElementById('tableau3').style.width="40%";
+            }
+            else if(widthtab==1){
+                document.getElementById('tableaul1').style.width="30%";
+                document.getElementById('tableau0').style.width="30%";
+                document.getElementById('tableau2').style.width="30%";
+                document.getElementById('tableau1').style.width="30%";
+                document.getElementById('tableau3').style.width="30%";
+            }
 
 
 

@@ -93,6 +93,21 @@ class ModifyieType extends AbstractType
                     ]
 
                 ])
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifyie_garanti']])
+
+            ->add('couts', CollectionType::class, array(
+                'entry_type'   => CoutType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype'=> true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+
+
+            ))
 
             ->add('datereel3', DateType::class,
                 [
@@ -134,7 +149,16 @@ class ModifyieType extends AbstractType
                 'class' => Risque::class,
                 'placeholder'=>'',
             ])
-
+            ->add('modalites', CollectionType::class, array(
+                'entry_type' => ModalitesType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+            ))
 
 
 
@@ -150,11 +174,15 @@ class ModifyieType extends AbstractType
             $typebu = $event->getData()->getTypebu();
             $paiement=$event->getData()->getPaiement();
 
+
             $event->getForm()
 
                 ->add(
                     'user', EntityType::class, array('disabled' => ($user !== null), 'required' => true,
                     'class' => User::class,
+                    'placeholder' => ''))
+                ->add('paiement', EntityType::class,array('disabled' => ($paiement !== null), 'required' => true,
+                    'class' =>Paiement::class,
                     'placeholder' => ''))
 
                 ->add('fournisseur', EntityType::class,array('disabled' => ($fournisseur !== null), 'required' => true,

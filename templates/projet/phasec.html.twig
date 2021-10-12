@@ -336,6 +336,14 @@
                             <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="phasec_paiement-error" class="error" for="phasec_paiement"></label></th>
 
                         </tr>
+                        <tr id="garanti" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Durée de la garantie (mois)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'garanti'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.garanti, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_garanti-error" class="error" for="phasec_garanti"></label></th>
+                        </tr>
                     </table>
                     <br>
                     <table>
@@ -448,6 +456,9 @@
                 document.getElementById('phasec_datespec').value=null;
                 document.getElementById('phasec_paiement').value=null;
                 document.getElementById('modalites').style.display="none";
+                document.getElementById('phasec_garanti').value=null;
+                document.getElementById('phasec_garanti').required=false;
+                document.getElementById('garanti').style.display="none";
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
                 if ((selectValue=='1')|| (selectValue=='2')){
                     //abondonne non demarre suspendu
@@ -475,7 +486,7 @@
                     document.getElementById('navmode').style.display="block";
                     document.getElementById('mode').style.display="none";
                     document.getElementById("phasec_paiement").required=false;
-
+                    document.getElementById('garanti').style.display="none";
                     document.getElementById('modalites').style.display="none";
                     $collectionHolder.empty();
                     $collectionHolder.append($nouveau);
@@ -592,6 +603,9 @@
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
                     if (selectValue2=='1'){
                         document.getElementById('modalites').style.display="none";
+                        document.getElementById('garanti').style.display="none";
+                        document.getElementById('phasec_garanti').value=null;
+                        document.getElementById('phasec_garanti').required=false;
                         $collectionHolder.empty();
                         $collectionHolder.append($nouveau);
                         $collectionHolder.data('index', $collectionHolder.find('input').length);
@@ -599,6 +613,8 @@
                         });
                     }
                     if (selectValue2=='2'){
+                        document.getElementById('phasec_garanti').required=true;
+                        document.getElementById('garanti').style.display="block";
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";

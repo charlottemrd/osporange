@@ -199,6 +199,11 @@ class Projet
      */
     private $commentaires;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $garanti;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
@@ -798,6 +803,18 @@ class Projet
     public function __toString()
     {
         return $this->getReference();
+    }
+
+    public function getGaranti(): ?int
+    {
+        return $this->garanti;
+    }
+
+    public function setGaranti(?int $garanti): self
+    {
+        $this->garanti = $garanti;
+
+        return $this;
     }
 
 

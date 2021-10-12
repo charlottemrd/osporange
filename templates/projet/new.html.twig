@@ -409,10 +409,20 @@
 
                         </tr>
                         </tr>
+                        <tr id="garanti" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Durée de la garantie (mois)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'garanti'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.garanti, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_garanti-error" class="error" for="projet_garanti"></label></th>
+                        </tr>
                     </table>
                     <br>
                     <table>
+
                         <div id = "modalites" style="display: none">
+
                             <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
                             </ul>
                         </div>
@@ -515,6 +525,9 @@
                 document.getElementById('projet_date3').value=null;
                 document.getElementById('projet_datespec').value=null;
                 document.getElementById('projet_paiement').value=null;
+                document.getElementById('projet_garanti').value=null;
+                document.getElementById('projet_garanti').required=false;
+                document.getElementById('garanti').style.display="none";
                 document.getElementById('modalites').style.display="none";
                 document.getElementById('label_tl1').innerText='Date T-1';
                 document.getElementById('label_t0').innerText='Date T0';
@@ -559,6 +572,7 @@
                     document.getElementById("projet_paiement").required=false;
 
                     document.getElementById('modalites').style.display="none";
+                    document.getElementById('garanti').style.display="none";
                     $collectionHolder.empty();
                     $collectionHolder.append($nouveau);
                     $collectionHolder.data('index', $collectionHolder.find('input').length);
@@ -927,6 +941,9 @@
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
                     if (selectValue2=='1'){
                         document.getElementById('modalites').style.display="none";
+                        document.getElementById('garanti').style.display="none";
+                        document.getElementById('projet_garanti').value=null;
+                        document.getElementById('projet_garanti').required=false;
                         $collectionHolder.empty();
                         $collectionHolder.append($nouveau);
                         $collectionHolder.data('index', $collectionHolder.find('input').length);
@@ -934,6 +951,8 @@
                         });
                     }
                     if (selectValue2=='2'){
+                        document.getElementById('projet_garanti').required=true;
+                        document.getElementById('garanti').style.display="block";
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";

@@ -470,6 +470,12 @@
                         </div>
                     {% endif %}
                     {%if projet.paiement=="paiement par modalités" %}
+                    <div class="input-group mb-3" style="width: 50%">
+                        <div class="input-group-prepend " style="width: 40%">
+                            <span class="input-group-text" id="basic-addon1">Durée de la garantie (mois)</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="{{ projet.garanti}}"  aria-describedby="basic-addon1">
+                    </div>
                         <p>Jalons : </p>
                         <table width="80%" style="margin-left: 10%">
                             <thead>
@@ -580,24 +586,29 @@
 
             var widthtab=5;
             {% if (projet.datel1 ==null) %}
-                widthtab=widthtab-1;
-                document.getElementById('backl1').style.display='none';
+            widthtab=widthtab-1;
+            document.getElementById('backl1').style.display='none';
+            document.getElementById('tableaul1').style.display='none';
             {% endif %}
             {% if (projet.date0 ==null) %}
             widthtab=widthtab-1;
             document.getElementById('back0').style.display='none';
+            document.getElementById('tableau0').style.display='none';
             {% endif %}
             {% if (projet.date1 ==null) %}
             widthtab=widthtab-1;
             document.getElementById('back1').style.display='none';
+            document.getElementById('tableau1').style.display='none';
             {% endif %}
             {% if (projet.date2 ==null) %}
             widthtab=widthtab-1;
             document.getElementById('back2').style.display='none';
+            document.getElementById('tableau2').style.display='none';
             {% endif %}
             {% if (projet.date3 ==null) %}
             widthtab=widthtab-1;
             document.getElementById('back3').style.display='none';
+            document.getElementById('tableau3').style.display='none';
             {% endif %}
 
             if(widthtab==5){

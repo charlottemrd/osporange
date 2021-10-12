@@ -72,6 +72,8 @@ class ModifydType extends AbstractType
                     ]
 
                 ])
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifyd_garanti']])
 
 
             ->add('date1', DateType::class,

@@ -55,6 +55,8 @@ class ModifydfType extends AbstractType
 
 
             ])
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifydf_garanti']])
 
             ->add('taux',IntegerType::class, [
                 'label' => false,

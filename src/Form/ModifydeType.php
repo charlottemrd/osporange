@@ -41,7 +41,8 @@ class ModifydeType extends AbstractType
                 'label' => false,
                 'required' => true,
             ])
-
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifyde_garanti']])
 
             ->add('description',TextareaType::class, [
                 'label' => false,

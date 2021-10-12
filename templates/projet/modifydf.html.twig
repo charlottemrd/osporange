@@ -459,6 +459,20 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <table>
+                                <th width="15%">
+                                    {{ form_label(form, 'Durée de la garantie (mois)', {
+                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                <th  width="20%">
+                                    {{ form_widget(form.garanti, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}
+                                </th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifydf_garanti-error" class="error" for="modifydf_garanti"></label></th>
+                                </tr>
+                            </table>
+                        </div>
                         <p id="tauxerror"></p>
                         {% macro information_prototype(modalite) %}
 
