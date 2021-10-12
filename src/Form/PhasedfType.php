@@ -36,7 +36,7 @@ use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class PhaseeType extends AbstractType
+class PhasedfType extends AbstractType
 {
     private $phaseRepository;
     public function __construct(PhaseRepository $phaseRepository)
@@ -54,7 +54,7 @@ class PhaseeType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                    $this->phaseRepository->reqbPhase(9,11,12)
+                    $this->phaseRepository->reqbPhase(8,12,11)
 
 
 
@@ -63,10 +63,40 @@ class PhaseeType extends AbstractType
 
 
                 'attr' => [
-                    'class' => 'phasee_Phase',
+                    'class' => 'phasedf_Phase',
 
                 ]
             ])
+
+
+
+            //->add('DateLone')
+
+
+            ->add('datereel2', DateType::class, [
+                'label' => 'invoice_date',
+                'widget' => 'single_text',
+                'required' => false,
+                'attr' => [
+                    'class' => 'phasedf_datereel2',
+
+                ]
+            ])
+
+
+            ->add('choix20', ChoiceType::class, ['placeholder'=>'',
+                    'mapped'=>false,
+                    'attr' => [
+                        'class' => 'phasedf_choix20',
+
+                    ],
+                    'choices'  => [
+                        'Oui' =>1,
+                        'Non' =>2,
+                    ]]
+
+            )
+
 
 
 

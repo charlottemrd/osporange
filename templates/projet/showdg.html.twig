@@ -1,0 +1,701 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     <style>
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+
+
+
+
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Détails du projet : {{ projet.reference }}</h1>
+        <br>
+        <div id="smartwizard">
+
+            <ul class="nav" >
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        Description
+                    </a>
+                </li>
+
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        Avancement
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        Planification
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-4">
+                        Retard dans la planification
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-5">
+                        Coûts
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-6">
+                        Modalités de réception
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-7">
+                        Fiche de liaison
+                    </a>
+                </li>
+            </ul>
+
+            <div class="tab-content" id="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+
+                    {%if projet.reference!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Reference</span>
+                            </div>
+                            <input   type="text" class="form-control" placeholder="{{ projet.reference }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.datecrea!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Date de création</span>
+                            </div>
+                            <input   type="text" class="form-control" placeholder="{{ projet.datecrea |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.datemaj!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Date de maj</span>
+                            </div>
+                            <input   type="text" class="form-control" placeholder="{{ projet.datemaj |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.user!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Chef de projet</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.user }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.Phase!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Phase</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.Phase }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.domaine!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Domaine</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.domaine }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.sdomaine!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Sous-domaine</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.sdomaine }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.fournisseur!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Fournisseur</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.fournisseur }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.typebu!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Type de BU</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.typebu }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.description!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Description</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.description }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+
+                </div>
+
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <table style="border-color: white;width:100%">
+                        {%if projet.taux!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Taux d'avancement</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.taux }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.isplanningrespecte!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Respect du planning</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.isplanningrespecte }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.priorite!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Priorité</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.priorite }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.risque!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Risque</span>
+                                </div>
+                                <input type="text" class="form-control"  placeholder="{{ projet.risque }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+
+
+                    </table>
+
+                </div>
+
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <table style="border-color: white;width:100%">
+                        {%if projet.datel1!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T-1</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereell1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.datereel0!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T0</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel0|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.date1!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T1</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.date1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.datereel2!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date réel T2</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.datereel2|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.date3!=null %}
+                            <div class="input-group mb-3" style="width: 50%">
+                                <div class="input-group-prepend " style="width: 40%">
+                                    <span class="input-group-text" id="basic-addon1">Date T3</span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="{{ projet.date3|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                    </table>
+                </div>
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+
+                        <div  style="display: inline-flex;width: 100%">
+                            <div id="tableaul1" style="text-align: center">
+                            <div id='backl1'>
+                                <p>Ancienne dates T-1</p>
+                                <table  class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_lone in date_lones%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_lone.datereel ? date_lone.datereel|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                </div>
+                            </div>
+                            <div id="tableau0" style="text-align: center;padding-left: 1%">
+                                <div id='back0'>
+                                <p>Ancienne dates T0</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_zero in date_zeros%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                </div>
+                            </div>
+                            <div id="tableau1" style="text-align: center;padding-left: 1%">
+                                <div id='back1'>
+                                <p>Ancienne dates T1</p>
+                                <table  class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_one_plus in date_one_pluses%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_one_plus.date ? date_one_plus.date|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                </div>
+                            </div>
+                            <div id="tableau2" style="text-align: center;padding-left: 1%">
+                                <div id='back2'>
+                                <p>Ancienne dates T2</p>
+                                <table  class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for date_two in date_twos%}
+                                        <tr>
+                                            <td class="text-center ">{{ date_two.datetwo ? date_two.datetwo|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                                </div>
+                            </div>
+                            <div id="tableau3" style="text-align: center;padding-left: 1%">
+                                <div id='back3'>
+                                <p>Ancienne dates T3</p>
+                                <table class="table" style="border: black solid 1px" >
+                                    <tr style="border: black solid 1px">
+                                        <th class="text-center ">Dates</th>
+                                    </tr>
+                                    {%for data_trois in data_troises%}
+                                        <tr>
+                                            <td class="text-center ">{{ data_trois.datet ? data_trois.datet|date('d/m/Y') : '' }}</td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="6">Pas de données trouvées</td>
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            </div>
+                        </div>
+
+
+
+
+                </div>
+
+
+
+            <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                <p>Les coûts du projet :</p>
+                <table id="couts" width="80%" style="margin-left: 10%" style="border: black 1px solid" >
+                    <thead style="border: black 1px solid">
+                    <tr >
+                        <td width="10%" style="text-align: center">
+                            Profil
+                        </td>
+                        {% for cout in couts %}
+                            <td width="10%" style="text-align: center;border: black 1px solid">
+                                {{ cout.profil}}
+                            </td>
+                        {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody style="border: black 1px solid">
+                    <tr>
+                        <td style="text-align: center">
+                            Nombre de profil
+                        </td>
+                        {% for cout in couts %}
+                            <td width="10%" style="text-align: center;border: black 1px solid">
+                                {{ cout.nombreprofil}}
+                            </td>
+                        {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+                <br>
+                <p id="price"></p>
+            </div>
+
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                    {%if projet.paiement!=null %}
+                        <div class="input-group mb-3" style="width: 50%">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1">Mode de paiement</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="{{ projet.paiement }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
+                    {%if projet.paiement=="paiement par modalités" %}
+                        <p>Jalons : </p>
+                        <table width="80%" style="margin-left: 10%">
+                            <thead>
+                            <tr>
+                                <td style="border: black 1px solid;text-align: center">Conditions</td>
+                                <td style="border: black 1px solid;text-align: center">Pourcentage</td>
+                                <td style="border: black 1px solid;text-align: center">Description</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                        {% for modalite in modalites %}
+                            <tr><td  style="border: black 1px solid;text-align: center">{{ modalite.conditions }}</td>
+                            <td  style="border: black 1px solid;text-align: center">{{ modalite.pourcentage }}</td>
+                           <td  style="border: black 1px solid;text-align: center">{{ modalite.description }}</td></tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Pas de données trouvées</td>
+                            </tr>
+                        {% endfor %}
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
+                    <div style="text-align: left">
+                        <button> <a style="text-decoration: none" href="{{ path('projet_fichefl', {'id': projet.id}) }}">Editer une fiche de liaison</a>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+
+
+
+            </div>
+
+
+
+        </div>
+        </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+
+
+
+
+        $(document).ready(function () {
+            /*  $('.phased_fournisseur').change(function() {
+                  $phasin=document.getElementById('phased_fournisseur').value;
+                  $.ajax({
+                  method: "POST",
+                  url://
+            data: {id: $phasin},
+            dataType: "json",
+            success: function(html) {
+                console.log(html);
+                }
+
+
+        }).done( function(response) {
+            //alert(123);
+            var htmlToDisplay = response.trim();
+            $("#your_div").html(response);
+        }).fail(function(jxh,textmsg,errorThrown){
+            console.log(textmsg);
+            console.log(errorThrown);
+        });
+        });
+ })
+
+
+
+*/
+
+
+
+            var tarifs=new Array();
+            {% for profil in profils  %}
+            tarifs.push({{ profil.tarif }});
+            {% endfor %}
+            var tarifsqt=new Array();
+            {% for cout in couts  %}
+            tarifsqt.push({{ cout.nombreprofil }});
+            {% endfor %}
+            var prixav=0;
+            for (j=0;j<tarifs.length;j++){
+                prixav=prixav+((tarifsqt[j])*(tarifs[j]));
+            }
+            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+'{{ fournisseur.devise }}';
+
+            var widthtab=5;
+            {% if (projet.datel1 ==null) %}
+                widthtab=widthtab-1;
+                document.getElementById('backl1').style.display='none';
+            {% endif %}
+            {% if (projet.date0 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back0').style.display='none';
+            {% endif %}
+            {% if (projet.date1 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back1').style.display='none';
+            {% endif %}
+            {% if (projet.date2 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back2').style.display='none';
+            {% endif %}
+            {% if (projet.date3 ==null) %}
+            widthtab=widthtab-1;
+            document.getElementById('back3').style.display='none';
+            {% endif %}
+
+            if(widthtab==5){
+
+                document.getElementById('tableaul1').style.width="18%";
+                document.getElementById('tableau0').style.width="18%";
+                document.getElementById('tableau2').style.width="18%";
+                document.getElementById('tableau1').style.width="18%";
+                document.getElementById('tableau3').style.width="18%";
+            }
+            else if(widthtab==4){
+                document.getElementById('tableaul1').style.width="24%";
+                document.getElementById('tableau0').style.width="24%";
+                document.getElementById('tableau2').style.width="24%";
+                document.getElementById('tableau1').style.width="24%";
+                document.getElementById('tableau3').style.width="24%";
+            }
+            else if(widthtab==3){
+                document.getElementById('tableaul1').style.width="32%";
+                document.getElementById('tableau0').style.width="32%";
+                document.getElementById('tableau2').style.width="32%";
+                document.getElementById('tableau1').style.width="32%";
+                document.getElementById('tableau3').style.width="32%";
+            }
+            else if(widthtab==2){
+                document.getElementById('tableaul1').style.width="40%";
+                document.getElementById('tableau0').style.width="40%";
+                document.getElementById('tableau2').style.width="40%";
+                document.getElementById('tableau1').style.width="40%";
+                document.getElementById('tableau3').style.width="40%";
+            }
+            else if(widthtab==1){
+                document.getElementById('tableaul1').style.width="30%";
+                document.getElementById('tableau0').style.width="30%";
+                document.getElementById('tableau2').style.width="30%";
+                document.getElementById('tableau1').style.width="30%";
+                document.getElementById('tableau3').style.width="30%";
+            }
+
+
+
+
+
+
+
+
+
+            $('#smartwizard').smartWizard({
+                selected: 0, // Initial selected step, 0 = first step
+                theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
+                justified: true, // Nav menu justification. true/false
+                darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+                autoAdjustHeight: true, // Automatically adjust content height
+                cycleSteps: false, // Allows to cycle the navigation of steps
+                backButtonSupport: true, // Enable the back button support
+                enableURLhash: false, // Enable selection of the step based on url hash
+                transition: {
+                    animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                    speed: '400', // Transion animation speed
+                    easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+                },
+                toolbarSettings: {
+                    toolbarPosition: 'bottom', // none, top, bottom, both
+                    toolbarButtonPosition: 'right', // left, right, center
+                    showNextButton: true, // show/hide a Next button
+                    showPreviousButton: true, // show/hide a Previous button
+
+                },
+                anchorSettings: {
+                    anchorClickable: true, // Enable/Disable anchor navigation
+                    enableAllAnchors: true, // Activates all anchors clickable all times
+                    markDoneStep: true, // Add done state on navigation
+                    markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                    removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+                    enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+                },
+                keyboardSettings: {
+                    keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                    keyLeft: [37], // Left key code
+                    keyRight: [39] // Right key code
+                },
+                lang: { // Language variables for button
+                    next: 'Suivant',
+                    previous: 'Précédant'
+                },
+                disabledSteps: [], // Array Steps disabled
+                errorSteps: [], // Highlight step with errors
+                hiddenSteps: [], // Hidden steps
+
+            });
+
+        })
+
+    </script>
+
+
+{% endblock  %}
+
+
+
+

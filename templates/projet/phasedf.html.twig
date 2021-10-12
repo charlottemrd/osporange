@@ -140,29 +140,29 @@
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="phased_Phase-error" class="error" for="phased_Phase"></label></th>
+                            <th style="padding-left: 1%"><label id="phasedf_Phase-error" class="error" for="phasedf_Phase"></label></th>
                     </table>
 
                 </div>
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table>
-                        <tr id="boxchoix11">
-                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T1 ? *</td>
-                            <th>{{ form_widget(form.choix11, {
+                        <tr id="boxchoix20">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T2 ? *</td>
+                            <th>{{ form_widget(form.choix20, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="40%" style="padding-left: 1%"><label id="phased_choix11-error" class="error" for="phased_choix11"></label></th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phasedf_choix20-error" class="error" for="phasedf_choix20"></label></th>
                         </tr>
                     </table>
                     <table style="border-color: white;width:100%">
 
-                        <tr id="datereel1" style="display: none" >
-                            <th width="15%"> {{ form_label(form, 'Date réelle T1 *', {
+                        <tr id="datereel2" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T2 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.datereel1, {
+                            <th width="20%">{{ form_widget(form.datereel2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phased_datereel1-error" class="error" for="phased_datereel1"></label></th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasedf_datereel2-error" class="error" for="phasedf_datereel2"></label></th>
                         </tr>
                         <br>
                     </table>
@@ -234,33 +234,33 @@
 
 
 
-            $('.phased_Phase').change(function() {
-                $phasing=document.getElementById('phased_Phase');
-                document.getElementById('phased_choix11').value=null;
+            $('.phasedf_Phase').change(function() {
+                $phasing=document.getElementById('phasedf_Phase');
+                document.getElementById('phasedf_choix20').value=null;
 
-                document.getElementById('phased_datereel1').value=null;
+                document.getElementById('phasedf_datereel2').value=null;
             });
 
 
-            $('.phased_choix11').change(function() {
+            $('.phasedf_choix20').change(function() {
 
-                $phasip=document.getElementById('phased_choix11');
+                $phasip=document.getElementById('phasedf_choix20');
                 var selectValue4 = $phasip.options[$phasip.selectedIndex].value;
 
                 if(selectValue4==1){
                     document.getElementById('smartwizard').style.height = "200%";
                     document.getElementById('tab-content').style.height = "200%";
-                    document.getElementById('phased_datereel1').required=true;
-                    document.getElementById('datereel1').style.display="block";
-                    document.getElementById('phased_datereel1').style.display="block";
+                    document.getElementById('phasedf_datereel2').required=true;
+                    document.getElementById('datereel2').style.display="block";
+                    document.getElementById('phasedf_datereel2').style.display="block";
 
                 }
                 else if(selectValue4==2) {
 
-                    document.getElementById('phased_datereel1').required=false;
-                    document.getElementById('datereel1').style.display="none";
-                    document.getElementById('phased_datereel1').style.display="none";
-                    document.getElementById('phased_datereel1').value=null;
+                    document.getElementById('phasedf_datereel2').required=false;
+                    document.getElementById('datereel2').style.display="none";
+                    document.getElementById('phasedf_datereel2').style.display="none";
+                    document.getElementById('phasedf_datereel2').value=null;
 
                 }
 

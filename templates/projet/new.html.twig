@@ -707,9 +707,9 @@
 
 
 
-                else if ( (selectValue=='7')|| (selectValue=='8')|| (selectValue=='9')){//test recette prod
+                else if ( (selectValue=='7')){//construction codage
 
-                    document.getElementById('label_t1').innerText='Date T1 *';
+                    document.getElementById('label_t1').innerText='Date T1 ';
                     document.getElementById('label_t2').innerText='Date T2 *';
                     document.getElementById('label_t3').innerText='Date T3 *';
                     document.getElementById('label_spec').innerText='Date de spécifications *';
@@ -723,7 +723,7 @@
 
                     document.getElementById('projet_date1').style.display="block";
                     document.getElementById('date1').style.display="block";
-                    document.getElementById("projet_date1").required=true;
+                    document.getElementById("projet_date1").required=false;
 
                     document.getElementById('projet_date2').style.display="block";
                     document.getElementById('date2').style.display="block";
@@ -751,6 +751,95 @@
                     document.getElementById('xmode').style.width='100%';
 
                 }
+                else if ( (selectValue=='9')||(selectValue=='8')){//test ou recette
+
+                    document.getElementById('label_t1').innerText='Date T1 ';
+                    document.getElementById('label_t2').innerText='Date T2 ';
+                    document.getElementById('label_t3').innerText='Date T3 *';
+                    document.getElementById('label_spec').innerText='Date de spécifications *';
+                    document.getElementById('projet_datel1').style.display="block";
+                    document.getElementById('datel1').style.display="block";
+                    document.getElementById("projet_datel1").required=false;
+
+                    document.getElementById('projet_date0').style.display="block";
+                    document.getElementById('date0').style.display="block";
+                    document.getElementById("projet_date0").required=false;
+
+                    document.getElementById('projet_date1').style.display="block";
+                    document.getElementById('date1').style.display="block";
+                    document.getElementById("projet_date1").required=false;
+
+                    document.getElementById('projet_date2').style.display="block";
+                    document.getElementById('date2').style.display="block";
+                    document.getElementById("projet_date2").required=false;
+
+                    document.getElementById('projet_date3').style.display="block";
+                    document.getElementById('date3').style.display="block";
+                    document.getElementById("projet_date3").required=true;
+
+                    document.getElementById('projet_datespec').style.display="block";
+                    document.getElementById('datespec').style.display="block";
+                    document.getElementById("projet_datespec").required=true;
+
+
+                    document.getElementById('navdate').style.display="none";
+
+                    document.getElementById('navcout').style.display="none";
+                    document.getElementById("couts").style.display="block";
+
+                    document.getElementById('navmode').style.display="none";
+                    document.getElementById('mode').style.display="block";
+                    document.getElementById("projet_paiement").required=true;
+
+                    document.getElementById('bmode').style.width='200%';
+                    document.getElementById('xmode').style.width='100%';
+
+                }
+                else if (  (selectValue=='10')){// prod
+
+                    document.getElementById('label_t1').innerText='Date T1 ';
+                    document.getElementById('label_t2').innerText='Date T2 ';
+                    document.getElementById('label_t3').innerText='Date T3 ';
+                    document.getElementById('label_spec').innerText='Date de spécifications *';
+                    document.getElementById('projet_datel1').style.display="block";
+                    document.getElementById('datel1').style.display="block";
+                    document.getElementById("projet_datel1").required=false;
+
+                    document.getElementById('projet_date0').style.display="block";
+                    document.getElementById('date0').style.display="block";
+                    document.getElementById("projet_date0").required=false;
+
+                    document.getElementById('projet_date1').style.display="block";
+                    document.getElementById('date1').style.display="block";
+                    document.getElementById("projet_date1").required=false;
+
+                    document.getElementById('projet_date2').style.display="block";
+                    document.getElementById('date2').style.display="block";
+                    document.getElementById("projet_date2").required=false;
+
+                    document.getElementById('projet_date3').style.display="block";
+                    document.getElementById('date3').style.display="block";
+                    document.getElementById("projet_date3").required=false;
+
+                    document.getElementById('projet_datespec').style.display="block";
+                    document.getElementById('datespec').style.display="block";
+                    document.getElementById("projet_datespec").required=true;
+
+
+                    document.getElementById('navdate').style.display="none";
+
+                    document.getElementById('navcout').style.display="none";
+                    document.getElementById("couts").style.display="block";
+
+                    document.getElementById('navmode').style.display="none";
+                    document.getElementById('mode').style.display="block";
+                    document.getElementById("projet_paiement").required=true;
+
+                    document.getElementById('bmode').style.width='200%';
+                    document.getElementById('xmode').style.width='100%';
+
+                }
+
 
 
 
@@ -1036,9 +1125,32 @@
 
                     }
 
+                    if ((document.getElementById('projet_Phase').value == 7)) {
+
+                        if ((document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date2').value > document.getElementById('projet_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmée après la date T3';
+                        }
+
+
+
+                        else if ((document.getElementById('projet_date2').value != null) && (document.getElementById('projet_date3').value != null) && (document.getElementById('projet_date2').value === document.getElementById('projet_date3').value)) {
+                            isStepValid = false;
+                            document.getElementById('messerror1').innerHTML = 'La date T2 est programmée en même temps que la date T3';
+                        }
+
+
+
+                        else  {
+                            isStepValid = true;
+                            document.getElementById('messerror1').innerHTML = '';
+                        }
+
+
+                    }
                 } //endif step1
                 if(stepnumber==3){
-                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)) {
+                    if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)||(document.getElementById('projet_Phase').value == 10)) {
                         if ($phasing2.options[$phasing2.selectedIndex].value == '2') {
                             var tailletaux = $('ul.modalites').find('input').length;
                             for (a = 0; a < tailletaux; a++) {

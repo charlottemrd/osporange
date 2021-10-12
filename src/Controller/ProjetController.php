@@ -15,9 +15,12 @@ use App\Form\ModifyaType;
 use App\Form\ModifybType;
 use App\Form\ModifycType;
 use App\Form\ModifydType;
+use App\Form\ModifydfType;
+use App\Form\ModifydeType;
 use App\Form\ModifyieType;
 use App\Form\PhasecType;
 use App\Form\PhasedType;
+use App\Form\PhasedfType;
 use App\Form\PhaseeType;
 use App\Form\PhasefType;
 use App\Form\PhasegType;
@@ -213,7 +216,7 @@ class ProjetController extends AbstractController
                 'date_lones'=>$projet->getDateLones(),
             ]);
         }
-        else if(($projet->getPhase()->getId()==5)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==5))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==5))){ //cadrage
+        else if(($projet->getPhase()->getId()==5)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==5))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==5))){ //etude
             return $this->render('projet/showc.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
@@ -221,7 +224,55 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
-            return $this->render('projet/showd.html.twig', [
+            return $this->render('projet/showdf.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
+
+                'profils' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+
+            ]);
+        }
+        else if(($projet->getPhase()->getId()==7)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==7))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==7))){ //consctruction
+            return $this->render('projet/showde.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
+
+                'profils' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+
+            ]);
+        }
+        else if(($projet->getPhase()->getId()==8)||(($projet->getPhase()->getId()==8)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==8))){ //test
+            return $this->render('projet/showdg.html.twig', [
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
+
+                'profils' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+
+            ]);
+        }
+        else if(($projet->getPhase()->getId()==9)||(($projet->getPhase()->getId()==9)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==9))){ //test
+            return $this->render('projet/showdg.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
@@ -358,7 +409,7 @@ class ProjetController extends AbstractController
             ]);
         }
 
-        else if($projet->getPhase()->getId()==6) { //phase actuelle= construction
+        else if($projet->getPhase()->getId()==6) { //phase actuelle= construction 1
             $datereel0avant=$projet->getDatereel0();
             $datereell1avant=$projet->getDatereell1();
             $date1avant=$projet->getDate1();
@@ -434,7 +485,241 @@ class ProjetController extends AbstractController
                 'fournisseur'=>$projet->getFournisseur(),
             ]);
         }
-        else if(($projet->getPhase()->getId()==7)||($projet->getPhase()->getId()==8)||($projet->getPhase()->getId()==9)) { //phase actuelle= test/prodution/recette
+
+        else if($projet->getPhase()->getId()==7) { //phase actuelle= construction 2
+            $datereel0avant=$projet->getDatereel0();
+            $datereell1avant=$projet->getDatereell1();
+            $datereel1avant=$projet->getDatereel1();
+            $date2avant=$projet->getDate2();
+            $date3avant=$projet->getDate3();
+            $form = $this->createForm(ModifydeType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if ($m->getConditionsatisfield()==null){
+                        $m->setConditionsatisfield(false);
+                    }
+                }
+
+                if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
+                {
+                    $daten2=new DateLone();
+                    $daten2->setDatereel($datereell1avant);
+                    $daten2->setProjet($projet);
+                    $projet->getDateLones()->add($daten2);
+
+                    $projet->setDatel1($projet->getDatereell1());
+                }
+
+
+                if( $datereel0avant!=$projet->getDatereel0()&&$datereel0avant!=null) //datereel t 0
+                {
+                    $daten=new DateZero();
+                    $daten->setDatezero($datereel0avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateZeros()->add($daten);
+                    $projet->setDate0($projet->getDatereel0());
+                }
+
+                if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
+                    $daten3=new DateOnePlus();
+                    $daten3->setDate($datereel1avant);
+                    $daten3->setProjet($projet);
+                    $projet->getDateOnePluses()->add($daten3);
+                    $projet->setDate1($projet->getDatereel1());
+                }
+
+                if($date2avant!=$projet->getDate2()){
+                    $daten4=new DateTwo();
+                    $daten4->setDatetwo($date2avant);
+                    $daten4->setProjet($projet);
+                    $projet->getDateTwos()->add($daten4);
+                }
+
+                if($date3avant!=$projet->getDate3())
+                {
+                    $daten5=new DataTrois();
+                    $daten5->setDatet($date3avant);
+                    $daten5->setProjet($projet);
+                    $projet->getDataTrois()->add($daten5);
+                }
+
+
+
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifyde.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==8) { //phase actuelle= test
+            $datereel0avant=$projet->getDatereel0();
+            $datereell1avant=$projet->getDatereell1();
+            $datereel1avant=$projet->getDatereel1();
+            $datereel2avant=$projet->getDatereel2();
+            $date3avant=$projet->getDate3();
+            $form = $this->createForm(ModifydfType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if ($m->getConditionsatisfield()==null){
+                        $m->setConditionsatisfield(false);
+                    }
+                }
+
+                if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
+                {
+                    $daten2=new DateLone();
+                    $daten2->setDatereel($datereell1avant);
+                    $daten2->setProjet($projet);
+                    $projet->getDateLones()->add($daten2);
+
+                    $projet->setDatel1($projet->getDatereell1());
+                }
+
+
+                if( $datereel0avant!=$projet->getDatereel0()&&$datereel0avant!=null) //datereel t 0
+                {
+                    $daten=new DateZero();
+                    $daten->setDatezero($datereel0avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateZeros()->add($daten);
+                    $projet->setDate0($projet->getDatereel0());
+                }
+
+                if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
+                    $daten3=new DateOnePlus();
+                    $daten3->setDate($datereel1avant);
+                    $daten3->setProjet($projet);
+                    $projet->getDateOnePluses()->add($daten3);
+                    $projet->setDate1($projet->getDatereel1());
+                }
+
+                if($datereel2avant!=$projet->getDatereel2()&&$datereel2avant!=null){
+                    $daten4=new DateTwo();
+                    $daten4->setDatetwo($datereel2avant);
+                    $daten4->setProjet($projet);
+                    $projet->getDateTwos()->add($daten4);
+                    $projet->setDate2($projet->getDatereel2());
+                }
+
+                if($date3avant!=$projet->getDate3())
+                {
+                    $daten5=new DataTrois();
+                    $daten5->setDatet($date3avant);
+                    $daten5->setProjet($projet);
+                    $projet->getDataTrois()->add($daten5);
+                }
+
+
+
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifydf.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==9) { //phase actuelle= recette
+            $datereel0avant=$projet->getDatereel0();
+            $datereell1avant=$projet->getDatereell1();
+            $datereel1avant=$projet->getDatereel1();
+            $datereel2avant=$projet->getDatereel2();
+            $date3avant=$projet->getDate3();
+            $form = $this->createForm(ModifydfType::class, $projet);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if ($m->getConditionsatisfield()==null){
+                        $m->setConditionsatisfield(false);
+                    }
+                }
+
+                if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
+                {
+                    $daten2=new DateLone();
+                    $daten2->setDatereel($datereell1avant);
+                    $daten2->setProjet($projet);
+                    $projet->getDateLones()->add($daten2);
+
+                    $projet->setDatel1($projet->getDatereell1());
+                }
+
+
+                if( $datereel0avant!=$projet->getDatereel0()&&$datereel0avant!=null) //datereel t 0
+                {
+                    $daten=new DateZero();
+                    $daten->setDatezero($datereel0avant);
+                    $daten->setProjet($projet);
+                    $projet->getDateZeros()->add($daten);
+                    $projet->setDate0($projet->getDatereel0());
+                }
+
+                if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
+                    $daten3=new DateOnePlus();
+                    $daten3->setDate($datereel1avant);
+                    $daten3->setProjet($projet);
+                    $projet->getDateOnePluses()->add($daten3);
+                    $projet->setDate1($projet->getDatereel1());
+                }
+
+                if($datereel2avant!=$projet->getDatereel2()&&$datereel2avant!=null){
+                    $daten4=new DateTwo();
+                    $daten4->setDatetwo($datereel2avant);
+                    $daten4->setProjet($projet);
+                    $projet->getDateTwos()->add($daten4);
+                    $projet->setDate2($projet->getDatereel2());
+                }
+
+                if($date3avant!=$projet->getDate3())
+                {
+                    $daten5=new DataTrois();
+                    $daten5->setDatet($date3avant);
+                    $daten5->setProjet($projet);
+                    $projet->getDataTrois()->add($daten5);
+                }
+
+
+
+
+                $projet->setDatemaj(new \DateTime());
+
+                $this->getDoctrine()->getManager()->flush();
+
+                $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/modifydf.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+            ]);
+        }
+
+        else if(($projet->getPhase()->getId()==10)) { //phase actuelle= prod
             $datereel0avant=$projet->getDatereel0();
             $datereell1avant=$projet->getDatereell1();
             $datereel1avant=$projet->getDatereel1();
@@ -637,7 +922,7 @@ class ProjetController extends AbstractController
                 'fournisseur'=>$projet->getFournisseur(),
             ]);
         }
-        else if($projet->getPhase()->getId()==6) { //phase actuelle= construction
+        else if($projet->getPhase()->getId()==6) { //phase actuelle= construction : en conception
             $form = $this->createForm(PhasedType::class,$projet);
             $form->handleRequest($request);
 
@@ -659,7 +944,7 @@ class ProjetController extends AbstractController
                     $projet->setDatereel1($projet->getDate1());
                 }
 
-                if($projet->getDatereel2()!=null){
+                /*if($projet->getDatereel2()!=null){
                     $daten2=new DateTwo();
                     $daten2->setDatetwo($projet->getDate2());
                     $daten2->setProjet($projet);
@@ -679,7 +964,7 @@ class ProjetController extends AbstractController
                 }
                 else{
                     $projet->setDatereel3($projet->getDate3());
-                }
+                }*/
 
 
 
@@ -699,7 +984,40 @@ class ProjetController extends AbstractController
             ]);
         }
 
-        else if($projet->getPhase()->getId()==7) { //phase actuelle= en etude
+        else if($projet->getPhase()->getId()==7) { //phase actuelle= construction : en conception 2
+            $form = $this->createForm(PhasedfType::class,$projet);
+            $form->handleRequest($request);
+
+
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                if($projet->getHighestphase()<$projet->getPhase()->getRang()){
+                    $projet->setHighestphase($projet->getPhase()->getRang());}
+                $projet->setDatemaj(new \DateTime());
+
+                if($projet->getDatereel2()!=null){
+                    $daten2=new DateTwo();
+                    $daten2->setDatetwo($projet->getDate2());
+                    $daten2->setProjet($projet);
+                    $projet->getDateTwos()->add($daten2);
+                    $projet->setDate2($projet->getDatereel2());
+                }
+                else{
+                    $projet->setDatereel2($projet->getDate2());
+                }
+
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
+            return $this->renderForm('projet/phasedf.html.twig', [
+                'projet' => $projet,
+                'form' => $form,
+                'couts' => $projet->getFournisseur()->getProfils(),
+            ]);
+        }
+
+        else if($projet->getPhase()->getId()==8) { //phase actuelle= test
             $form = $this->createForm(PhaseeType::class,$projet);
             $form->handleRequest($request);
 
@@ -721,7 +1039,7 @@ class ProjetController extends AbstractController
             ]);
         }
 
-        else if($projet->getPhase()->getId()==8) { //phase actuelle= recette
+        else if($projet->getPhase()->getId()==9) { //phase actuelle= recette
             $form = $this->createForm(PhasefType::class,$projet);
             $form->handleRequest($request);
 
@@ -731,6 +1049,16 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
+                if($projet->getDatereel3()!=null){
+                    $daten3=new DataTrois();
+                    $daten3->setDatet($projet->getDate3());
+                    $daten3->setProjet($projet);
+                    $projet->getDataTrois()->add($daten3);
+                    $projet->setDate3($projet->getDatereel3());
+                }
+                else{
+                    $projet->setDatereel3($projet->getDate3());
+                }
 
                 $this->getDoctrine()->getManager()->flush();
 
@@ -743,7 +1071,7 @@ class ProjetController extends AbstractController
             ]);
         }
 
-        else if($projet->getPhase()->getId()==9) { //phase actuelle= recette
+        else if($projet->getPhase()->getId()==10) { //phase actuelle= prod
             $form = $this->createForm(PhasegType::class,$projet);
             $form->handleRequest($request);
 
@@ -753,6 +1081,7 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
+
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));

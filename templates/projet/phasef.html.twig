@@ -112,10 +112,14 @@
                         Description
                     </a>
                 </li>
-
-
                 <li class="nav-item">
                     <a class="nav-link" href="#step-2">
+                        Avancement
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
                         Confirmation
                     </a>
                 </li>
@@ -129,7 +133,7 @@
                         <tr style="border-color: white" >
                             <th width="15%">
 
-                                {{ form_label(form, 'Phase', {
+                                {{ form_label(form, 'Phase *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
                                 {{ form_widget(form.Phase, {
@@ -140,9 +144,35 @@
                     </table>
 
                 </div>
-
-
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <table>
+                        <tr id="boxchoix30">
+                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T3 ? *</td>
+                            <th>{{ form_widget(form.choix30, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="40%" style="padding-left: 1%"><label id="phasef_choix30-error" class="error" for="phasef_choix30"></label></th>
+                        </tr>
+                    </table>
+                    <table style="border-color: white;width:100%">
+
+                        <tr id="datereel3" style="display: none" >
+                            <th width="15%"> {{ form_label(form, 'Date réelle T3 *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.datereel3, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasef_datereel3-error" class="error" for="phasef_datereel3"></label></th>
+                        </tr>
+                        <br>
+                    </table>
+
+
+
+
+                </div>
+
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
                     Veuillez vérifier vos données avant de soumettre le formulaire
 
                 </div>
@@ -174,8 +204,8 @@
 
 
         $(document).ready(function () {
-            /*  $('.phased_fournisseur').change(function() {
-                  $phasin=document.getElementById('phased_fournisseur').value;
+            /*  $('.phasef_fournisseur').change(function() {
+                  $phasin=document.getElementById('phasef_fournisseur').value;
                   $.ajax({
                   method: "POST",
                   url://
@@ -203,6 +233,40 @@
 
 
 
+
+            $('.phasef_Phase').change(function() {
+                $phasing=document.getElementById('phasef_Phase');
+                document.getElementById('phasef_choix30').value=null;
+
+                document.getElementById('phasef_datereel3').value=null;
+            });
+
+
+            $('.phasef_choix30').change(function() {
+
+                $phasip=document.getElementById('phasef_choix30');
+                var selectValue4 = $phasip.options[$phasip.selectedIndex].value;
+
+                if(selectValue4==1){
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                    document.getElementById('phasef_datereel3').required=true;
+                    document.getElementById('datereel3').style.display="block";
+                    document.getElementById('phasef_datereel3').style.display="block";
+
+                }
+                else if(selectValue4==2) {
+
+                    document.getElementById('phasef_datereel3').required=false;
+                    document.getElementById('datereel3').style.display="none";
+                    document.getElementById('phasef_datereel3').style.display="none";
+                    document.getElementById('phasef_datereel3').value=null;
+
+                }
+
+
+
+            });
 
 
 
@@ -293,7 +357,7 @@
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
                 if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
-                    if(stepDirection == "1") //here is the final step: Note: 0,1,2
+                    if(stepDirection == "2") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
                     }

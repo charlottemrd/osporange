@@ -78,13 +78,13 @@ class UserFixtures extends Fixture
         $phase = new Phase();
         $phase->setName('abandonné');
         $phase->setRang('1');
-        $phase->setOrdere('10');
+        $phase->setOrdere('11');
         $manager->persist($phase);
 
         $phase2 = new Phase();
         $phase2->setName('stand-by');
         $phase2->setRang('2');
-        $phase2->setOrdere('11');
+        $phase2->setOrdere('12');
         $manager->persist($phase2);
 
         $phase3 = new Phase();
@@ -106,27 +106,33 @@ class UserFixtures extends Fixture
         $manager->persist($phase5);
 
         $phase6 = new Phase();
-        $phase6->setName('en construction');
+        $phase6->setName('en construction - étape de conception');
         $phase6->setRang('6');
         $phase6->setOrdere('6');
         $manager->persist($phase6);
 
+        $phase0 = new Phase();
+        $phase0->setName('en construction - étape de codage');
+        $phase0->setRang('7');
+        $phase0->setOrdere('7');
+        $manager->persist($phase0);
+
         $phase7 = new Phase();
         $phase7->setName('en test');
-        $phase7->setRang('7');
-        $phase7->setOrdere('7');
+        $phase7->setRang('8');
+        $phase7->setOrdere('8');
         $manager->persist($phase7);
 
         $phase8 = new Phase();
         $phase8->setName('en recette');
-        $phase8->setRang('8');
-        $phase8->setOrdere('8');
+        $phase8->setRang('9');
+        $phase8->setOrdere('9');
         $manager->persist($phase8);
 
         $phase9 = new Phase();
         $phase9->setName('en production');
-        $phase9->setRang('9');
-        $phase9->setOrdere('9');
+        $phase9->setRang('10');
+        $phase9->setOrdere('10');
         $manager->persist($phase9);
 
 

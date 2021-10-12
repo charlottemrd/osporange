@@ -54,7 +54,7 @@ class PhasefType extends AbstractType
                 'required' => true,
                 'class' => Phase::class,
                 'choices' =>
-                    $this->phaseRepository->reqbPhase(9,10,11)
+                    $this->phaseRepository->reqbPhase(10,12,11)
 
 
 
@@ -67,6 +67,29 @@ class PhasefType extends AbstractType
 
                 ]
             ])
+            ->add('datereel3', DateType::class, [
+                'label' => 'invoice_date',
+                'widget' => 'single_text',
+                'required' => false,
+                'attr' => [
+                    'class' => 'phasef_datereel3',
+
+                ]
+            ])
+
+
+            ->add('choix30', ChoiceType::class, ['placeholder'=>'',
+                    'mapped'=>false,
+                    'attr' => [
+                        'class' => 'phasef_choix30',
+
+                    ],
+                    'choices'  => [
+                        'Oui' =>1,
+                        'Non' =>2,
+                    ]]
+
+            )
 
 
 
