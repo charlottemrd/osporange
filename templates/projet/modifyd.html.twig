@@ -794,29 +794,63 @@
 
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
 
-                     if (selectValue2 == '2') {
+                    if (selectValue2 == '2') {
                             var tailletaux = $('ul.modalites').find('input').length;
+                            var jalontaille = $('ul.modalites').find('input').length;
+                            var jalondif=new Array();
+                            for(l=0;l<jalontaille;l++){
+                                jalondif.push(document.getElementById('modifyd_modalites_' + [l]+'_conditions').value)
+
+                            }
+                            let resultToReturn = false;
+                            let supe=false;
+                            let infto=false;
+                            for (let q = 0; q < jalondif.length; q++) {
+                                for (let g = 0; g < jalondif.length; g++) {
+                                    if (g !== q) {
+                                        if (jalondif[g] === jalondif[q]) {
+                                            resultToReturn = true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (resultToReturn) {
+                                    break;
+                                }
+                            }
                             for (a = 0; a < tailletaux; a++) {
                                 if (parseInt(document.getElementById('modifyd_modalites_' + [a] + '_pourcentage').value) <= 0) {
-                                    document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
-                                    isStepValid = false;
+                                    infto=true;
                                     break
                                 }
                                 else if (parseInt(document.getElementById('modifyd_modalites_' + [a] + '_pourcentage').value) > 100) {
-                                    document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
-                                    isStepValid=false;
+                                    supe=true;
                                     break
-                                } else {
-                                    document.getElementById('tauxerror').innerText='';
-                                    isStepValid=true;
                                 }
-
-
-
                             }
-
-                    }
-
+                            if(resultToReturn == true){
+                                document.getElementById('smartwizard').style.height = "200%";
+                                document.getElementById('tab-content').style.height = "200%";
+                                document.getElementById('tauxerror').innerText='Des conditions sont identiques';
+                                isStepValid=false;
+                            }
+                            else if( infto == true){
+                                document.getElementById('smartwizard').style.height = "200%";
+                                document.getElementById('tab-content').style.height = "200%";
+                                document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
+                                isStepValid=false;
+                            }
+                            else if (supe == true){
+                                document.getElementById('smartwizard').style.height = "200%";
+                                document.getElementById('tab-content').style.height = "200%";
+                                document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                                isStepValid=false;
+                            }
+                            else{
+                                document.getElementById('tauxerror').innerText='';
+                                isStepValid=true;
+                            }
+                        }
                 }//endif step 3
 
 
