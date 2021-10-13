@@ -440,7 +440,7 @@
                     prix=prix+((document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
                     //nb.push(document.getElementById('phasec_couts_'+[i]+'_nombreprofil').value);
                 }
-                document.getElementById('price').innerText='Le prix du projet est de '+prix +'{{ fournisseur.devise}}';
+                document.getElementById('price').innerText='Le prix du projet est de '+prix +' {{ fournisseur.devise}}';
                 document.getElementById('smartwizard').style.height = "200%";
                 document.getElementById('tab-content').style.height = "200%";
 

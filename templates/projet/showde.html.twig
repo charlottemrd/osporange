@@ -582,7 +582,7 @@
             for (j=0;j<tarifs.length;j++){
                 prixav=prixav+((tarifsqt[j])*(tarifs[j]));
             }
-            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+'{{ fournisseur.devise }}';
+            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+' {{ fournisseur.devise }}';
 
             var widthtab=5;
             {% if (projet.datel1 ==null) %}

@@ -659,7 +659,7 @@ e                            modifyde_risque"></label></th>
                 prixav=prixav+((document.getElementById('modifyde_couts_'+[j]+'_nombreprofil').value)*tarifs[j]);
                 //nb.push(document.getElementById('modifyde_couts_'+[i]+'_nombreprofil').value);
             }
-            document.getElementById('price').innerText='Le prix du projet est de'+ prixav+'{{ fournisseur.devise }}';
+            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+' {{ fournisseur.devise }}';
             if(document.getElementById("modifyde_datereel0").value==''){
                 document.getElementById("modifyde_datereel0").required=false;
                 document.getElementById('navdate0').style.display="none";
@@ -690,7 +690,7 @@ e                            modifyde_risque"></label></th>
                     prix=prix+((document.getElementById('modifyde_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
                     //nb.push(document.getElementById('modifyde_couts_'+[i]+'_nombreprofil').value);
                 }
-                document.getElementById('price').innerText='Le prix du projet est de '+prix +'{{ fournisseur.devise}}';
+                document.getElementById('price').innerText='Le prix du projet est de '+prix +' {{ fournisseur.devise}}';
                 document.getElementById('smartwizard').style.height = "200%";
                 document.getElementById('tab-content').style.height = "200%";
 

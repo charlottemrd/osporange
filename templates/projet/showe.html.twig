@@ -313,6 +313,7 @@
                         <div style="display: inline-flex;width: 100%">
                             <div id="tableaul1" style="text-align: center">
                                 <div id='backl1'>
+                                    <p>Ancienne dates T-1</p>
                                 <table class="table" style="border: black solid 1px;padding-right: 2%" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -571,7 +572,7 @@
             for (j=0;j<tarifs.length;j++){
                 prixav=prixav+((tarifsqt[j])*(tarifs[j]));
             }
-            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+'{{ fournisseur.devise }}';
+            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+' {{ fournisseur.devise }}';
 
             var widthtab=5;
             {% if (projet.datel1 ==null) %}
