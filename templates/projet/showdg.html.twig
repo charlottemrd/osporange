@@ -96,6 +96,8 @@
     <main class="container-fluid flex-fill ">
         <br>
         <h1 class="text-center">Détails du projet : {{ projet.reference }}</h1>
+        <p style="text-align: right">dernière date de mise à jour : {{ projet.datemaj |date('d/m/Y') }}</p>
+
         <br>
         <div id="smartwizard">
 
@@ -151,7 +153,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Reference</span>
                             </div>
-                            <input   type="text" class="form-control" placeholder="{{ projet.reference }}"  aria-describedby="basic-addon1">
+                            <input   type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.reference }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.datecrea!=null %}
@@ -159,7 +161,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Date de création</span>
                             </div>
-                            <input   type="text" class="form-control" placeholder="{{ projet.datecrea |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                            <input   type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.datecrea |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.datemaj!=null %}
@@ -167,7 +169,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Date de maj</span>
                             </div>
-                            <input   type="text" class="form-control" placeholder="{{ projet.datemaj |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
+                            <input   type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.datemaj |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.user!=null %}
@@ -175,7 +177,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Chef de projet</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.user }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.user }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.Phase!=null %}
@@ -183,7 +185,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Phase</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.Phase }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.Phase }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.domaine!=null %}
@@ -191,7 +193,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Domaine</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.domaine }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.domaine }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.sdomaine!=null %}
@@ -199,7 +201,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Sous-domaine</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.sdomaine }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.sdomaine }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.fournisseur!=null %}
@@ -207,7 +209,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Fournisseur</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.fournisseur }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.fournisseur }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.typebu!=null %}
@@ -215,7 +217,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Type de BU</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.typebu }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.typebu }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.description!=null %}
@@ -223,7 +225,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Description</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.description }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.description }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
 
@@ -236,7 +238,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Taux d'avancement</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.taux }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.taux }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.isplanningrespecte!=null %}
@@ -244,7 +246,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Respect du planning</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.isplanningrespecte }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.isplanningrespecte }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.priorite!=null %}
@@ -252,7 +254,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Priorité</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.priorite }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.priorite }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.risque!=null %}
@@ -260,7 +262,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Risque</span>
                                 </div>
-                                <input type="text" class="form-control"  placeholder="{{ projet.risque }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control"  style="background-color: white" disabled="disabled" placeholder="{{ projet.risque }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
 
@@ -276,7 +278,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T-1</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.datereell1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.datereell1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.datereel0!=null %}
@@ -284,7 +286,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T0</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.datereel0|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.datereel0|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.date1!=null %}
@@ -292,7 +294,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T1</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.date1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.date1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.datereel2!=null %}
@@ -300,7 +302,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T2</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.datereel2|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.datereel2|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.date3!=null %}
@@ -308,7 +310,7 @@
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date T3</span>
                                 </div>
-                                <input type="text" class="form-control" placeholder="{{ projet.date3|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.date3|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                     </table>
@@ -466,7 +468,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Mode de paiement</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.paiement }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.paiement }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.paiement=="paiement par modalités" %}
@@ -474,7 +476,7 @@
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Durée de la garantie (mois)</span>
                             </div>
-                            <input type="text" class="form-control" placeholder="{{ projet.garanti}}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.garanti}}"  aria-describedby="basic-addon1">
                         </div>
                         <p>Jalons : </p>
                         <table width="80%" style="margin-left: 10%">
