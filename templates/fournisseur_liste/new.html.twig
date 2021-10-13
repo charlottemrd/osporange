@@ -222,7 +222,10 @@
 
     <script src="{{ asset('javascript/addFournisseur.js') }}"></script>
 
-
+    <script>
+        $.validator.messages.required = 'Ce champ est requis';
+        $.validator.messages.pattern='Le format rentré est incorrect';
+    </script>
 
 
 {% endblock  %}

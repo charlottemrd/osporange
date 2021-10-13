@@ -194,6 +194,10 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern='Le format rentré est incorrect';
+
         var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
             .on('click', function(){
 

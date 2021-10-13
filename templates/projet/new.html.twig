@@ -486,6 +486,8 @@
 
 
         $(document).ready(function () {
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern='Le format rentré est incorrect';
             /*  $('.projet_fournisseur').change(function() {
                   $phasin=document.getElementById('projet_fournisseur').value;
                   $.ajax({

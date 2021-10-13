@@ -220,6 +220,8 @@
 
 
         $(document).ready(function () {
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern='Le format rentré est incorrect';
             /*  $('.phasea_fournisseur').change(function() {
                   $phasin=document.getElementById('phasea_fournisseur').value;
                   $.ajax({

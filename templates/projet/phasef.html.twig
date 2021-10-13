@@ -204,6 +204,8 @@
 
 
         $(document).ready(function () {
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern='Le format rentré est incorrect';
             /*  $('.phasef_fournisseur').change(function() {
                   $phasin=document.getElementById('phasef_fournisseur').value;
                   $.ajax({

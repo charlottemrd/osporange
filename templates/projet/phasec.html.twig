@@ -388,6 +388,8 @@
 
 
         $(document).ready(function () {
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern='Le format rentré est incorrect';
             /*  $('.phasec_fournisseur').change(function() {
                   $phasin=document.getElementById('phasec_fournisseur').value;
                   $.ajax({
