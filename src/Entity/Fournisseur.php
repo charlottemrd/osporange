@@ -57,10 +57,16 @@ class Fournisseur
      */
     private $devise;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Bilanmensuel::class, mappedBy="fournisseur")
+     */
+    private $bilanmensuels;
+
     public function __construct()
     {
         $this->profils = new ArrayCollection();
         $this->projets = new ArrayCollection();
+        $this->bilanmensuels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,6 +195,36 @@ class Fournisseur
     public function setDevise(?string $devise): self
     {
         $this->devise = $devise;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bilanmensuel[]
+     */
+    public function getBilanmensuels(): Collection
+    {
+        return $this->bilanmensuels;
+    }
+
+    public function addBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if (!$this->bilanmensuels->contains($bilanmensuel)) {
+            $this->bilanmensuels[] = $bilanmensuel;
+            $bilanmensuel->setFournisseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if ($this->bilanmensuels->removeElement($bilanmensuel)) {
+            // set the owning side to null (unless already changed)
+            if ($bilanmensuel->getFournisseur() === $this) {
+                $bilanmensuel->setFournisseur(null);
+            }
+        }
 
         return $this;
     }

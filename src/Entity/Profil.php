@@ -46,9 +46,15 @@ class Profil
      */
     private $couts;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Bilanmensuel::class, mappedBy="profil")
+     */
+    private $bilanmensuels;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
+        $this->bilanmensuels = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,5 +131,32 @@ class Profil
     public function __toString()
     {
         return $this->getName();
+    }
+
+    /**
+     * @return Collection|Bilanmensuel[]
+     */
+    public function getBilanmensuels(): Collection
+    {
+        return $this->bilanmensuels;
+    }
+
+    public function addBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if (!$this->bilanmensuels->contains($bilanmensuel)) {
+            $this->bilanmensuels[] = $bilanmensuel;
+            $bilanmensuel->addProfil($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if ($this->bilanmensuels->removeElement($bilanmensuel)) {
+            $bilanmensuel->removeProfil($this);
+        }
+
+        return $this;
     }
 }

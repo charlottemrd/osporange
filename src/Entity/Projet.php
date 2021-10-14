@@ -204,6 +204,11 @@ class Projet
      */
     private $garanti;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Bilanmensuel::class, mappedBy="projet")
+     */
+    private $bilanmensuels;
+
     public function __construct()
     {
         $this->couts = new ArrayCollection();
@@ -214,6 +219,7 @@ class Projet
         $this->dateTwos = new ArrayCollection();
         $this->dataTrois = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->bilanmensuels = new ArrayCollection();
     }
 
 
@@ -813,6 +819,36 @@ class Projet
     public function setGaranti(?int $garanti): self
     {
         $this->garanti = $garanti;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Bilanmensuel[]
+     */
+    public function getBilanmensuels(): Collection
+    {
+        return $this->bilanmensuels;
+    }
+
+    public function addBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if (!$this->bilanmensuels->contains($bilanmensuel)) {
+            $this->bilanmensuels[] = $bilanmensuel;
+            $bilanmensuel->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBilanmensuel(Bilanmensuel $bilanmensuel): self
+    {
+        if ($this->bilanmensuels->removeElement($bilanmensuel)) {
+            // set the owning side to null (unless already changed)
+            if ($bilanmensuel->getProjet() === $this) {
+                $bilanmensuel->setProjet(null);
+            }
+        }
 
         return $this;
     }
