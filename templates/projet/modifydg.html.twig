@@ -884,17 +884,23 @@
                     addModaliteFormDeleteLink($(this));
                 });
                 $collectionHolder.append($nouveau);
-                $collectionHolder.data('index', $collectionHolder.find('input').length);
+                var mindex=0;
+                {% for modalite in form.modalites %}
+                mindex=mindex+1;
+                {% endfor %}
+
+                $collectionHolder.data('mindex',mindex);
                 $boutonAjouter.on('click', function (e) {
                     addModaliteForm($collectionHolder, $nouveau);
                 });
 
                 function addModaliteForm($collectionHolder, $newLinkLi) {
                     var prototype = $collectionHolder.data('prototype');
-                    var index = $collectionHolder.data('index');
+                    var mindex = $collectionHolder.data('mindex');
                     var newForm = prototype;
-                    newForm = newForm.replace(/__name__/g, index);
-                    $collectionHolder.data('index', index + 1);
+                    newForm = newForm.replace(/__name__/g, mindex);
+
+                    $collectionHolder.data('mindex', mindex +1 );
                     var $newFormLi = $('<li></li>').append(newForm);
                     $newLinkLi.before($newFormLi);
                     addModaliteFormDeleteLink($newFormLi);

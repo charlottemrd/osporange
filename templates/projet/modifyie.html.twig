@@ -881,13 +881,21 @@
                     var selectValue0 = $phasing0.options[$phasing0.selectedIndex].value;
 
                     if (selectValue0 == '2') {
+
+
                         var tailletaux = $('ul.modalites').find('input').length;
                         var jalontaille = $('ul.modalites').find('input').length;
                         var jalondif=new Array();
-                        for(l=0;l<jalontaille;l++){
-                            jalondif.push(document.getElementById('modifyie_modalites_' + [l]+'_conditions').value)
-
+                        var jalontaux=new Array();
+                        var x=0;
+                        while(jalondif.length!=jalontaille){
+                            if((!!document.getElementById('modifyie_modalites_' + [x]+'_conditions'))==true) {
+                                jalontaux.push(parseInt(document.getElementById('modifyie_modalites_' + [x]+'_pourcentage').value));
+                                jalondif.push(document.getElementById('modifyie_modalites_' + [x]+'_conditions').value);
+                            }
+                            x=x+1;
                         }
+
                         let resultToReturn = false;
                         let supe=false;
                         let infto=false;
@@ -904,12 +912,12 @@
                                 break;
                             }
                         }
-                        for (a = 0; a < tailletaux; a++) {
-                            if (parseInt(document.getElementById('modifyie_modalites_' + [a] + '_pourcentage').value) <= 0) {
+                        for (a = 0; a < jalontaux.length; a++) {
+                            if (jalontaux[a]<= 0) {
                                 infto=true;
                                 break
                             }
-                            else if (parseInt(document.getElementById('modifyie_modalites_' + [a] + '_pourcentage').value) > 100) {
+                            else if (jalontaux[a]> 100) {
                                 supe=true;
                                 break
                             }
@@ -979,8 +987,12 @@
                     addModaliteFormDeleteLink($(this));
                 });
                 $collectionHolder.append($nouveau);
+                var mindex=0;
+                {% for modalite in form.modalites %}
+                mindex=mindex+1;
+                {% endfor %}
 
-                $collectionHolder.data('mindex', document.getElementById("step-5").getElementsByTagName("LI").length-2);
+                $collectionHolder.data('mindex',mindex);
                 $boutonAjouter.on('click', function (e) {
                     addModaliteForm($collectionHolder, $nouveau);
                 });
@@ -989,7 +1001,7 @@
                     var prototype = $collectionHolder.data('prototype');
                     var mindex = $collectionHolder.data('mindex');
                     var newForm = prototype;
-                    newForm = newForm.replace(/__name__/g, document.getElementById("step-5").getElementsByTagName("LI").length-1);
+                    newForm = newForm.replace(/__name__/g, mindex);
 
                     $collectionHolder.data('mindex', mindex +1 );
                     var $newFormLi = $('<li></li>').append(newForm);
@@ -1007,7 +1019,6 @@
                     });
                 }
             })
-
 
 
 

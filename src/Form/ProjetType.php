@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Commentaire;
-use App\Entity\Cout;
 use App\Entity\Fournisseur;
 use App\Entity\Paiement;
 use App\Entity\Priorite;
@@ -163,15 +162,7 @@ class ProjetType extends AbstractType
                 'required'=>true,
             ])
 
-            ->add('couts', CollectionType::class, array(
-                'entry_type'   => CoutType::class,
-                'allow_add'    => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype'=> true,
 
-
-            ))
 
               ->add('modalites', CollectionType::class, array(
                   'entry_type' => ModalitesType::class,

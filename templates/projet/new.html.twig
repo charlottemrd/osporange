@@ -118,21 +118,16 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#step-3">
-                        Coût
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#step-4">
                         Modalités de réception
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#step-5">
+                    <a class="nav-link" href="#step-4">
                         Commentaire
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#step-6">
+                    <a class="nav-link" href="#step-5">
                         Confirmation
                     </a>
                 </li>
@@ -325,29 +320,9 @@
                 </div>
 
 
+
+
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                    <div id="navcout" style="display: none" >
-                        Pas de coûts demandés
-                        <br>
-                        Vous pouvez passer à l'étape suivante
-                    </div>
-                    <table>
-
-                        <tr style="border-color: white" id="couts">
-                            <th>
-
-                                {{ form_label(form, 'Couts', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>
-                                {{ form_widget(form.couts, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}
-                            </th>
-                        </tr>
-                    </table>
-                </div>
-
-                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
 
                     {% macro information_prototype(modalite) %}
 
@@ -430,7 +405,7 @@
 
 
                 </div>
-                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
                     {% macro information_myprototype(commentaire) %}
 
                         <br>
@@ -454,7 +429,7 @@
                     </ul>
 
                 </div>
-                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
+                <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
                     Veuillez vérifier vos données avant de soumettre le formulaire
 
                 </div>
@@ -566,8 +541,7 @@
 
                     document.getElementById('navdate').style.display="block";
 
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
+
 
                     document.getElementById('navmode').style.display="block";
                     document.getElementById('mode').style.display="none";
@@ -575,11 +549,8 @@
 
                     document.getElementById('modalites').style.display="none";
                     document.getElementById('garanti').style.display="none";
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });
+
+
 
 
 
@@ -620,18 +591,13 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
+
 
                     document.getElementById('navmode').style.display="block";
                     document.getElementById('mode').style.display="none";
                     document.getElementById("projet_paiement").required=false;
 
-                    $collectionHolder.empty();
-                    $collectionHolder.append($nouveau);
-                    $collectionHolder.data('index', $collectionHolder.find('input').length);
-                    $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                    });
+
 
                 }
                 else if (selectValue=='5'){//etude t0
@@ -663,8 +629,6 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="block";
-                    document.getElementById("couts").style.display="none";
 
                     document.getElementById('navmode').style.display="block";
                     document.getElementById('mode').style.display="none";
@@ -714,8 +678,7 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
+
 
                     document.getElementById('navmode').style.display="none";
                     document.getElementById('mode').style.display="block";
@@ -756,8 +719,7 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
+
 
                     document.getElementById('navmode').style.display="none";
                     document.getElementById('mode').style.display="block";
@@ -800,8 +762,6 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
 
                     document.getElementById('navmode').style.display="none";
                     document.getElementById('mode').style.display="block";
@@ -844,8 +804,6 @@
 
                     document.getElementById('navdate').style.display="none";
 
-                    document.getElementById('navcout').style.display="none";
-                    document.getElementById("couts").style.display="block";
 
                     document.getElementById('navmode').style.display="none";
                     document.getElementById('mode').style.display="block";
@@ -946,11 +904,7 @@
                         document.getElementById('garanti').style.display="none";
                         document.getElementById('projet_garanti').value=null;
                         document.getElementById('projet_garanti').required=false;
-                        $collectionHolder.empty();
-                        $collectionHolder.append($nouveau);
-                        $collectionHolder.data('index', $collectionHolder.find('input').length);
-                        $boutonAjouter.on('click', function (e) {addModaliteForm($collectionHolder, $nouveau);
-                        });
+
                     }
                     if (selectValue2=='2'){
                         document.getElementById('projet_garanti').required=true;
@@ -958,6 +912,7 @@
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
+
                     }
                 });
 
@@ -1170,16 +1125,24 @@
 
                     }
                 } //endif step1
-                if(stepnumber==3){
+                if(stepnumber==2){
                     if ((document.getElementById('projet_Phase').value == 6)||(document.getElementById('projet_Phase').value == 7)||(document.getElementById('projet_Phase').value == 8)||(document.getElementById('projet_Phase').value == 9)||(document.getElementById('projet_Phase').value == 10)) {
                         if ($phasing2.options[$phasing2.selectedIndex].value == '2') {
-                            var tailletaux = $('ul.modalites').find('input').length;
+                           var tailletaux = $('ul.modalites').find('input').length;
                             var jalontaille = $('ul.modalites').find('input').length;
                             var jalondif=new Array();
-                            for(l=0;l<jalontaille;l++){
-                                jalondif.push(document.getElementById('projet_modalites_' + [l]+'_conditions').value)
-
+                            var jalontaux=new Array();
+                            var x=0;
+                            while(jalondif.length!=jalontaille){
+                                if((!!document.getElementById('projet_modalites_' + [x]+'_conditions'))==true) {
+                                    jalontaux.push(parseInt(document.getElementById('projet_modalites_' + [x]+'_pourcentage').value));
+                                    jalondif.push(document.getElementById('projet_modalites_' + [x]+'_conditions').value);
+                                }
+                                x=x+1;
                             }
+
+
+
                             let resultToReturn = false;
                             let supe=false;
                             let infto=false;
@@ -1196,12 +1159,12 @@
                                     break;
                                 }
                             }
-                            for (a = 0; a < tailletaux; a++) {
-                                if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) <= 0) {
+                            for (a = 0; a < jalontaux.length; a++) {
+                                if (jalontaux[a]<= 0) {
                                     infto=true;
                                     break
                                 }
-                                else if (parseInt(document.getElementById('projet_modalites_' + [a] + '_pourcentage').value) > 100) {
+                                else if (jalontaux[a]> 100) {
                                     supe=true;
                                     break
                                 }
@@ -1237,7 +1200,7 @@
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
                 if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
-                    if(stepDirection == "5") //here is the final step: Note: 0,1,2
+                    if(stepDirection == "4") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
                     }

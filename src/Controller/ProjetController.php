@@ -25,6 +25,7 @@ use App\Form\PhaseeType;
 use App\Form\PhasefType;
 use App\Form\PhasegType;
 use App\Form\PhasehType;
+use App\Form\ProjetCoutType;
 use App\Form\ProjetType;
 use App\Form\SearchType;
 use App\Form\PhaseaType;
@@ -171,19 +172,20 @@ class ProjetController extends AbstractController
                     $m->setConditionsatisfield(false);
                 }
             }
-
-
-
-
-
-
-
-
+            $myphase=$projet->getPhase()->getId();
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
             $entityManager->flush();
-            $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
-            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+
+           if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
+            {
+                return $this->redirectToRoute('projet_cout', ['projet'=>$projet,'id'=>$projet->getId()], Response::HTTP_SEE_OTHER);
+
+            }
+            else{
+                $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
+                return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
 
@@ -208,6 +210,26 @@ class ProjetController extends AbstractController
 
 
     }
+
+    #[Route('/{id}/cout', name: 'projet_cout', methods: ['GET', 'POST'])]
+    public function cout(Request $request, Projet $projet,NotifierInterface $notifier): Response
+    {
+        $mform = $this->createForm(ProjetCoutType::class, $projet);
+        $mform->handleRequest($request);
+        if ($mform->isSubmitted() && $mform->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+            $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('projet/projetcout.html.twig', [
+            'projet' => $projet,
+            'mform' => $mform,
+            'couts' => $projet->getFournisseur()->getProfils(),
+            'fournisseur' => $projet->getFournisseur(),
+        ]);
+    }
+
+
 
     #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
     public function show(Projet $projet): Response
@@ -968,6 +990,12 @@ class ProjetController extends AbstractController
                     foreach ($projet->getCouts() as $c) {
                         $c->setNombreprofil(0);
                     }
+                }
+                if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPaiement()->getId()==2)){
+                    foreach ($projet->getModalites() as $myp){
+                        $projet->removeModalite($myp);
+                    }
+                    $projet->setGaranti(null);
                 }
 
 
