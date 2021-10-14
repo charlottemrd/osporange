@@ -45,6 +45,7 @@ security:
     access_control:
          - { path: ^/fournisseur/liste, roles: ROLE_USER }
          - { path: ^/projet, roles: ROLE_USER }
+         - { path: ^/bilanmensuel, roles: ROLE_USER }
         # - { path: ^/profile, roles: ROLE_USER }
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER

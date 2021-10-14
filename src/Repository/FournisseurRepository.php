@@ -47,4 +47,28 @@ class FournisseurRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Fournisseur[]
+     */
+    public function searchbilanfournisseur() : array
+    {
+           $query = $this
+            ->createQueryBuilder('fournisseur');
+
+        $query->innerJoin('App\Entity\Projet', 'projet', 'WITH', 'projet.fournisseur = fournisseur.id')
+            ->innerJoin('App\Entity\Paiement', 'paiement', 'WITH', 'paiement.id = projet.paiement');
+        $query = $query
+            ->andWhere('paiement.id =:key')
+            ->setParameter('key', 1);
+
+        return $query->getQuery()->getResult();
+
+
+    }
+
+
+
+
 }
