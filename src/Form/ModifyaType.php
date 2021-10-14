@@ -41,6 +41,17 @@ class ModifyaType extends AbstractType
                 'label' => false,
                 'required' => true,
             ])
+            ->add('commentaires', CollectionType::class, [
+                'entry_type' => CommentaireType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+            ])
+
 
 
             ->add('description',TextareaType::class, [

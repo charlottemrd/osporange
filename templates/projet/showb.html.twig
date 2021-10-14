@@ -128,6 +128,11 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#step-5">
+                        Commentaires
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-6">
                         Fiche de liaison
                     </a>
                 </li>
@@ -289,12 +294,45 @@
 
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    <p>Liste des commentaires :</p>
+                    <table id="couts" width="80%" style="margin-left: 10%" style="border: black 1px solid" >
+                        <thead style="border: black 1px solid">
+                        <tr style="border: black 1px solid">
+                            <td width="10%" style="text-align: center;border-right: black solid 1px">
+                                Date
+                            </td>
+                            <td width="30%" style="text-align: center">
+                                Commentaire
+                            </td>
+                        </tr>
+                        </thead>
+                        <tbody style="border: black 1px solid">
+                        <tr>
+
+                            {% for commentaire in commentaires %}
+                        <tr>
+                            <td width="10%" style="text-align: center;border: black 1px solid">
+                                {{ commentaire.date ? commentaire.date|date('d/m/Y') : ''}}
+                            </td>
+                            <td width="30%" style="text-align: center;border: black 1px solid">
+                                {{ commentaire.description}}
+                            </td>
+
+                        </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">Pas de données trouvées</td>
+                            </tr>
+                        {% endfor %}
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     <div style="text-align: left">
                         <button> <a style="text-decoration: none" href="{{ path('projet_fichefl', {'id': projet.id}) }}">Editer une fiche de liaison</a>
                         </button>
                     </div>
-
-
                 </div>
 
 

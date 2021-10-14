@@ -11,6 +11,7 @@ use App\Entity\Phase;
 use App\Entity\Risque;
 use App\Entity\User;
 use App\Entity\TypeBU;
+use App\Entity\Commentaire;
 use App\Form\CoutType;
 use App\Form\ModalitesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -43,6 +44,17 @@ class ModifydeType extends AbstractType
             ])
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'modifyde_garanti']])
+
+            ->add('commentaires', CollectionType::class, [
+                'entry_type' => CommentaireType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+            ])
 
             ->add('description',TextareaType::class, [
                 'label' => false,

@@ -147,6 +147,13 @@ class ProjetController extends AbstractController
                 }
             }
 
+            if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPhase()->getId()==3)||($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)||($projet->getPaiement()->getId()==2)){
+                foreach ($projet->getModalites() as $myp){
+                    $projet->removeModalite($myp);
+                }
+                $projet->setGaranti(null);
+            }
+
             //to change after
             $fournisseur=$projet->getFournisseur();
             $profils=$fournisseur->getProfils();
@@ -208,12 +215,14 @@ class ProjetController extends AbstractController
         if(($projet->getPhase()->getId()==3)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==3))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==3))){//non demarre
             return $this->render('projet/showa.html.twig', [
                 'projet' => $projet,
+                'commentaires'=>$projet->getCommentaires(),
             ]);
         }
         else if(($projet->getPhase()->getId()==4)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==4))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==4))){ //cadrage
             return $this->render('projet/showb.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
+                'commentaires'=>$projet->getCommentaires(),
             ]);
         }
         else if(($projet->getPhase()->getId()==5)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==5))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==5))){ //etude
@@ -221,6 +230,7 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
+                'commentaires'=>$projet->getCommentaires(),
             ]);
         }
         else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
@@ -236,6 +246,7 @@ class ProjetController extends AbstractController
 
                 'profils' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'commentaires'=>$projet->getCommentaires(),
 
             ]);
         }
@@ -252,6 +263,7 @@ class ProjetController extends AbstractController
 
                 'profils' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'commentaires'=>$projet->getCommentaires(),
 
             ]);
         }
@@ -268,6 +280,7 @@ class ProjetController extends AbstractController
 
                 'profils' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'commentaires'=>$projet->getCommentaires(),
 
             ]);
         }
@@ -284,6 +297,7 @@ class ProjetController extends AbstractController
 
                 'profils' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'commentaires'=>$projet->getCommentaires(),
 
             ]);
         }
@@ -299,6 +313,7 @@ class ProjetController extends AbstractController
             'modalites'=>$projet->getModalites(),
             'profils' => $projet->getFournisseur()->getProfils(),
             'fournisseur'=>$projet->getFournisseur(),
+            'commentaires'=>$projet->getCommentaires(),
         ]);
         }
 
@@ -352,6 +367,13 @@ class ProjetController extends AbstractController
                     $projet->getDateLones()->add($daten);
                 }
 
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
+
                 $projet->setDatemaj(new \DateTime());
 
                 $this->getDoctrine()->getManager()->flush();
@@ -374,6 +396,13 @@ class ProjetController extends AbstractController
             $form = $this->createForm(ModifycType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
+
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
 
                 if($date0avant!=$projet->getDate0()){
                     $daten=new DateZero();
@@ -422,6 +451,13 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                    }
+                }
+
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
                     }
                 }
 
@@ -502,6 +538,13 @@ class ProjetController extends AbstractController
                     }
                 }
 
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
+
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
                     $daten2=new DateLone();
@@ -576,6 +619,13 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                    }
+                }
+
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
                     }
                 }
 
@@ -657,6 +707,13 @@ class ProjetController extends AbstractController
                     }
                 }
 
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
+
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
                     $daten2=new DateLone();
@@ -732,6 +789,12 @@ class ProjetController extends AbstractController
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
 
+                $coma=$projet->getCommentaires();
+                foreach ($coma as $com){
+                    if ($com->getDate()==null){
+                        $com->setDate(new \DateTime());
+                    }
+                }
 
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
