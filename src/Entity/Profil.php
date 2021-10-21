@@ -47,14 +47,17 @@ class Profil
     private $couts;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Bilanmensuel::class, mappedBy="profil")
+     * @ORM\OneToMany(targetEntity=Infobilan::class, mappedBy="profil",orphanRemoval=true, cascade={"persist"})
      */
-    private $bilanmensuels;
+    private $infobilans;
+
+
 
     public function __construct()
     {
         $this->couts = new ArrayCollection();
-        $this->bilanmensuels = new ArrayCollection();
+        $this->infobilans = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -134,29 +137,36 @@ class Profil
     }
 
     /**
-     * @return Collection|Bilanmensuel[]
+     * @return Collection|Infobilan[]
      */
-    public function getBilanmensuels(): Collection
+    public function getInfobilans(): Collection
     {
-        return $this->bilanmensuels;
+        return $this->infobilans;
     }
 
-    public function addBilanmensuel(Bilanmensuel $bilanmensuel): self
+    public function addInfobilan(Infobilan $infobilan): self
     {
-        if (!$this->bilanmensuels->contains($bilanmensuel)) {
-            $this->bilanmensuels[] = $bilanmensuel;
-            $bilanmensuel->addProfil($this);
+        if (!$this->infobilans->contains($infobilan)) {
+            $this->infobilans[] = $infobilan;
+            $infobilan->setProfil($this);
         }
 
         return $this;
     }
 
-    public function removeBilanmensuel(Bilanmensuel $bilanmensuel): self
+    public function removeInfobilan(Infobilan $infobilan): self
     {
-        if ($this->bilanmensuels->removeElement($bilanmensuel)) {
-            $bilanmensuel->removeProfil($this);
+        if ($this->infobilans->removeElement($infobilan)) {
+            // set the owning side to null (unless already changed)
+            if ($infobilan->getProfil() === $this) {
+                $infobilan->setProfil(null);
+            }
         }
 
         return $this;
     }
+
+
+
+
 }

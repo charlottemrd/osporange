@@ -205,9 +205,13 @@ class Projet
     private $garanti;
 
     /**
-     * @ORM\OneToMany(targetEntity=Bilanmensuel::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=Bilanmensuel::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $bilanmensuels;
+
+
+
+
 
     public function __construct()
     {
@@ -220,6 +224,8 @@ class Projet
         $this->dataTrois = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->bilanmensuels = new ArrayCollection();
+
+
     }
 
 
@@ -852,6 +858,9 @@ class Projet
 
         return $this;
     }
+
+
+
 
 
 

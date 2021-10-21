@@ -19,10 +19,20 @@ class Bilanmensuel
      */
     private $id;
 
+
+
+
+
+
+
+
+
+
+
     /**
-     * @ORM\ManyToOne(targetEntity=Fournisseur::class, inversedBy="bilanmensuels")
+     * @ORM\Column(type="date", nullable=true)
      */
-    private $fournisseur;
+    private $datemaj;
 
     /**
      * @ORM\ManyToOne(targetEntity=Projet::class, inversedBy="bilanmensuels")
@@ -30,19 +40,9 @@ class Bilanmensuel
     private $projet;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\OneToMany(targetEntity=Infobilan::class, mappedBy="bilanmensuel",orphanRemoval=true, cascade={"persist"})
      */
-    private $monthyear;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $nombre;
-
-    /**
-     * @ORM\ManyToMany(targetEntity=Profil::class, inversedBy="bilanmensuels")
-     */
-    private $profil;
+    private $infobilans;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -50,33 +50,41 @@ class Bilanmensuel
     private $havebeenmodified;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\ManyToOne(targetEntity=Idmonthbm::class, inversedBy="bilanMensuels")
      */
-    private $isaccept;
+    private $idmonthbm;
 
-    /**
-     * @ORM\Column(type="date", nullable=true)
-     */
-    private $datemaj;
 
-    public function __construct()
-    {
-        $this->profil = new ArrayCollection();
-    }
+
+
+
+
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFournisseur(): ?Fournisseur
+
+
+
+
+
+
+
+
+
+
+
+
+    public function getDatemaj(): ?\DateTimeInterface
     {
-        return $this->fournisseur;
+        return $this->datemaj;
     }
 
-    public function setFournisseur(?Fournisseur $fournisseur): self
+    public function setDatemaj(?\DateTimeInterface $datemaj): self
     {
-        $this->fournisseur = $fournisseur;
+        $this->datemaj = $datemaj;
 
         return $this;
     }
@@ -93,50 +101,32 @@ class Bilanmensuel
         return $this;
     }
 
-    public function getMonthyear(): ?\DateTimeInterface
-    {
-        return $this->monthyear;
-    }
-
-    public function setMonthyear(?\DateTimeInterface $monthyear): self
-    {
-        $this->monthyear = $monthyear;
-
-        return $this;
-    }
-
-    public function getNombre(): ?int
-    {
-        return $this->nombre;
-    }
-
-    public function setNombre(?int $nombre): self
-    {
-        $this->nombre = $nombre;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Profil[]
+     * @return Collection|Infobilan[]
      */
-    public function getProfil(): Collection
+    public function getInfobilans(): Collection
     {
-        return $this->profil;
+        return $this->infobilans;
     }
 
-    public function addProfil(Profil $profil): self
+    public function addInfobilan(Infobilan $infobilan): self
     {
-        if (!$this->profil->contains($profil)) {
-            $this->profil[] = $profil;
+        if (!$this->infobilans->contains($infobilan)) {
+            $this->infobilans[] = $infobilan;
+            $infobilan->setBilanmensuel($this);
         }
 
         return $this;
     }
 
-    public function removeProfil(Profil $profil): self
+    public function removeInfobilan(Infobilan $infobilan): self
     {
-        $this->profil->removeElement($profil);
+        if ($this->infobilans->removeElement($infobilan)) {
+            // set the owning side to null (unless already changed)
+            if ($infobilan->getBilanmensuel() === $this) {
+                $infobilan->setBilanmensuel(null);
+            }
+        }
 
         return $this;
     }
@@ -153,27 +143,21 @@ class Bilanmensuel
         return $this;
     }
 
-    public function getIsaccept(): ?bool
+    public function getIdmonthbm(): ?Idmonthbm
     {
-        return $this->isaccept;
+        return $this->idmonthbm;
     }
 
-    public function setIsaccept(?bool $isaccept): self
+    public function setIdmonthbm(?Idmonthbm $idmonthbm): self
     {
-        $this->isaccept = $isaccept;
+        $this->idmonthbm = $idmonthbm;
 
         return $this;
     }
 
-    public function getDatemaj(): ?\DateTimeInterface
-    {
-        return $this->datemaj;
-    }
 
-    public function setDatemaj(?\DateTimeInterface $datemaj): self
-    {
-        $this->datemaj = $datemaj;
 
-        return $this;
-    }
+
+
+
 }

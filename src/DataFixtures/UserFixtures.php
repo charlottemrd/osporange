@@ -2,6 +2,12 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Bilanmensuel;
+use App\Entity\Cout;
+use App\Entity\Fournisseur;
+use App\Entity\Idmonthbm;
+use App\Entity\Profil;
+use App\Entity\Projet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\User;
@@ -154,9 +160,102 @@ class UserFixtures extends Fixture
 
 
 
+        //dataset for bilanmensuel :essai
+        $fournisseur1=new Fournisseur();
+        $fournisseur1->setName('fournisseur A');
+        $fournisseur1->setDevise('a');
+
+        $profil1=new Profil();
+        $profil1->setName('a');
+        $profil1->setTarif(100);
+        $profil1->setFournisseur($fournisseur1);
+        $profil2=new Profil();
+        $profil2->setName('b');
+        $profil2->setTarif(100);
+        $profil2->setFournisseur($fournisseur1);
+        $fournisseur1->getProfils()->add($profil1);
+        $fournisseur1->getProfils()->add($profil2);
+
+        $manager->persist($fournisseur1);
 
 
+        $projet1=new Projet();
+        $projet1->setTypebu($typebu);
+        $projet1->setFournisseur($fournisseur1);
+        $projet1->setPhase($phase6);
+        $projet1->setDate0(new \DateTime());
+        $projet1->setDate1(new \DateTime());
+        $projet1->setDate2(new \DateTime());
+        $projet1->setDate3(new \DateTime());
+        $projet1->setDatel1(new \DateTime());
+        $projet1->setHighestphase(6);
+        $projet1->setReference("xsza");
+        $projet1->setDomaine("dxzs");
+        $projet1->setSdomaine("xczs");
+        $projet1->setDescription("dxqez");
+        $projet1->setTaux(0);
+        $projet1->setIsplanningrespecte(0);
+        $projet1->setPaiement($paiement);
+        $projet1->setRisque($risque2);
+        $projet1->setPriorite($priorite2);
+        $projet1->setUser($user);
 
+
+        $projet2=new Projet();
+        $projet2->setTypebu($typebu);
+        $projet2->setFournisseur($fournisseur1);
+        $projet2->setPhase($phase6);
+        $projet2->setDate0(new \DateTime());
+        $projet2->setDate1(new \DateTime());
+        $projet2->setDate2(new \DateTime());
+        $projet2->setDate3(new \DateTime());
+        $projet2->setDatel1(new \DateTime());
+        $projet2->setHighestphase(6);
+        $projet2->setReference("huo");
+        $projet2->setDomaine("dxzs");
+        $projet2->setSdomaine("xczs");
+        $projet2->setDescription("dxqez");
+        $projet2->setTaux(0);
+        $projet2->setIsplanningrespecte(0);
+        $projet2->setPaiement($paiement);
+        $projet2->setRisque($risque2);
+        $projet2->setPriorite($priorite2);
+        $projet2->setUser($user);
+
+        $cout1=new Cout();
+        $cout1->setProfil($profil1);
+        $cout1->setProjet($projet1);
+        $cout1->setNombreprofil(100);
+
+        $cout2=new Cout();
+        $cout2->setProfil($profil2);
+        $cout2->setProjet($projet1);
+        $cout2->setNombreprofil(200);
+
+        $projet1->getCouts()->add($cout1);
+        $projet1->getCouts()->add($cout2);
+
+        $manager->persist($projet1);
+
+        $infmon=new Idmonthbm();
+        $infmon->setMonthyear(new \DateTime());
+        $infmon->setIsaccept(0);
+        $infmon->setFournisseur($fournisseur1);
+        $manager->persist($infmon);
+
+        $bilan1=new Bilanmensuel();
+        $bilan1->setProjet($projet1);
+        $bilan1->setHavebeenmodified(0);
+        //$bilan1->setMonthyear(new \DateTime());
+        $bilan1->setIdmonthbm($infmon);
+        $manager->persist($bilan1);
+
+        $bilan2=new Bilanmensuel();
+        $bilan2->setProjet($projet2);
+        $bilan2->setHavebeenmodified(0);
+        $bilan2->setIdmonthbm($infmon);
+        //$bilan2->setMonthyear(new \DateTime());
+        $manager->persist($bilan1);
 
 
 

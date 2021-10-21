@@ -62,11 +62,17 @@ class Fournisseur
      */
     private $bilanmensuels;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Idmonthbm::class, mappedBy="fournisseur",orphanRemoval=true, cascade={"persist"})
+     */
+    private $idmonthbms;
+
     public function __construct()
     {
         $this->profils = new ArrayCollection();
         $this->projets = new ArrayCollection();
         $this->bilanmensuels = new ArrayCollection();
+        $this->idmonthbms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +229,36 @@ class Fournisseur
             // set the owning side to null (unless already changed)
             if ($bilanmensuel->getFournisseur() === $this) {
                 $bilanmensuel->setFournisseur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Idmonthbm[]
+     */
+    public function getIdmonthbms(): Collection
+    {
+        return $this->idmonthbms;
+    }
+
+    public function addIdmonthbm(Idmonthbm $idmonthbm): self
+    {
+        if (!$this->idmonthbms->contains($idmonthbm)) {
+            $this->idmonthbms[] = $idmonthbm;
+            $idmonthbm->setFournisseur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdmonthbm(Idmonthbm $idmonthbm): self
+    {
+        if ($this->idmonthbms->removeElement($idmonthbm)) {
+            // set the owning side to null (unless already changed)
+            if ($idmonthbm->getFournisseur() === $this) {
+                $idmonthbm->setFournisseur(null);
             }
         }
 

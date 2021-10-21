@@ -20,12 +20,12 @@ final class Version20211014154751 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE bilanmensuel ADD havebeenmodified TINYINT(1) DEFAULT NULL, ADD isaccept TINYINT(1) DEFAULT NULL, ADD datemaj DATE DEFAULT NULL');
+        $this->addSql('ALTER TABLE bilanmensuel   ADD datemaj DATE DEFAULT NULL');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE bilanmensuel DROP havebeenmodified, DROP isaccept, DROP datemaj');
+        $this->addSql('ALTER TABLE bilanmensuel   DROP datemaj');
     }
 }
