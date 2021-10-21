@@ -1,0 +1,180 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+     <link rel="stylesheet" href="{{ asset('css/indexFournisseur.css') }}" />
+
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+             background-color: #FF7900;
+             border-color: #FF7900;
+
+         }
+         .pagination>li>a, .pagination>li>span {
+
+             color: black;
+
+         }
+
+         select{
+             width: 100%;
+         }
+
+
+         @media (max-width:765px)
+         {
+             .toreduce{
+                 width: 50%;
+
+             }
+         }
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center" >Liste des bilans mensuels du fournisseur : {{ fournisseur.name}} </h1>
+
+
+        <div class="form-signin">
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonS">
+                        <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+
+
+                </div>
+            {% endfor %}
+            <br>
+
+
+
+
+            <br>
+            <div class="bigbox" id="bigbox" style="width: 94%;padding-right: 3%;padding-left: 3%">
+                <table style="width: 100%" >
+                    <tr style="border-color: white">
+                        <th style="border-color: white" id="toreduce" >
+                            {{ form_start(form) }}
+                            {{ form_label(form, 'Date ( mm/yyyy) ', { 'label_attr': {'class': 'input-group-text','style': 'font-size:medium'}})}}</th>
+
+                            <th style="border-color: white">
+                                <div class="select2-container">{{ form_widget(form.month, {
+                            'label_attr': {'class': 'form_control'}}
+                                    ) }}</div></th>
+                         <th style="border-color: white;text-align: left">
+                             {{ form_label(form, ' / ', { 'label_attr': {'style': 'font-size:medium'} } ) }}</th>
+                        <th style="border-color: white">
+                            <div class="select2-container">
+                            {{ form_widget(form.year, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+                            </div>
+                        </th>
+                    </tr>
+                    <tr style="border-color: white">
+                        <th style="border-color: white" id="toreduce">
+                            {{ form_label(form, ' Le bilan a-t-il été accepté ', { 'label_attr': {'class': 'input-group-text','style': 'font-size:medium'} } ) }}
+
+                        </th>
+                        <th style="border-color: white"><div class="select2-container">
+                                {{ form_widget(form.accept ,{
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</div>
+                        </th>
+                    </tr>
+                    <tr style="border-color: white">
+                        <th style="border-color: white; width: 30%">
+                        </th>
+                        <th style="border-color: white;width: 30%">
+                            <button type="submit" class="text-white bg-black btn">Rechercher</button>
+                        </th>
+                        <th style="border-color: white; width: 30%">
+                        </th>
+                    </tr>
+
+
+
+
+                    {{ form_end(form) }}
+                </table>
+            </div>
+            <br>
+
+            <table class="table" id="table">
+
+                <thead>
+
+                <tr>
+
+
+                    <th class="text-center" style="width: 30%">Date</th>
+                    <th class="text-center" style="width: 30%">Bilan mensuel accepté</th>
+                    <th class="text-center"  style="width: 30%">Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for bilan in bilans %}
+                    <tr>
+                        <td class="text-center " style="width: 30%"><br>{{ bilan.monthyear |date('m/Y') }}</td>
+                        <td class="text-center " style="width: 30%"><br>{{ bilan.isaccept ? 'Oui' : 'Non' }}</td>
+                        <td class="text-center" style="width: 30%">
+                            <a href=#><img src="/photo/view.png "  width="20%" height="100%"></img></a>
+                            <a href=#><img src="/photo/modify.png "  width="20%" height="100%"></img></a>
+                            <a href=#><img src="/photo/dowload.png "  width="20%" height="100%"></img></a>
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+    <script>
+
+
+    </script>
+
+{% endblock  %}
