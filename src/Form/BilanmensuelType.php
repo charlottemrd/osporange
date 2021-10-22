@@ -26,7 +26,7 @@ class BilanmensuelType extends AbstractType
 
             ->add('Infobilans', CollectionType::class, array(
                 'entry_type'   => InfobilanType::class,
-                'allow_add'    => true,
+                'allow_add'    => false,
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype'=> true,

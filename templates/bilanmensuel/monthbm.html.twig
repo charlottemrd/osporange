@@ -8,7 +8,7 @@
      <link rel="stylesheet"
            href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 
-     <link rel="stylesheet" href="{{ asset('css/indexprojet.css') }}" />
+
      <style>
          .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 
@@ -21,8 +21,50 @@
              color: black;
 
          }
+         body {
+             max-width: 100%;
+             margin: 0;
+         }
+         body {
+             min-height:100vh;
+         }
+
+         .flex-fill {
+             flex:1 1 auto;
+         }
+
+         div.dataTables_length select {
+             width: 0px;
+         }
+
+         .form-signin{
+             padding-bottom: 2%;
+             padding-top: 2%;
+             padding-right: 10%;
+             padding-left: 10%;
+
+         }
 
 
+
+         .searching{
+             display: inline-block;
+         }
+         @media (max-width:765px)
+         {
+             .form-signin{
+                 padding-bottom: 0%;
+                 padding-top: 7%;
+                 padding-right: 8%;
+                 padding-left: 8%;
+
+             }
+         }
+         .row:after {
+             content: "";
+             display: table;
+             clear: both;
+         }
 
          .select23  {
              /* for Firefox */
@@ -34,6 +76,7 @@
          /* For IE10 */
          .select23::-ms-expand {
              display: none;
+
          }
 
          select{
@@ -44,6 +87,8 @@
          input[type="number"] {
              text-align: center;
              width: 100%;
+             background: none;
+             border: none;
          }
 
          select{
@@ -51,7 +96,8 @@
          }
 
          span#profilnameof.form-control,span#labelp.form-control{
-             background: lightgrey;
+             background: none;
+             border: none;
          }
 
 
@@ -101,45 +147,67 @@
 
             <br>
             <div class="bigbox" id="bigbox" style="width:100%">
-                <table id="couts" style="display:block;border: black solid 1px" >
+                <table id="couts" style="display:block" >
                     <thead  >
                     <tr>
-                        <th width="20%" style="text-align: center;background: lightgrey" >
+                        <th width="20%" style="text-align: center;background: lightgrey ;border: black solid 0.5px">
                             <span class="form-control" id="labelp">Profils</span>
                         </th>
+                        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
                         {% for profil in profils %}
-                            <td width="15%" style="text-align: center">
+                            <td width="15%" style="text-align: center;background-color: lightgrey;border: black solid 0.5px">
                                 <span class="form-control" id="profilnameof">{{ profil.name}}</span>
 
 
                             </td>
                         {% endfor %}
-
+                        <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
+                            Actions
+                        </td>
+                        <td width="12%" style="text-align: center;background-color: lightgrey;border: black solid 0.5px">
+                            Dernière mise à jour
+                        </td>
 
                     </tr>
                     </thead>
                     <tbody>
-
+                    {%set index=0 %}
                     {% for bilanMensuel in form.bilanMensuels %}
                         <tr>
-                            <td width="20%" style="text-align:center;background-color: lightgrey">
+                            <td width="20%" style="text-align:center;background-color: lightgrey;border: black solid 0.5px">
                               <span>{{ form_widget(bilanMensuel.projet, {
                                       'label_attr': {'class': 'form_control'}}
                                   ) }}</span>
                             </td>
 
                             {% for infobilan in bilanMensuel.Infobilans %}
-                                <td width="10%" style="text-align: center" >
+                                <td width="10%" style="text-align: center;border: black solid 0.5px" >
                                <span> {{ form_widget(infobilan.nombreprofit, {
                                        'label_attr': {'class': 'form_control'}}
                                    ) }}</span>
                                 </td>
                             {% endfor %}
+
+                            <td  style="display:flex;border:none;border-top: black solid 0.5px" >
+
+                                <button class="text-decoration-none" id=bilanMensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/pen.png "  width="30%" ></img></button>
+
+                               <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/check.png "  width="70%" height="100%"></img></button>
+
+                                <button class="text-decoration-none" id=closingbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/close.png "  width="40%" height="80%"></img></button>
+
+                            </td>
+                            <td style="border: black solid 0.5px">
+                                <p>hbjj</p>
+                            </td>
+
                         </tr>
+                        {% set index=index +1%}
                     {% endfor %}
-                    </tr>
+
                     </tbody>
                 </table>
+                {{ form_end(form) }}
             </div>
         </div>
     </main>
@@ -161,6 +229,30 @@
     <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
 
     <script>
+        double=false;
+        function makeeditable(i){
+            if(double!=true) {
+                j = -1;
+                {% for profil in profils %}
+                j = j + 1;
+                {% endfor %}
+                for (p = 0; p < j + 1; p++) {
+                    dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_Infobilans_' + [p] + '_nombreprofit').removeAttribute("disabled");
+                }
+                document.getElementById('bilanMensuel_'+[i]).style.display="none";
+                document.getElementById('closingbm_'+[i]).style.display="inline-block";
+                document.getElementById('validbm_'+[i]).style.display="inline-block";
+
+
+                double=true;
+            }
+            else{
+                alert('Vous ne pouvez editer qu\'un champ à la fois');
+            }
+
+
+        }
+
 
 
     </script>

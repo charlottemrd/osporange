@@ -101,7 +101,7 @@ class BilanMensuelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('bilanmensuel_index ', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('bilanmensuel/monthbm.html.twig', [
