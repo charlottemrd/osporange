@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Bilanmensuel;
+use App\Entity\Idmonthbm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -48,7 +49,30 @@ class BilanmensuelRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Bilanmensuel[]
+     */
+    public function listebilanmensuel(Idmonthbm $idmonthbm) : array
+    {
 
+        $query = $this
+            ->createQueryBuilder('bilanmensuel');
+
+        $query->innerJoin('App\Entity\Idmonthbm', 'idmonthbm', 'WITH', 'idmonthbm.id = bilanmensuel.idmonthbm')
+        ;
+        $query = $query
+            ->andWhere('bilanmensuel.idmonthbm =:monthbm')
+            ->setParameter('monthbm', $idmonthbm);
+
+
+
+
+
+        return $query->getQuery()->getResult();
+
+
+    }
 
 
 

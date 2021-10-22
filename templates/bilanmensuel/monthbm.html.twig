@@ -1,0 +1,168 @@
+
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+     <link rel="stylesheet" href="{{ asset('css/indexprojet.css') }}" />
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+             background-color: #FF7900;
+             border-color: #FF7900;
+
+         }
+         .pagination>li>a, .pagination>li>span {
+
+             color: black;
+
+         }
+
+
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+         select{
+             border:none;
+             background-color: lightgrey;
+         }
+
+         input[type="number"] {
+             text-align: center;
+             width: 100%;
+         }
+
+         select{
+             text-align: center;
+         }
+
+         span#profilnameof.form-control,span#labelp.form-control{
+             background: lightgrey;
+         }
+
+
+         @media (max-width:765px)
+         {
+             .toreduce{
+                 width: 50%;
+
+             }
+         }
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center" >Liste des bilans mensuels du fournisseur : </h1>
+
+
+        <div class="form-signin">
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonS">
+                        <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+
+
+                </div>
+            {% endfor %}
+            <br>
+
+
+
+
+            <br>
+            <div class="bigbox" id="bigbox" style="width:100%">
+                <table id="couts" style="display:block;border: black solid 1px" >
+                    <thead  >
+                    <tr>
+                        <th width="20%" style="text-align: center;background: lightgrey" >
+                            <span class="form-control" id="labelp">Profils</span>
+                        </th>
+                        {% for profil in profils %}
+                            <td width="15%" style="text-align: center">
+                                <span class="form-control" id="profilnameof">{{ profil.name}}</span>
+
+
+                            </td>
+                        {% endfor %}
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for bilanMensuel in form.bilanMensuels %}
+                        <tr>
+                            <td width="20%" style="text-align:center;background-color: lightgrey">
+                              <span>{{ form_widget(bilanMensuel.projet, {
+                                      'label_attr': {'class': 'form_control'}}
+                                  ) }}</span>
+                            </td>
+
+                            {% for infobilan in bilanMensuel.Infobilans %}
+                                <td width="10%" style="text-align: center" >
+                               <span> {{ form_widget(infobilan.nombreprofit, {
+                                       'label_attr': {'class': 'form_control'}}
+                                   ) }}</span>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+    <script>
+
+
+    </script>
+
+{% endblock  %}

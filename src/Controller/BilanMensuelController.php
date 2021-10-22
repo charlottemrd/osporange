@@ -14,6 +14,7 @@ use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Entity\SearchBilanmensuel;
 use App\Form\FicheliaisonType;
+use App\Form\IdmonthbmType;
 use App\Form\ModifyaType;
 use App\Form\ModifybType;
 use App\Form\ModifycType;
@@ -41,7 +42,9 @@ use App\Repository\IdmonthbmRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
+use FontLib\TrueType\Collection;
 use PhpParser\Node\Expr\AssignOp\Mod;
+use PhpParser\Node\Expr\Cast\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,6 +85,28 @@ class BilanMensuelController extends AbstractController
         return $this->render('bilanmensuel/bilanmensuelfournisseur.htlm.twig', [
             'bilans'=>$bilans,
             'fournisseur'=>$fournisseur,
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    #[Route('/{name}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
+    public function fournisseurmois(Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
+    {
+        $bilans=$bilanmensuelRepository->listebilanmensuel($idmonthbm);
+        $profils=$profilRepository->findProfils($fournisseur);
+
+        $form = $this->createForm(IdmonthbmType::class, $idmonthbm);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('bilanmensuel_index ', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('bilanmensuel/monthbm.html.twig', [
+            'bilanmensuel'=>$bilans,
+            'profils'=>$profils,
             'form'=>$form->createView(),
         ]);
     }
