@@ -209,7 +209,7 @@
 
                                 <button class="text-decoration-none" id=bilanMensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img class="photopen" src="/photo/pen.png "  width="30%" ></img></button>
 
-                                <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="submit"><img class="photocheck" src="/photo/check.png "  width="70%" height="100%"></img></button>
+                                <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="submit" onclick="submission({{ index }})"><img class="photocheck" src="/photo/check.png "  width="70%" height="100%"></img></button>
 
 
                                 <button class="text-decoration-none" id=closingbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="reset" onclick=annulmodif({{ index }})><img class="photoclose" src="/photo/close.png "  width="40%" height="80%"></img></button>
@@ -261,8 +261,13 @@
             double = false;
 
 
-            function submission(){
-                onsubmit();
+            function submission(i){
+
+                $phasing6=document.getElementById('idmonthbm_bilanMensuels_'+[i]+'_projet');
+                var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
+                document.getElementById('idmonthbm_namebutton').value=selectValue6;
+                document.getElementById('idmonthbm_type').value=1;
+
             }
 
 

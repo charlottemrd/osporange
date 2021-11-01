@@ -7,6 +7,7 @@ use App\Entity\Fournisseur;
 use App\Entity\Paiement;
 use App\Entity\Phase;
 use App\Entity\Projet;
+use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
@@ -36,7 +37,8 @@ class BilanmensuelType extends AbstractType
                     "class" => "d-none"
                 ],
             ))
-            ->add('submit', SubmitType::class)
+
+
 
 
 

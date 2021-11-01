@@ -103,7 +103,25 @@ class BilanMensuelController extends AbstractController
         $myyear=date_format($myyearmonth, 'Y');
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted()) {
+            $type = $form->get('type')->getViewData();
+            $namebutton = $form->get('namebutton')->getViewData();
+            if ($type!=2){
+                return $this->redirectToRoute('projet_index', [
+                    'type'=>$type,
+                    'namebutton'=>$namebutton
+                ], Response::HTTP_SEE_OTHER);
+            }
+            else{
+                // le projet est valide
+            }
+
+
+
+
+
+
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute(('bilanmensuel_fournisseurmois'), [

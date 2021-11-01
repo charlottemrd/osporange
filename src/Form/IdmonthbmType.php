@@ -6,6 +6,7 @@ use App\Entity\Idmonthbm;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -27,6 +28,34 @@ class IdmonthbmType extends AbstractType
                     "class" => "d-none"
                 ],
             ))
+            ->add('namebutton',TextType::class,[
+                'mapped'=>false,
+                'required'=>false,
+
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+
+                'attr' => [
+                    'class' => 'nameofbmbutton'
+                ]
+            ])
+
+            ->add('type',TextType::class,[
+                'mapped'=>false,
+                'required'=>false,
+
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+
+                'attr' => [
+                    'class' => 'type'
+                ]
+            ])
+
+
+
            ;
 
     }
