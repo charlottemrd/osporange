@@ -41,6 +41,27 @@ class ProfilRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Profil
+     */
+    public function getcost($profil)
+    {
+
+
+        $query = $this
+            ->createQueryBuilder('om');
+
+
+        $query = $query
+            ->andWhere('om.id =:prof')
+            ->setParameter('prof', $profil)
+            ;
+
+        return $query->getQuery()->getResult();
+
+    }
+
 
 
     // /**

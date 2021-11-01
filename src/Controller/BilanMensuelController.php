@@ -90,7 +90,7 @@ class BilanMensuelController extends AbstractController
     }
 
     #[Route('/{name}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
-    public function fournisseurmois(Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
+    public function fournisseurmois(ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
     {
         $bilans=$bilanmensuelRepository->listebilanmensuel($idmonthbm);
         $profils=$profilRepository->findProfils($fournisseur);
@@ -108,13 +108,23 @@ class BilanMensuelController extends AbstractController
 
             $type = $request->request->get('type');
             if($type==1) {
-                $namemodif = $request->request->get('type');
-
+                $namemodif = $request->request->get('name');
+                $project=$projetRepository->findOneBy(array('reference'=>$namemodif));
+                $cout=0;
+                $profils=$project->getCouts();
+                foreach($profils as $pa){
+                    $idpa=$pa->getProfil();
+                    $pm=$profilRepository->findOneBy(array('id'=>$idpa))->getTarif();
+                    $pd = $pa->getNombreprofil();
+                    $cout=$cout+($pm * $pd);
+                }
                 return new JsonResponse(array( //cas succes
                     'status' => 'OK',
                     'message' => 0,
                     'success'  => true,
-                    'redirect' => $this->generateUrl('fournisseur_liste_index')
+                    'sz'=>$cout,
+                    'idprojet'=>$project->getReference(),
+                    //'redirect' => $this->generateUrl('fournisseur_liste_index',['sz'=>$pm])
                 ),
                     200);
             }//endif type==1

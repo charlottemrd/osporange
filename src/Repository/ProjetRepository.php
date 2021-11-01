@@ -131,6 +131,24 @@ class ProjetRepository extends ServiceEntityRepository
 
     /**
      * Récupère les produits en lien avec une recherche
+     * @return Projet|null
+     */
+    public function findprojetbyname($name)
+    {
+
+        $query = $this
+            ->createQueryBuilder('ol');
+            $query = $query
+                ->andWhere('ol.reference LIKE :ref')
+                ->setParameter('ref', $name);
+
+        return $query->getQuery()->getResult();
+
+    }
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
     public function createRef( User $user) : array
