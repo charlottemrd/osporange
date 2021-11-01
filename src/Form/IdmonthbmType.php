@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Idmonthbm;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,8 +26,9 @@ class IdmonthbmType extends AbstractType
                 "row_attr" => [
                     "class" => "d-none"
                 ],
-            ));
-        ;
+            ))
+           ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

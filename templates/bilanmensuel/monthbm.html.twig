@@ -53,12 +53,23 @@
          @media (max-width:765px)
          {
              .form-signin{
-                 padding-bottom: 0%;
+                 padding-bottom: 25%;
                  padding-top: 7%;
                  padding-right: 8%;
                  padding-left: 8%;
 
              }
+
+             .photoclose{
+                 width: 100%;
+             }
+             img.photocheck{
+                 width: 100%;
+             }
+             .photopen{
+                 width: 70%;
+             }
+
          }
          .row:after {
              content: "";
@@ -161,11 +172,12 @@
 
                             </td>
                         {% endfor %}
-                        <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
-                            Actions
-                        </td>
-                        <td width="12%" style="text-align: center;background-color: lightgrey;border: black solid 0.5px">
+
+                        <td width="12%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
                             Dernière mise à jour
+                        </td>
+                        <td width="8%"  style="text-align: center;background-color: white;border-bottom:  rgba(0,0,0,0.63) solid 0.25px">
+
                         </td>
 
                     </tr>
@@ -188,25 +200,28 @@
                                 </td>
                             {% endfor %}
 
-                            <td  style="display:flex;border:none;border-top: black solid 0.5px" >
 
-                                <button class="text-decoration-none" id=bilanMensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/pen.png "  width="30%" ></img></button>
-
-                               <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/check.png "  width="70%" height="100%"></img></button>
-
-                                <button class="text-decoration-none" id=closingbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img src="/photo/close.png "  width="40%" height="80%"></img></button>
-
-                            </td>
                             <td style="border: black solid 0.5px">
                                 <p>hbjj</p>
+
                             </td>
+                            <td  style="display:flex;border:none;border-right: rgba(0,0,0,0.63) solid 0.25px;border-bottom: rgba(0,0,0,0.63) solid 0.12px" >
 
-                        </tr>
+                                <button class="text-decoration-none" id=bilanMensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img class="photopen" src="/photo/pen.png "  width="30%" ></img></button>
+
+                                <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="submit"><img class="photocheck" src="/photo/check.png "  width="70%" height="100%"></img></button>
+
+
+                                <button class="text-decoration-none" id=closingbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="reset" onclick=annulmodif({{ index }})><img class="photoclose" src="/photo/close.png "  width="40%" height="80%"></img></button>
+
+                            </td>
                         {% set index=index +1%}
-                    {% endfor %}
 
+
+                    {% endfor %}
                     </tbody>
                 </table>
+
                 {{ form_end(form) }}
             </div>
         </div>
@@ -229,29 +244,62 @@
     <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
 
     <script>
-        double=false;
-        function makeeditable(i){
-            if(double!=true) {
-                j = -1;
-                {% for profil in profils %}
-                j = j + 1;
-                {% endfor %}
-                for (p = 0; p < j + 1; p++) {
-                    dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_Infobilans_' + [p] + '_nombreprofit').removeAttribute("disabled");
+
+            jo = -1;
+            po = -1;
+            {% for profil in profils %}
+            jo = jo + 1;
+            {% endfor %}
+            {% for bilanMensuel in form.bilanMensuels %}
+            po = po + 1;
+            {% endfor %}
+            for (az = 0; az < jo + 1; az++) {
+                for (pz = 0; pz < po + 1; pz++) {
+                    dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [pz] + '_Infobilans_' + [az] + '_nombreprofit').setAttribute('disabled', 'disabled');
                 }
-                document.getElementById('bilanMensuel_'+[i]).style.display="none";
-                document.getElementById('closingbm_'+[i]).style.display="inline-block";
-                document.getElementById('validbm_'+[i]).style.display="inline-block";
-
-
-                double=true;
             }
-            else{
-                alert('Vous ne pouvez editer qu\'un champ à la fois');
+            double = false;
+
+
+            function submission(){
+                onsubmit();
             }
 
 
-        }
+            function makeeditable(i) {
+                if (double != true) {
+                    j = -1;
+                    {% for profil in profils %}
+                    j = j + 1;
+                    {% endfor %}
+                    for (p = 0; p < j + 1; p++) {
+                        dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_Infobilans_' + [p] + '_nombreprofit').removeAttribute("disabled");
+                    }
+                    document.getElementById('bilanMensuel_' + [i]).style.display = "none";
+                    document.getElementById('closingbm_' + [i]).style.display = "inline-block";
+                    document.getElementById('validbm_' + [i]).style.display = "inline-block";
+
+
+                    double = true;
+                } else {
+                    alert('Vous ne pouvez éditer qu\'un champ à la fois');
+                }
+
+
+            }
+
+            function annulmodif(i) {
+
+
+                document.getElementById('bilanMensuel_' + [i]).style.display = "inline-block";
+                document.getElementById('closingbm_' + [i]).style.display = "none";
+                document.getElementById('validbm_' + [i]).style.display = "none";
+                double = false;
+            }
+
+
+
+
 
 
 

@@ -17,23 +17,9 @@ class InfobilanType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
-
+            ->add('nombreprofit')
         ;
-        $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
 
-            $nombreprofit = $event->getData()->getnombreprofit();
-
-
-            $event->getForm()
-
-                ->add('nombreprofit', IntegerType::class,array('disabled' => ($nombreprofit !== null),'required' => true
-
-
-                ))
-
-            ;
-        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

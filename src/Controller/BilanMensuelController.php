@@ -96,17 +96,33 @@ class BilanMensuelController extends AbstractController
         $profils=$profilRepository->findProfils($fournisseur);
 
         $form = $this->createForm(IdmonthbmType::class, $idmonthbm);
-        $form->handleRequest($request);
 
+        $mybilan=$idmonthbm;
+        $myyearmonth=$mybilan->getMonthyear();
+        $mymonth=date_format($myyearmonth, 'm');;
+        $myyear=date_format($myyearmonth, 'Y');
+
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute(('bilanmensuel_fournisseurmois'), [
+                    'name'=> $fournisseur->getName(),
+                    'fournisseur'=>$fournisseur,
+                    'bilan'=>$idmonthbm,
+                    'month'=>$mymonth,
+                    'year'=>$myyear]
+                , Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('bilanmensuel/monthbm.html.twig', [
             'bilanmensuel'=>$bilans,
             'profils'=>$profils,
+            'month'=>$mymonth,
+            'year'=>$myyear,
+            'fournisseur'=>$fournisseur,
+            'name'=> $fournisseur->getName(),
+            'bilan'=>$idmonthbm,
             'form'=>$form->createView(),
         ]);
     }
