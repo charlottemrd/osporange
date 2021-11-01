@@ -68,6 +68,7 @@ class FournisseurListeController extends AbstractController
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('fournisseur_liste_index', [], Response::HTTP_SEE_OTHER);
+
         }
 
         return $this->renderForm('fournisseur_liste/edit.html.twig', [

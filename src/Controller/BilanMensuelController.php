@@ -103,6 +103,30 @@ class BilanMensuelController extends AbstractController
         $myyear=date_format($myyearmonth, 'Y');
 
         $form->handleRequest($request);
+
+        if($request->isXmlHttpRequest()) {
+
+            $type = $request->request->get('type');
+            if($type==1) {
+                $namemodif = $request->request->get('type');
+
+                return new JsonResponse(array( //cas succes
+                    'status' => 'OK',
+                    'message' => 0,
+                    'success'  => true,
+                    'redirect' => $this->generateUrl('fournisseur_liste_index')
+                ),
+                    200);
+            }//endif type==1
+            else{  //type=2
+                return new JsonResponse(array(
+                    'status' => 'OK',
+                    'message' => 0),
+                    200);
+            }// cas ou type =2
+
+        }
+
         if ($form->isSubmitted()) {
             $type = $form->get('type')->getViewData();
             $namebutton = $form->get('namebutton')->getViewData();
