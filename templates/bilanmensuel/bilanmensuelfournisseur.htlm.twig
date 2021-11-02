@@ -130,6 +130,7 @@
 
 
                     <th class="text-center" style="width: 30%">Date</th>
+                    <th class="text-center" style="width: 30%">id bilan</th>
                     <th class="text-center" style="width: 30%">Bilan mensuel accepté</th>
                     <th class="text-center"  style="width: 30%">Actions</th>
 
@@ -139,10 +140,11 @@
                 {% for bilan in bilans %}
                     <tr>
                         <td class="text-center " style="width: 30%"><br>{{ bilan.monthyear |date('m/Y') }}</td>
+                        <td class="text-center " style="width: 30%"><br>{{ bilan.id  }}</td>
                         <td class="text-center " style="width: 30%"><br>{{ bilan.isaccept ? 'Oui' : 'Non' }}</td>
                         <td class="text-center" style="width: 30%">
                             <a href=#><img src="/photo/view.png "  width="20%" height="100%"></img></a>
-                            <a href="{{ path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'month':bilan.monthyear |date('m'),'year':bilan.monthyear |date('Y') })}}"><img src="/photo/modify.png "  width="20%" height="100%"></img></a>
+                             <a href="{{ path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':bilan.id,'month':bilan.monthyear |date('m'),'year':bilan.monthyear |date('Y') })}}"><img src="/photo/modify.png "  width="20%" height="100%"></img></a>
                             <a href=#><img src="/photo/dowload.png "  width="20%" height="100%"></img></a>
                         </td>
 

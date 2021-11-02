@@ -271,7 +271,7 @@
                 jQuery(document).ready(function (){
                     $.ajax({
                         method: "POST",
-                        url: "{{  path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'month':month,'year':year}) }}",
+                        url: "{{  path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
                         data: {name: selectValue6,type:1},
                         dataType: 'json',
                         success: function(html) {

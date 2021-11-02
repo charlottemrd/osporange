@@ -39,6 +39,7 @@ use App\Entity\SearchData;
 use App\Repository\BilanmensuelRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\IdmonthbmRepository;
+use App\Repository\InfobilanRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
@@ -76,30 +77,31 @@ class BilanMensuelController extends AbstractController
     }
 
     #[Route('/{name}', name: 'bilanmensuel_fournisseur', methods: ['GET'])]
-    public function fournisseur(Fournisseur $fournisseur, IdmonthbmRepository $idmonthbmRepository, FournisseurRepository $fournisseurRepository,Request $request)
+    public function fournisseur(Fournisseur $fournisseur, IdmonthbmRepository $idmonthbmRepository, Request $request)
     {
         $data=new SearchBilanmensuel();
         $form=$this->createForm(SearchBilanType::class,$data);
         $form->handleRequest($request);
-        $bilans= $idmonthbmRepository->searchbilanmensuelfournisseur($data,$fournisseur);
+        $idmonthbms= $idmonthbmRepository->searchbilanmensuelfournisseur($data,$fournisseur);
         return $this->render('bilanmensuel/bilanmensuelfournisseur.htlm.twig', [
-            'bilans'=>$bilans,
+            'bilans'=>$idmonthbms,
             'fournisseur'=>$fournisseur,
             'form'=>$form->createView(),
         ]);
     }
 
-    #[Route('/{name}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
-    public function fournisseurmois(ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
+    #[Route('/{name}/{idmonthbm}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
+    public function fournisseurmois(InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
     {
-        $bilans=$bilanmensuelRepository->listebilanmensuel($idmonthbm);
+
+        $bilans=$bilanmensuelRepository->findBy(array('id'=>$idmonthbm));
         $profils=$profilRepository->findProfils($fournisseur);
 
-        $form = $this->createForm(IdmonthbmType::class, $idmonthbm);
+        $form = $this->createForm(IdmonthbmType::class,$idmonthbm);
 
         $mybilan=$idmonthbm;
         $myyearmonth=$mybilan->getMonthyear();
-        $mymonth=date_format($myyearmonth, 'm');;
+        $mymonth=date_format($myyearmonth, 'm');
         $myyear=date_format($myyearmonth, 'Y');
 
         $form->handleRequest($request);
@@ -110,19 +112,31 @@ class BilanMensuelController extends AbstractController
             if($type==1) {
                 $namemodif = $request->request->get('name');
                 $project=$projetRepository->findOneBy(array('reference'=>$namemodif));
-                $cout=0;
+                $couttotal=0;
                 $profils=$project->getCouts();
-                foreach($profils as $pa){
+                foreach($profils as $pa){// calcule cout total projet
                     $idpa=$pa->getProfil();
                     $pm=$profilRepository->findOneBy(array('id'=>$idpa))->getTarif();
                     $pd = $pa->getNombreprofil();
-                    $cout=$cout+($pm * $pd);
+                    $couttotal=$couttotal+($pm * $pd);
                 }
+
+                //calcul du cout debite du projet
+
+                $anciensbilans=$bilanmensuelRepository->findBy(array('projet'=>$idpa));
+                $coutdebit=0;
+                $info=$infobilanRepository->findBy(array('bilanmensuel'=>$anciensbilans));
+
+
+
+
+
                 return new JsonResponse(array( //cas succes
                     'status' => 'OK',
                     'message' => 0,
                     'success'  => true,
-                    'sz'=>$cout,
+                    'sz'=>$couttotal,
+                    'xcft'=>$info,
                     'idprojet'=>$project->getReference(),
                     //'redirect' => $this->generateUrl('fournisseur_liste_index',['sz'=>$pm])
                 ),
@@ -161,20 +175,22 @@ class BilanMensuelController extends AbstractController
             return $this->redirectToRoute(('bilanmensuel_fournisseurmois'), [
                     'name'=> $fournisseur->getName(),
                     'fournisseur'=>$fournisseur,
-                    'bilan'=>$idmonthbm,
+                    'mbilan'=>$idmonthbm->getId(),
                     'month'=>$mymonth,
-                    'year'=>$myyear]
+                    'year'=>$myyear
+                    ]
                 , Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('bilanmensuel/monthbm.html.twig', [
             'bilanmensuel'=>$bilans,
+            'mbilan'=>$idmonthbm->getId(),
             'profils'=>$profils,
-            'month'=>$mymonth,
-            'year'=>$myyear,
             'fournisseur'=>$fournisseur,
             'name'=> $fournisseur->getName(),
             'bilan'=>$idmonthbm,
+            'month'=>$mymonth,
+            'year'=>$myyear,
             'form'=>$form->createView(),
         ]);
     }
