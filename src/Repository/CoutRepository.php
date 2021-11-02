@@ -47,4 +47,36 @@ class CoutRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Cout
+     */
+    public function searchcoutbm(int $projid,int $prof)
+    {
+
+        $query = $this
+            ->createQueryBuilder('cout');
+
+        $query = $query
+            ->andWhere('cout.projet=:po')
+            ->setParameter('po',$projid);
+        $query = $query
+            ->andWhere('cout.profil=:pro')
+            ->setParameter('pro',$prof);
+
+
+
+        return $query->getQuery()->getOneOrNullResult();
+
+
+    }
+
+
+
+
+
+
 }

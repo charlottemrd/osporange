@@ -28,31 +28,6 @@ class IdmonthbmType extends AbstractType
                     "class" => "d-none"
                 ],
             ))
-            ->add('namebutton',TextType::class,[
-                'mapped'=>false,
-                'required'=>false,
-
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-
-                'attr' => [
-                    'class' => 'nameofbmbutton'
-                ]
-            ])
-
-            ->add('type',TextType::class,[
-                'mapped'=>false,
-                'required'=>false,
-
-
-                'attr' => [
-                    'class' => 'type'
-                ]
-            ])
-
-
-
            ;
 
     }

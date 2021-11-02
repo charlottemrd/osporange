@@ -49,6 +49,29 @@ class BilanmensuelRepository extends ServiceEntityRepository
     }
     */
 
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Bilanmensuel
+     */
+    public function searchlebilanmensuel(int $idmonth,int $proje)
+    {
+
+        $query = $this
+            ->createQueryBuilder('bilanmensuel');
+
+        $query = $query
+            ->andWhere('bilanmensuel.idmonthbm=:mo')
+            ->setParameter('mo',$idmonth);
+        $query = $query
+            ->andWhere('bilanmensuel.projet=:proj')
+            ->setParameter('proj',$proje);
+
+
+        return $query->getQuery()->getOneOrNullResult();
+
+
+    }
+
 
 
 

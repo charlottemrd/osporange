@@ -138,19 +138,32 @@
 
         <div class="form-signin">
 
-            {% for message in app.flashes('notification') %}
-                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+                <div id="dive1" class="dive1" style="display: none; background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
 
 
                     <div class="boutonS">
                         <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <br>
-                    {{ message }}
+                    <div class="texterror" id="texterror"></div>
 
 
                 </div>
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive2" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonSo">
+                        <button id="bouton2" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+                </div>
             {% endfor %}
+
+
+
             <br>
 
 
@@ -224,6 +237,7 @@
 
                 {{ form_end(form) }}
             </div>
+
         </div>
     </main>
     </div>
@@ -245,6 +259,10 @@
 
     <script>
 
+
+
+
+
             jo = -1;
             po = -1;
             {% for profil in profils %}
@@ -265,8 +283,6 @@
                 $indexprojet=i;
                 $phasing6=document.getElementById('idmonthbm_bilanMensuels_'+[i]+'_projet');
                 var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
-                document.getElementById('idmonthbm_namebutton').value=selectValue6;
-                document.getElementById('idmonthbm_type').value=1;
 
                 jQuery(document).ready(function (){
                     var myindex = $indexprojet;
@@ -280,7 +296,6 @@
                         tableaucompose.push(profilarray[im]);
                         tableaucompose.push(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
                         tableaufinal.push(tableaucompose);
-
                     }
 
 
@@ -292,13 +307,21 @@
                         success: function(html) {
                             console.log(html);
                             if (html.success) {
-                                //window.location.href = html.redirect; // <-- HERE
+
+                                window.location.href = html.redirect; // <-- HERE
+
                             }
+                            else{
+
+                                $("#texterror").html(html.message);
+                                $('#dive1').css('display', 'block');
+                            }
+
                         }
                     }).done( function(response) {
 
 
-                        $("#your_div").html(response);
+
                     }).fail(function(jxh,textmsg,errorThrown){
                         console.log(textmsg);
                         console.log(errorThrown);
@@ -323,8 +346,6 @@
                     document.getElementById('bilanMensuel_' + [i]).style.display = "none";
                     document.getElementById('closingbm_' + [i]).style.display = "inline-block";
                     document.getElementById('validbm_' + [i]).style.display = "inline-block";
-
-
                     double = true;
                 } else {
                     alert('Vous ne pouvez éditer qu\'un champ à la fois');
@@ -339,6 +360,16 @@
                 document.getElementById('validbm_' + [i]).style.display = "none";
                 double = false;
             }
+
+            let bouton1 = document.getElementById("bouton1");
+            let dive1 = document.getElementById("dive1");
+            bouton1.addEventListener("click", () => {
+                if(getComputedStyle(dive1).display != "none"){
+                    dive1.style.display = "none";
+                } else {
+                    dive1.style.display = "block";
+                }
+            })
 
 
 
