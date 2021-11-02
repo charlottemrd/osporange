@@ -3,15 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\BilanmensuelRepository;
-use App\Validator\Validbilan;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=BilanmensuelRepository::class)
- * @Validbilan()
  */
 class Bilanmensuel
 {

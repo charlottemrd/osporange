@@ -11,6 +11,7 @@ use Doctrine\DBAL\Types\IntegerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -49,6 +50,7 @@ class BilanmensuelType extends AbstractType
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
 
             $projet = $event->getData()->getProjet();
+            $datemaj = $event->getData()->getDatemaj();
 
 
             $event->getForm()
@@ -57,6 +59,9 @@ class BilanmensuelType extends AbstractType
                     'class' =>Projet::class,'attr' => array(
                         'class' => 'select23'),
                     'placeholder' => ''))
+            ->add('datemaj',DateType::class,array('disabled' => ($datemaj !== null), 'required' => true,
+                 'widget'=>'single_text',
+                'placeholder' => ''))
 
             ;
         });

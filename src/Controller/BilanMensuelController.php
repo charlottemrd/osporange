@@ -185,7 +185,7 @@ class BilanMensuelController extends AbstractController
                         }
 
                         $this->getDoctrine()->getManager()->flush();
-                        $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                        $notifier->send(new Notification('Le bilan mensuel a bien été modifié', ['browser']));
                         return new JsonResponse(array( //cas succes
                             'status' => 'OK',
                             'message' => 'le bilan mensuel a bien été modifié',
@@ -207,7 +207,7 @@ class BilanMensuelController extends AbstractController
             else{  //type=2 ; on souhaite valide le bilan mensuel
                 $idmonthbm->setIsaccept(true);
                 $this->getDoctrine()->getManager()->flush();
-                $notifier->send(new Notification('Le projet a bien été accepté', ['browser']));
+                $notifier->send(new Notification('Le bilan mensuel a bien été accepté', ['browser']));
                 return new JsonResponse(array( //cas succes
                     'status' => 'OK',
                     'message' => 'le bilan mensuel a bien été modifié',

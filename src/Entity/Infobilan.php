@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\InfobilanRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=InfobilanRepository::class)
@@ -18,11 +19,13 @@ class Infobilan
     private $id;
 
     /**
+     * @Assert\PositiveOrZero
      * @ORM\Column(type="integer", nullable=true)
      */
     private $nombreprofit;
 
     /**
+     *
      * @ORM\ManyToOne(targetEntity=Profil::class, inversedBy="infobilans")
      */
     private $profil;

@@ -11,13 +11,14 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class InfobilanType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombreprofit')
+            ->add('nombreprofit',IntegerType::class,['constraints' =>new PositiveOrZero()])
         ;
 
     }
