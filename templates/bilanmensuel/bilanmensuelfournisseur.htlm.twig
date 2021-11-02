@@ -130,7 +130,6 @@
 
 
                     <th class="text-center" style="width: 30%">Date</th>
-                    <th class="text-center" style="width: 30%">id bilan</th>
                     <th class="text-center" style="width: 30%">Bilan mensuel accepté</th>
                     <th class="text-center"  style="width: 30%">Actions</th>
 
@@ -174,7 +173,15 @@
     <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
 
     <script>
-
+        let bouton1 = document.getElementById("bouton1");
+        let dive1 = document.getElementById("dive1");
+        bouton1.addEventListener("click", () => {
+            if(getComputedStyle(dive1).display != "none"){
+                dive1.style.display = "none";
+            } else {
+                dive1.style.display = "block";
+            }
+        })
 
     </script>
 

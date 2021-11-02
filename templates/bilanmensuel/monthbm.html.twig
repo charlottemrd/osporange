@@ -133,7 +133,7 @@
 
 
     <main class="container-fluid flex-fill ">
-        <h1 class="text-center" >Liste des bilans mensuels du fournisseur : </h1>
+        <h1 class="text-center" >Bilan mensuel {{ month}} / {{ year}} du fournisseur {{ fournisseur}} : </h1>
 
 
         <div class="form-signin">
@@ -234,7 +234,9 @@
                     {% endfor %}
                     </tbody>
                 </table>
-
+                <div class="d-flex justify-content-center">
+                <button  id=toaccept class="toaccept   text-black " style="text-decoration: none;padding-left: 2.5%;padding-right: 2.5%; margin-top: 3%" type="button" onclick="acceptation()">Accepter le bilan mensuel</button>
+                </div >
                 {{ form_end(form) }}
             </div>
 
@@ -277,6 +279,45 @@
                 }
             }
             double = false;
+
+            function acceptation(){
+                if(double==true){
+                   document.getElementById('texterror').innerText='Le bilan mensuel ne peut pas être accepté tant qu\'il est en cours d\'édition'
+                    document.getElementById('dive1').style.display="block";
+                }
+                else{
+
+                    jQuery(document).ready(function (){
+                       $.ajax({
+                            method: "POST",
+                            url: "{{  path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
+                            data: {type:2},
+                            dataType: 'json',
+                            success: function(html) {
+                                console.log(html);
+                                if (html.success) {
+                                    window.location.href = html.redirect; // <-- HERE
+                                }
+                                else{
+                                    $("#texterror").html(html.message);
+                                    $('#dive1').css('display', 'block');
+                                }
+                            }
+                        }).done( function(response) {
+
+
+
+                        }).fail(function(jxh,textmsg,errorThrown){
+                            console.log(textmsg);
+                            console.log(errorThrown);
+                            alert(errorThrown);
+                        });
+                    })
+
+
+
+                }
+            }
 
 
             function submission(i){
@@ -368,6 +409,15 @@
                     dive1.style.display = "none";
                 } else {
                     dive1.style.display = "block";
+                }
+            })
+            let bouton2 = document.getElementById("bouton2");
+            let dive2 = document.getElementById("dive2");
+            bouton2.addEventListener("click", () => {
+                if(getComputedStyle(dive2).display != "none"){
+                    dive2.style.display = "none";
+                } else {
+                    dive2.style.display = "block";
                 }
             })
 

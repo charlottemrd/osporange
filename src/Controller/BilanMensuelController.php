@@ -15,9 +15,10 @@ use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
-
+use Symfony\Component\Notifier\Notification\Notification;
 #[Route('/bilanmensuel')]
 class BilanMensuelController extends AbstractController
 {
@@ -51,7 +52,7 @@ class BilanMensuelController extends AbstractController
 
 
     #[Route('/{name}/{idmonthbm}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
-    public function fournisseurmois(CoutRepository $coutRepository, InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
+    public function fournisseurmois(NotifierInterface $notifier, CoutRepository $coutRepository, InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
     {
 
         $bilans=$bilanmensuelRepository->findBy(array('id'=>$idmonthbm));
@@ -184,7 +185,8 @@ class BilanMensuelController extends AbstractController
                         }
 
                         $this->getDoctrine()->getManager()->flush();
-                         return new JsonResponse(array( //cas succes
+                        $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
+                        return new JsonResponse(array( //cas succes
                             'status' => 'OK',
                             'message' => 'le bilan mensuel a bien été modifié',
                             'success'  => true,
@@ -203,12 +205,15 @@ class BilanMensuelController extends AbstractController
 
             }// fin cas où on modifie le bilan mensuel
             else{  //type=2 ; on souhaite valide le bilan mensuel
-
-
-
-                return new JsonResponse(array(
+                $idmonthbm->setIsaccept(true);
+                $this->getDoctrine()->getManager()->flush();
+                $notifier->send(new Notification('Le projet a bien été accepté', ['browser']));
+                return new JsonResponse(array( //cas succes
                     'status' => 'OK',
-                    'message' => 0),
+                    'message' => 'le bilan mensuel a bien été modifié',
+                    'success'  => true,
+                    'redirect' => $this->generateUrl('bilanmensuel_fournisseur',['name'=>$fournisseur->getName()])
+                ),
                     200);
             }// cas ou type =2
 
