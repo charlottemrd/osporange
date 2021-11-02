@@ -10,6 +10,7 @@ use App\Entity\DateTwo;
 use App\Entity\DateZero;
 use App\Entity\Fournisseur;
 use App\Entity\Idmonthbm;
+use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Entity\SearchBilanmensuel;
@@ -44,6 +45,7 @@ use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
 use FontLib\TrueType\Collection;
+use Laminas\Code\Generator\DocBlock\Tag;
 use PhpParser\Node\Expr\AssignOp\Mod;
 use PhpParser\Node\Expr\Cast\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -123,24 +125,78 @@ class BilanMensuelController extends AbstractController
 
                 //calcul du cout debite du projet
 
-                $anciensbilans=$bilanmensuelRepository->findBy(array('projet'=>$idpa));
-                $coutdebit=0;
-                $info=$infobilanRepository->findBy(array('bilanmensuel'=>$anciensbilans));
+               $anciensbilans= $infobilanRepository->searchinfobilandebite($project->getId());
+
+               if (sizeof($anciensbilans,COUNT_NORMAL)==0){
+                   $coutdebit = 0;
+               } else{
+                   $coutdebit = 0;
+                  foreach ($anciensbilans as $anciensbilansdeb){
+                      $nb= $anciensbilansdeb->getNombreprofit();
+                      $profitt=$anciensbilansdeb->getProfil();
+                      $pmd=$profilRepository->findOneBy(array('id'=>$profitt))->getTarif();
+                      $coutdebit=$coutdebit+ ($nb * $pmd);
+                  }
+               }//end else
+
+               // $taskinfobilan = new Bilanmensuel(); //bilanmensuel
+                $datatransmis = $request->request->get('listedata');
+                $tailledata = sizeof($datatransmis,COUNT_NORMAL);
+                $coutsoumis=0;
+                for ($iz = 0; $iz < $tailledata; $iz++){
+                    $lignealire=$datatransmis[$iz];
+                    $ligneluprof=$profilRepository->findOneBy(array('id'=>$lignealire[0]));
+                    $lignelunb=($lignealire[1]);
+                    $tariflu=$ligneluprof->getTarif();
+                   $coutsoumis=$coutsoumis + ($tariflu * $lignelunb);
+                }
+                $phaseprojet=$project->getPhase()->getId();
+                if ($phaseprojet==6){
+                    $pourcentagecontrol=20;
+                }
+                elseif ($phaseprojet==7){
+                    $pourcentagecontrol=60;
+                }
+                else if (($phaseprojet==8)||($phaseprojet==9)){
+                    $pourcentagecontrol=80;
+                }
+                else{
+                    $pourcentagecontrol=100;
+                }
+                $pourcentagesoumis=(100*($coutsoumis+$coutdebit))/($couttotal);
+                if($pourcentagesoumis>=$pourcentagecontrol){
+                    //problem
+                    return new JsonResponse(array( //cas projet est superieure à ce qui est demande
+                        'status' => 'OK',
+                        'message' => 0,
+                        'success'  => true,
+                        'sz'=>$couttotal,
+                        'coutdebit'=>$coutdebit,
+                        'idprojet'=>'nooon',
+                    ),
+                        200);
+                }
+                else{ //deuxieme controle yes
+                    return new JsonResponse(array( //cas succes
+                        'status' => 'OK',
+                        'message' => 0,
+                        'success'  => true,
+                        'sz'=>$couttotal,
+                        'coutdebit'=>$coutdebit,
+                        'idprojet'=>$pourcentagesoumis,
+
+                        //'redirect' => $this->generateUrl('fournisseur_liste_index',['sz'=>$pm])
+                    ),
+                        200);
+
+                }
 
 
 
 
+               // $donnesoumise=$taskinfobilan->getInfobilans(findOneBy(array('projet'=>1)));
+               // $dxazezed=sizeof($donnesoumise,COUNT_NORMAL);
 
-                return new JsonResponse(array( //cas succes
-                    'status' => 'OK',
-                    'message' => 0,
-                    'success'  => true,
-                    'sz'=>$couttotal,
-                    'xcft'=>$info,
-                    'idprojet'=>$project->getReference(),
-                    //'redirect' => $this->generateUrl('fournisseur_liste_index',['sz'=>$pm])
-                ),
-                    200);
             }//endif type==1
             else{  //type=2
                 return new JsonResponse(array(

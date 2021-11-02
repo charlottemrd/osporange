@@ -45,9 +45,6 @@ class IdmonthbmType extends AbstractType
                 'mapped'=>false,
                 'required'=>false,
 
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
 
                 'attr' => [
                     'class' => 'type'

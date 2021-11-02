@@ -59,7 +59,13 @@ class Bilanmensuel
 
 
 
+    public function __construct()
+    {
+        $this->infobilans = new ArrayCollection();
 
+
+
+    }
 
 
 
@@ -105,12 +111,15 @@ class Bilanmensuel
     }
 
     /**
-     * @return Collection|Infobilan[]
+     * @return Collection|Infobilan[]|null
      */
-    public function getInfobilans(): Collection
+    public function getInfobilans(): ?Collection
     {
         return $this->infobilans;
     }
+
+
+
 
     public function addInfobilan(Infobilan $infobilan): self
     {

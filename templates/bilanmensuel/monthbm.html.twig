@@ -262,17 +262,32 @@
 
 
             function submission(i){
-
+                $indexprojet=i;
                 $phasing6=document.getElementById('idmonthbm_bilanMensuels_'+[i]+'_projet');
                 var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
                 document.getElementById('idmonthbm_namebutton').value=selectValue6;
                 document.getElementById('idmonthbm_type').value=1;
 
                 jQuery(document).ready(function (){
+                    var myindex = $indexprojet;
+                    var profilarray=new Array();
+                    var tableaufinal = new Array();
+                    {% for profil in profils %}
+                    profilarray.push({{ profil.id }})
+                    {% endfor %}
+                    for (im=0;im<profilarray.length;im++){
+                        var tableaucompose=new Array();
+                        tableaucompose.push(profilarray[im]);
+                        tableaucompose.push(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
+                        tableaufinal.push(tableaucompose);
+
+                    }
+
+
                     $.ajax({
                         method: "POST",
                         url: "{{  path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
-                        data: {name: selectValue6,type:1},
+                        data: {name: selectValue6,type:1,listedata:tableaufinal},
                         dataType: 'json',
                         success: function(html) {
                             console.log(html);
@@ -314,8 +329,6 @@
                 } else {
                     alert('Vous ne pouvez éditer qu\'un champ à la fois');
                 }
-
-
             }
 
             function annulmodif(i) {

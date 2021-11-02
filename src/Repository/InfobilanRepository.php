@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Infobilan;
+use App\Entity\Bilanmensuel;
+use App\Entity\Idmonthbm;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +49,32 @@ class InfobilanRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Infobilan[]
+     */
+    public function searchinfobilandebite(int $projid) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('infobilan');
+
+        $query->innerJoin('App\Entity\Bilanmensuel', 'bilanmensuel', 'WITH', 'bilanmensuel.id = infobilan.bilanmensuel')
+        ;
+        $query->innerJoin('App\Entity\Idmonthbm', 'idmonthbm', 'WITH', 'idmonthbm.id=bilanmensuel.idmonthbm')
+        ;
+        $query = $query
+            ->andWhere('idmonthbm.isaccept=:bo')
+            ->setParameter('bo', true);
+        $query = $query
+            ->andWhere('bilanmensuel.projet=:po')
+            ->setParameter('po',$projid);
+
+
+         return $query->getQuery()->getResult();
+
+
+    }
 }
