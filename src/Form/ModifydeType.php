@@ -45,6 +45,13 @@ class ModifydeType extends AbstractType
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'modifyde_garanti']])
 
+            ->add('debit1bm',IntegerType::class,['required'=>false,], ['attr' => [
+                'class' => 'modifyde_debit1bm']])
+            ->add('debit2bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'modifyde_debit2bm']])
+            ->add('debit3bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'modifyde_debit3bm']])
+
             ->add('commentaires', CollectionType::class, [
                 'entry_type' => CommentaireType::class,
                 'allow_add' => true,

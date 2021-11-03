@@ -465,9 +465,9 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
-
                     <div class="input-group mb-3" style="width: 50%">
                         <table>
+                            <tr>
                         <th width="15%">
                             {{ form_label(form, 'Durée de la garantie (mois)', {
                                 'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -477,7 +477,31 @@
                             ) }}
                         </th>
                         <th  width="50%" style="padding-left: 1%"><label id="modifyd_garanti-error" class="error" for="modifyd_garanti"></label></th>
-                    </tr>
+                        </tr>
+                            <tr id="debit1bm" style="display: none">
+                                <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                        'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                                <th width="20%">{{ form_widget(form.debit1bm, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}</th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit1bm-error" class="error" for="modifyd_debit1bm"></label></th>
+                            </tr>
+                            <tr id="debit2bm" style="display: none">
+                                <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                        'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                                <th width="20%">{{ form_widget(form.debit2bm, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}</th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
+                            </tr>
+                            <tr id="debit3bm" style="display: none">
+                                <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                        'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                                <th width="20%">{{ form_widget(form.debit3bm, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}</th>
+                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
+                            </tr>
                         </table>
                     </div>
                         <p id="tauxerror"></p>
@@ -578,10 +602,51 @@
                         </ul>
 
 
-                    {%endif %}
+                    {%else %}
 
+                        <div class="input-group mb-3" style="width: 50%">
+                            <table>
+                                <tr style="display: none">
+                                    <th width="15%" >
+                                        {{ form_label(form, 'Durée de la garantie (mois)', {
+                                            'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    <th  width="20%">
+                                        {{ form_widget(form.garanti, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}
+                                    </th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_garanti-error" class="error" for="modifyd_garanti"></label></th>
+                                </tr>
+                                <tr id="debit1bm" style="display: block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit1bm-error" class="error" for="modifyd_debit1bm"></label></th>
+                                </tr>
+                                <tr id="debit2bm" style="display: block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
+                                </tr>
+                                <tr id="debit3bm" style="display:block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
+                                </tr>
+                            </table>
+                        </div>
 
+                    {% endif %}
                 </div>
+
                 <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     {% macro information_myprototype(commentaire) %}
                         <br>
@@ -737,6 +802,19 @@
 */
 
 
+            if (document.getElementById('modifyd_paiement').options[document.getElementById('modifyd_paiement').selectedIndex].value== '2') {
+                document.getElementById('modifyd_debit1bm').required=false;
+                document.getElementById('modifyd_debit2bm').required=false;
+                document.getElementById('modifyd_debit3bm').required=false;
+                document.getElementById('modifyd_garanti').required=true;
+            }else{
+                document.getElementById('modifyd_debit1bm').required=true;
+                document.getElementById('modifyd_debit2bm').required=true;
+                document.getElementById('modifyd_debit3bm').required=true;
+                document.getElementById('modifyd_garanti').required=false;
+            }
+
+
 
 
 
@@ -890,73 +968,97 @@
 
                     }
                 }
-                if(stepnumber==4){
-                    $phasing2=document.getElementById('modifyd_paiement');
+                if(stepnumber==4) {
+                    $phasing2 = document.getElementById('modifyd_paiement');
 
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
 
                     if (selectValue2 == '2') {
-                            var tailletaux = $('ul.modalites').find('input').length;
-                            var jalontaille = $('ul.modalites').find('input').length;
-                            var jalondif=new Array();
-                            var jalontaux=new Array();
-                            var x=0;
-                            while(jalondif.length!=jalontaille){
-                                if((!!document.getElementById('modifyd_modalites_' + [x]+'_conditions'))==true) {
-                                    jalontaux.push(parseInt(document.getElementById('modifyd_modalites_' + [x]+'_pourcentage').value));
-                                    jalondif.push(document.getElementById('modifyd_modalites_' + [x]+'_conditions').value);
-                                }
-                                x=x+1;
+                        var tailletaux = $('ul.modalites').find('input').length;
+                        var jalontaille = $('ul.modalites').find('input').length;
+                        var jalondif = new Array();
+                        var jalontaux = new Array();
+                        var x = 0;
+                        while (jalondif.length != jalontaille) {
+                            if ((!!document.getElementById('modifyd_modalites_' + [x] + '_conditions')) == true) {
+                                jalontaux.push(parseInt(document.getElementById('modifyd_modalites_' + [x] + '_pourcentage').value));
+                                jalondif.push(document.getElementById('modifyd_modalites_' + [x] + '_conditions').value);
                             }
-                            let resultToReturn = false;
-                            let supe=false;
-                            let infto=false;
-                            for (let q = 0; q < jalondif.length; q++) {
-                                for (let g = 0; g < jalondif.length; g++) {
-                                    if (g !== q) {
-                                        if (jalondif[g] === jalondif[q]) {
-                                            resultToReturn = true;
-                                            break;
-                                        }
+                            x = x + 1;
+                        }
+                        let resultToReturn = false;
+                        let supe = false;
+                        let infto = false;
+                        for (let q = 0; q < jalondif.length; q++) {
+                            for (let g = 0; g < jalondif.length; g++) {
+                                if (g !== q) {
+                                    if (jalondif[g] === jalondif[q]) {
+                                        resultToReturn = true;
+                                        break;
                                     }
                                 }
-                                if (resultToReturn) {
-                                    break;
-                                }
                             }
-                            for (a = 0; a < jalontaux.length; a++) {
-                                if (jalontaux[a]<= 0) {
-                                    infto=true;
-                                    break
-                                }
-                                else if (jalontaux[a]> 100) {
-                                    supe=true;
-                                    break
-                                }
-                            }
-                            if(resultToReturn == true){
-                                document.getElementById('smartwizard').style.height = "200%";
-                                document.getElementById('tab-content').style.height = "200%";
-                                document.getElementById('tauxerror').innerText='Des conditions sont identiques';
-                                isStepValid=false;
-                            }
-                            else if( infto == true){
-                                document.getElementById('smartwizard').style.height = "200%";
-                                document.getElementById('tab-content').style.height = "200%";
-                                document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
-                                isStepValid=false;
-                            }
-                            else if (supe == true){
-                                document.getElementById('smartwizard').style.height = "200%";
-                                document.getElementById('tab-content').style.height = "200%";
-                                document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
-                                isStepValid=false;
-                            }
-                            else{
-                                document.getElementById('tauxerror').innerText='';
-                                isStepValid=true;
+                            if (resultToReturn) {
+                                break;
                             }
                         }
+                        for (a = 0; a < jalontaux.length; a++) {
+                            if (jalontaux[a] <= 0) {
+                                infto = true;
+                                break
+                            } else if (jalontaux[a] > 100) {
+                                supe = true;
+                                break
+                            }
+                        }
+                        if (resultToReturn == true) {
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            document.getElementById('tauxerror').innerText = 'Des conditions sont identiques';
+                            isStepValid = false;
+                        } else if (infto == true) {
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
+                            isStepValid = false;
+                        } else if (supe == true) {
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                            isStepValid = false;
+                        } else {
+                            document.getElementById('tauxerror').innerText = '';
+                            isStepValid = true;
+                        }
+                    } else {
+                        if (document.getElementById('modifyd_debit1bm').value < 0) {
+                            document.getElementById('modifyd_debit1bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifyd_debit1bm-error').style.display = 'block';
+
+                            isStepValid = false;
+                        } else if (document.getElementById('modifyd_debit2bm').value < 0) {
+                            document.getElementById('modifyd_debit2bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifyd_debit2bm-error').style.display = 'block';
+                            isStepValid = false;
+                        } else if (document.getElementById('modifyd_debit3bm').value < 0) {
+                            document.getElementById('modifyd_debit3bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifyd_debit3bm-error').style.display = 'block';
+                            isStepValid = false;
+                        } else {
+                            document.getElementById('modifyd_debit1bm-error').innerText = '';
+                            document.getElementById('modifyd_debit2bm-error').innerText = '';
+                            document.getElementById('modifyd_debit3bm-error').innerText = '';
+
+                            document.getElementById('modifyd_debit1bm-error').style.display = 'none';
+                            document.getElementById('modifyd_debit2bm-error').style.display = 'none';
+                            document.getElementById('modifyd_debit3bm-error').style.display = 'none';
+
+
+                            isStepValid = true;
+                        }
+                    }
+
+
                 }//endif step 3
 
 

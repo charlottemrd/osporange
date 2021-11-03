@@ -467,6 +467,7 @@
                     {%if projet.paiement!="bilan mensuel" %}
                         <div class="input-group mb-3" style="width: 50%">
                             <table>
+                                <tr>
                                 <th width="15%">
                                     {{ form_label(form, 'Durée de la garantie (mois)', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -476,6 +477,30 @@
                                     ) }}
                                 </th>
                                 <th  width="50%" style="padding-left: 1%"><label id="modifydf_garanti-error" class="error" for="modifydf_garanti"></label></th>
+                                </tr>
+                                <tr id="debit1bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit1bm-error" class="error" for="modifydf_debit1bm"></label></th>
+                                </tr>
+                                <tr id="debit2bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit2bm-error" class="error" for="modifydf_debit2bm"></label></th>
+                                </tr>
+                                <tr id="debit3bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit3bm-error" class="error" for="modifydf_debit3bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -577,7 +602,49 @@
                         </ul>
 
 
-                    {%endif %}
+                    {%else %}
+
+                        <div class="input-group mb-3" style="width: 50%">
+                            <table>
+                                <tr style="display: none">
+                                    <th width="15%" >
+                                        {{ form_label(form, 'Durée de la garantie (mois)', {
+                                            'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    <th  width="20%">
+                                        {{ form_widget(form.garanti, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}
+                                    </th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_garanti-error" class="error" for="modifydf_garanti"></label></th>
+                                </tr>
+                                <tr id="debit1bm" style="display: block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit1bm-error" class="error" for="modifydf_debit1bm"></label></th>
+                                </tr>
+                                <tr id="debit2bm" style="display: block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit2bm-error" class="error" for="modifydf_debit2bm"></label></th>
+                                </tr>
+                                <tr id="debit3bm" style="display:block">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifydf_debit3bm-error" class="error" for="modifydf_debit3bm"></label></th>
+                                </tr>
+                            </table>
+                        </div>
+
+                    {% endif %}
 
 
                 </div>
@@ -734,7 +801,17 @@
 
 
 */
-
+            if (document.getElementById('modifydf_paiement').options[document.getElementById('modifydf_paiement').selectedIndex].value== '2') {
+                document.getElementById('modifydf_debit1bm').required=false;
+                document.getElementById('modifydf_debit2bm').required=false;
+                document.getElementById('modifydf_debit3bm').required=false;
+                document.getElementById('modifydf_garanti').required=true;
+            }else{
+                document.getElementById('modifydf_debit1bm').required=true;
+                document.getElementById('modifydf_debit2bm').required=true;
+                document.getElementById('modifydf_debit3bm').required=true;
+                document.getElementById('modifydf_garanti').required=false;
+            }
 
 
 
@@ -960,6 +1037,33 @@
                         else{
                             document.getElementById('tauxerror').innerText='';
                             isStepValid=true;
+                        }
+                    }
+                    else {
+                        if (document.getElementById('modifydf_debit1bm').value < 0) {
+                            document.getElementById('modifydf_debit1bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifydf_debit1bm-error').style.display = 'block';
+
+                            isStepValid = false;
+                        } else if (document.getElementById('modifydf_debit2bm').value < 0) {
+                            document.getElementById('modifydf_debit2bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifydf_debit2bm-error').style.display = 'block';
+                            isStepValid = false;
+                        } else if (document.getElementById('modifydf_debit3bm').value < 0) {
+                            document.getElementById('modifydf_debit3bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifydf_debit3bm-error').style.display = 'block';
+                            isStepValid = false;
+                        } else {
+                            document.getElementById('modifydf_debit1bm-error').innerText = '';
+                            document.getElementById('modifydf_debit2bm-error').innerText = '';
+                            document.getElementById('modifydf_debit3bm-error').innerText = '';
+
+                            document.getElementById('modifydf_debit1bm-error').style.display = 'none';
+                            document.getElementById('modifydf_debit2bm-error').style.display = 'none';
+                            document.getElementById('modifydf_debit3bm-error').style.display = 'none';
+
+
+                            isStepValid = true;
                         }
                     }
                 }//endif step 3

@@ -107,6 +107,16 @@ class ModifyieType extends AbstractType
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'modifyie_garanti']])
 
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifyie_garanti']])
+
+            ->add('debit1bm',IntegerType::class,['required'=>false,], ['attr' => [
+                'class' => 'modifyie_debit1bm']])
+            ->add('debit2bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'modifyie_debit2bm']])
+            ->add('debit3bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'modifyie_debit3bm']])
+
             ->add('couts', CollectionType::class, array(
                 'entry_type'   => CoutType::class,
                 'allow_add'    => true,
