@@ -344,6 +344,34 @@
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phasec_garanti-error" class="error" for="phasec_garanti"></label></th>
                         </tr>
+
+                        <tr id="debit1bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit1bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_debit1bm-error" class="error" for="phasec_debit1bm"></label></th>
+                        </tr>
+                        <tr id="debit2bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit2bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_debit2bm-error" class="error" for="phasec_debit2bm"></label></th>
+                        </tr>
+                        <tr id="debit3bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit3bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="phasec_debit3bm-error" class="error" for="phasec_debit3bm"></label></th>
+                        </tr>
+
+
+
                     </table>
                     <br>
                     <table>
@@ -458,6 +486,15 @@
                 document.getElementById('phasec_datespec').value=null;
                 document.getElementById('phasec_paiement').value=null;
                 document.getElementById('modalites').style.display="none";
+                document.getElementById('phasec_debit1bm').value=null;
+                document.getElementById('phasec_debit2bm').value=null;
+                document.getElementById('phasec_debit3bm').value=null;
+                document.getElementById('phasec_debit1bm').required=false;
+                document.getElementById('phasec_debit2bm').required=false;
+                document.getElementById('phasec_debit3bm').required=false;
+                document.getElementById('debit1bm').style.display="none";
+                document.getElementById('debit2bm').style.display="none";
+                document.getElementById('debit3bm').style.display="none";
                 document.getElementById('phasec_garanti').value=null;
                 document.getElementById('phasec_garanti').required=false;
                 document.getElementById('garanti').style.display="none";
@@ -489,6 +526,9 @@
                     document.getElementById('mode').style.display="none";
                     document.getElementById("phasec_paiement").required=false;
                     document.getElementById('garanti').style.display="none";
+                    document.getElementById('debit1bm').style.display="none";
+                    document.getElementById('debit2bm').style.display="none";
+                    document.getElementById('debit3bm').style.display="none";
                     document.getElementById('modalites').style.display="none";
                     $collectionHolder.empty();
                     $collectionHolder.append($nouveau);
@@ -608,6 +648,20 @@
                         document.getElementById('garanti').style.display="none";
                         document.getElementById('phasec_garanti').value=null;
                         document.getElementById('phasec_garanti').required=false;
+                        document.getElementById('phasec_debit1bm').value='20';
+                        document.getElementById('phasec_debit1bm').required=true;
+
+                        document.getElementById('phasec_debit2bm').value='60';
+                        document.getElementById('phasec_debit2bm').required=true;
+                        document.getElementById('phasec_debit3bm').required=true;
+                        document.getElementById('phasec_debit3bm').value='80'
+
+                        document.getElementById('debit1bm').style.display="block";
+                        document.getElementById('debit2bm').style.display="block";
+                        document.getElementById('debit3bm').style.display="block";
+
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%"
                         $collectionHolder.empty();
                         $collectionHolder.append($nouveau);
                         $collectionHolder.data('index', $collectionHolder.find('input').length);
@@ -620,6 +674,18 @@
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
+
+                        document.getElementById('phasec_debit1bm').value=null;
+                        document.getElementById('phasec_debit1bm').required=false;
+
+                        document.getElementById('phasec_debit2bm').value=null;
+                        document.getElementById('phasec_debit2bm').required=false;
+
+                        document.getElementById('debit1bm').style.display="none";
+                        document.getElementById('debit2bm').style.display="none";
+                        document.getElementById('debit3bm').style.display="none";
+                        document.getElementById('phasec_debit3bm').value=null;
+                        document.getElementById('phasec_debit3bm').required=false;
                     }
                 });
 
@@ -837,6 +903,37 @@
                             }
                             else{
                                 document.getElementById('tauxerror').innerText='';
+                                isStepValid=true;
+                            }
+                        }
+                        else{
+                            if (document.getElementById('phasec_debit1bm').value<0){
+                                document.getElementById('phasec_debit1bm-error').innerText='La valeur ne peut pas être négative';
+                                document.getElementById('phasec_debit1bm-error').style.display='block';
+
+                                isStepValid=false;
+                            }
+                            else if (document.getElementById('phasec_debit2bm').value<0){
+                                document.getElementById('phasec_debit2bm-error').innerText='La valeur ne peut pas être négative';
+                                document.getElementById('phasec_debit2bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                            else if (document.getElementById('phasec_debit3bm').value<0){
+                                document.getElementById('phasec_debit3bm-error').innerText='La valeur ne peut pas être négative';
+                                document.getElementById('phasec_debit3bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                            else {
+                                document.getElementById('phasec_debit1bm-error').innerText='';
+                                document.getElementById('phasec_debit2bm-error').innerText='';
+                                document.getElementById('phasec_debit3bm-error').innerText='';
+
+                                document.getElementById('phasec_debit1bm-error').style.display='none';
+                                document.getElementById('phasec_debit2bm-error').style.display='none';
+                                document.getElementById('phasec_debit3bm-error').style.display='none';
+
+
+
                                 isStepValid=true;
                             }
                         }
