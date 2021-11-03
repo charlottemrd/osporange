@@ -505,6 +505,32 @@
                         {% endfor %}
                             </tbody>
                         </table>
+                    {% else %}
+                        {%if projet.debit1bm!=null %}
+                            <div class="input-group mb-3" style="width: 100%">
+                                <div class="input-group-prepend " style="width: 30%">
+                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant la conception (%)</span>
+                                </div>
+                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit1bm }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.debit2bm!=null %}
+                            <div class="input-group mb-3" style="width: 100%">
+                                <div class="input-group-prepend " style="width: 30%">
+                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant le codage (%)</span>
+                                </div>
+                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit2bm }}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.debit3bm!=null %}
+                            <div class="input-group mb-3" style="width: 100%">
+                                <div class="input-group-prepend " style="width: 30%">
+                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant le test et recette (%)</span>
+                                </div>
+                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit3bm}}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+
                     {% endif %}
                 </div>
                 <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
