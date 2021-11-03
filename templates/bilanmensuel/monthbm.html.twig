@@ -297,39 +297,42 @@
         double = false;
 
         function acceptation(){
+
             if(double==true){
                 document.getElementById('texterror').innerText='Le bilan mensuel ne peut pas être accepté tant qu\'il est en cours d\'édition'
                 document.getElementById('dive1').style.display="block";
             }
             else{
 
+
                 jQuery(document).ready(function (){
 
-                    $.ajax({
-                        method: "POST",
-                        url: "{{  path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
-                        data: {type:2},
-                        dataType: 'json',
-                        success: function(html) {
-                            console.log(html);
-                            if (html.success) {
-                                window.location.href = html.redirect; // <-- HERE
-                            }
-                            else{
-                                $("#texterror").html(html.message);
-                                $('#dive1').css('display', 'block');
-                            }
-                        }
-                    }).done( function(response) {
+
+                       $.ajax({
+                           method: "POST",
+                           url: "{{ path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
+                           data: {type: 2},
+                           dataType: 'json',
+                           success: function (html) {
+                               console.log(html);
+                               if (html.success) {
+                                   window.location.href = html.redirect; // <-- HERE
+                               } else {
+                                   $("#texterror").html(html.message);
+                                   $('#dive1').css('display', 'block');
+                               }
+                           }
+                       }).done(function (response) {
 
 
+                       }).fail(function (jxh, textmsg, errorThrown) {
+                           console.log(textmsg);
+                           console.log(errorThrown);
+                           alert(errorThrown);
+                       });
 
-                    }).fail(function(jxh,textmsg,errorThrown){
-                        console.log(textmsg);
-                        console.log(errorThrown);
-                        alert(errorThrown);
-                    });
                 })
+
 
 
 
@@ -342,10 +345,12 @@
             $indexprojet = i;
             $phasing6 = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_projet');
             var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
+
                jQuery(document).ready(function () {
                     var myindex = $indexprojet;
                     var profilarray = new Array();
                     var tableaufinal = new Array();
+                    var isnegative=false;
                     {% for profil in profils %}
                     profilarray.push({{ profil.id }})
                     {% endfor %}
@@ -354,36 +359,50 @@
                         tableaucompose.push(profilarray[im]);
                         tableaucompose.push(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
                         tableaufinal.push(tableaucompose);
+                        if(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value<0){
+                            isnegative=true;
+                        }
                     }
 
 
-                    $.ajax({
-                        method: "POST",
-                        url: "{{ path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
-                        data: {name: selectValue6, type: 1, listedata: tableaufinal},
-                        dataType: 'json',
-                        success: function (html) {
-                            console.log(html);
-                            if (html.success) {
+                    if(isnegative==false) {
 
-                                window.location.href = html.redirect; // <-- HERE
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ path('bilanmensuel_fournisseurmois', {'name': fournisseur.name,'idmonthbm':mbilan,'month':month,'year':year}) }}",
+                            data: {name: selectValue6, type: 1, listedata: tableaufinal},
+                            dataType: 'json',
+                            success: function (html) {
+                                console.log(html);
+                                if (html.success) {
 
-                            } else {
+                                    window.location.href = html.redirect; // <-- HERE
 
-                                $("#texterror").html(html.message);
-                                $('#dive1').css('display', 'block');
+                                } else {
+
+                                    $("#texterror").html(html.message);
+                                    $('#dive1').css('display', 'block');
+                                }
+
                             }
-
-                        }
-                    }).done(function (response) {
+                        }).done(function (response) {
 
 
-                    }).fail(function (jxh, textmsg, errorThrown) {
-                        console.log(textmsg);
-                        console.log(errorThrown);
-                        alert(errorThrown);
-                    });
+                        }).fail(function (jxh, textmsg, errorThrown) {
+                            console.log(textmsg);
+                            console.log(errorThrown);
+                            alert(errorThrown);
+                        });
+                    }
+                    else{
+                        $("#texterror").html(html.message);
+                        $('#dive1').css('display', 'block');
+                        document.getElementById('dive1').style.display="block";
+                        document.getElementById('texterror').innerHTML="Le formulaire est incorrect ;  les données soumises ne peuvent pas être négatives."
+                    }
+
                 })
+
 
 
 
