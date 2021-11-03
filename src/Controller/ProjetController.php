@@ -148,7 +148,7 @@ class ProjetController extends AbstractController
                 }
             }
 
-            if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPhase()->getId()==3)||($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)||($projet->getPaiement()->getId()==2)){
+            if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPhase()->getId()==3)||($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)){
                 foreach ($projet->getModalites() as $myp){
                     $projet->removeModalite($myp);
                 }
@@ -991,7 +991,7 @@ class ProjetController extends AbstractController
                         $c->setNombreprofil(0);
                     }
                 }
-                if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPaiement()->getId()==2)){
+                if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
                     foreach ($projet->getModalites() as $myp){
                         $projet->removeModalite($myp);
                     }
