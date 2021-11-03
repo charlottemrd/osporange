@@ -209,6 +209,21 @@ class Projet
      */
     private $bilanmensuels;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $debit1bm;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $debit2bm;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $debit3bm;
+
 
 
 
@@ -855,6 +870,42 @@ class Projet
                 $bilanmensuel->setProjet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDebit1bm(): ?float
+    {
+        return $this->debit1bm;
+    }
+
+    public function setDebit1bm(?float $debit1bm): self
+    {
+        $this->debit1bm = $debit1bm;
+
+        return $this;
+    }
+
+    public function getDebit2bm(): ?float
+    {
+        return $this->debit2bm;
+    }
+
+    public function setDebit2bm(?float $debit2bm): self
+    {
+        $this->debit2bm = $debit2bm;
+
+        return $this;
+    }
+
+    public function getDebit3bm(): ?float
+    {
+        return $this->debit3bm;
+    }
+
+    public function setDebit3bm(?float $debit3bm): self
+    {
+        $this->debit3bm = $debit3bm;
 
         return $this;
     }

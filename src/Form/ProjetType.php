@@ -139,7 +139,7 @@ class ProjetType extends AbstractType
                 'required'=>true,
             ])
 
-            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+            ->add('garanti',IntegerType::class,['required'=>false], ['attr' => [
                 'class' => 'projet_garanti']])
 
             ->add('date2', DateType::class, [
@@ -188,6 +188,12 @@ class ProjetType extends AbstractType
                     "class" => "d-none"
                 ],
             ])
+            ->add('debit1bm',IntegerType::class,['required'=>false,], ['attr' => [
+                'class' => 'projet_debit1bm']])
+            ->add('debit2bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'projet_debit2bm']])
+            ->add('debit3bm',IntegerType::class,['required'=>false], ['attr' => [
+                'class' => 'projet_debit3bm']])
 
         ;
 

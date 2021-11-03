@@ -392,6 +392,31 @@
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="projet_garanti-error" class="error" for="projet_garanti"></label></th>
                         </tr>
+                        <tr id="debit1bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit1bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit1bm-error" class="error" for="projet_debit1bm"></label></th>
+                        </tr>
+                        <tr id="debit2bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit2bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit2bm-error" class="error" for="projet_debit2bm"></label></th>
+                        </tr>
+                        <tr id="debit3bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit3bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit3bm-error" class="error" for="projet_debit3bm"></label></th>
+                        </tr>
+
                     </table>
                     <br>
                     <table>
@@ -503,8 +528,17 @@
                 document.getElementById('projet_datespec').value=null;
                 document.getElementById('projet_paiement').value=null;
                 document.getElementById('projet_garanti').value=null;
+                document.getElementById('projet_debit1bm').value=null;
+                document.getElementById('projet_debit2bm').value=null;
+                document.getElementById('projet_debit3bm').value=null;
                 document.getElementById('projet_garanti').required=false;
+                document.getElementById('projet_debit1bm').required=false;
+                document.getElementById('projet_debit2bm').required=false;
+                document.getElementById('projet_debit3bm').required=false;
                 document.getElementById('garanti').style.display="none";
+                document.getElementById('debit1bm').style.display="none";
+                document.getElementById('debit2bm').style.display="none";
+                document.getElementById('debit3bm').style.display="none";
                 document.getElementById('modalites').style.display="none";
                 document.getElementById('label_tl1').innerText='Date T-1';
                 document.getElementById('label_t0').innerText='Date T0';
@@ -549,6 +583,9 @@
 
                     document.getElementById('modalites').style.display="none";
                     document.getElementById('garanti').style.display="none";
+                    document.getElementById('debit1bm').style.display="none";
+                    document.getElementById('debit2bm').style.display="none";
+                    document.getElementById('debit3bm').style.display="none";
 
 
 
@@ -899,19 +936,46 @@
                 $('.projet_paiement').change(function() {
                     $phasing2=document.getElementById('projet_paiement');
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
-                    if (selectValue2=='1'){
+                    if (selectValue2=='1'){ //bilan mensuel
                         document.getElementById('modalites').style.display="none";
                         document.getElementById('garanti').style.display="none";
                         document.getElementById('projet_garanti').value=null;
                         document.getElementById('projet_garanti').required=false;
 
+                        document.getElementById('projet_debit1bm').value='20';
+                        document.getElementById('projet_debit1bm').required=true;
+
+                        document.getElementById('projet_debit2bm').value='60';
+                        document.getElementById('projet_debit2bm').required=true;
+                        document.getElementById('projet_debit3bm').required=true;
+                        document.getElementById('projet_debit3bm').value='80'
+
+                        document.getElementById('debit1bm').style.display="block";
+                        document.getElementById('debit2bm').style.display="block";
+                        document.getElementById('debit3bm').style.display="block";
+
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+
                     }
-                    if (selectValue2=='2'){
+                    if (selectValue2=='2'){ //modalite
                         document.getElementById('projet_garanti').required=true;
                         document.getElementById('garanti').style.display="block";
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
+
+                        document.getElementById('projet_debit1bm').value=null;
+                        document.getElementById('projet_debit1bm').required=false;
+
+                       document.getElementById('projet_debit2bm').value=null;
+                       document.getElementById('projet_debit2bm').required=false;
+
+                        document.getElementById('debit1bm').style.display="none";
+                        document.getElementById('debit2bm').style.display="none";
+                        document.getElementById('debit3bm').style.display="none";
+                       document.getElementById('projet_debit3bm').value=null;
+                        document.getElementById('projet_debit3bm').required=false;
 
                     }
                 });
@@ -1185,6 +1249,37 @@
                                 document.getElementById('tauxerror').innerText='';
                                 isStepValid=true;
                             }
+                        }
+                        else{
+                           if (document.getElementById('projet_debit1bm').value<0){
+                               document.getElementById('projet_debit1bm-error').innerText='La valeur ne peut pas être négative';
+                               document.getElementById('projet_debit1bm-error').style.display='block';
+
+                               isStepValid=false;
+                           }
+                            else if (document.getElementById('projet_debit2bm').value<0){
+                                document.getElementById('projet_debit2bm-error').innerText='La valeur ne peut pas être négative';
+                               document.getElementById('projet_debit2bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                            else if (document.getElementById('projet_debit3bm').value<0){
+                                document.getElementById('projet_debit3bm-error').innerText='La valeur ne peut pas être négative';
+                               document.getElementById('projet_debit3bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                           else {
+                               document.getElementById('projet_debit1bm-error').innerText='';
+                               document.getElementById('projet_debit2bm-error').innerText='';
+                               document.getElementById('projet_debit3bm-error').innerText='';
+
+                               document.getElementById('projet_debit1bm-error').style.display='none';
+                               document.getElementById('projet_debit2bm-error').style.display='none';
+                               document.getElementById('projet_debit3bm-error').style.display='none';
+
+
+
+                               isStepValid=true;
+                           }
                         }
 
 
