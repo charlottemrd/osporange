@@ -1,0 +1,237 @@
+
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+             background-color: #FF7900;
+             border-color: #FF7900;
+
+         }
+         .pagination>li>a, .pagination>li>span {
+
+             color: black;
+
+         }
+         body {
+             max-width: 100%;
+             margin: 0;
+         }
+         body {
+             min-height:100vh;
+         }
+
+         .flex-fill {
+             flex:1 1 auto;
+         }
+
+         div.dataTables_length select {
+             width: 0px;
+         }
+
+         .form-signin{
+             padding-bottom: 2%;
+             padding-top: 2%;
+             padding-right: 10%;
+             padding-left: 10%;
+
+         }
+         input:disabled {
+             cursor: default;
+             background-color: white;
+             text-align: right;
+             border-color: white;
+             border-top: none;
+             border-left: none;
+         }
+
+
+
+         .searching{
+             display: inline-block;
+         }
+         @media (max-width:765px)
+         {
+             .form-signin{
+                 padding-bottom: 25%;
+                 padding-top: 7%;
+                 padding-right: 8%;
+                 padding-left: 8%;
+
+             }
+
+             .photoclose{
+                 width: 100%;
+             }
+             img.photocheck{
+                 width: 100%;
+             }
+             .photopen{
+                 width: 70%;
+             }
+
+         }
+         .row:after {
+             content: "";
+             display: table;
+             clear: both;
+         }
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+
+         }
+
+         select{
+             border:none;
+             background-color: lightgrey;
+         }
+
+         input[type="number"] {
+             text-align: center;
+             width: 100%;
+             background: none;
+             border: none;
+         }
+
+         select{
+             text-align: center;
+         }
+
+         span#profilnameof.form-control,span#labelp.form-control{
+             background: none;
+             border: none;
+         }
+
+
+         @media (max-width:765px)
+         {
+             .toreduce{
+                 width: 50%;
+
+             }
+         }
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center" >Bilan mensuel {{ month}} / {{ year}} du fournisseur {{ fournisseur}} : </h1>
+
+
+        <div class="form-signin">
+
+            <div id="dive1" class="dive1" style="display: none; background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                <div class="boutonS">
+                    <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <br>
+                <div class="texterror" id="texterror"></div>
+
+
+            </div>
+            <br>
+
+
+
+
+            <br>
+            <table id="couts" style="display:block" >
+                <thead  >
+                <tr>
+                    <th width="10%" style="padding-top: 1%;padding-bottom: 1%; text-align: center;background: lightgrey ;border: black solid 0.5px">
+                       Projets / Profils
+                    </th>
+                    {% for profil in profils %}
+                    <td width="15%" style="padding-top: 1%;padding-bottom: 1%;text-align: center;background-color: lightgrey;border: black solid 0.5px">
+
+                        {{ profil.name}}
+
+                    </td>
+                    {% else %}
+                <tr>
+                    <td colspan="6">Pas de données trouvées</td>
+                </tr>
+                {% endfor %}
+
+                <td width="8%" style="padding-top: 1%;padding-bottom: 1%;text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
+                    Dernière mise à jour
+                </td>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for bilanmensuel in bilanmensuels %}
+                    <tr>
+                    <td width="10%" style="padding-top: 1%;padding-bottom: 1%;text-align:center;background-color: lightgrey;border: black solid 0.5px">
+                        {{bilanmensuel.projet }}
+                    </td>
+
+                    {% for infobilan in bilanmensuel.infobilans %}
+                        <td width="10%" style="padding-top: 1%;padding-bottom: 1%;text-align: center;border: black solid 0.5px" >
+                            {{infobilan.nombreprofit }}
+                        </td>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">Pas de données trouvées</td>
+                        </tr>
+                    {% endfor %}
+
+                    <td style="padding-top: 1%;padding-bottom: 1%;border: black solid 0.5px;text-align: center;justify-items: center">
+                        {{ bilanmensuel.datemaj|date('d/m/Y') }}
+
+                    </td>
+                {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+
+
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+
+{% endblock  %}

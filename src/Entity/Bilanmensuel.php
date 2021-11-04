@@ -35,7 +35,7 @@ class Bilanmensuel
     private $datemaj;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Projet::class, inversedBy="bilanmensuels")
+     * @ORM\ManyToOne(targetEntity=Projet::class, inversedBy="bilanmensuels", cascade={"persist"})
      */
     private $projet;
 

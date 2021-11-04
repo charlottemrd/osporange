@@ -55,7 +55,7 @@ class BilanMensuelController extends AbstractController
     public function fournisseurmois(NotifierInterface $notifier, CoutRepository $coutRepository, InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
     {
 
-        $bilans=$bilanmensuelRepository->findBy(array('id'=>$idmonthbm));
+        $bilans=$bilanmensuelRepository->findBy(array('idmonthbm'=>$idmonthbm));
         $profils=$profilRepository->findProfils($fournisseur);
 
         $form = $this->createForm(IdmonthbmType::class,$idmonthbm);
@@ -112,91 +112,108 @@ class BilanMensuelController extends AbstractController
                     }
                     $phaseprojet = $project->getPhase()->getId();
                     if ($phaseprojet == 6) {
-                        $pourcentagecontrol = 20;
+                        if ($project->getDebit1bm()!=null){
+                            $pourcentagecontrol = $project->getDebit1bm();}
+                        else{
+                            $pourcentagecontrol = 20;
+                        }
                     } elseif ($phaseprojet == 7) {
-                        $pourcentagecontrol = 60;
+                        if ($project->getDebit2bm()!=null){
+                            $pourcentagecontrol = $project->getDebit2bm();}
+                        else{
+                            $pourcentagecontrol = 60;
+                        }
                     } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-                        $pourcentagecontrol = 80;
+                        if ($project->getDebit3bm()!=null){
+                            $pourcentagecontrol = $project->getDebit3bm();}
+                        else{
+                            $pourcentagecontrol = 80;
+                        }
                     } else {
                         $pourcentagecontrol = 100;
                     }
-                    $pourcentagesoumis = (100 * ($coutsoumis + $coutdebit)) / ($couttotal);
-                    if ($pourcentagesoumis > $pourcentagecontrol) {
-                        $message0 = 'Impossible de modifier le bilan mensuel ; le pourcentage débité est supérieure à ' . strval($pourcentagecontrol) . ' %';
-                        //problem
-                        return new JsonResponse(array( //cas projet est superieure à ce qui est demande
-                            'status' => 'OK',
-                            'message' => $message0,
-                            'success' => false,
-                            'zsa' => $pourcentagesoumis,
-                        ),
-                            200);
-                    } else { //deuxieme controle yes
-                        $resulttoreturn = false;
-                        for ($iza = 0; $iza < $tailledata; $iza++) { //on lit tout les profils
-                            $lignealirea = $datatransmis[$iza];
-                            $ligneluprofa = $profilRepository->findOneBy(array('id' => $lignealirea[0])); //profil
-                            $profilsoumis = ($lignealirea[1]); //nb
-                            $ancieninfo = $infobilanRepository->searchinfobilandebiteduprofit($project->getId(), $ligneluprofa->getId()); //anciensinfo
-                            $profildebite = 0;
-                            foreach ($ancieninfo as $au) {
-                                $profildebite = $profildebite + $au->getNombreprofit();
-                            }
-                            $profitotale = $coutRepository->searchcoutbm($project->getId(), $ligneluprofa->getId());
-                            $nbtotalprofit = $profitotale->getNombreprofil();
-                            if ($nbtotalprofit - $profildebite - $profilsoumis < 0) {
-                                $resulttoreturn = true;
-                                $message0 = 'Impossible de modifier le bilan mensuel pour le projet ' . $project->getReference() . ' ; le profil ' . $ligneluprofa->getName() . ' dépasse le quota autorisé';
-                                break;
-                            }
-
-
-                        }
-                        if ($resulttoreturn) {
-
-                            return new JsonResponse(array( //cas echec condition 2
+                    if ($couttotal==0){
+                        $pourcentagesoumis=0;
+                    }
+                    else {
+                        $pourcentagesoumis = (100 * ($coutsoumis + $coutdebit)) / ($couttotal);
+                    }
+                        if ($pourcentagesoumis > $pourcentagecontrol) {
+                            $message0 = 'Impossible de modifier le bilan mensuel ; le pourcentage débité est supérieure à ' . strval($pourcentagecontrol) . ' %';
+                            //problem
+                            return new JsonResponse(array( //cas projet est superieure à ce qui est demande
                                 'status' => 'OK',
                                 'message' => $message0,
                                 'success' => false,
-                                'sz' => $couttotal,
-                                'coutdebit' => $coutdebit,
-                                'idprojet' => $pourcentagesoumis,
-
+                                'zsa' => $pourcentagesoumis,
                             ),
                                 200);
+                        } else { //deuxieme controle yes
+                            $resulttoreturn = false;
+                            for ($iza = 0; $iza < $tailledata; $iza++) { //on lit tout les profils
+                                $lignealirea = $datatransmis[$iza];
+                                $ligneluprofa = $profilRepository->findOneBy(array('id' => $lignealirea[0])); //profil
+                                $profilsoumis = ($lignealirea[1]); //nb
+                                $ancieninfo = $infobilanRepository->searchinfobilandebiteduprofit($project->getId(), $ligneluprofa->getId()); //anciensinfo
+                                $profildebite = 0;
+                                foreach ($ancieninfo as $au) {
+                                    $profildebite = $profildebite + $au->getNombreprofit();
+                                }
+                                $profitotale = $coutRepository->searchcoutbm($project->getId(), $ligneluprofa->getId());
+                                $nbtotalprofit = $profitotale->getNombreprofil();
+                                if ($nbtotalprofit - $profildebite - $profilsoumis < 0) {
+                                    $resulttoreturn = true;
+                                    $message0 = 'Impossible de modifier le bilan mensuel pour le projet ' . $project->getReference() . ' ; le profil ' . $ligneluprofa->getName() . ' dépasse le quota autorisé';
+                                    break;
+                                }
 
-                        } else { //a soumettre
 
-                            $thebilan->setHavebeenmodified(true);
-                            $thebilan->setDatemaj(new \DateTime());
-                            $profthebilan = $thebilan->getInfobilans();
-                            for ($izm = 0; $izm < $tailledata; $izm++) {
-                                $lignealire = $datatransmis[$izm];
-                                $numberidofprofil = $profilRepository->findOneBy(array('id' => $lignealire[0]));
+                            }
+                            if ($resulttoreturn) {
+
+                                return new JsonResponse(array( //cas echec condition 2
+                                    'status' => 'OK',
+                                    'message' => $message0,
+                                    'success' => false,
+                                    'sz' => $couttotal,
+                                    'coutdebit' => $coutdebit,
+                                    'idprojet' => $pourcentagesoumis,
+
+                                ),
+                                    200);
+
+                            } else { //a soumettre
+
+                                $thebilan->setHavebeenmodified(true);
+                                $thebilan->setDatemaj(new \DateTime());
+                                $profthebilan = $thebilan->getInfobilans();
+                                for ($izm = 0; $izm < $tailledata; $izm++) {
+                                    $lignealire = $datatransmis[$izm];
+                                    $numberidofprofil = $profilRepository->findOneBy(array('id' => $lignealire[0]));
 
 
-                                $theprofittochange = $infobilanRepository->findOneBy(array('bilanmensuel' => $thebilan, 'profil' => $numberidofprofil));
-                                $theprofittochange->setNombreprofit($lignealire[1]);
+                                    $theprofittochange = $infobilanRepository->findOneBy(array('bilanmensuel' => $thebilan, 'profil' => $numberidofprofil));
+                                    $theprofittochange->setNombreprofit($lignealire[1]);
+                                }
+
+                                $this->getDoctrine()->getManager()->flush();
+                                $notifier->send(new Notification('Le bilan mensuel a bien été modifié', ['browser']));
+                                return new JsonResponse(array( //cas succes
+                                    'status' => 'OK',
+                                    'message' => 'le bilan mensuel a bien été modifié',
+                                    'success' => true,
+                                    'sz' => $couttotal,
+                                    'coutdebit' => $coutdebit,
+                                    'idprojet' => $pourcentagesoumis,
+                                   'sxz'=>$pourcentagecontrol,
+                                    'redirect' => $this->generateUrl('bilanmensuel_fournisseurmois', ['idmonthbm' => $idmonthbm->getId(), 'name' => $fournisseur->getName(), 'month' => $mymonth, 'year' => $myyear])
+                                ),
+                                    200);
                             }
 
-                            $this->getDoctrine()->getManager()->flush();
-                            $notifier->send(new Notification('Le bilan mensuel a bien été modifié', ['browser']));
-                            return new JsonResponse(array( //cas succes
-                                'status' => 'OK',
-                                'message' => 'le bilan mensuel a bien été modifié',
-                                'success' => true,
-                                'sz' => $couttotal,
-                                'coutdebit' => $coutdebit,
-                                'idprojet' => $pourcentagesoumis,
 
-                                'redirect' => $this->generateUrl('bilanmensuel_fournisseurmois', ['idmonthbm' => $idmonthbm->getId(), 'name' => $fournisseur->getName(), 'month' => $mymonth, 'year' => $myyear])
-                            ),
-                                200);
-                        }
 
                     }
-
-
                 }// fin cas où on modifie le bilan mensuel
                 else {  //type=2 ; on souhaite valide le bilan mensuel
                     $idmonthbm->setIsaccept(true);
@@ -249,6 +266,37 @@ class BilanMensuelController extends AbstractController
         ]);
     }
 
+
+
+
+
+    #[Route('/show/{name}/{idmonthbm}/{month}/{year}', name: 'showbilanmensuel_fournisseurmois', methods: ['GET','POST'])]
+    public function showfournisseurmois(   Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
+    {
+
+        $bilans=$bilanmensuelRepository->findBy(array('idmonthbm'=>$idmonthbm));
+        $profils=$profilRepository->findProfils($fournisseur);
+
+
+        $mybilan=$idmonthbm;
+        $myyearmonth=$mybilan->getMonthyear();
+        $mymonth=date_format($myyearmonth, 'm');
+        $myyear=date_format($myyearmonth, 'Y');
+
+
+
+return $this->render('bilanmensuel/showbm.html.twig', [
+            'bilanmensuels'=>$bilans,
+            'mbilan'=>$idmonthbm->getId(),
+            'profils'=>$profils,
+            'fournisseur'=>$fournisseur,
+            'name'=> $fournisseur->getName(),
+            'bilan'=>$idmonthbm,
+            'month'=>$mymonth,
+            'year'=>$myyear,
+
+        ]);
+    }
 
 }
 

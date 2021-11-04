@@ -6,6 +6,7 @@ use App\Entity\Bilanmensuel;
 use App\Entity\Cout;
 use App\Entity\Fournisseur;
 use App\Entity\Idmonthbm;
+use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -199,7 +200,20 @@ class UserFixtures extends Fixture
         $projet1->setRisque($risque2);
         $projet1->setPriorite($priorite2);
         $projet1->setUser($user);
+        $cout1=new Cout();
+        $cout1->setProfil($profil1);
+        $cout1->setProjet($projet1);
+        $cout1->setNombreprofil(100);
 
+        $cout2=new Cout();
+        $cout2->setProfil($profil2);
+        $cout2->setProjet($projet1);
+        $cout2->setNombreprofil(200);
+
+        $projet1->getCouts()->add($cout1);
+        $projet1->getCouts()->add($cout2);
+
+        $manager->persist($projet1);
 
         $projet2=new Projet();
         $projet2->setTypebu($typebu);
@@ -221,21 +235,22 @@ class UserFixtures extends Fixture
         $projet2->setRisque($risque2);
         $projet2->setPriorite($priorite2);
         $projet2->setUser($user);
+        $cout3=new Cout();
+        $cout3->setProfil($profil1);
+        $cout3->setProjet($projet2);
+        $cout3->setNombreprofil(0);
 
-        $cout1=new Cout();
-        $cout1->setProfil($profil1);
-        $cout1->setProjet($projet1);
-        $cout1->setNombreprofil(100);
+        $cout4=new Cout();
+        $cout4->setProfil($profil2);
+        $cout4->setProjet($projet2);
+        $cout4->setNombreprofil(0);
 
-        $cout2=new Cout();
-        $cout2->setProfil($profil2);
-        $cout2->setProjet($projet1);
-        $cout2->setNombreprofil(200);
-
-        $projet1->getCouts()->add($cout1);
-        $projet1->getCouts()->add($cout2);
+        $projet2->getCouts()->add($cout3);
+        $projet2->getCouts()->add($cout4);
 
         $manager->persist($projet1);
+
+
 
         $infmon=new Idmonthbm();
         $infmon->setMonthyear(new \DateTime());
@@ -248,6 +263,25 @@ class UserFixtures extends Fixture
         $bilan1->setHavebeenmodified(0);
         //$bilan1->setMonthyear(new \DateTime());
         $bilan1->setIdmonthbm($infmon);
+
+        $info1=new Infobilan();
+        $info1->setNombreprofit(0);
+        $info1->setProfil($profil1);
+        $info1->setBilanmensuel($bilan1);
+        $manager->persist($info1);
+
+        $info2=new Infobilan();
+        $info2->setNombreprofit(0);
+        $info2->setProfil($profil2);
+        $info2->setBilanmensuel($bilan1);
+        $manager->persist($info2);
+
+       /* $info2=new Infobilan();
+        $info2->setNombreprofit(0);
+        $info2->setProfil($profil2);
+        $info2->setBilanmensuel($bilan1);
+        $bilan1->getInfobilans()->add($info2);*/
+
         $manager->persist($bilan1);
 
         $bilan2=new Bilanmensuel();
@@ -255,7 +289,24 @@ class UserFixtures extends Fixture
         $bilan2->setHavebeenmodified(0);
         $bilan2->setIdmonthbm($infmon);
         //$bilan2->setMonthyear(new \DateTime());
-        $manager->persist($bilan1);
+
+        $info3=new Infobilan();
+        $info3->setNombreprofit(0);
+        $info3->setProfil($profil1);
+        $info3->setBilanmensuel($bilan2);
+        $manager->persist($info3);
+
+        $info4=new Infobilan();
+        $info4->setNombreprofit(0);
+        $info4->setProfil($profil2);
+        $info4->setBilanmensuel($bilan2);
+        $manager->persist($info4);
+
+
+
+        $manager->persist($bilan2);
+
+
 
 
 

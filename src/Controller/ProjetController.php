@@ -153,6 +153,9 @@ class ProjetController extends AbstractController
                     $projet->removeModalite($myp);
                 }
                 $projet->setGaranti(null);
+                $projet->setDebit1bm(null);
+                $projet->setDebit2bm(null);
+                $projet->setDebit3bm(null);
             }
 
             //to change after
@@ -996,6 +999,9 @@ class ProjetController extends AbstractController
                         $projet->removeModalite($myp);
                     }
                     $projet->setGaranti(null);
+                    $projet->setDebit1bm(null);
+                    $projet->setDebit2bm(null);
+                    $projet->setDebit3bm(null);
                 }
 
 
