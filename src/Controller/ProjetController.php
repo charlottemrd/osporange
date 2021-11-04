@@ -34,6 +34,7 @@ use App\Form\SearchType;
 use App\Form\PhaseaType;
 use App\Form\PhasebType;
 use App\Entity\SearchData;
+use App\Repository\BilanmensuelRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\IdmonthbmRepository;
 use App\Repository\ProjetRepository;
@@ -968,7 +969,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(  IdmonthbmRepository $idmonthbmRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(BilanmensuelRepository $bilanmensuelRepository, IdmonthbmRepository $idmonthbmRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1165,6 +1166,24 @@ class ProjetController extends AbstractController
                 else{
                     $projet->setDatereel1($projet->getDate1());
                 }
+                if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(false);
+                        $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+                        foreach ($idmonthy as $idmonthies){
+                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            foreach ($bmtodelete as $bmtodeletes){
+                                if($bmtodeletes->getProjet()->getId()==$projet->getId()){
+                                    foreach ($bmtodeletes->getInfobilans() as $infs){
+                                        $bmtodeletes->removeInfobilan($infs);
+                                    }
+                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                }
+                            }
+
+                        }
+                    }
+                }
 
                 /*if($projet->getDatereel2()!=null){
                     $daten2=new DateTwo();
@@ -1220,6 +1239,22 @@ class ProjetController extends AbstractController
                 else{
                     $projet->setDatereel2($projet->getDate2());
                 }
+                if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(false);
+                        $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+                        foreach ($idmonthy as $idmonthies){
+                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            foreach ($bmtodelete as $bmtodeletes){
+                                if($bmtodeletes->getProjet()->getId()==$projet->getId()){
+                                    $bmtodeletes->removeInfobilan();
+                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                }
+                            }
+
+                        }
+                    }
+                }
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
@@ -1242,6 +1277,22 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
+                if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(false);
+                        $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+                        foreach ($idmonthy as $idmonthies){
+                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            foreach ($bmtodelete as $bmtodeletes){
+                                if($bmtodeletes->getProjet()->getId()==$projet->getId()){
+                                    $bmtodeletes->removeInfobilan();
+                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                }
+                            }
+
+                        }
+                    }
+                }
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
@@ -1274,6 +1325,22 @@ class ProjetController extends AbstractController
                 else{
                     $projet->setDatereel3($projet->getDate3());
                 }
+                if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(false);
+                        $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+                        foreach ($idmonthy as $idmonthies){
+                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            foreach ($bmtodelete as $bmtodeletes){
+                                if($bmtodeletes->getProjet()->getId()==$projet->getId()){
+                                    $bmtodeletes->removeInfobilan();
+                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                }
+                            }
+
+                        }
+                    }
+                }
 
                 $this->getDoctrine()->getManager()->flush();
 
@@ -1296,6 +1363,23 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
+                if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(false);
+                        $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+                        foreach ($idmonthy as $idmonthies){
+                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            foreach ($bmtodelete as $bmtodeletes){
+                                if($bmtodeletes->getProjet()->getId()==$projet->getId()){
+                                    $bmtodeletes->removeInfobilan();
+                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+
+                                }
+                            }
+
+                        }
+                    }
+                }
 
 
                 $this->getDoctrine()->getManager()->flush();
@@ -1325,6 +1409,55 @@ class ProjetController extends AbstractController
 
                 $projet->setPhase($phaseRepository->find( $projet->getHighestphase()));
                 $projet->setDatemaj(new \DateTime());
+                if($projet->getHighestphase()>=6){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(true);
+                        $dateactuelle=new \DateTime();
+                        $moisencours=date_format($dateactuelle, 'm');
+                        $anneeencours=date_format($dateactuelle, 'Y');
+                        $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
+                        if($idmonthbmpasse){ //on ajout direct
+                            $bilanadd=new Bilanmensuel();
+                            $bilanadd->setDatemaj(new \DateTime());
+                            $bilanadd->setProjet($projet);
+                            $bilanadd->setHavebeenmodified(0);
+                            $bilanadd->setIdmonthbm($idmonthbmpasse);
+                            $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                            $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                            foreach ($profilsfournisseur as $po){
+                                $info1=new Infobilan();
+                                $info1->setNombreprofit(0);
+                                $info1->setProfil($po);
+                                $info1->setBilanmensuel($bilanadd);
+                                $this->getDoctrine()->getManager()->persist($info1);
+                            }
+
+                        }else {
+                            $infmon = new Idmonthbm();
+                            $infmon->setMonthyear(new \DateTime);
+                            $infmon->setIsaccept(0);
+                            $infmon->setFournisseur($projet->getFournisseur());
+                            $this->getDoctrine()->getManager()->persist($infmon);
+
+                            $bilanadd = new Bilanmensuel();
+                            $bilanadd->setDatemaj(new \DateTime());
+                            $bilanadd->setProjet($projet);
+                            $bilanadd->setHavebeenmodified(0);
+                            $bilanadd->setIdmonthbm($infmon);
+                            $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                            $profilsfournisseur = $projet->getFournisseur()->getProfils();
+                            foreach ($profilsfournisseur as $po) {
+                                $info1 = new Infobilan();
+                                $info1->setNombreprofit(0);
+                                $info1->setProfil($po);
+                                $info1->setBilanmensuel($bilanadd);
+                                $this->getDoctrine()->getManager()->persist($info1);
+                            }
+                        }
+                    }
+                }
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet n\'est plus en stand by', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -1620,6 +1753,19 @@ EOF;
         //;
 
         $pdf->Output($namefl, 'D');
+
+    }
+
+
+
+    function proposeTGIM(float $coutt, float $coutdeb, float $pcon, Fournisseur $fournisseur,float $prixprofit){
+
+        $l=(($pcon*$coutt)/100)-$coutdeb;
+        $nb=sizeof($fournisseur->getProfils(),COUNT_NORMAL);
+        $prixparprofit=$l/$nb;
+        $nombresugg=intdiv($prixparprofit,$prixprofit);
+
+        return $nombresugg;
 
     }
 

@@ -298,7 +298,7 @@ class BilanMensuelController extends AbstractController
                                 $infoajout=new Infobilan();
                                 $infoajout->setBilanmensuel($bilanajout);
                                 $infoajout->setProfil($ps);
-                                $infoajout->getNombreprofit(0);  //to change with an function
+                                $infoajout->setNombreprofit(0);  //to change with an function
                                 $this->getDoctrine()->getManager()->persist($infoajout);
                             }
                         }

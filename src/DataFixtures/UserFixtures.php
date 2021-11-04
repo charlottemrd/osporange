@@ -261,6 +261,7 @@ class UserFixtures extends Fixture
         $bilan1=new Bilanmensuel();
         $bilan1->setProjet($projet1);
         $bilan1->setHavebeenmodified(0);
+        $bilan1->setDatemaj(new \DateTime());
         //$bilan1->setMonthyear(new \DateTime());
         $bilan1->setIdmonthbm($infmon);
 
@@ -288,6 +289,7 @@ class UserFixtures extends Fixture
         $bilan2->setProjet($projet2);
         $bilan2->setHavebeenmodified(0);
         $bilan2->setIdmonthbm($infmon);
+        $bilan2->setDatemaj(new \DateTime());
         //$bilan2->setMonthyear(new \DateTime());
 
         $info3=new Infobilan();
