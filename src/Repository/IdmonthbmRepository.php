@@ -88,7 +88,32 @@ class IdmonthbmRepository extends ServiceEntityRepository
 
 
 
+
+        $query=$query
+           ->orderBy('bilanmensuel.monthyear','DESC');
+
         return $query->getQuery()->getResult();
+
+
+    }
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Idmonthbm
+     */
+    public function ownmonth(int $month,int$year)
+    {
+
+        $query = $this
+            ->createQueryBuilder('bilanmensuel');
+        $query = $query
+                ->andwhere('MONTH(bilanmensuel.monthyear) = :monti')
+                ->setParameter('monti', $month);
+            $query = $query
+                ->andwhere('YEAR(bilanmensuel.monthyear) =:yeari')
+                ->setParameter('yeari', $year);
+       return $query->getQuery()->getOneOrNullResult();
 
 
     }

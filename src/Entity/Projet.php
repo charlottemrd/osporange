@@ -224,6 +224,16 @@ class Projet
      */
     private $debit3bm;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isfinish;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $iseligibletobm;
+
 
 
 
@@ -906,6 +916,30 @@ class Projet
     public function setDebit3bm(?float $debit3bm): self
     {
         $this->debit3bm = $debit3bm;
+
+        return $this;
+    }
+
+    public function getIsfinish(): ?bool
+    {
+        return $this->isfinish;
+    }
+
+    public function setIsfinish(?bool $isfinish): self
+    {
+        $this->isfinish = $isfinish;
+
+        return $this;
+    }
+
+    public function getIseligibletobm(): ?bool
+    {
+        return $this->iseligibletobm;
+    }
+
+    public function setIseligibletobm(?bool $iseligibletobm): self
+    {
+        $this->iseligibletobm = $iseligibletobm;
 
         return $this;
     }

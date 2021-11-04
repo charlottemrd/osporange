@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Bilanmensuel;
 use App\Entity\Cout;
 use App\Entity\DataTrois;
 use App\Entity\DateLone;
@@ -8,6 +9,8 @@ use App\Entity\DateOnePlus;
 use App\Entity\DateTwo;
 use App\Entity\DateZero;
 use App\Entity\Fournisseur;
+use App\Entity\Idmonthbm;
+use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Form\FicheliaisonType;
@@ -32,9 +35,11 @@ use App\Form\PhaseaType;
 use App\Form\PhasebType;
 use App\Entity\SearchData;
 use App\Repository\FournisseurRepository;
+use App\Repository\IdmonthbmRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
+use Doctrine\Persistence\ObjectManager;
 use PhpParser\Node\Expr\AssignOp\Mod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -94,7 +99,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
-    public function new(ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
@@ -156,6 +161,8 @@ class ProjetController extends AbstractController
                 $projet->setDebit1bm(null);
                 $projet->setDebit2bm(null);
                 $projet->setDebit3bm(null);
+                $projet->setIsfinish(false);
+                $projet->setIseligibletobm(false);
             }
 
             //to change after
@@ -182,6 +189,67 @@ class ProjetController extends AbstractController
 
            if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
+                if($projet->getPaiement()->getId()==1){
+                    $projet->setIsfinish(false);
+                    $projet->setIseligibletobm(true);
+                    $dateactuelle=new \DateTime();
+                    $moisencours=date_format($dateactuelle, 'm');
+                    $anneeencours=date_format($dateactuelle, 'Y');
+                    $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
+                    if($idmonthbmpasse){ //on ajout direct
+                        $bilanadd=new Bilanmensuel();
+                        $bilanadd->setDatemaj(new \DateTime());
+                        $bilanadd->setProjet($projet);
+                        $bilanadd->setHavebeenmodified(0);
+                        $bilanadd->setIdmonthbm($idmonthbmpasse);
+                        $entityManager->persist($bilanadd);
+
+                        $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                        foreach ($profilsfournisseur as $po){
+                            $info1=new Infobilan();
+                            $info1->setNombreprofit(0);
+                            $info1->setProfil($po);
+                            $info1->setBilanmensuel($bilanadd);
+                            $entityManager->persist($info1);
+                        }
+                        $entityManager->flush();
+                    }else{
+                        $infmon=new Idmonthbm();
+                        $infmon->setMonthyear(new \DateTime);
+                        $infmon->setIsaccept(0);
+                        $infmon->setFournisseur($projet->getFournisseur());
+                        $entityManager->persist($infmon);
+
+                        $bilanadd=new Bilanmensuel();
+                        $bilanadd->setDatemaj(new \DateTime());
+                        $bilanadd->setProjet($projet);
+                        $bilanadd->setHavebeenmodified(0);
+                        $bilanadd->setIdmonthbm($infmon);
+                        $entityManager->persist($bilanadd);
+
+                        $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                        foreach ($profilsfournisseur as $po){
+                            $info1=new Infobilan();
+                            $info1->setNombreprofit(0);
+                            $info1->setProfil($po);
+                            $info1->setBilanmensuel($bilanadd);
+                            $entityManager->persist($info1);
+                        }
+                        $entityManager->flush();
+
+                    }
+
+                }
+                else{
+                    $projet->setIseligibletobm(false);
+                }
+
+
+
+
+
+
+
                 return $this->redirectToRoute('projet_cout', ['projet'=>$projet,'id'=>$projet->getId()], Response::HTTP_SEE_OTHER);
 
             }
@@ -215,11 +283,15 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/cout', name: 'projet_cout', methods: ['GET', 'POST'])]
-    public function cout(Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function cout(IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         $mform = $this->createForm(ProjetCoutType::class, $projet);
         $mform->handleRequest($request);
         if ($mform->isSubmitted() && $mform->isValid()) {
+
+
+
+
             $this->getDoctrine()->getManager()->flush();
             $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -896,7 +968,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(  IdmonthbmRepository $idmonthbmRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1003,6 +1075,58 @@ class ProjetController extends AbstractController
                     $projet->setDebit2bm(null);
                     $projet->setDebit3bm(null);
                 }
+                if($projet->getPhase()->getId()==6){
+                    if($projet->getPaiement()->getId()==1){
+                        $projet->setIseligibletobm(true);
+                        $dateactuelle=new \DateTime();
+                        $moisencours=date_format($dateactuelle, 'm');
+                        $anneeencours=date_format($dateactuelle, 'Y');
+                        $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
+                        if($idmonthbmpasse){ //on ajout direct
+                            $bilanadd=new Bilanmensuel();
+                            $bilanadd->setDatemaj(new \DateTime());
+                            $bilanadd->setProjet($projet);
+                            $bilanadd->setHavebeenmodified(0);
+                            $bilanadd->setIdmonthbm($idmonthbmpasse);
+                            $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                            $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                            foreach ($profilsfournisseur as $po){
+                                $info1=new Infobilan();
+                                $info1->setNombreprofit(0);
+                                $info1->setProfil($po);
+                                $info1->setBilanmensuel($bilanadd);
+                                $this->getDoctrine()->getManager()->persist($info1);
+                            }
+
+                        }else{
+                            $infmon=new Idmonthbm();
+                            $infmon->setMonthyear(new \DateTime);
+                            $infmon->setIsaccept(0);
+                            $infmon->setFournisseur($projet->getFournisseur());
+                            $this->getDoctrine()->getManager()->persist($infmon);
+
+                            $bilanadd=new Bilanmensuel();
+                            $bilanadd->setDatemaj(new \DateTime());
+                            $bilanadd->setProjet($projet);
+                            $bilanadd->setHavebeenmodified(0);
+                            $bilanadd->setIdmonthbm($infmon);
+                            $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                            $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                            foreach ($profilsfournisseur as $po){
+                                $info1=new Infobilan();
+                                $info1->setNombreprofit(0);
+                                $info1->setProfil($po);
+                                $info1->setBilanmensuel($bilanadd);
+                                $this->getDoctrine()->getManager()->persist($info1);
+                            }
+                            $this->getDoctrine()->getManager()->flush();
+
+                        }
+
+                    }
+                }
 
 
 
@@ -1063,13 +1187,6 @@ class ProjetController extends AbstractController
                 else{
                     $projet->setDatereel3($projet->getDate3());
                 }*/
-
-
-
-
-
-
-
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));

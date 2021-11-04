@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Controller;
+use App\Entity\Bilanmensuel;
 use App\Entity\Fournisseur;
 use App\Entity\Idmonthbm;
+use App\Entity\Infobilan;
 use App\Entity\SearchBilanmensuel;
 use App\Form\IdmonthbmType;
 use App\Form\SearchBilanType;
@@ -19,6 +21,7 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Notifier\Notification\Notification;
+use DateInterval;
 #[Route('/bilanmensuel')]
 class BilanMensuelController extends AbstractController
 {
@@ -40,6 +43,7 @@ class BilanMensuelController extends AbstractController
         $form=$this->createForm(SearchBilanType::class,$data);
         $form->handleRequest($request);
         $idmonthbms= $idmonthbmRepository->searchbilanmensuelfournisseur($data,$fournisseur);
+
         return $this->render('bilanmensuel/bilanmensuelfournisseur.htlm.twig', [
             'bilans'=>$idmonthbms,
             'fournisseur'=>$fournisseur,
@@ -179,6 +183,7 @@ class BilanMensuelController extends AbstractController
                                     'coutdebit' => $coutdebit,
                                     'idprojet' => $pourcentagesoumis,
 
+
                                 ),
                                     200);
 
@@ -217,13 +222,128 @@ class BilanMensuelController extends AbstractController
                 }// fin cas où on modifie le bilan mensuel
                 else {  //type=2 ; on souhaite valide le bilan mensuel
                     $idmonthbm->setIsaccept(true);
+                    $mymonth=date_format($myyearmonth, 'm');
+                    $myyear=date_format($myyearmonth, 'Y');
+                    $day=2;
+                    if($mymonth==12){
+                        $myyear=$myyear+1;
+                        $mymonth=1;
+                    }
+                    else{
+                        $mymonth=$mymonth+1;
+                    }
+                   $sched=new \DateTime();
+                   $sched->setDate($myyear,$mymonth,1);
+                   $existbilan=$idmonthbmRepository->ownmonth($mymonth,$myyear);
+                   $bilanajouter=array();
+                       foreach ($bilans as $bilansf) { //pour chaque projet du bilan
+
+                            $anciensbilansdebduprojet=$infobilanRepository->searchinfobilandebite($bilansf->getProjet()->getId());
+                           if (sizeof($anciensbilansdebduprojet, COUNT_NORMAL) == 0) {
+                               $coutdebit = 0;
+                           } else {
+                               $coutdebit = 0;
+                               foreach ($anciensbilansdebduprojet as $anciensbilansdebverif) {
+                                   $nbz = $anciensbilansdebverif->getNombreprofit();
+                                   $profittverif = $anciensbilansdebverif->getProfil();
+                                   $pmdz = $profilRepository->findOneBy(array('id' => $profittverif))->getTarif();
+                                   $coutdebit = $coutdebit + ($nbz * $pmdz);
+                               }
+                           }//end else cout debit
+
+                           //cout total
+                            $profilsv = $bilansf->getProjet()->getCouts();
+                           $couttotal=0;
+                           foreach ($profilsv as $pav) {// calcule cout total projet
+                               $idpa = $pav->getProfil();
+                               $pma = $profilRepository->findOneBy(array('id' => $idpa))->getTarif();
+                               $pda = $pav->getNombreprofil();
+                               $couttotal = $couttotal + ($pma * $pda);
+                           }
+
+                           //cout bilan en cours
+
+                           $coutencours=0;
+                           foreach ($bilansf->getInfobilans() as $info){
+                               $pr=$info->getProfil()->getId();
+                               $tarif=$profilRepository->findOneBy(array('id'=>$pr))->getTarif();
+                               $coutencours=$coutencours+(($info->getNombreprofit())*($tarif));
+                           }
+                            if ($couttotal!=0) {
+                                if ($couttotal - $coutencours - $coutdebit == 0) {
+                                    $bilansf->getProjet()->setIseligibletobm(false);
+                                    $bilansf->getProjet()->setIsfinish(true);
+                                }
+                                else{
+                                    array_push($bilanajouter,$bilansf->getProjet()->getId());
+                                }
+                            }
+
+
+                       }//end foreach
+
+
+                    if($existbilan){//on reprend ce bilan
+
+                        for ( $a=0;$a<sizeof($bilanajouter,COUNT_NORMAL);$a++){
+                            $bilanajout=new Bilanmensuel();
+                            $pk=$projetRepository->findOneBy(array('id'=>$bilanajouter[$a]));
+                            $bilanajout->setProjet($pk);
+                            $bilanajout->setIdmonthbm($existbilan);
+                            $bilanajout->setDatemaj(new \DateTime());
+                            $bilanajout->setHavebeenmodified(false);
+                            $this->getDoctrine()->getManager()->persist($bilanajout);
+
+                            foreach ($pk->getFournisseur()->getProfils() as $ps){
+                                $infoajout=new Infobilan();
+                                $infoajout->setBilanmensuel($bilanajout);
+                                $infoajout->setProfil($ps);
+                                $infoajout->getNombreprofit(0);  //to change with an function
+                                $this->getDoctrine()->getManager()->persist($infoajout);
+                            }
+                        }
+
+
+
+                    }
+                   else{ //on cree un nouveau bilan
+
+                       $newonebilan=new Idmonthbm();
+                       $newonebilan->setMonthyear($sched);
+                       $newonebilan->setFournisseur($fournisseur);
+                       $newonebilan->setIsaccept(false);
+                       $this->getDoctrine()->getManager()->persist($newonebilan);
+
+                       for ( $af=0;$af<sizeof($bilanajouter,COUNT_NORMAL);$af++){
+                           $bilanajoutt=new Bilanmensuel();
+                           $pkt=$projetRepository->findOneBy(array('id'=>$bilanajouter[$af]));
+                           $bilanajoutt->setProjet($pkt);
+                           $bilanajoutt->setIdmonthbm($newonebilan);
+                           $bilanajoutt->setDatemaj(new \DateTime());
+                           $bilanajoutt->setHavebeenmodified(false);
+                           $this->getDoctrine()->getManager()->persist($bilanajoutt);
+
+                           foreach ($pkt->getFournisseur()->getProfils() as $pst){
+                               $infoajoutt=new Infobilan();
+                               $infoajoutt->setBilanmensuel($bilanajoutt);
+                               $infoajoutt->setProfil($pst);
+                               $infoajoutt->setNombreprofit(0);  //to change with an function
+                               $this->getDoctrine()->getManager()->persist($infoajoutt);
+                           }
+                       }
+
+                   }
+
+                   // $idmonthbm->setMonthyear($sched);
+
                     $this->getDoctrine()->getManager()->flush();
                     $notifier->send(new Notification('Le bilan mensuel a bien été accepté', ['browser']));
                     return new JsonResponse(array( //cas succes
                         'status' => 'OK',
                         'message' => 'le bilan mensuel a bien été modifié',
                         'success' => true,
-                        'redirect' => $this->generateUrl('bilanmensuel_fournisseur', ['name' => $fournisseur->getName()])
+
+                      'redirect' => $this->generateUrl('bilanmensuel_fournisseur', ['name' => $fournisseur->getName()])
                     ),
                         200);
                 }// cas ou type =2
@@ -280,6 +400,7 @@ class BilanMensuelController extends AbstractController
 
         $mybilan=$idmonthbm;
         $myyearmonth=$mybilan->getMonthyear();
+
         $mymonth=date_format($myyearmonth, 'm');
         $myyear=date_format($myyearmonth, 'Y');
 
