@@ -450,7 +450,6 @@ function proposeTGIM(InfobilanRepository $infobilanRepository, CoutRepository $c
             $nbdebites = $nbdebites + (($d->getNombreprofit()));
         }
     }
-   // $l=($pcon*$coutt)/100;
     $nbt=$coutRepository->findOneBy(array('projet'=>$projet->getId(),'profil'=>$profil->getId()))->getNombreprofil();
    $l=($pcon/100)*$nbt;
     $l=$l-$nbdebites;
@@ -458,42 +457,6 @@ function proposeTGIM(InfobilanRepository $infobilanRepository, CoutRepository $c
     if($nbt-$nbdebites-$l<=0){
         $l=0;
     }
-   //  $l=intdiv($pcon,100)* $l;
-    //$l=(($pcon/100)*((();
-    //$l=(($pcon)/100)*($coutt-$nbdebites);  //cout autorise
-  //  $l=$l/$profil->getTarif();
-   // if($l<0){
-     //   $l=0;
-   // }
-   // $nb=sizeof($fournisseur->getProfils(),COUNT_NORMAL);
-    //$prixparprofit=$l/$nb;
-    //$nombresugg=($prixparprofit/$prixprofit);
-    //$nombresugg=intdiv($nombresugg,$moisrestant);
-   // if($nombresugg>$nbtt-$nbdeb)
-    return $l;
-
-    //$nbdebites=0;
-    /*$bilansdebites=$infobilanRepository->searchinfobilandebiteduprofitfalse($projet->getId(),$profil->getId());
-    if (sizeof($bilansdebites,COUNT_NORMAL)==0){
-        $nbdebites=0;
-    }
-    else{
-        foreach ($bilansdebites as $d){
-          //  $nbdebites=$nbdebites+$d->getNombreprofit();
-        }
-    }
-    $nbtotal=100;
-    $nbdebites=0;
-   // $nbtotal=$coutRepository->searchcoutbm($projet->getId(),$profil->getId())->getNombreprofil();
-    //$coutautorise=($pcon/100)*($profil->getTarif()*($nbtotal-$nbdebites));// cout autorisé pour pourcentage
-   // $nbpp=$coutautorise/$profil->getTarif();
-
-    $nbautorise=(($pcon/100)*($nbtotal))-$nbdebites;
-  //  $nbpp=$coutautorise/$profil->getTarif();
-if($nbautorise<0){
-     $nbautorise=0;
-    }
-*/
 
     return $l;
 
