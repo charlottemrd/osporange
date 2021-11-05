@@ -1763,9 +1763,13 @@ EOF;
         $l=(($pcon*$coutt)/100)-$coutdeb;
         $nb=sizeof($fournisseur->getProfils(),COUNT_NORMAL);
         $prixparprofit=$l/$nb;
-        $nombresugg=intdiv($prixparprofit,$prixprofit);
-
-        return $nombresugg;
+        if ( $prixprofit==0){
+            $nombresugg=0;
+        }
+        else {
+            $nombresugg = intdiv($prixparprofit, $prixprofit);
+        }
+        return round($nombresugg);
 
     }
 

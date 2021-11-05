@@ -37,7 +37,9 @@ class FournisseurType extends AbstractType
                 "row_attr" => [
                     "class" => "d-none"
                 ],
-            ));
+            ))
+        ->add('interlocuteur');
+
     }
 
 

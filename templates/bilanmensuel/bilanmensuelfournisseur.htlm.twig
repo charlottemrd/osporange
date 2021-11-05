@@ -260,10 +260,35 @@
     <script
             src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
-
-    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
-
     <script>
+
+    $(document).ready( function () {
+    var table = $('#table').DataTable( {
+    "paging": true,
+    "language": {
+    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+    },
+    "order": [[ 1, "asc" ]],
+    pagingType: "simple_numbers",
+    "bLengthChange": false,
+    "bInfo" : false,
+    rowReorder: true,
+    "dom": 'lrtip',
+    "aoColumnDefs": [
+    { 'bSortable': false, 'aTargets': [ -1 ] }
+    ],
+
+    });
+
+
+    $('#mySearchButton').on( 'keyup click', function () {
+    table.search($('#mySearchText').val()).draw();
+    } );
+
+
+    } );
+
+
         let bouton1 = document.getElementById("bouton1");
         let dive1 = document.getElementById("dive1");
         bouton1.addEventListener("click", () => {

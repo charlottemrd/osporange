@@ -74,23 +74,27 @@ class IdmonthbmRepository extends ServiceEntityRepository
         }
 
         if (!empty($search->year)) {
-            $query = $query
-                ->andwhere('YEAR(bilanmensuel.monthyear) =:yeari')
-                ->setParameter('yeari', $search->year);
-        }
-
-        if (!empty($search->accept)) {
 
             $query = $query
-                ->andwhere('(bilanmensuel.isaccept) =:az')
-                ->setParameter('az', $search->accept);
+                ->andwhere('YEAR(bilanmensuel.monthyear) LIKE :yeari')
+                ->setParameter('yeari',"%{$search->year}%");
+        }
+
+        if (null !== $search->accept ) {
+            if($search->accept==0) {
+                $query = $query
+                    ->andwhere('(bilanmensuel.isaccept) =:az')
+                    ->setParameter('az', false);
+            }
+            else{
+                $query = $query
+                    ->andwhere('(bilanmensuel.isaccept) =:az')
+                    ->setParameter('az', true);
+            }
         }
 
 
 
-
-        $query=$query
-           ->orderBy('bilanmensuel.monthyear','DESC');
 
         return $query->getQuery()->getResult();
 

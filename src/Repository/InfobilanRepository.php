@@ -83,6 +83,32 @@ class InfobilanRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Infobilan[]
      */
+    public function searchinfobilandebitefalse(int $projid) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('infobilan');
+
+        $query->innerJoin('App\Entity\Bilanmensuel', 'bilanmensuel', 'WITH', 'bilanmensuel.id = infobilan.bilanmensuel')
+        ;
+        $query->innerJoin('App\Entity\Idmonthbm', 'idmonthbm', 'WITH', 'idmonthbm.id=bilanmensuel.idmonthbm')
+        ;
+
+        $query = $query
+            ->andWhere('bilanmensuel.projet=:po')
+            ->setParameter('po',$projid);
+
+
+        return $query->getQuery()->getResult();
+
+
+    }
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Infobilan[]
+     */
     public function searchinfobilandebiteduprofit(int $projid,int $prof) : array
     {
 
@@ -108,4 +134,33 @@ class InfobilanRepository extends ServiceEntityRepository
 
 
     }
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Infobilan[]
+     */
+    public function searchinfobilandebiteduprofitfalse(int $projid,int $prof) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('infobilan');
+
+        $query->innerJoin('App\Entity\Bilanmensuel', 'bilanmensuel', 'WITH', 'bilanmensuel.id = infobilan.bilanmensuel')
+        ;
+        $query->innerJoin('App\Entity\Idmonthbm', 'idmonthbm', 'WITH', 'idmonthbm.id=bilanmensuel.idmonthbm')
+        ;
+
+        $query = $query
+            ->andWhere('bilanmensuel.projet=:po')
+            ->setParameter('po',$projid);
+        $query = $query
+            ->andWhere('infobilan.profil=:pro')
+            ->setParameter('pro',$prof);
+
+
+        return $query->getQuery()->getResult();
+
+
+    }
+
 }

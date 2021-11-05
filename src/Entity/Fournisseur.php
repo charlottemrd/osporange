@@ -64,6 +64,11 @@ class Fournisseur
      */
     private $idmonthbms;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="fournisseurs")
+     */
+    private $interlocuteur;
+
     public function __construct()
     {
         $this->profils = new ArrayCollection();
@@ -228,6 +233,18 @@ class Fournisseur
                 $idmonthbm->setFournisseur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getInterlocuteur(): ?User
+    {
+        return $this->interlocuteur;
+    }
+
+    public function setInterlocuteur(?User $interlocuteur): self
+    {
+        $this->interlocuteur = $interlocuteur;
 
         return $this;
     }

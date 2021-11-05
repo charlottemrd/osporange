@@ -78,14 +78,22 @@ thead{
             <input type="text" class="form-control" placeholder="{{ fournisseur.name }}" disabled=true" aria-describedby="basic-addon1">
         </div>
 
-        {%if fournisseur.phone!=null %}
+        {%if fournisseur.interlocuteur!=null %}
         <div class="input-group mb-3">
             <div class="input-group-prepend " style="width: 40%">
-                <span class="input-group-text" id="basic-addon1">Numéro de téléphone</span>
+                <span class="input-group-text" id="basic-addon1">Interlocuteur</span>
             </div>
-            <input type="text" class="form-control" placeholder="{{ fournisseur.phone }}" disabled=true" aria-describedby="basic-addon1">
+            <input type="text" class="form-control" placeholder="{{ fournisseur.interlocuteur }}" disabled=true" aria-describedby="basic-addon1">
         </div>
         {% endif %}
+            {%if fournisseur.phone!=null %}
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend " style="width: 40%">
+                        <span class="input-group-text" id="basic-addon1">Numéro de téléphone</span>
+                    </div>
+                    <input type="text" class="form-control" placeholder="{{ fournisseur.phone }}" disabled=true" aria-describedby="basic-addon1">
+                </div>
+            {% endif %}
 
         {%if fournisseur.devise!=null %}
             <div class="input-group mb-3">

@@ -165,6 +165,7 @@ class UserFixtures extends Fixture
         $fournisseur1=new Fournisseur();
         $fournisseur1->setName('fournisseur A');
         $fournisseur1->setDevise('a');
+        $fournisseur1->setInterlocuteur($user);
 
         $profil1=new Profil();
         $profil1->setName('a');
@@ -200,6 +201,7 @@ class UserFixtures extends Fixture
         $projet1->setRisque($risque2);
         $projet1->setPriorite($priorite2);
         $projet1->setUser($user);
+
         $cout1=new Cout();
         $cout1->setProfil($profil1);
         $cout1->setProjet($projet1);

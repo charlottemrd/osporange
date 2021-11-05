@@ -5,6 +5,8 @@ use App\Entity\Bilanmensuel;
 use App\Entity\Fournisseur;
 use App\Entity\Idmonthbm;
 use App\Entity\Infobilan;
+use App\Entity\Profil;
+use App\Entity\Projet;
 use App\Entity\SearchBilanmensuel;
 use App\Form\IdmonthbmType;
 use App\Form\SearchBilanType;
@@ -43,8 +45,7 @@ class BilanMensuelController extends AbstractController
         $form=$this->createForm(SearchBilanType::class,$data);
         $form->handleRequest($request);
         $idmonthbms= $idmonthbmRepository->searchbilanmensuelfournisseur($data,$fournisseur);
-
-        return $this->render('bilanmensuel/bilanmensuelfournisseur.htlm.twig', [
+       return $this->render('bilanmensuel/bilanmensuelfournisseur.htlm.twig', [
             'bilans'=>$idmonthbms,
             'fournisseur'=>$fournisseur,
             'form'=>$form->createView(),
@@ -108,9 +109,10 @@ class BilanMensuelController extends AbstractController
                     $tailledata = sizeof($datatransmis, COUNT_NORMAL);
                     $coutsoumis = 0;
                     for ($iz = 0; $iz < $tailledata; $iz++) {
+                        $lignelunb=0;
                         $lignealire = $datatransmis[$iz];
                         $ligneluprof = $profilRepository->findOneBy(array('id' => $lignealire[0]));
-                        $lignelunb = ($lignealire[1]);
+                         $lignelunb = ($lignealire[1]);
                         $tariflu = $ligneluprof->getTarif();
                         $coutsoumis = $coutsoumis + ($tariflu * $lignelunb);
                     }
@@ -142,8 +144,8 @@ class BilanMensuelController extends AbstractController
                     else {
                         $pourcentagesoumis = (100 * ($coutsoumis + $coutdebit)) / ($couttotal);
                     }
-                        if ($pourcentagesoumis > $pourcentagecontrol) {
-                            $message0 = 'Impossible de modifier le bilan mensuel ; le pourcentage débité est supérieure à ' . strval($pourcentagecontrol) . ' %';
+                        if (($pourcentagesoumis > $pourcentagecontrol)&&($coutsoumis!=0)) {
+                            $message0 = 'Impossible de modifier le bilan mensuel ; le pourcentage débité est supérieure à '. strval($pourcentagecontrol) . ' %';
                             //problem
                             return new JsonResponse(array( //cas projet est superieure à ce qui est demande
                                 'status' => 'OK',
@@ -221,6 +223,7 @@ class BilanMensuelController extends AbstractController
                     }
                 }// fin cas où on modifie le bilan mensuel
                 else {  //type=2 ; on souhaite valide le bilan mensuel
+
                     $idmonthbm->setIsaccept(true);
                     $mymonth=date_format($myyearmonth, 'm');
                     $myyear=date_format($myyearmonth, 'Y');
@@ -236,14 +239,14 @@ class BilanMensuelController extends AbstractController
                    $sched->setDate($myyear,$mymonth,1);
                    $existbilan=$idmonthbmRepository->ownmonth($mymonth,$myyear);
                    $bilanajouter=array();
+                    $coutdebit = 0;
                        foreach ($bilans as $bilansf) { //pour chaque projet du bilan
 
                             $anciensbilansdebduprojet=$infobilanRepository->searchinfobilandebite($bilansf->getProjet()->getId());
                            if (sizeof($anciensbilansdebduprojet, COUNT_NORMAL) == 0) {
                                $coutdebit = 0;
                            } else {
-                               $coutdebit = 0;
-                               foreach ($anciensbilansdebduprojet as $anciensbilansdebverif) {
+                               foreach ($anciensbilansdebduprojet as $anciensbilansdebverif) {  //projet de
                                    $nbz = $anciensbilansdebverif->getNombreprofit();
                                    $profittverif = $anciensbilansdebverif->getProfil();
                                    $pmdz = $profilRepository->findOneBy(array('id' => $profittverif))->getTarif();
@@ -278,6 +281,9 @@ class BilanMensuelController extends AbstractController
                                     array_push($bilanajouter,$bilansf->getProjet()->getId());
                                 }
                             }
+                            else{
+                                array_push($bilanajouter,$bilansf->getProjet()->getId());
+                            }
 
 
                        }//end foreach
@@ -298,7 +304,12 @@ class BilanMensuelController extends AbstractController
                                 $infoajout=new Infobilan();
                                 $infoajout->setBilanmensuel($bilanajout);
                                 $infoajout->setProfil($ps);
-                                $infoajout->setNombreprofit(0);  //to change with an function
+                                $pcom=whichpoc($pk);
+                                $mth=manymonthleft($pk,$existbilan);
+                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $existbilan,$ps, $pk, $pcom,$mth);
+
+                                $sxz= proposeTGIM($couttotal, $coutdebit,$pcom, $pk->getFournisseur(),$ps->getTarif());
+                                $infoajout->setNombreprofit( $sxz);  //to change with an function
                                 $this->getDoctrine()->getManager()->persist($infoajout);
                             }
                         }
@@ -327,7 +338,11 @@ class BilanMensuelController extends AbstractController
                                $infoajoutt=new Infobilan();
                                $infoajoutt->setBilanmensuel($bilanajoutt);
                                $infoajoutt->setProfil($pst);
-                               $infoajoutt->setNombreprofit(0);  //to change with an function
+                               $pcomt=whichpoc($pkt);
+                               $mtht=manymonthleft($pkt,$newonebilan);
+                               $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $newonebilan,$pst, $pkt, $pcomt,$mtht);
+                               $infoajoutt->setNombreprofit( $sxz);  //to change with an function
+                               //$infoajoutt->setNombreprofit(0);  //to change with an function
                                $this->getDoctrine()->getManager()->persist($infoajoutt);
                            }
                        }
@@ -419,6 +434,149 @@ return $this->render('bilanmensuel/showbm.html.twig', [
         ]);
     }
 
+}
+function proposeTGIM(InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, Idmonthbm $idmonthbm,Profil $profil, Projet $projet, float $pcon,$mois){
+    $coutt=0;
+    foreach ($projet->getCouts() as $co){
+       $coutt=$coutt+ ($co->getNombreprofil()*$co->getProfil()->getTarif());
+    }
+    $bilansdebites=$infobilanRepository->searchinfobilandebiteduprofitfalse($projet->getId(),$profil->getId());
+    $nbdebites=0;
+    if (sizeof($bilansdebites,COUNT_NORMAL)==0){
+        $nbdebites=0;
+    }
+    else {
+        foreach ($bilansdebites as $d) {
+            $nbdebites = $nbdebites + (($d->getNombreprofit()));
+        }
+    }
+   // $l=($pcon*$coutt)/100;
+    $nbt=$coutRepository->findOneBy(array('projet'=>$projet->getId(),'profil'=>$profil->getId()))->getNombreprofil();
+   $l=($pcon/100)*$nbt;
+    $l=$l-$nbdebites;
+    $l=intdiv($l,$mois);
+    if($nbt-$nbdebites-$l<=0){
+        $l=0;
+    }
+   //  $l=intdiv($pcon,100)* $l;
+    //$l=(($pcon/100)*((();
+    //$l=(($pcon)/100)*($coutt-$nbdebites);  //cout autorise
+  //  $l=$l/$profil->getTarif();
+   // if($l<0){
+     //   $l=0;
+   // }
+   // $nb=sizeof($fournisseur->getProfils(),COUNT_NORMAL);
+    //$prixparprofit=$l/$nb;
+    //$nombresugg=($prixparprofit/$prixprofit);
+    //$nombresugg=intdiv($nombresugg,$moisrestant);
+   // if($nombresugg>$nbtt-$nbdeb)
+    return $l;
+
+    //$nbdebites=0;
+    /*$bilansdebites=$infobilanRepository->searchinfobilandebiteduprofitfalse($projet->getId(),$profil->getId());
+    if (sizeof($bilansdebites,COUNT_NORMAL)==0){
+        $nbdebites=0;
+    }
+    else{
+        foreach ($bilansdebites as $d){
+          //  $nbdebites=$nbdebites+$d->getNombreprofit();
+        }
+    }
+    $nbtotal=100;
+    $nbdebites=0;
+   // $nbtotal=$coutRepository->searchcoutbm($projet->getId(),$profil->getId())->getNombreprofil();
+    //$coutautorise=($pcon/100)*($profil->getTarif()*($nbtotal-$nbdebites));// cout autorisé pour pourcentage
+   // $nbpp=$coutautorise/$profil->getTarif();
+
+    $nbautorise=(($pcon/100)*($nbtotal))-$nbdebites;
+  //  $nbpp=$coutautorise/$profil->getTarif();
+if($nbautorise<0){
+     $nbautorise=0;
+    }
+*/
+
+    return $l;
+
+
+
+
+}
+
+function manymonthleft ( Projet $project, Idmonthbm $idmonthbm){
+    $phaseprojet = $project->getPhase()->getId();
+    $dateactuelle=$idmonthbm->getMonthyear();
+    $mymonthone=date_format($dateactuelle, 'm');
+    if ($phaseprojet == 6) {
+        if ($project->getDate1()!=null){
+                $mois=date_diff($project->getDate1(),$dateactuelle)->format('%m');
+                if ($mois <= 0) {
+                    $mois=1;
+                }
+                else{
+                    $mois=$mois+1;
+                }
+            }
+            else{
+                $mois=1;
+            }
+    } elseif ($phaseprojet == 7) {
+        if ($project->getDate2() != null) {
+            $mois=date_diff($project->getDate2(),$dateactuelle)->format('%m');
+           if ($mois <= 0) {
+                 $mois=1;
+            }
+           else{
+               $mois=$mois+1;
+           }
+        }
+        else{
+            $mois=1;
+        }
+    }
+    else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
+        if ($project->getDate3() != null) {
+            $mois=date_diff($project->getDate3(),$dateactuelle)->format('%m');
+             if ($mois <= 0) {
+                $mois=1;
+            }
+             else{
+                 $mois=$mois+1;
+             }
+        }
+        else{
+            $mois=1;
+        }
+    }
+    else{
+        $mois=1;
+    }
+    return $mois;
+}
+
+function whichpoc(Projet $project){
+    $phaseprojet = $project->getPhase()->getId();
+    if ($phaseprojet == 6) {
+        if ($project->getDebit1bm()!=null){
+            $pourcentagecontrol = $project->getDebit1bm();}
+        else{
+            $pourcentagecontrol = 20;
+        }
+    } elseif ($phaseprojet == 7) {
+        if ($project->getDebit2bm()!=null){
+            $pourcentagecontrol = $project->getDebit2bm();}
+        else{
+            $pourcentagecontrol = 60;
+        }
+    } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
+        if ($project->getDebit3bm()!=null){
+            $pourcentagecontrol = $project->getDebit3bm();}
+        else{
+            $pourcentagecontrol = 80;
+        }
+    } else {
+        $pourcentagecontrol = 100;
+    }
+    return $pourcentagecontrol;
 }
 
 

@@ -21,7 +21,7 @@ class SearchBilanmensuel{
 
 
     /**
-     * @var boolean
+     * @var null|boolean
      */
     public $accept;
 

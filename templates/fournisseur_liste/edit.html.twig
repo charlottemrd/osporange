@@ -68,6 +68,10 @@
              color: black;
          }
 
+         select{
+             width:100%;
+         }
+
 
 
 
@@ -129,6 +133,13 @@
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Interlocuteur', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.interlocuteur, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
                         </tr>
                         <tr>
                             <th> {{ form_label(form, 'Numéro de téléphone', {
