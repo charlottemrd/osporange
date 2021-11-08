@@ -530,7 +530,33 @@
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit3bm}}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
+                        {% if (bilas) %}
+                            <p class="text-center">Bilan mensuels du projet</p>
+                            <table   width="80%" style="margin-left: 10%;border: black 1px solid" >      <thead>
 
+                                <tr>
+                                    <th style="text-align: center;">Dates/Profils</th>
+                                    {% for bila in bilas %}
+                                        <th style="border: black solid 1px;text-align: center"> {{bila.profil}}</th>
+                                    {% endfor %}
+                                </tr>
+
+                                </thead>
+                                <tbody>
+                                {% for idmonthbm in idmonthbms %}
+                                    <tr>
+                                        <td style="border: black solid 1px;width: 10%;text-align: center">{{ idmonthbm.monthyear ? idmonthbm.monthyear|date('m/Y') : ''}}</td>
+
+                                        {% for bilanmensuel in idmonthbm.bilanmensuels %}
+                                            {% for infobilan in bilanmensuel.infobilans %}
+                                                <td style="border: black solid 1px;width: 10%;text-align: center"> {{infobilan.nombreprofit }}</td>
+                                            {% endfor %}
+                                        {% endfor %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                    {% endif %}
                     {% endif %}
                 </div>
                 <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">

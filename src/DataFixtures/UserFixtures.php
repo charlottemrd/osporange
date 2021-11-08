@@ -52,11 +52,11 @@ class UserFixtures extends Fixture
         $manager->persist($paiement2);
 
         $typebu = new TypeBU();
-        $typebu->setType('B2B');
+        $typebu->setType('BtoB');
         $manager->persist($typebu);
 
         $typebu2 = new TypeBU();
-        $typebu2->setType('B2C');
+        $typebu2->setType('BtoC');
         $manager->persist($typebu2);
 
         $typebu3 = new TypeBU();
@@ -113,13 +113,13 @@ class UserFixtures extends Fixture
         $manager->persist($phase5);
 
         $phase6 = new Phase();
-        $phase6->setName('en construction - étape de conception');
+        $phase6->setName('en construction - conception');
         $phase6->setRang('6');
         $phase6->setOrdere('6');
         $manager->persist($phase6);
 
         $phase0 = new Phase();
-        $phase0->setName('en construction - étape de codage');
+        $phase0->setName('en construction - codage');
         $phase0->setRang('7');
         $phase0->setOrdere('7');
         $manager->persist($phase0);

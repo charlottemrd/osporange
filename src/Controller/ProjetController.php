@@ -13,6 +13,7 @@ use App\Entity\Idmonthbm;
 use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
+
 use App\Form\FicheliaisonType;
 use App\Form\ModifyaType;
 use App\Form\ModifybType;
@@ -102,7 +103,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
-    public function new(InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(  InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
@@ -192,73 +193,6 @@ class ProjetController extends AbstractController
 
            if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
-                if($projet->getPaiement()->getId()==1){
-                    $projet->setIsfinish(false);
-                    $projet->setIseligibletobm(true);
-                    $dateactuelle=new \DateTime();
-                    $moisencours=date_format($dateactuelle, 'm');
-                    $anneeencours=date_format($dateactuelle, 'Y');
-                    $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
-                    if($idmonthbmpasse){ //on ajout direct
-                        $bilanadd=new Bilanmensuel();
-                        $bilanadd->setDatemaj(new \DateTime());
-                        $bilanadd->setProjet($projet);
-                        $bilanadd->setHavebeenmodified(0);
-                        $bilanadd->setIdmonthbm($idmonthbmpasse);
-                        $entityManager->persist($bilanadd);
-
-                        $profilsfournisseur=$projet->getFournisseur()->getProfils();
-                        foreach ($profilsfournisseur as $po){
-                            $info1=new Infobilan();
-                            $pcom=whichpoc($projet);
-                            $mth=manymonthleft($po,$idmonthbmpasse);
-                            $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $pcom,$mth);
-
-                            $info1->setNombreprofit($sxz);
-                            $info1->setProfil($po);
-                            $info1->setBilanmensuel($bilanadd);
-                            $entityManager->persist($info1);
-                        }
-                        $entityManager->flush();
-                    }else{
-                        $infmon=new Idmonthbm();
-                        $infmon->setMonthyear(new \DateTime);
-                        $infmon->setIsaccept(0);
-                        $infmon->setFournisseur($projet->getFournisseur());
-                        $entityManager->persist($infmon);
-
-                        $bilanadd=new Bilanmensuel();
-                        $bilanadd->setDatemaj(new \DateTime());
-                        $bilanadd->setProjet($projet);
-                        $bilanadd->setHavebeenmodified(0);
-                        $bilanadd->setIdmonthbm($infmon);
-                        $entityManager->persist($bilanadd);
-
-                        $profilsfournisseur=$projet->getFournisseur()->getProfils();
-                        foreach ($profilsfournisseur as $po){
-                            $info1=new Infobilan();
-                            $pcom=whichpoc($projet);
-                            $mth=manymonthleft($po,$idmonthbmpasse);
-                            $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $pcom,$mth);
-                            $info1->setNombreprofit($sxz);
-                            $info1->setProfil($po);
-                            $info1->setBilanmensuel($bilanadd);
-                            $entityManager->persist($info1);
-                        }
-                        $entityManager->flush();
-
-                    }
-
-                }
-                else{
-                    $projet->setIseligibletobm(false);
-                }
-
-
-
-
-
-
 
                 return $this->redirectToRoute('projet_cout', ['projet'=>$projet,'id'=>$projet->getId()], Response::HTTP_SEE_OTHER);
 
@@ -293,16 +227,109 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/cout', name: 'projet_cout', methods: ['GET', 'POST'])]
-    public function cout(IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function cout(ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         $mform = $this->createForm(ProjetCoutType::class, $projet);
         $mform->handleRequest($request);
         if ($mform->isSubmitted() && $mform->isValid()) {
+            if($projet->getPaiement()->getId()==1){
+                $projet->setIsfinish(false);
+                $projet->setIseligibletobm(true);
+                $dateactuelle=new \DateTime();
+                $moisencours=date_format($dateactuelle, 'm');
+                $anneeencours=date_format($dateactuelle, 'Y');
+                $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
+                if($idmonthbmpasse){ //on ajout direct
+                    $bilanadd=new Bilanmensuel();
+                    $bilanadd->setDatemaj(new \DateTime());
+                    $mybilan=$bilanadd->getId();
+                    $bilanadd->setProjet($projet);
+                    $bilanadd->setHavebeenmodified(0);
+                    $bilanadd->setIdmonthbm($idmonthbmpasse);
+                    $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                    $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                    foreach ($profilsfournisseur as $po){
+                        $info1=new Infobilan();
+                        $pcom=whichpoc($projet);
+                        $mth=manymonthleft($projet,$idmonthbmpasse);
+                        $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $pcom,$mth);
+
+                        $info1->setNombreprofit($sxz);
+                        $info1->setProfil($po);
+                        $info1->setBilanmensuel($bilanadd);
+                        $this->getDoctrine()->getManager()->persist($info1);
+                    }
+                    $this->getDoctrine()->getManager()->flush();
+                }else{
+                    $infmon=new Idmonthbm();
+                    $infmon->setMonthyear(new \DateTime);
+                    $infmon->setIsaccept(0);
+                    $infmon->setFournisseur($projet->getFournisseur());
+                    $this->getDoctrine()->getManager()->persist($infmon);
+
+                    $bilanadd=new Bilanmensuel();
+                    $mybilan=$bilanadd->getId();
+                    $bilanadd->setDatemaj(new \DateTime());
+                    $bilanadd->setProjet($projet);
+                    $bilanadd->setHavebeenmodified(0);
+                    $bilanadd->setIdmonthbm($infmon);
+                    $this->getDoctrine()->getManager()->persist($bilanadd);
+
+                    $profilsfournisseur=$projet->getFournisseur()->getProfils();
+                    foreach ($profilsfournisseur as $po){
+                        $info1=new Infobilan();
+                        $pcom=whichpoc($projet);
+                        $mth=manymonthleft($projet,$infmon);
+                        $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $pcom,$mth);
+                        $info1->setNombreprofit($sxz);
+                        $info1->setProfil($po);
+                        $info1->setBilanmensuel($bilanadd);
+                        $this->getDoctrine()->getManager()->persist($info1);
+                    }
+                    $this->getDoctrine()->getManager()->flush();
+
+                }
+
+            }
+            else{
+                $projet->setIseligibletobm(false);
+            }
+             $this->getDoctrine()->getManager()->flush();
 
 
 
+            if($projet->getPhase()->getId()>=6) {
+                if ($projet->getPaiement()->getId() == 1) {
+                    $couttotal=coutprojet($projet);
+                    $anciensbilans = $infobilanRepository->searchinfobilandebitefalse($projet->getId());
 
-            $this->getDoctrine()->getManager()->flush();
+                    if (sizeof($anciensbilans, COUNT_NORMAL) == 0) {
+                        $coutdebit = 0;
+                    } else {
+                        $coutdebit = 0;
+                        foreach ($anciensbilans as $anciensbilansdeb) {
+                            $nb = $anciensbilansdeb->getNombreprofit();
+                            $profitt = $anciensbilansdeb->getProfil();
+                            $pmd = $profilRepository->findOneBy(array('id' => $profitt))->getTarif();
+                            $coutdebit = $coutdebit + ($nb * $pmd);
+                        }
+                    }
+                    $pourcentage=whichpoc($projet);
+                    if ($coutdebit>$couttotal*($pourcentage/100))
+                        $inf=$bilanmensuelRepository->findOneBy(array('id'=>$mybilan));
+                    foreach ($inf->getInfobilans() as $fo){
+                        $fo->setNombreprofit(0);
+                    }
+                    $this->getDoctrine()->getManager()->flush();
+                }
+                $this->getDoctrine()->getManager()->flush();
+
+
+
+            }
+
+
             $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
             return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -317,7 +344,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
-    public function show(Projet $projet): Response
+    public function show(Projet $projet, InfobilanRepository $infobilanRepository, IdmonthbmRepository $idmonthbmRepository, BilanmensuelRepository $bilanmensuelRepository): Response
     {
         if(($projet->getPhase()->getId()==3)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==3))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==3))){//non demarre
             return $this->render('projet/showa.html.twig', [
@@ -341,7 +368,17 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
+            $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            $profit=[];
+            if($idmonthbm) {
+                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+            }
+
+
+
             return $this->render('projet/showdf.html.twig', [
+                'idmonthbms'=>$idmonthbm,
+                'bilas'=>$profit,
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
@@ -358,7 +395,16 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==7)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==7))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==7))){ //consctruction
+
+            $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            $profit=[];
+            if($idmonthbm) {
+                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+            }
+
             return $this->render('projet/showde.html.twig', [
+                'idmonthbms'=>$idmonthbm,
+                'bilas'=>$profit,
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
@@ -374,8 +420,18 @@ class ProjetController extends AbstractController
 
             ]);
         }
+
         else if(($projet->getPhase()->getId()==8)||(($projet->getPhase()->getId()==8)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==8))){ //test
+            $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            $profit=[];
+            if($idmonthbm) {
+                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+            }
+
+
             return $this->render('projet/showdg.html.twig', [
+                'idmonthbms'=>$idmonthbm,
+                'bilas'=>$profit,
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
@@ -409,7 +465,16 @@ class ProjetController extends AbstractController
             ]);
         }
         else
-        {return $this->render('projet/showe.html.twig', [
+        {
+            $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            $profit=[];
+            if($idmonthbm) {
+                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+            }
+
+            return $this->render('projet/showe.html.twig', [
+            'idmonthbms'=>$idmonthbm,
+            'bilas'=>$profit,
             'projet' => $projet,
             'date_lones'=>$projet->getDateLones(),
             'date_zeros'=>$projet->getDateZeros(),
@@ -978,7 +1043,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, IdmonthbmRepository $idmonthbmRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1093,7 +1158,9 @@ class ProjetController extends AbstractController
                         $anneeencours=date_format($dateactuelle, 'Y');
                         $idmonthbmpasse=$idmonthbmRepository->ownmonth($moisencours,$anneeencours);
                         if($idmonthbmpasse){ //on ajout direct
+
                             $bilanadd=new Bilanmensuel();
+                            $mybilan=$bilanadd->getId();
                             $bilanadd->setDatemaj(new \DateTime());
                             $bilanadd->setProjet($projet);
                             $bilanadd->setHavebeenmodified(0);
@@ -1104,13 +1171,18 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 $pcom=whichpoc($projet);
-                                $mth=manymonthleft($po,$idmonthbmpasse);
+                                $mth=manymonthleft($projet,$idmonthbmpasse);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $pcom,$mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
                                 $info1->setBilanmensuel($bilanadd);
                                 $this->getDoctrine()->getManager()->persist($info1);
                             }
+
+
+
+
+
 
                         }else{
                             $infmon=new Idmonthbm();
@@ -1120,6 +1192,7 @@ class ProjetController extends AbstractController
                             $this->getDoctrine()->getManager()->persist($infmon);
 
                             $bilanadd=new Bilanmensuel();
+                            $mybilan=$bilanadd->getId();
                             $bilanadd->setDatemaj(new \DateTime());
                             $bilanadd->setProjet($projet);
                             $bilanadd->setHavebeenmodified(0);
@@ -1130,7 +1203,7 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 $pcom=whichpoc($projet);
-                                $mth=manymonthleft($po,$idmonthbmpasse);
+                                $mth=manymonthleft($projet,$infmon);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $pcom,$mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
@@ -1144,11 +1217,41 @@ class ProjetController extends AbstractController
                     }
                 }
 
-
-
-
-
                 $this->getDoctrine()->getManager()->flush();
+
+
+
+                if($projet->getPhase()->getId()==6) {
+                    if ($projet->getPaiement()->getId() == 1) {
+                      $couttotal=coutprojet($projet);
+                      $anciensbilans = $infobilanRepository->searchinfobilandebitefalse($projet->getId());
+
+                        if (sizeof($anciensbilans, COUNT_NORMAL) == 0) {
+                            $coutdebit = 0;
+                        } else {
+                            $coutdebit = 0;
+                            foreach ($anciensbilans as $anciensbilansdeb) {
+                                $nb = $anciensbilansdeb->getNombreprofit();
+                                $profitt = $anciensbilansdeb->getProfil();
+                                $pmd = $profilRepository->findOneBy(array('id' => $profitt))->getTarif();
+                                $coutdebit = $coutdebit + ($nb * $pmd);
+                            }
+                        }
+                        $pourcentage=whichpoc($projet);
+                        if ($coutdebit>$couttotal*($pourcentage/100))
+                            $inf=$bilanmensuelRepository->findOneBy(array('id'=>$mybilan));
+                            foreach ($inf->getInfobilans() as $fo){
+                                $fo->setNombreprofit(0);
+                            }
+                        $this->getDoctrine()->getManager()->flush();
+                        }
+
+
+
+
+                    }
+
+
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
 
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -1443,7 +1546,7 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 $pcom=whichpoc($projet);
-                                $mth=manymonthleft($po,$idmonthbmpasse);
+                                $mth=manymonthleft($projet,$idmonthbmpasse);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $pcom,$mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
@@ -1469,7 +1572,7 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po) {
                                 $info1 = new Infobilan();
                                 $pcom=whichpoc($projet);
-                                $mth=manymonthleft($po,$idmonthbmpasse);
+                                $mth=manymonthleft($projet,$infmon);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $pcom,$mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
@@ -1509,6 +1612,8 @@ class ProjetController extends AbstractController
 
         return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
     }
+
+
 
 
     #[Route('/{id}/fichefl', name: 'projet_fichefl', methods: ['GET', 'POST'])]
@@ -1779,112 +1884,7 @@ EOF;
 
 
 
-    function proposeTGIM(InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, Idmonthbm $idmonthbm,Profil $profil, Projet $projet, float $pcon,$mois){
-        $coutt=0;
-        foreach ($projet->getCouts() as $co){
-            $coutt=$coutt+ ($co->getNombreprofil()*$co->getProfil()->getTarif());
-        }
-        $bilansdebites=$infobilanRepository->searchinfobilandebiteduprofitfalse($projet->getId(),$profil->getId());
-        $nbdebites=0;
-        if (sizeof($bilansdebites,COUNT_NORMAL)==0){
-            $nbdebites=0;
-        }
-        else {
-            foreach ($bilansdebites as $d) {
-                $nbdebites = $nbdebites + (($d->getNombreprofit()));
-            }
-        }
-        $nbt=$coutRepository->findOneBy(array('projet'=>$projet->getId(),'profil'=>$profil->getId()))->getNombreprofil();
-        $l=($pcon/100)*$nbt;
-        $l=$l-$nbdebites;
-        $l=intdiv($l,$mois);
-        if($nbt-$nbdebites-$l<=0){
-            $l=0;
-        }
 
-        return $l;
-
-
-
-
-    }
-
-    function manymonthleft ( Projet $project, Idmonthbm $idmonthbm){
-        $phaseprojet = $project->getPhase()->getId();
-        $dateactuelle=$idmonthbm->getMonthyear();
-        $mymonthone=date_format($dateactuelle, 'm');
-        if ($phaseprojet == 6) {
-            if ($project->getDate1()!=null){
-                $mois=date_diff($project->getDate1(),$dateactuelle)->format('%m');
-                if ($mois <= 0) {
-                    $mois=1;
-                }
-                else{
-                    $mois=$mois+1;
-                }
-            }
-            else{
-                $mois=1;
-            }
-        } elseif ($phaseprojet == 7) {
-            if ($project->getDate2() != null) {
-                $mois=date_diff($project->getDate2(),$dateactuelle)->format('%m');
-                if ($mois <= 0) {
-                    $mois=1;
-                }
-                else{
-                    $mois=$mois+1;
-                }
-            }
-            else{
-                $mois=1;
-            }
-        }
-        else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-            if ($project->getDate3() != null) {
-                $mois=date_diff($project->getDate3(),$dateactuelle)->format('%m');
-                if ($mois <= 0) {
-                    $mois=1;
-                }
-                else{
-                    $mois=$mois+1;
-                }
-            }
-            else{
-                $mois=1;
-            }
-        }
-        else{
-            $mois=1;
-        }
-        return $mois;
-    }
-
-    function whichpoc(Projet $project){
-        $phaseprojet = $project->getPhase()->getId();
-        if ($phaseprojet == 6) {
-            if ($project->getDebit1bm()!=null){
-                $pourcentagecontrol = $project->getDebit1bm();}
-            else{
-                $pourcentagecontrol = 20;
-            }
-        } elseif ($phaseprojet == 7) {
-            if ($project->getDebit2bm()!=null){
-                $pourcentagecontrol = $project->getDebit2bm();}
-            else{
-                $pourcentagecontrol = 60;
-            }
-        } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-            if ($project->getDebit3bm()!=null){
-                $pourcentagecontrol = $project->getDebit3bm();}
-            else{
-                $pourcentagecontrol = 80;
-            }
-        } else {
-            $pourcentagecontrol = 100;
-        }
-        return $pourcentagecontrol;
-    }
 
 
 

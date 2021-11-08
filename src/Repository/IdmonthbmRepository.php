@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Idmonthbm;
+use App\Entity\Projet;
+use App\Entity\Bilanmensuel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -97,6 +99,28 @@ class IdmonthbmRepository extends ServiceEntityRepository
 
 
         return $query->getQuery()->getResult();
+
+
+    }
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Idmonthbm[]
+     */
+    public function ownprojet(int $projet) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('idmonth');
+
+        $query->innerJoin('App\Entity\Bilanmensuel', 'bilanmensuel', 'WITH', 'idmonth.id = bilanmensuel.idmonthbm')
+        ;
+        $query->innerJoin('App\Entity\Projet', 'projet', 'WITH', 'bilanmensuel.projet=projet.id')
+        ;
+        $query = $query
+            ->andWhere('projet.id =:po')
+            ->setParameter('po', $projet);
+return $query->getQuery()->getResult();
 
 
     }

@@ -72,4 +72,10 @@ class Cout
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->getProjet()->getReference().''.$this->getProfil()->getName();
+    }
+
 }

@@ -543,6 +543,13 @@ function whichpoc(Projet $project){
 }
 
 
+function coutprojet(Projet $projet){
+    $coutt=0;
+    foreach ($projet->getCouts() as $co){
+        $coutt=$coutt+ ($co->getNombreprofil()*$co->getProfil()->getTarif());
+    }
+    return $coutt;
+}
 
 
 
