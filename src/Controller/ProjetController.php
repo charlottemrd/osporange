@@ -339,6 +339,7 @@ class ProjetController extends AbstractController
         }
         else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            //$idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
                 $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
@@ -350,6 +351,7 @@ class ProjetController extends AbstractController
                 'idmonthbms'=>$idmonthbm,
                 'bilas'=>$profit,
                 'projet' => $projet,
+                'idprojet'=>$projet->getId(),
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
                 'date_one_pluses'=>$projet->getDateOnePluses(),

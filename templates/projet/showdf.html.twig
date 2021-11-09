@@ -550,9 +550,12 @@
                                         <td style="border: black solid 1px;width: 10%;text-align: center">{{ idmonthbm.monthyear ? idmonthbm.monthyear|date('m/Y') : ''}}</td>
 
                                         {% for bilanmensuel in idmonthbm.bilanmensuels %}
+                                            {% if bilanmensuel.projet == projet  %}
                                             {% for infobilan in bilanmensuel.infobilans %}
+
                                                 <td style="border: black solid 1px;width: 10%;text-align: center"> {{infobilan.nombreprofit }}</td>
                                             {% endfor %}
+                                            {% endif %}
                                         {% endfor %}
                                     </tr>
                                 {% endfor %}
