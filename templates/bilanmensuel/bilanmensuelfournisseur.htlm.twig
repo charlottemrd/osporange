@@ -160,13 +160,13 @@
             <br>
             <div class="bigbox" id="bigbox" style="width: 100%">
                 <div class="d-flex justify-content-center" >
-                <table width="10%" >
+                <table width="10%" class="tablesorter" >
                     <tr style="border-color: white">
                         <th style="border-color: white;width: 20%" id="toreduce" >
                             {{ form_start(form) }}
                             {{ form_label(form, 'Date ( mm/yyyy) ', { 'label_attr': {'class': 'input-group-text','style': 'font-size:medium'}})}}</th>
 
-                            <th style="border-color: white;width: 5%">
+                            <th style="border-color: white;width: 5%" >
                                 <div class="select2-container">{{ form_widget(form.month, {
                             'label_attr': {'class': 'form_control'}}
                                     ) }}</div></th>
@@ -217,7 +217,7 @@
                 <tr>
 
 
-                    <th class="text-center" style="width: 30%; border: black solid 1px">Date du bilan</th>
+                    <th class="text-center" data-sorter="shortDate" data-date-format=" d MMM yyyy" style="width: 30%; border: black solid 1px">Date du bilan</th>
                     <th class="text-center" style="width: 30%; border: black solid 1px">Bilan mensuel accepté</th>
                     <th class="text-center"  style="width: 30% ; border: black solid 1px">Actions</th>
 
@@ -268,7 +268,7 @@
     "language": {
     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
     },
-    "order": [[ 1, "asc" ]],
+   // "order": [[ 1, "asc", ]],
     pagingType: "simple_numbers",
     "bLengthChange": false,
     "bInfo" : false,
@@ -279,6 +279,8 @@
     ],
 
     });
+
+
 
 
     $('#mySearchButton').on( 'keyup click', function () {
