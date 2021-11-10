@@ -212,13 +212,13 @@
 
 
 
-                                       <td class="text-left " style="width: 10%"><br>{{ projet.reference }}</td>
-                             <td class="text-left " style="width: 10%"><br>{{ projet.fournisseur }}</td>
-                                    <td class="text-left " style="width: 10%"><br>{{ projet.priorite }}</td>
-                                    <td class="text-left " style="width: 10%"><br>{{ projet.risque }}</td>
-                                  <td class="text-left " style="width: 7%"><br>{{projet.isplanningrespecte ? 'Oui' : 'Non' }}</td>
-                                    <td class="text-left " style="width: 10%"><br>{{ projet.phase }}</td>
-                                         <td class="text-left " style="width: 10%" ><br>{{ projet.typebu }}</td>
+                                       <td class="text-center " style="width: 10%"><br>{{ projet.reference }}</td>
+                             <td class="text-center " style="width: 10%"><br>{{ projet.fournisseur }}</td>
+                                    <td class="text-center " style="width: 10%"><br>{{ projet.priorite }}</td>
+                                    <td class="text-center " style="width: 10%"><br>{{ projet.risque }}</td>
+                                  <td class="text-center " style="width: 7%"><br>{{projet.isplanningrespecte ? 'Oui' : 'Non' }}</td>
+                                    <td class="text-center " style="width: 10%"><br>{{ projet.phase }}</td>
+                                         <td class="text-center " style="width: 10%" ><br>{{ projet.typebu }}</td>
 
                     <td style="width: 15%" >
                         <a href="{{ path('projet_show', {'id': projet.id}) }}"><img src="/photo/view.png "  width="30%" height="30%"></img></a>

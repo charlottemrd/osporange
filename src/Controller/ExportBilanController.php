@@ -133,6 +133,42 @@ class ExportBilanController extends AbstractController
         }
 
 
+        $lignenbprofit=$ligneprofit+1;
+        $colnbpro='B';
+        foreach ($profils as $profilcout){
+            $nbof=0;
+            for ($la = 0; $la < sizeof($project,COUNT_NORMAL); $la++){
+                $ap=$la+2;
+                $nbof=$nbof+$sheet->getCell($colnbpro.$ap)->getValue();
+            }
+            $sheet->getCell($colnbpro.$lignenbprofit)->setValue($nbof);
+            $colnbpro++;
+        }
+
+        $ligneglob=$lignenbprofit+1;
+        $colglob='B';
+        foreach ($profils as $profilcout){
+            $glob=$sheet->getCell($colglob.$lignenbprofit)->getValue()*$sheet->getCell($colglob.$ligneprofit)->getValue();
+            $sheet->getCell($colglob.$ligneglob)->setValue($glob);
+            $colglob++;
+        }
+
+        $lignett=$ligneglob+1;
+        $coltt='B';
+        $coutt=0;
+        foreach ($profils as $profilcout){
+            $coutt=$coutt+ $sheet->getCell($coltt.$ligneglob)->getValue();
+            $coltt++;
+        }
+        $sheet->getCell('B'.$lignett)->setValue($coutt);
+        $sheet->getCell('A'.$ligneprofit)->setValue('Montant du profil');
+        $sheet->getCell('A'.$lignenbprofit)->setValue('Nombre cumule de profils');
+        $sheet->getCell('A'.$ligneglob)->setValue('Cout par profil en '. $idmonthbm->getFournisseur()->getDevise());
+        $sheet->getCell('A'.$lignett)->setValue('Cout total en '. $idmonthbm->getFournisseur()->getDevise());
+
+
+
+
 
 
 
