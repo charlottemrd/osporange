@@ -134,7 +134,7 @@
 
 
     <main class="container-fluid flex-fill ">
-        <h1 class="text-center" >Liste des PV internes pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
+        <h1 class="text-center" >PV interne du projet {{ pv.projet }} pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
 
 
         <div class="form-signin">
@@ -159,35 +159,7 @@
 
             <br>
             <div class="bigbox" id="bigbox" style="width: 100%">
-                <div class="d-flex justify-content-center" >
-                    <table width="10%" class="tablesorter" >
-                        <tr style="border-color: white">
-                            <th style="border-color: white;width: 20%" id="toreduce" >
-                                {{ form_start(form) }}
-                                {{ form_label(form, 'Description du projet', { 'label_attr': {'class': 'input-group-text','style': 'font-size:medium'}})}}</th>
 
-                            <th style="border-color: white;width: 5%" >
-                                <div class="select2-container">{{ form_widget(form.ref, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}</div></th>
-                            </th>
-                        </tr>
-                        <tr style="border-color: white">
-                            <th style="border-color: white; width: 30%">
-                            </th>
-                            <th style="border-color: white;width: 30%">
-                                <button type="submit" class="text-white bg-black btn">Rechercher</button>
-                            </th>
-                            <th style="border-color: white; width: 30%">
-                            </th>
-                        </tr>
-
-
-
-
-                        {{ form_end(form) }}
-                    </table>
-                </div>
 
                 <br>
 
@@ -207,7 +179,7 @@
                     <tbody>
                     {% for pv in pvs %}
                         <tr >
-                             <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
+                            <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
                             <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
                             <td class="text-center" style="width: 30%;border: black solid 1px">
                                 <a href="{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id })}}"><img src="/photo/view.png "  width="15%" height="100%"></img></a>

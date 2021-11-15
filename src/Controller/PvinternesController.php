@@ -52,6 +52,17 @@ class PvinternesController extends AbstractController
 
     }
 
+    #[Route('/modification/{pvinternes}/{id}', name: 'modifypv', methods: ['GET'])]
+    public function modify(PvinternesRepository $pvinternesRepository,Datepvinterne $datepvinterne, Pvinternes $pvinternes,DatepvinterneRepository $datepvinterneRepository,Request $request)
+    {
+        return $this->render('pvinternes/modify.html.twig', [
+            'datepv'=>$datepvinterne,
+            'pv'=>$pvinternes,
+        ]);
+
+
+    }
+
 
 
 }
