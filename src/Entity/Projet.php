@@ -234,6 +234,11 @@ class Projet
      */
     private $iseligibletobm;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Pvinternes::class, mappedBy="projet")
+     */
+    private $pvinternes;
+
 
 
 
@@ -249,6 +254,7 @@ class Projet
         $this->dataTrois = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->bilanmensuels = new ArrayCollection();
+        $this->pvinternes = new ArrayCollection();
 
 
     }
@@ -940,6 +946,36 @@ class Projet
     public function setIseligibletobm(?bool $iseligibletobm): self
     {
         $this->iseligibletobm = $iseligibletobm;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Pvinternes[]
+     */
+    public function getPvinternes(): Collection
+    {
+        return $this->pvinternes;
+    }
+
+    public function addPvinterne(Pvinternes $pvinterne): self
+    {
+        if (!$this->pvinternes->contains($pvinterne)) {
+            $this->pvinternes[] = $pvinterne;
+            $pvinterne->setProjet($this);
+        }
+
+        return $this;
+    }
+
+    public function removePvinterne(Pvinternes $pvinterne): self
+    {
+        if ($this->pvinternes->removeElement($pvinterne)) {
+            // set the owning side to null (unless already changed)
+            if ($pvinterne->getProjet() === $this) {
+                $pvinterne->setProjet(null);
+            }
+        }
 
         return $this;
     }

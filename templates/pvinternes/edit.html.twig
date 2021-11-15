@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Pvinternes{% endblock %}
+
+{% block body %}
+    <h1>Edit Pvinternes</h1>
+
+    {{ include('pvinternes/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('pvinternes_index') }}">back to list</a>
+
+    {{ include('pvinternes/_delete_form.html.twig') }}
+{% endblock %}

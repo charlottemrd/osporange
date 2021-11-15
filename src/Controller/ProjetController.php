@@ -6,6 +6,7 @@ use App\Entity\Cout;
 use App\Entity\DataTrois;
 use App\Entity\DateLone;
 use App\Entity\DateOnePlus;
+use App\Entity\Datepvinterne;
 use App\Entity\DateTwo;
 use App\Entity\DateZero;
 use App\Entity\Fournisseur;
@@ -14,6 +15,7 @@ use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
 
+use App\Entity\Pvinternes;
 use App\Form\FicheliaisonType;
 use App\Form\ModifyaType;
 use App\Form\ModifybType;
@@ -37,12 +39,14 @@ use App\Form\PhasebType;
 use App\Entity\SearchData;
 use App\Repository\BilanmensuelRepository;
 use App\Repository\CoutRepository;
+use App\Repository\DatepvinterneRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\IdmonthbmRepository;
 use App\Repository\InfobilanRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
+use App\Repository\PvinternesRepository;
 use Doctrine\Persistence\ObjectManager;
 use PhpParser\Node\Expr\AssignOp\Mod;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -103,7 +107,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
-    public function new(  InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new( DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
@@ -184,15 +188,54 @@ class ProjetController extends AbstractController
             foreach ($mod as $m){
                 if ($m->getConditionsatisfield()==null){
                     $m->setConditionsatisfield(false);
+                    $m->setIsapproved(false);
+                    $m->setIsencours(false);
                 }
             }
             $myphase=$projet->getPhase()->getId();
+            if($myphase>=6){
+                if ($projet->getPaiement()->getId()==2){
+                    $dateactuelle=new \DateTime();
+                    $moisencours=date_format($dateactuelle, 'm');
+                    $anneeencours=date_format($dateactuelle, 'Y');
+                    //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
+                    $pvinternepass=$datepvinterneRepository->owndatepv($moisencours,$anneeencours);
+                    if($pvinternepass){ //on cree un pv interne avec date= pv interne pass
+
+                        $pvinterne=new Pvinternes();
+                        $pvinterne->setProjet($projet);
+                        $pvinterne->setDate($pvinternepass);
+                        $pvinterne->setIsmodified(false);
+                        $pvinterne->setIsvalidate(false);
+                        $pvinterne->setPourcentage(0);
+                        $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
+                }
+                    else{ // on cree tout
+
+                        $datepvinterne=new Datepvinterne();
+                        $datepvinterne->setDatemy(new \DateTime());
+                        $pvinterne=new Pvinternes();
+                        $pvinterne->setProjet($projet);
+                        $pvinterne->setDate($datepvinterne);
+                        $pvinterne->setIsmodified(false);
+                        $pvinterne->setIsvalidate(false);
+                        $pvinterne->setPourcentage(0);
+                        $this->getDoctrine()->getManager()->persist($datepvinterne);
+                        $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
+                    }
+                }
+            }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
             $entityManager->flush();
 
            if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
+
 
                 return $this->redirectToRoute('projet_cout', ['projet'=>$projet,'id'=>$projet->getId()], Response::HTTP_SEE_OTHER);
 
@@ -595,6 +638,8 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                        $m->setIsapproved(false);
+                        $m->setIsencours(false);
                     }
                 }
 
@@ -679,6 +724,8 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                        $m->setIsapproved(false);
+                        $m->setIsencours(false);
                     }
                 }
 
@@ -763,6 +810,8 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                        $m->setIsapproved(false);
+                        $m->setIsencours(false);
                     }
                 }
 
@@ -848,6 +897,8 @@ class ProjetController extends AbstractController
                 foreach ($mod as $m){
                     if ($m->getConditionsatisfield()==null){
                         $m->setConditionsatisfield(false);
+                        $m->setIsapproved(false);
+                        $m->setIsencours(false);
                     }
                 }
 

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modalites index{% endblock %}
+
+{% block body %}
+    <h1>Modalites index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Pourcentage</th>
+                <th>Datedebut</th>
+                <th>Datefin</th>
+                <th>Conditionsatisfield</th>
+                <th>Conditions</th>
+                <th>Isapproved</th>
+                <th>Isencours</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for modalite in modalites %}
+            <tr>
+                <td>{{ modalite.id }}</td>
+                <td>{{ modalite.description }}</td>
+                <td>{{ modalite.pourcentage }}</td>
+                <td>{{ modalite.datedebut ? modalite.datedebut|date('Y-m-d') : '' }}</td>
+                <td>{{ modalite.datefin ? modalite.datefin|date('Y-m-d') : '' }}</td>
+                <td>{{ modalite.conditionsatisfield ? 'Yes' : 'No' }}</td>
+                <td>{{ modalite.conditions }}</td>
+                <td>{{ modalite.isapproved ? 'Yes' : 'No' }}</td>
+                <td>{{ modalite.isencours ? 'Yes' : 'No' }}</td>
+                <td>
+
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

@@ -52,6 +52,16 @@ class Modalites
      */
     private $conditions;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isapproved;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $isencours;
+
 
 
     public function getId(): ?int
@@ -145,6 +155,30 @@ class Modalites
     public function __toString()
     {
         return $this->getConditions();
+    }
+
+    public function getIsapproved(): ?bool
+    {
+        return $this->isapproved;
+    }
+
+    public function setIsapproved(?bool $isapproved): self
+    {
+        $this->isapproved = $isapproved;
+
+        return $this;
+    }
+
+    public function getIsencours(): ?bool
+    {
+        return $this->isencours;
+    }
+
+    public function setIsencours(?bool $isencours): self
+    {
+        $this->isencours = $isencours;
+
+        return $this;
     }
 
 
