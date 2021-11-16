@@ -1206,14 +1206,27 @@
                             }
 
 
-
+                            let full=false;
                             let resultToReturn = false;
                             let supe=false;
                             let infto=false;
+                            let detect1=false;
+                            let detect2=false;
+                            let detect3=false;
+                            var detect1value=0;
+                            var detect2value=0;
+                            var detect3value=0;
+                            let verif1=false;
+                            let verif2=false;
+                            let verif3=false;
+                            let verdate1=false;
+                            let verdate2=false;
+                            let verdate3=false;
+
                             for (let q = 0; q < jalondif.length; q++) {
                                 for (let g = 0; g < jalondif.length; g++) {
-                                     if (g !== q) {
-                                        if (jalondif[g] === jalondif[q]) {
+                                     if (g === q) {
+                                        if (jalondif[g] !== jalondif[q]) {
                                            resultToReturn = true;
                                              break;
                                         }
@@ -1230,9 +1243,60 @@
                                 }
                                 else if (jalontaux[a]> 100) {
                                     supe=true;
-                                    break
+                                    break;
                                 }
                             }
+                            if (!jalontaux.includes(100)) {
+                               full=true;
+                            }
+                            for (z = 0; z < jalontaux.length; z++) {
+                                if (jalondif[z] == 'date T1 atteinte') {
+
+                                    detect1 = true;
+                                    detect1value = jalontaux[z];
+                                    break;
+                                }
+                            }
+                            for (zb = 0; zb < jalontaux.length; zb++) {
+                                if (jalondif[zb] == 'date T2 atteinte') {
+                                    detect2=true;
+                                    detect2value = jalontaux[zb];
+                                    break;
+                                }
+                            }
+                            for (zc = 0; zc < jalontaux.length; zc++) {
+                               if (jalondif[zc] == 'date T3 atteinte') {
+                                    detect3=true;
+                                    detect3value=jalontaux[zc];
+                                    break;
+                                }
+                            }
+                            if((detect1 == true) && (detect2 == true)){
+                                if (detect1value>detect2value){
+                                    verif1=true;
+                                }
+                            }
+                            if((detect1==true)&&(detect3==true)){
+                                if (detect1value>detect3value){
+                                    verif2=true;
+                                }
+                            }
+                            if((detect2==true)&&(detect3==true)){
+                                if (detect2value>detect3value){
+                                    verif3=true;
+                                }
+                            }
+                            if ((document.getElementById('projet_date1').value!=null)&&(detect1==true)){
+                                verdate1=true;
+                            }
+                            if ((document.getElementById('projet_date2').value!=null)&&(detect2==true)){
+                                verdate2=true;
+                            }
+                            if ((document.getElementById('projet_date3').value!=null)&&(detect3==true)){
+                                verdate3=true;
+                            }
+
+
                             if(resultToReturn == true){
                                 document.getElementById('tauxerror').innerText='Des conditions sont identiques';
                                 isStepValid=false;
@@ -1245,6 +1309,37 @@
                                 document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
                                 isStepValid=false;
                             }
+                            else if (full == true){
+                                document.getElementById('tauxerror').innerText='Une des modalités doit être égale à 100%';
+                                isStepValid=false;
+                            }
+                            else if (verif1 == true){
+                                document.getElementById('tauxerror').innerText='Le pourcentage de la condition T1 est supérieure à celle de la condition T2';
+                                isStepValid=false;
+                            }
+                            else if (verif2 == true){
+                                document.getElementById('tauxerror').innerText='Le pourcentage de la condition T1 est supérieure à celle de la condition T3';
+                                isStepValid=false;
+                            }
+                            else if (verif3 == true){
+                                document.getElementById('tauxerror').innerText='Le pourcentage de la condition T2 est supérieure à celle de la condition T2';
+                                isStepValid=false;
+                            }
+                            else if (verdate1 == true){
+                                document.getElementById('tauxerror').innerText='La date T1 n\'est pas définie';
+                                isStepValid=false;
+                            }
+
+                            else if (verdate2 == true){
+                                document.getElementById('tauxerror').innerText='La date T2 n\'est pas définie';
+                                isStepValid=false;
+                            }
+
+                            else if (verdate3 == true){
+                                document.getElementById('tauxerror').innerText='La date T3 n\'est pas définie';
+                                isStepValid=false;
+                            }
+
                             else{
                                 document.getElementById('tauxerror').innerText='';
                                 isStepValid=true;
@@ -1294,22 +1389,32 @@
 
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-                if ($('#myForm').valid()&&validateSteps(stepNumber)==true) {
-                    if(stepDirection == "4") //here is the final step: Note: 0,1,2
-                    {
-                        $('.sw-btn-group-extra').removeClass('d-none');
-                    }
-                    else
-                    {
-                        $('.sw-btn-group-extra').addClass('d-none');
+                    if (stepDirection > stepNumber) {
+                        if ($('#myForm').valid() && validateSteps(stepNumber) == true) {
+                            if (stepDirection == "4") //here is the final step: Note: 0,1,2
+                            {
+                                $('.sw-btn-group-extra').removeClass('d-none');
+                            } else {
+                                $('.sw-btn-group-extra').addClass('d-none');
+                                return true;
+                            }
+                        } else {
+                            return false
+                        }
                         return true;
-                    }
-                } else {
-                    return false
-                }
-                return true;
 
-            })
+                    } else {
+                        if (stepDirection == "4") //here is the final step: Note: 0,1,2
+                        {
+                            $('.sw-btn-group-extra').removeClass('d-none');
+                        } else {
+                            $('.sw-btn-group-extra').addClass('d-none');
+                            return true;
+                        }
+
+                    }
+                }
+                )
 
 
 

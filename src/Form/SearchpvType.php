@@ -13,6 +13,7 @@ use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -34,6 +35,15 @@ class SearchpvType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Rentrez une description',
                 ]
+            ])
+
+            ->add('accept', ChoiceType::class, [
+
+                'required'=>false,
+                'placeholder'=>'',
+                'choices'  => [
+                    'Oui' =>true,
+                    'Non' =>false]
             ])
 
         ;

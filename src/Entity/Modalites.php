@@ -62,6 +62,11 @@ class Modalites
      */
     private $isencours;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $rank;
+
 
 
     public function getId(): ?int
@@ -177,6 +182,18 @@ class Modalites
     public function setIsencours(?bool $isencours): self
     {
         $this->isencours = $isencours;
+
+        return $this;
+    }
+
+    public function getRank(): ?int
+    {
+        return $this->rank;
+    }
+
+    public function setRank(?int $rank): self
+    {
+        $this->rank = $rank;
 
         return $this;
     }

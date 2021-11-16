@@ -9,6 +9,22 @@
 
 
      <style>
+         label[data-tooltip]:hover{
+             cursor: help;
+         }
+         label[data-tooltip]:hover:after {
+             content: attr(data-tooltip);
+             padding: 5px 8px;
+             color: white;
+             position: absolute;
+
+             left: 80%;
+             z-index: 50;
+             border-radius: 5px;
+             background-color: #34495E;
+         }
+
+
          .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 
              background-color: #FF7900;
@@ -62,38 +78,23 @@
              }
 
              input{
-                 width:3000%
+                 width:100%
              }
-
-             .photoclose{
-                 width: 100%;
-             }
-             img.photocheck{
-                 width: 100%;
-             }
-             .photopen{
-                 width: 70%;
-             }
-
-         }
-         .row:after {
-             content: "";
-             display: table;
-             clear: both;
+             input#pvinterneform_pourcentage {
+             border: none}
          }
 
-         .select23  {
-             /* for Firefox */
-             -moz-appearance: none;
-             /* for Chrome */
-             -webkit-appearance: none;
+         span#profilnameof.form-control,span#labelp.form-control{
+             background: none;
+             border: none;
          }
 
-         /* For IE10 */
-         .select23::-ms-expand {
-             display: none;
+             input[type="number"] {
+                 text-align: center;
+                 background: none;
+                 border: none;
+             }
 
-         }
          table,thead,tr,tbody,td,th{
              border: none;
          }
@@ -162,42 +163,39 @@
 
 
                 <br>
-
-                <table class="table" id="table">
+                <div class="d-flex justify-content-center">
+                <table width="100%">
 
                     <thead>
 
                     <tr>
 
-
-                        <th class="text-center" data-sorter="shortDate" data-date-format=" d MMM yyyy" style="width: 30%; border: black solid 1px">Projet</th>
-                        <th class="text-center" style="width: 30%; border: black solid 1px">PV interne validé</th>
-                        <th class="text-center"  style="width: 30% ; border: black solid 1px">Actions</th>
-
+                        <th class="text-center" data-sorter="shortDate" data-date-format=" d MMM yyyy" style="width: 30%; border: black solid 1px;padding-bottom: 1%;padding-top: 1%">Projet</th>
+                        <th class="text-center"  style="width: 30% ; border: black solid 1px" >Taux de réception en interne</th>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for pv in pvs %}
                         <tr >
-                            <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
-                            <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
-                            <td class="text-center" style="width: 30%;border: black solid 1px">
-                                <a href="{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id })}}"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
-                                {%  if   (pv.isvalidate==false)%}
-                                    <a href="#"><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
-                                {% else %}
-                                    <a href="#"><img src="/photo/document.png "  width="15%" height="100%"></img></a>
-                                {% endif %}
+                            <td class="text-center " style="width: 30%;border: black solid 1px;padding-bottom: 1%;padding-top: 1%">{{ pv.projet }}</td>
+                            {{ form_start(form) }}
+                            <td style="text-align: center;border: black solid 0.5px" >
+                               <span  ><label data-tooltip="Taux de réception déjà percu : {{ maxp }} %" >
+                                   {{ form_widget(form.pourcentage, {
+                                       'label_attr': {'class': 'form_control'}}
+                                   ) }} </label> </span>
 
                             </td>
-
                         </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6">Pas de données trouvées</td>
-                        </tr>
-                    {% endfor %}
                 </table>
+
+                </div>
+                <div class="d-flex justify-content-center">
+                    <button   style="color: black;text-decoration: none;width: 25% ;padding-top: 1%;padding-bottom: 1%; margin-left: 3%; margin-top: 3%" type="button" onclick="enregistrer()">Enregistrer</button>
+                    <button   style="color: black;text-decoration: none;padding-top:1%;width: 25%; padding-bottom: 1%; margin-left: 3%; margin-top: 3%" type="button" onclick="acceptation()">Valider</button>
+
+                </div >
+                {{ form_end(form) }}
             </div>
         </div>
     </main>
@@ -212,32 +210,11 @@
     {{ parent() }}
     <script src="//code.jquery.com/jquery-1.12.3.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-    <script
-            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 
     <script>
 
         $(document).ready( function () {
-            var table = $('#table').DataTable( {
-                "paging": true,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
-                },
-                // "order": [[ 1, "asc", ]],
-                pagingType: "simple_numbers",
-                "bLengthChange": false,
-                "bInfo" : false,
-                rowReorder: true,
-                "dom": 'lrtip',
-                "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ -1 ] }
-                ],
-
-            });
-
-
-
-
             $('#mySearchButton').on( 'keyup click', function () {
                 table.search($('#mySearchText').val()).draw();
             } );
@@ -255,6 +232,91 @@
                 dive1.style.display = "block";
             }
         })
+
+
+        function submission(){
+        jQuery(document).ready(function () {
+            $taux = document.getElementById('pvinterneform_pourcentage').value;
+                $.ajax({
+                    method: "POST",
+                    url: "{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id }) }}",
+                    data: {name: $taux, type: 2,},
+                    dataType: 'json',
+                    success: function (html) {
+                        console.log(html);
+                        if (html.success) {
+                            window.location.href = html.redirect; // <-- HERE
+
+                        } else {
+
+                            $("#texterror").html(html.message);
+                            $('#dive1').css('display', 'block');
+                        }
+
+                    }
+                }).done(function (response) {
+
+
+                }).fail(function (jxh, textmsg, errorThrown) {
+                    console.log(textmsg);
+                    console.log(errorThrown);
+                    alert(errorThrown);
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+        function enregistrer() {
+            $taux = document.getElementById('pvinterneform_pourcentage').value;
+            jQuery(document).ready(function () {
+                $.ajax({
+                    method: "POST",
+                    url: "{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id }) }}",
+                    data: {name: $taux, type: 1,},
+                    dataType: 'json',
+                    success: function (html) {
+                        console.log(html);
+                        if (html.success) {
+                            window.location.href = html.redirect; // <-- HERE
+                        } else {
+                            $("#texterror").html(html.message);
+                            $('#dive1').css('display', 'block');
+                        }
+                    }
+                }).done(function (response) {
+                }).fail(function (jxh, textmsg, errorThrown) {
+                    console.log(textmsg);
+                    console.log(errorThrown);
+                    alert(errorThrown);
+                });
+            });
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </script>
 

@@ -11,4 +11,10 @@ class Searchpv
      */
     public $ref = '';
 
+    /**
+     * @var null|boolean
+     */
+    public $accept;
+
+
 }

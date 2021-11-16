@@ -76,10 +76,46 @@ class PvinternesRepository extends ServiceEntityRepository
             ->andWhere('datepvinterne.id =:date')
             ->setParameter('date', $dateof);
 
+        if (null !== $search->accept ) {
+            if($search->accept==0) {
+                $query = $query
+                    ->andwhere('(pvinternes.isvalidate) =:az')
+                    ->setParameter('az', false);
+            }
+            else{
+                $query = $query
+                    ->andwhere('(pvinternes.isvalidate) =:az')
+                    ->setParameter('az', true);
+            }
+        }
+
 
         return $query->getQuery()->getResult();
 
     }
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Pvinternes[]
+     */
+    public function maxpv(int $pvid)
+    {
+        $query = $this
+            ->createQueryBuilder('pvinternes');
+
+        $query = $query
+            ->andWhere('pvinternes.projet =:id')
+            ->setParameter('id', $pvid);
+
+
+        $query = $query
+            ->andWhere('pvinternes.isvalidate =:bool')
+            ->setParameter('bool', true);
+
+        return $query->getQuery()->getResult();
+
+    }
+
 
 
 

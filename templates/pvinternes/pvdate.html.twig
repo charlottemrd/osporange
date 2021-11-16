@@ -173,6 +173,17 @@
                             </th>
                         </tr>
                         <tr style="border-color: white">
+                            <th style="border-color: white" id="toreduce">
+                                {{ form_label(form, ' Le bilan a-t-il été accepté ', { 'label_attr': {'class': 'input-group-text','style': 'font-size:medium'} } ) }}
+
+                            </th>
+                            <th style="border-color: white"><div class="select2-container">
+                                    {{ form_widget(form.accept ,{
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}</div>
+                            </th>
+                        </tr>
+                        <tr style="border-color: white">
                             <th style="border-color: white; width: 30%">
                             </th>
                             <th style="border-color: white;width: 30%">
@@ -210,9 +221,9 @@
                              <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
                             <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
                             <td class="text-center" style="width: 30%;border: black solid 1px">
-                                <a href="{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id })}}"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
+                                <a href="#"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
                                 {%  if   (pv.isvalidate==false)%}
-                                    <a href="#"><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
+                                    <a href={{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id })}}><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
                                 {% else %}
                                     <a href="#"><img src="/photo/document.png "  width="15%" height="100%"></img></a>
                                 {% endif %}
