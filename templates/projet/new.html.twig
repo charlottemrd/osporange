@@ -1286,13 +1286,13 @@
                                     verif3=true;
                                 }
                             }
-                            if ((document.getElementById('projet_date1').value!=null)&&(detect1==true)){
+                            if ((document.getElementById('projet_date1').value=='')&&(detect1==true)){
                                 verdate1=true;
                             }
-                            if ((document.getElementById('projet_date2').value!=null)&&(detect2==true)){
+                            if ((document.getElementById('projet_date2').value=='')&&(detect2==true)){
                                 verdate2=true;
                             }
-                            if ((document.getElementById('projet_date3').value!=null)&&(detect3==true)){
+                            if ((document.getElementById('projet_date3').value=='')&&(detect3==true)){
                                 verdate3=true;
                             }
 
@@ -1322,7 +1322,7 @@
                                 isStepValid=false;
                             }
                             else if (verif3 == true){
-                                document.getElementById('tauxerror').innerText='Le pourcentage de la condition T2 est supérieure à celle de la condition T2';
+                                document.getElementById('tauxerror').innerText='Le pourcentage de la condition T2 est supérieure à celle de la condition T3';
                                 isStepValid=false;
                             }
                             else if (verdate1 == true){
