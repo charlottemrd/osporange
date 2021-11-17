@@ -243,11 +243,12 @@ class ProjetController extends AbstractController
                     $k->setRank($ui+1);
                     $ui=$ui+1;
                 }
+                $entityManager->flush();
+                $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
+                $mlm->setIsencours(true);
+                $entityManager->flush();
             }
-            $entityManager->flush();
-            $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
-            $mlm->setIsencours(true);
-            $entityManager->flush();
+
 
             if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
@@ -721,6 +722,7 @@ class ProjetController extends AbstractController
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
+                'modalis'=>$projet->getModalites(),
                 'fournisseur'=>$projet->getFournisseur(),
             ]);
         }

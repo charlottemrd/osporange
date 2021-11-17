@@ -552,8 +552,8 @@
                             <br>
                         {% endmacro %}
                         <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
-
                             {% for modaliteField in form.modalites %}
+
                                 <li>
                                     <table>
                                         <tr>
@@ -562,11 +562,11 @@
                                         <tr>
                                             <th>
                                                 {{ form_label(modaliteField.conditions, 'Condition *', {
-                                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                                    'label_attr': {'class': 'input-group-text '}}) }}
                                             </th>
                                             <th>
                                                 {{ form_widget(modaliteField.conditions, {
-                                                    'label_attr': {'class': 'form_control'}}
+                                                    'label_attr': {'class': 'form_control '}}
                                                 ) }}
                                             </th>
 
@@ -576,7 +576,7 @@
                                             <th>
                                                 <div id="addressList">
                                                     {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
-                                                        'label_attr': {'class': 'input-group-text'}}) }}</div>
+                                                        'label_attr': {'class': 'input-group-text '}}) }}</div>
                                             </th>
                                             <th>
                                                 {{ form_widget(modaliteField.pourcentage, {
@@ -723,8 +723,24 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script>
 
-
         jQuery(document).ready(function () {
+            var modatofalse=new Array();
+            var indexmodg=0;
+            {% for modali in modalis %}
+
+            {% if modali.isapproved == true %}
+            if ({{ modali.pourcentage }} == document.getElementById('modifyd_modalites_'+[indexmodg]+'_pourcentage').value) {
+                document.getElementById('modifyd_modalites_' + [indexmodg] + '_conditions').setAttribute('disabled', 'disabled');
+                document.getElementById('modifyd_modalites_' + [indexmodg] + '_pourcentage').setAttribute('disabled', 'disabled');
+                document.getElementById('modifyd_modalites_' + [indexmodg] + '_description').setAttribute('disabled', 'disabled');
+
+            }
+            {% endif %}
+            {% endfor %}
+
+
+
+
             var $collectionHolderCom;
             var $boutonAjouterCom = $('<button type="button" className="btn-toolbar add_commentaire_link sm btn btn-sm text-black"style="background-color: lightgrey">Ajouter un commentaire</button>');
             var $nouveauCom = $('<li></li>').append($boutonAjouterCom )
