@@ -43,6 +43,7 @@ use App\Repository\DatepvinterneRepository;
 use App\Repository\FournisseurRepository;
 use App\Repository\IdmonthbmRepository;
 use App\Repository\InfobilanRepository;
+use App\Repository\ModalitesRepository;
 use App\Repository\ProjetRepository;
 use App\Repository\ProfilRepository;
 use App\Repository\PhaseRepository;
@@ -107,7 +108,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
-    public function new( DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
@@ -227,13 +228,28 @@ class ProjetController extends AbstractController
 
 
                     }
-                }
+                }// si paiement = bilan mensuel
+
+
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
             $entityManager->flush();
 
-           if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
+            if(($projet->getPhase()->getId()>=6)&&($projet->getPaiement()->getId()==2)){
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
+            }
+            $entityManager->flush();
+            $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
+            $mlm->setIsencours(true);
+            $entityManager->flush();
+
+            if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
 
 
@@ -339,8 +355,6 @@ class ProjetController extends AbstractController
                 $projet->setIseligibletobm(false);
             }
              $this->getDoctrine()->getManager()->flush();
-
-
 
 
             $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
@@ -1066,7 +1080,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1269,10 +1283,23 @@ class ProjetController extends AbstractController
                             $this->getDoctrine()->getManager()->flush();
                         }
                     }
-
-
-
+                    if(($projet->getPaiement()->getId()==2)){
+                        $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                        $ui=0;
+                        foreach ($ml as $k){
+                            $k->setRank($ui+1);
+                            $ui=$ui+1;
+                        }
+                        $this->getDoctrine()->getManager()->flush();
+                        $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
+                        $mlm->setIsencours(true);
+                        $this->getDoctrine()->getManager()->flush();
                     }
+
+
+                }
+
+
 
 
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
