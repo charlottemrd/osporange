@@ -326,32 +326,32 @@
 
 
 
-                            <tr style="border-color: white;"id="navdatel1">
-                                <th width="15%">
+                        <tr style="border-color: white;"id="navdatel1">
+                            <th width="15%">
 
-                                    {{ form_label(form, 'Date réel T-1 *', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
-                                    {{ form_widget(form.datereell1, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereell1-error" class="error" for="modifyd_datereell1"></label></th>
+                                {{ form_label(form, 'Date réel T-1 *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.datereell1, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereell1-error" class="error" for="modifyd_datereell1"></label></th>
 
-                            </tr>
-                            <tr style="border-color: white" id="navdate0" >
-                                <th width="15%">
+                        </tr>
+                        <tr style="border-color: white" id="navdate0" >
+                            <th width="15%">
 
-                                    {{ form_label(form, 'Date réel T0 *', {
-                                        'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
-                                    {{ form_widget(form.datereel0, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}
-                                </th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereel0-error" class="error" for="modifyd_datereel0"></label></th>
+                                {{ form_label(form, 'Date réel T0 *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.datereel0, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifyd_datereel0-error" class="error" for="modifyd_datereel0"></label></th>
 
-                            </tr>
+                        </tr>
 
                         <tr style="border-color: white" id="navdate1">
                             <th width="15%">
@@ -465,45 +465,45 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
-                    <div class="input-group mb-3" style="width: 50%">
-                        <table>
-                            <tr>
-                        <th width="15%">
-                            {{ form_label(form, 'Durée de la garantie (mois)', {
-                                'label_attr': {'class': 'input-group-text'}}) }}</th>
-                        <th  width="20%">
-                            {{ form_widget(form.garanti, {
-                                'label_attr': {'class': 'form_control'}}
-                            ) }}
-                        </th>
-                        <th  width="50%" style="padding-left: 1%"><label id="modifyd_garanti-error" class="error" for="modifyd_garanti"></label></th>
-                        </tr>
-                            <tr id="debit1bm" style="display: none">
-                                <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
-                                        'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
-                                <th width="20%">{{ form_widget(form.debit1bm, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}</th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit1bm-error" class="error" for="modifyd_debit1bm"></label></th>
-                            </tr>
-                            <tr id="debit2bm" style="display: none">
-                                <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
-                                        'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
-                                <th width="20%">{{ form_widget(form.debit2bm, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}</th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
-                            </tr>
-                            <tr id="debit3bm" style="display: none">
-                                <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
-                                        'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
-                                <th width="20%">{{ form_widget(form.debit3bm, {
-                                        'label_attr': {'class': 'form_control'}}
-                                    ) }}</th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
-                            </tr>
-                        </table>
-                    </div>
+                        <div class="input-group mb-3" style="width: 50%">
+                            <table>
+                                <tr>
+                                    <th width="15%">
+                                        {{ form_label(form, 'Durée de la garantie (mois)', {
+                                            'label_attr': {'class': 'input-group-text'}}) }}</th>
+                                    <th  width="20%">
+                                        {{ form_widget(form.garanti, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}
+                                    </th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_garanti-error" class="error" for="modifyd_garanti"></label></th>
+                                </tr>
+                                <tr id="debit1bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit1bm-error" class="error" for="modifyd_debit1bm"></label></th>
+                                </tr>
+                                <tr id="debit2bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
+                                </tr>
+                                <tr id="debit3bm" style="display: none">
+                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
+                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  width="50%" style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
+                                </tr>
+                            </table>
+                        </div>
                         <p id="tauxerror"></p>
                         {% macro information_prototype(modalite) %}
 
@@ -552,9 +552,65 @@
                             <br>
                         {% endmacro %}
                         <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
-                            {% for modaliteField in form.modalites %}
 
-                                <li>
+                            {% for modaliteField in form.modalites  %}
+
+                                {% set break = false  %}
+                                {% for mod in modalis %}
+                                    {% if (mod.pourcentage==modaliteField.pourcentage.vars.value) and (mod.isapproved==true) %}
+                                        {% set break=true %}
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                    {% if break == true %}
+
+                                    <table>
+                                        <tr>
+                                            <p>Jalon</p>
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                {{ form_label(modaliteField.conditions, 'Condition *', {
+                                                    'label_attr': {'class': 'input-group-text '}}) }}
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.conditions, {
+                                                    'label_attr': {'class': 'form_control '}}
+                                                ) }}
+                                            </th>
+
+                                        </tr>
+
+                                        <tr>
+                                            <th>
+                                                <div id="addressList">
+                                                    {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
+                                                        'label_attr': {'class': 'input-group-text '}}) }}</div>
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.pourcentage, {
+                                                    'label_attr': {'class': 'form_control'}}
+                                                ) }}
+                                            </th>
+
+                                        </tr>
+                                        <tr>
+                                            <th>
+                                                {{ form_label(modaliteField.description, 'Commentaire', {
+                                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                            </th>
+                                            <th>
+                                                {{ form_widget(modaliteField.description, {
+                                                    'label_attr': {'class': 'form_control'}}
+                                                ) }}
+                                            </th>
+                                        </tr>
+                                    </table>
+
+                                    <br>
+                                {% else %}
+                                    <li>
                                     <table>
                                         <tr>
                                             <p>Jalon</p>
@@ -597,7 +653,8 @@
                                         </tr>
                                     </table>
                                     <br>
-                                </li>
+                                    </li>
+                                    {% endif %}
                             {% endfor %}
                         </ul>
 
@@ -1003,21 +1060,11 @@
                             x = x + 1;
                         }
                         let resultToReturn = false;
+                        let doublepo = false;
                         let supe = false;
                         let infto = false;
-                        for (let q = 0; q < jalondif.length; q++) {
-                            for (let g = 0; g < jalondif.length; g++) {
-                                if (g !== q) {
-                                    if (jalondif[g] === jalondif[q]) {
-                                        resultToReturn = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (resultToReturn) {
-                                break;
-                            }
-                        }
+                        resultToReturn=new Set(jalondif).size !== jalondif.length;
+                        doublepo=new Set(jalontaux).size !== jalontaux.length;
                         for (a = 0; a < jalontaux.length; a++) {
                             if (jalontaux[a] <= 0) {
                                 infto = true;
@@ -1032,7 +1079,13 @@
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Des conditions sont identiques';
                             isStepValid = false;
-                        } else if (infto == true) {
+                        } else if (doublepo == true) {
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            document.getElementById('tauxerror').innerText = 'Des conditions sont identiques';
+                            isStepValid = false;
+                        }
+                        else if (infto == true) {
                             document.getElementById('smartwizard').style.height = "200%";
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
@@ -1141,7 +1194,7 @@
                 }
 
                 function addModaliteFormDeleteLink($tagFormLi) {
-                    var $removeFormButton = $('<button type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
+                    var $removeFormButton = $('<button id=tagFormLi type="button" class="btn-toolbar btn btn-sm text-black" style="background-color: lightgrey; margin-bottom: 2%; font-size: 1em ">Supprimer le jalon</button>');
                     $tagFormLi.append($removeFormButton);
                     $removeFormButton.on('click', function (e) {
                         $tagFormLi.remove();

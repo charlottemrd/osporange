@@ -645,6 +645,7 @@
                     $phasing2=document.getElementById('phasec_paiement');
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
                     let resultToReturn = false;
+                    let doublpo = false;
                     let supe=false;
                     let infto=false;
                     let detect1=false;
@@ -883,6 +884,7 @@
 
                             let full=false;
                             let resultToReturn = false;
+                            let doublpo = false;
                             let supe=false;
                             let infto=false;
                             let detect1=false;
@@ -896,6 +898,7 @@
                             let verif3=false;
 
                             resultToReturn=new Set(jalondif).size !== jalondif.length;
+                            doublpo=new Set(jalontaux).size !== jalontaux.length;
 
                             for (a = 0; a < jalontaux.length; a++) {
                                 if (jalontaux[a]<= 0) {
@@ -955,6 +958,10 @@
 
                             if(resultToReturn == true){
                                 document.getElementById('tauxerror').innerText='Des conditions sont identiques';
+                                isStepValid=false;
+                            }
+                            else if(doublpo == true){
+                                document.getElementById('tauxerror').innerText='Des pourcentages sont identiques';
                                 isStepValid=false;
                             }
                             else if( infto == true){
