@@ -525,7 +525,7 @@ class ProjetController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'projet_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function edit(ModalitesRepository $modalitesRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(ModifyaType::class, $projet);
@@ -646,6 +646,15 @@ class ProjetController extends AbstractController
             $date1avant=$projet->getDate1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $lastpourcentage=0;
+            $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
+            if(sizeof($modfini,COUNT_NORMAL)!=0){
+                $lastpourcentage=$modfini[0]->getPourcentage();
+            }
+            else{
+                $lastpourcentage=0;
+            }
+
             $form = $this->createForm(ModifydType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -810,6 +819,7 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'pourapproved'=>$lastpourcentage,
             ]);
         }
 
