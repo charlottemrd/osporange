@@ -102,7 +102,7 @@
     <main class="container-fluid flex-fill ">
         <br>
         <h1 class="text-center">Modification du projet </h1>
-        <p style="text-align: right">dernière date de mise à jour : {{ projet.datemaj |date('d/m/Y') }}</p>
+        <p style="text-align: right"> dernière date de mise à jour : {{ projet.datemaj |date('d/m/Y') }}</p>
         <br>
         {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
         <div id="smartwizard">
@@ -326,8 +326,8 @@
 
 
 
-                        <tr style="border-color: white;"id="navdatel1">
-                            <th width="15%">
+                            <tr style="border-color: white;"id="navdatel1">
+                                <th width="15%">
 
                                 {{ form_label(form, 'Date réel T-1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -575,7 +575,7 @@
                                                     'label_attr': {'class': 'input-group-text '}}) }}
                                             </th>
                                             <th>
-                                                {{ form_widget(modaliteField.conditions, {
+                                                {{ form_widget(modaliteField.conditions,  { 'attr':{'disabled':'disabled'},
                                                     'label_attr': {'class': 'form_control '}}
                                                 ) }}
                                             </th>
@@ -589,7 +589,7 @@
                                                         'label_attr': {'class': 'input-group-text '}}) }}</div>
                                             </th>
                                             <th>
-                                                {{ form_widget(modaliteField.pourcentage, {
+                                                {{ form_widget(modaliteField.pourcentage,  { 'attr':{'disabled':'disabled'},
                                                     'label_attr': {'class': 'form_control'}}
                                                 ) }}
                                             </th>
@@ -600,8 +600,9 @@
                                                 {{ form_label(modaliteField.description, 'Commentaire', {
                                                     'label_attr': {'class': 'input-group-text'}}) }}
                                             </th>
+                                            </th>
                                             <th>
-                                                {{ form_widget(modaliteField.description, {
+                                                {{ form_widget(modaliteField.description,  { 'attr':{'disabled':'disabled'},
                                                     'label_attr': {'class': 'form_control'}}
                                                 ) }}
                                             </th>
@@ -781,19 +782,8 @@
     <script>
 
         jQuery(document).ready(function () {
-            var modatofalse=new Array();
-            var indexmodg=0;
-            {% for modali in modalis %}
 
-            {% if modali.isapproved == true %}
-            if ({{ modali.pourcentage }} == document.getElementById('modifyd_modalites_'+[indexmodg]+'_pourcentage').value) {
-                document.getElementById('modifyd_modalites_' + [indexmodg] + '_conditions').setAttribute('disabled', 'disabled');
-                document.getElementById('modifyd_modalites_' + [indexmodg] + '_pourcentage').setAttribute('disabled', 'disabled');
-                document.getElementById('modifyd_modalites_' + [indexmodg] + '_description').setAttribute('disabled', 'disabled');
 
-            }
-            {% endif %}
-            {% endfor %}
 
 
 
@@ -894,8 +884,15 @@
 
             var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-
-
+                    var mods=new Array();
+                    {% for modali in modalis %}
+                    mods.push({{ modali.pourcentage }});
+                    {% endfor %}
+                    for (jm=0;jm<mods.length;jm++){
+                        document.getElementById('modifyd_modalites_' + [jm] + '_conditions').removeAttribute("disabled");
+                        document.getElementById('modifyd_modalites_' + [jm] + '_pourcentage').removeAttribute("disabled");
+                        document.getElementById('modifyd_modalites_' + [jm] + '_description').removeAttribute("disabled");
+                    }
                     onsubmit();
 
 
@@ -1023,11 +1020,11 @@
                 if(stepnumber==3){
                     for (var i = 0; i < tarifs.length; i++) {
                         if((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value)<0){
-
                             isStepValid = false;
                             document.getElementById('messageerrorprix').innerText='La valeur du profil '+ tarifsname[i] + ' est  incorrecte ; '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
                             break;
                         }
+
                         else {
                             isStepValid = true;
                             document.getElementById('messageerrorprix').innerText='';
@@ -1043,6 +1040,12 @@
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
 
                     if (selectValue2 == '2') {
+                        var modavant = new Array();
+                        {% for moda in modalis %}
+                        modavant.push({{ moda.pourcentage }});
+                        {% endfor %}
+
+
                         var tailletaux = $('ul.modalites').find('input').length;
                         var jalontaille = $('ul.modalites').find('input').length;
                         var jalondif = new Array();
@@ -1059,6 +1062,7 @@
                         let doublepo = false;
                         let supe = false;
                         let infto = false;
+                        let infpour = false;
                         resultToReturn=new Set(jalondif).size !== jalondif.length;
                         doublepo=new Set(jalontaux).size !== jalontaux.length;
                         for (a = 0; a < jalontaux.length; a++) {
@@ -1067,6 +1071,10 @@
                                 break
                             } else if (jalontaux[a] > 100) {
                                 supe = true;
+                                break
+                            }
+                            else if ((jalontaux[a] <= {{ pourapproved }})&&(!modavant.includes(jalontaux[a]))) {
+                                infpour = true;
                                 break
                             }
                         }
@@ -1086,7 +1094,14 @@
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
                             isStepValid = false;
-                        } else if (supe == true) {
+                        }
+                        else if (infpour == true) {
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être inférieure à '+{{ pourapproved }} +' %';
+                            isStepValid = false;
+                        }
+                        else if (supe == true) {
                             document.getElementById('smartwizard').style.height = "200%";
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être supérieur à 100%';
@@ -1125,6 +1140,7 @@
 
 
                 }//endif step 3
+
 
 
 

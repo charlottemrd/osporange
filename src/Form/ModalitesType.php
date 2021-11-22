@@ -21,7 +21,7 @@ class ModalitesType extends AbstractType
     {
         $builder
             ->add('pourcentage',IntegerType::class,['required'=>true], ['attr' => [
-                'class' => 'id_nombreprofil']])
+                'class' => 'id_pourcentage']])
             ->add('conditions', ChoiceType::class, ['required' => true,'placeholder'=>'',
                 'choices'  => [
                     'date T1 atteinte' =>'date T1 atteinte',

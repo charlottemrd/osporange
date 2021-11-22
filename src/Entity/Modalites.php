@@ -67,6 +67,11 @@ class Modalites
      */
     private $rank;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $decisionsapproved;
+
 
 
     public function getId(): ?int
@@ -194,6 +199,18 @@ class Modalites
     public function setRank(?int $rank): self
     {
         $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getDecisionsapproved(): ?bool
+    {
+        return $this->decisionsapproved;
+    }
+
+    public function setDecisionsapproved(?bool $decisionsapproved): self
+    {
+        $this->decisionsapproved = $decisionsapproved;
 
         return $this;
     }

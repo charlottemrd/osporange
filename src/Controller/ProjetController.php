@@ -311,7 +311,7 @@ class ProjetController extends AbstractController
                     $profilsfournisseur=$projet->getFournisseur()->getProfils();
                     foreach ($profilsfournisseur as $po){
                         $info1=new Infobilan();
-                     //   $pcom=whichpoc($projet);
+                        //   $pcom=whichpoc($projet);
                         $mth=manymonthleft($projet,$idmonthbmpasse);
                         $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
 
@@ -339,7 +339,7 @@ class ProjetController extends AbstractController
                     $profilsfournisseur=$projet->getFournisseur()->getProfils();
                     foreach ($profilsfournisseur as $po){
                         $info1=new Infobilan();
-                    //    $pcom=whichpoc($projet);
+                        //    $pcom=whichpoc($projet);
                         $mth=manymonthleft($projet,$infmon);
                         $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
                         $info1->setNombreprofit($sxz);
@@ -355,7 +355,7 @@ class ProjetController extends AbstractController
             else{
                 $projet->setIseligibletobm(false);
             }
-             $this->getDoctrine()->getManager()->flush();
+            $this->getDoctrine()->getManager()->flush();
 
 
             $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
@@ -503,20 +503,20 @@ class ProjetController extends AbstractController
             }
 
             return $this->render('projet/showe.html.twig', [
-            'idmonthbms'=>$idmonthbm,
-            'bilas'=>$profit,
-            'projet' => $projet,
-            'date_lones'=>$projet->getDateLones(),
-            'date_zeros'=>$projet->getDateZeros(),
-            'date_one_pluses'=>$projet->getDateOnePluses(),
-            'date_twos'=>$projet->getDateTwos(),
-            'data_troises'=>$projet->getDataTrois(),
-            'couts'=>$projet->getCouts(),
-            'modalites'=>$projet->getModalites(),
-            'profils' => $projet->getFournisseur()->getProfils(),
-            'fournisseur'=>$projet->getFournisseur(),
-            'commentaires'=>$projet->getCommentaires(),
-        ]);
+                'idmonthbms'=>$idmonthbm,
+                'bilas'=>$profit,
+                'projet' => $projet,
+                'date_lones'=>$projet->getDateLones(),
+                'date_zeros'=>$projet->getDateZeros(),
+                'date_one_pluses'=>$projet->getDateOnePluses(),
+                'date_twos'=>$projet->getDateTwos(),
+                'data_troises'=>$projet->getDataTrois(),
+                'couts'=>$projet->getCouts(),
+                'modalites'=>$projet->getModalites(),
+                'profils' => $projet->getFournisseur()->getProfils(),
+                'fournisseur'=>$projet->getFournisseur(),
+                'commentaires'=>$projet->getCommentaires(),
+            ]);
         }
 
 
@@ -657,13 +657,28 @@ class ProjetController extends AbstractController
 
             $form = $this->createForm(ModifydType::class, $projet);
             $form->handleRequest($request);
+
+
+
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $mod=$projet->getModalites();
                 foreach ($mod as $m){
-                    if ($m->getConditionsatisfield()==null){
-                        $m->setConditionsatisfield(false);
-                        $m->setIsapproved(false);
-                        $m->setIsencours(false);
+                    if($m->getPourcentage()==null){
+                        $projet->removeModalite($m);
+                    }
+                    else {
+                        if ($m->getDecisionsapproved() == true) {
+                            $m->setIsapproved(true);
+
+                        } else if ($m->getDecisionsapproved() == false) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                        } else if ($m->getDecisionsapproved() == null) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                            $m->setIsencours(false);
+                        }
                     }
                 }
 
@@ -723,6 +738,13 @@ class ProjetController extends AbstractController
                 $projet->setDatemaj(new \DateTime());
 
                 $this->getDoctrine()->getManager()->flush();
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
+                $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -733,6 +755,7 @@ class ProjetController extends AbstractController
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'modalis'=>$projet->getModalites(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'pourapproved'=>$lastpourcentage,
             ]);
         }
 
@@ -742,15 +765,34 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $lastpourcentage=0;
+            $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
+            if(sizeof($modfini,COUNT_NORMAL)!=0){
+                $lastpourcentage=$modfini[0]->getPourcentage();
+            }
+            else{
+                $lastpourcentage=0;
+            }
             $form = $this->createForm(ModifydeType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $mod=$projet->getModalites();
                 foreach ($mod as $m){
-                    if ($m->getConditionsatisfield()==null){
-                        $m->setConditionsatisfield(false);
-                        $m->setIsapproved(false);
-                        $m->setIsencours(false);
+                    if($m->getPourcentage()==null){
+                        $projet->removeModalite($m);
+                    }
+                    else {
+                        if ($m->getDecisionsapproved() == true) {
+                            $m->setIsapproved(true);
+
+                        } else if ($m->getDecisionsapproved() == false) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                        } else if ($m->getDecisionsapproved() == null) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                            $m->setIsencours(false);
+                        }
                     }
                 }
 
@@ -808,7 +850,13 @@ class ProjetController extends AbstractController
 
 
                 $projet->setDatemaj(new \DateTime());
-
+                $this->getDoctrine()->getManager()->flush();
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
                 $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
@@ -820,6 +868,8 @@ class ProjetController extends AbstractController
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
                 'pourapproved'=>$lastpourcentage,
+                'modalis'=>$projet->getModalites(),
+
             ]);
         }
 
@@ -829,15 +879,34 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $datereel2avant=$projet->getDatereel2();
             $date3avant=$projet->getDate3();
+            $lastpourcentage=0;
+            $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
+            if(sizeof($modfini,COUNT_NORMAL)!=0){
+                $lastpourcentage=$modfini[0]->getPourcentage();
+            }
+            else{
+                $lastpourcentage=0;
+            }
             $form = $this->createForm(ModifydfType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $mod=$projet->getModalites();
                 foreach ($mod as $m){
-                    if ($m->getConditionsatisfield()==null){
-                        $m->setConditionsatisfield(false);
-                        $m->setIsapproved(false);
-                        $m->setIsencours(false);
+                    if($m->getPourcentage()==null){
+                        $projet->removeModalite($m);
+                    }
+                    else {
+                        if ($m->getDecisionsapproved() == true) {
+                            $m->setIsapproved(true);
+
+                        } else if ($m->getDecisionsapproved() == false) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                        } else if ($m->getDecisionsapproved() == null) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                            $m->setIsencours(false);
+                        }
                     }
                 }
 
@@ -898,6 +967,13 @@ class ProjetController extends AbstractController
                 $projet->setDatemaj(new \DateTime());
 
                 $this->getDoctrine()->getManager()->flush();
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
+                $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -907,6 +983,8 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'pourapproved'=>$lastpourcentage,
+                'modalis'=>$projet->getModalites(),
             ]);
         }
 
@@ -916,15 +994,34 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $datereel2avant=$projet->getDatereel2();
             $date3avant=$projet->getDate3();
+            $lastpourcentage=0;
+            $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
+            if(sizeof($modfini,COUNT_NORMAL)!=0){
+                $lastpourcentage=$modfini[0]->getPourcentage();
+            }
+            else{
+                $lastpourcentage=0;
+            }
             $form = $this->createForm(ModifydfType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $mod=$projet->getModalites();
                 foreach ($mod as $m){
-                    if ($m->getConditionsatisfield()==null){
-                        $m->setConditionsatisfield(false);
-                        $m->setIsapproved(false);
-                        $m->setIsencours(false);
+                    if($m->getPourcentage()==null){
+                        $projet->removeModalite($m);
+                    }
+                    else {
+                        if ($m->getDecisionsapproved() == true) {
+                            $m->setIsapproved(true);
+
+                        } else if ($m->getDecisionsapproved() == false) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                        } else if ($m->getDecisionsapproved() == null) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                            $m->setIsencours(false);
+                        }
                     }
                 }
 
@@ -985,6 +1082,13 @@ class ProjetController extends AbstractController
                 $projet->setDatemaj(new \DateTime());
 
                 $this->getDoctrine()->getManager()->flush();
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
+                $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -994,6 +1098,8 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'pourapproved'=>$lastpourcentage,
+                'modalis'=>$projet->getModalites(),
             ]);
         }
 
@@ -1006,6 +1112,14 @@ class ProjetController extends AbstractController
             $date1avant=$projet->getDate1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $lastpourcentage=0;
+            $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
+            if(sizeof($modfini,COUNT_NORMAL)!=0){
+                $lastpourcentage=$modfini[0]->getPourcentage();
+            }
+            else{
+                $lastpourcentage=0;
+            }
             $form = $this->createForm(ModifyieType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -1014,6 +1128,26 @@ class ProjetController extends AbstractController
                 foreach ($coma as $com){
                     if ($com->getDate()==null){
                         $com->setDate(new \DateTime());
+                    }
+                }
+
+                $mod=$projet->getModalites();
+                foreach ($mod as $m){
+                    if($m->getPourcentage()==null){
+                        $projet->removeModalite($m);
+                    }
+                    else {
+                        if ($m->getDecisionsapproved() == true) {
+                            $m->setIsapproved(true);
+
+                        } else if ($m->getDecisionsapproved() == false) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                        } else if ($m->getDecisionsapproved() == null) {
+                            $m->setConditionsatisfield(false);
+                            $m->setIsapproved(false);
+                            $m->setIsencours(false);
+                        }
                     }
                 }
 
@@ -1066,6 +1200,13 @@ class ProjetController extends AbstractController
                 $projet->setDatemaj(new \DateTime());
 
                 $this->getDoctrine()->getManager()->flush();
+                $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                $ui=0;
+                foreach ($ml as $k){
+                    $k->setRank($ui+1);
+                    $ui=$ui+1;
+                }
+                $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -1075,6 +1216,8 @@ class ProjetController extends AbstractController
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
+                'pourapproved'=>$lastpourcentage,
+                'modalis'=>$projet->getModalites(),
             ]);
         }
         else if($projet->getPhase()->getId()==1) { //abandonne
@@ -1251,7 +1394,7 @@ class ProjetController extends AbstractController
                             $profilsfournisseur=$projet->getFournisseur()->getProfils();
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
-                             //   $pcom=whichpoc($projet);
+                                //   $pcom=whichpoc($projet);
                                 $mth=manymonthleft($projet,$infmon);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
                                 $info1->setNombreprofit($sxz);
@@ -1608,7 +1751,7 @@ class ProjetController extends AbstractController
                             $profilsfournisseur=$projet->getFournisseur()->getProfils();
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
-                               // $pcom=whichpoc($projet);
+                                // $pcom=whichpoc($projet);
                                 $mth=manymonthleft($projet,$idmonthbmpasse);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet,$mth);
                                 $info1->setNombreprofit($sxz);
@@ -1635,7 +1778,7 @@ class ProjetController extends AbstractController
                             $profilsfournisseur = $projet->getFournisseur()->getProfils();
                             foreach ($profilsfournisseur as $po) {
                                 $info1 = new Infobilan();
-                               // $pcom=whichpoc($projet);
+                                // $pcom=whichpoc($projet);
                                 $mth=manymonthleft($projet,$infmon);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
                                 $info1->setNombreprofit($sxz);

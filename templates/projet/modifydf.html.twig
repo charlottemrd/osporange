@@ -553,8 +553,18 @@
                         {% endmacro %}
                         <ul  class="modalites" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.modalites.vars.prototype)|e }}">
 
-                            {% for modaliteField in form.modalites %}
-                                <li>
+                            {% for modaliteField in form.modalites  %}
+
+                                {% set break = false  %}
+                                {% for mod in modalis %}
+                                    {% if (mod.pourcentage==modaliteField.pourcentage.vars.value) and (mod.isapproved==true) %}
+                                        {% set break=true %}
+                                    {% endif %}
+                                {% endfor %}
+
+
+                                {% if break == true %}
+
                                     <table>
                                         <tr>
                                             <p>Jalon</p>
@@ -562,11 +572,11 @@
                                         <tr>
                                             <th>
                                                 {{ form_label(modaliteField.conditions, 'Condition *', {
-                                                    'label_attr': {'class': 'input-group-text'}}) }}
+                                                    'label_attr': {'class': 'input-group-text '}}) }}
                                             </th>
                                             <th>
-                                                {{ form_widget(modaliteField.conditions, {
-                                                    'label_attr': {'class': 'form_control'}}
+                                                {{ form_widget(modaliteField.conditions,  { 'attr':{'disabled':'disabled'},
+                                                    'label_attr': {'class': 'form_control '}}
                                                 ) }}
                                             </th>
 
@@ -576,30 +586,79 @@
                                             <th>
                                                 <div id="addressList">
                                                     {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
-                                                        'label_attr': {'class': 'input-group-text'}}) }}</div>
+                                                        'label_attr': {'class': 'input-group-text '}}) }}</div>
                                             </th>
                                             <th>
-                                                {{ form_widget(modaliteField.pourcentage, {
+                                                {{ form_widget(modaliteField.pourcentage,  { 'attr':{'disabled':'disabled'},
                                                     'label_attr': {'class': 'form_control'}}
                                                 ) }}
                                             </th>
+
                                         </tr>
                                         <tr>
                                             <th>
                                                 {{ form_label(modaliteField.description, 'Commentaire', {
                                                     'label_attr': {'class': 'input-group-text'}}) }}
                                             </th>
+                                            </th>
                                             <th>
-                                                {{ form_widget(modaliteField.description, {
+                                                {{ form_widget(modaliteField.description,  { 'attr':{'disabled':'disabled'},
                                                     'label_attr': {'class': 'form_control'}}
                                                 ) }}
                                             </th>
                                         </tr>
                                     </table>
+
                                     <br>
-                                </li>
+                                {% else %}
+                                    <li>
+                                        <table>
+                                            <tr>
+                                                <p>Jalon</p>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    {{ form_label(modaliteField.conditions, 'Condition *', {
+                                                        'label_attr': {'class': 'input-group-text '}}) }}
+                                                </th>
+                                                <th>
+                                                    {{ form_widget(modaliteField.conditions, {
+                                                        'label_attr': {'class': 'form_control '}}
+                                                    ) }}
+                                                </th>
+
+                                            </tr>
+
+                                            <tr>
+                                                <th>
+                                                    <div id="addressList">
+                                                        {{ form_label(modaliteField.pourcentage, 'Pourcentage *', {
+                                                            'label_attr': {'class': 'input-group-text '}}) }}</div>
+                                                </th>
+                                                <th>
+                                                    {{ form_widget(modaliteField.pourcentage, {
+                                                        'label_attr': {'class': 'form_control'}}
+                                                    ) }}
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    {{ form_label(modaliteField.description, 'Commentaire', {
+                                                        'label_attr': {'class': 'input-group-text'}}) }}
+                                                </th>
+                                                <th>
+                                                    {{ form_widget(modaliteField.description, {
+                                                        'label_attr': {'class': 'form_control'}}
+                                                    ) }}
+                                                </th>
+                                            </tr>
+                                        </table>
+                                        <br>
+                                    </li>
+                                {% endif %}
                             {% endfor %}
                         </ul>
+
 
 
                     {%else %}
@@ -819,7 +878,15 @@
 
             var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-
+                    var mods=new Array();
+                    {% for modali in modalis %}
+                    mods.push({{ modali.pourcentage }});
+                    {% endfor %}
+                    for (jm=0;jm<mods.length;jm++){
+                        document.getElementById('modifydf_modalites_' + [jm] + '_conditions').removeAttribute("disabled");
+                        document.getElementById('modifydf_modalites_' + [jm] + '_pourcentage').removeAttribute("disabled");
+                        document.getElementById('modifydf_modalites_' + [jm] + '_description').removeAttribute("disabled");
+                    }
 
                     onsubmit();
 
@@ -977,6 +1044,12 @@
                     var selectValue1 = $phasing1.options[$phasing1.selectedIndex].value;
 
                     if (selectValue1 == '2') {
+
+                        var modavant = new Array();
+                        {% for moda in modalis %}
+                        modavant.push({{ moda.pourcentage }});
+                        {% endfor %}
+
                         var tailletaux = $('ul.modalites').find('input').length;
                         var jalontaille = $('ul.modalites').find('input').length;
                         var jalondif=new Array();
@@ -993,19 +1066,11 @@
                         let resultToReturn = false;
                         let supe=false;
                         let infto=false;
-                        for (let q = 0; q < jalondif.length; q++) {
-                            for (let g = 0; g < jalondif.length; g++) {
-                                if (g !== q) {
-                                    if (jalondif[g] === jalondif[q]) {
-                                        resultToReturn = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (resultToReturn) {
-                                break;
-                            }
-                        }
+                        let infpour = false;
+                        let doublepo = false;
+                        resultToReturn=new Set(jalondif).size !== jalondif.length;
+                        doublepo=new Set(jalontaux).size !== jalontaux.length;
+
                         for (a = 0; a < jalontaux.length; a++) {
                             if (jalontaux[a]<= 0) {
                                 infto=true;
@@ -1015,29 +1080,45 @@
                                 supe=true;
                                 break
                             }
+                        else if ((jalontaux[a] <= {{ pourapproved }})&&(!modavant.includes(jalontaux[a]))) {
+                            infpour = true;
+                            break
                         }
-                        if(resultToReturn == true){
-                            document.getElementById('smartwizard').style.height = "200%";
-                            document.getElementById('tab-content').style.height = "200%";
-                            document.getElementById('tauxerror').innerText='Des conditions sont identiques';
-                            isStepValid=false;
-                        }
-                        else if( infto == true){
-                            document.getElementById('smartwizard').style.height = "200%";
-                            document.getElementById('tab-content').style.height = "200%";
-                            document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être négatif';
-                            isStepValid=false;
-                        }
-                        else if (supe == true){
-                            document.getElementById('smartwizard').style.height = "200%";
-                            document.getElementById('tab-content').style.height = "200%";
-                            document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
-                            isStepValid=false;
-                        }
-                        else{
-                            document.getElementById('tauxerror').innerText='';
-                            isStepValid=true;
-                        }
+                    }
+                    if(resultToReturn == true){
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('tauxerror').innerText='Des conditions sont identiques';
+                        isStepValid=false;
+                    }
+                    else if (doublepo == true) {
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('tauxerror').innerText = 'Des conditions sont identiques';
+                        isStepValid = false;
+                    }
+                    else if (infto == true) {
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
+                        isStepValid = false;
+                    }
+                    else if (infpour == true) {
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être inférieure à '+{{ pourapproved }} +' %';
+                        isStepValid = false;
+                    }
+                    else if (supe == true){
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                        document.getElementById('tauxerror').innerText='Le pourcentage des jalons ne peut pas être supérieur à 100%';
+                        isStepValid=false;
+                    }
+                    else{
+                        document.getElementById('tauxerror').innerText='';
+                        isStepValid=true;
+                    }
                     }
                     else {
                         if (document.getElementById('modifydf_debit1bm').value < 0) {
