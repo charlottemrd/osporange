@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Modalites{% endblock %}
+
+{% block body %}
+    <h1>Edit Modalites</h1>
+
+    {{ include('modalitesof/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('modalitesof_index') }}">back to list</a>
+
+    {{ include('modalitesof/_delete_form.html.twig') }}
+{% endblock %}

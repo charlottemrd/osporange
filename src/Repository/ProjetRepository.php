@@ -98,6 +98,35 @@ class ProjetRepository extends ServiceEntityRepository
 
     }
 
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Projet[]
+     */
+    public function findSearchProjetM( User $user) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('o');
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+
+
+            $user=$user->getId();
+            $query = $query
+                ->andWhere('o.user =:user')
+                ->setParameter('user', $user);
+        }
+
+
+
+            $query = $query->andWhere('o.paiement IN (:paye)')
+                ->setParameter('paye', 2);
+
+
+
+
+        return $query->getQuery()->getResult();
+
+    }
 
 
 

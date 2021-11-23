@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modalites{% endblock %}
+
+{% block body %}
+    <h1>Modalites</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ modalite.id }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ modalite.description }}</td>
+            </tr>
+            <tr>
+                <th>Pourcentage</th>
+                <td>{{ modalite.pourcentage }}</td>
+            </tr>
+            <tr>
+                <th>Datedebut</th>
+                <td>{{ modalite.datedebut ? modalite.datedebut|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datefin</th>
+                <td>{{ modalite.datefin ? modalite.datefin|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Conditionsatisfield</th>
+                <td>{{ modalite.conditionsatisfield ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Conditions</th>
+                <td>{{ modalite.conditions }}</td>
+            </tr>
+            <tr>
+                <th>Isapproved</th>
+                <td>{{ modalite.isapproved ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Isencours</th>
+                <td>{{ modalite.isencours ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Rank</th>
+                <td>{{ modalite.rank }}</td>
+            </tr>
+            <tr>
+                <th>Decisionsapproved</th>
+                <td>{{ modalite.decisionsapproved ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('modalitesof_index') }}">back to list</a>
+
+    <a href="{{ path('modalitesof_edit', {'id': modalite.id}) }}">edit</a>
+
+    {{ include('modalitesof/_delete_form.html.twig') }}
+{% endblock %}

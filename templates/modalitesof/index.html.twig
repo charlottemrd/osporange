@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+             background-color: #FF7900;
+             border-color: #FF7900;
+
+         }
+         .pagination>li>a, .pagination>li>span {
+
+             color: black;
+
+         }
+         body {
+             max-width: 100%;
+             margin: 0;
+         }
+         body {
+             min-height:100vh;
+         }
+
+         .flex-fill {
+             flex:1 1 auto;
+         }
+
+         div.dataTables_length select {
+             width: 0px;
+         }
+
+         .form-signin{
+             padding-bottom: 2%;
+             padding-top: 2%;
+             padding-right: 10%;
+             padding-left: 10%;
+
+         }
+
+         select{
+             width: 100%;
+         }
+
+         .searching{
+             display: inline-block;
+         }
+         @media (max-width:765px)
+         {
+             .form-signin{
+                 padding-bottom: 25%;
+                 padding-top: 7%;
+                 padding-right: 8%;
+                 padding-left: 8%;
+
+             }
+
+
+
+
+             img.view{
+                 width: 50%;
+             }
+
+
+         }
+         .row:after {
+             content: "";
+             display: table;
+             clear: both;
+         }
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+
+         }
+         table,thead,tr,tbody,td,th{
+             border: none;
+         }
+         .table > :not(:last-child) > :last-child >*{
+             border: none;
+         }
+
+         element.style {
+             width: 30%;
+         }
+         .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+             border: none;
+         }
+         @media (max-width:765px)
+         {
+             .toreduce{
+                 width: 50%;
+
+             }
+         }
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center" >Liste des projets à modalités</h1>
+
+
+        <div class="form-signin">
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonS">
+                        <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+
+
+                </div>
+            {% endfor %}
+            <br>
+
+            <br>
+            <br>
+            <table class="table" id="table">
+
+                <thead>
+
+                <tr>
+
+
+                    <th class="text-center" style="width: 10%;border: black solid 1px">Référence</th>
+                    <th class="text-center"  style="width: 10%;border: black solid 1px">Actions</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for projet in projets %}
+                    <tr>
+                        <td class="text-center " style="width: 10%;border: black solid 1px"><br><p style="font-size: x-large">{{ projet.reference }}</p></td>
+                        <td class="text-center" style="width: 10%;border: black solid 1px">
+                            <a href=#><img class="view" src="/photo/view.png "  width="15%" height="100%"></img></a>
+                        </td>
+
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Pas de données trouvées</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+    <script>
+        let bouton1 = document.getElementById("bouton1");
+
+        let dive1 = document.getElementById("dive1");
+
+        bouton1.addEventListener("click", () => {
+            if(getComputedStyle(dive1).display != "none"){
+                dive1.style.display = "none";
+            } else {
+                dive1.style.display = "block";
+            }
+        })
+
+    </script>
+
+{% endblock  %}
