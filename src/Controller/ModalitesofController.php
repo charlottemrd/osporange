@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Modalites;
 use App\Form\Modalites1Type;
+use App\Entity\SearchData;
 use App\Repository\ModalitesRepository;
 use App\Repository\ProjetRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,15 +12,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+use App\Form\SearchType;
+
+
 #[Route('/listemodalites')]
 class ModalitesofController extends AbstractController
 {
     #[Route('/', name: 'modalitesof_index', methods: ['GET'])]
-    public function index(ModalitesRepository $modalitesRepository, ProjetRepository $projetRepository): Response  //par projet
+    public function index(ModalitesRepository $modalitesRepository, ProjetRepository $projetRepository, Request $request)  //par projet
     {
+        $data=new SearchData();
+        $form=$this->createForm(SearchType::class,$data);
+        $form->handleRequest($request);
         $user = $this->getUser();
+        $projets = $projetRepository->findSearch($data,$user);
         return $this->render('modalitesof/index.html.twig', [
-            'projets' => $projetRepository->findSearchProjetM($user),
+            'projets' => $projets,
+            'form'=>$form->createView()
         ]);
     }
 

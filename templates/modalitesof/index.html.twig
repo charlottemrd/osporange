@@ -8,11 +8,55 @@
            href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 
      <style>
+
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+             background-color: #FF7900;
+             border-color: #FF7900;
+         }
+         .pagination>li>a, .pagination>li>span {
+             color: black;
+         }
+
+         .select2-container {
+             width: 100% !important;
+             padding-bottom: 1%;
+             padding-left: 0.5%;
+             padding-right: 0.5%;
+         }
+
+         .bigbox{
+             display: none;
+         }
+
+         input{
+             width: 100%;
+         }
+
+
+
+
          .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 
              background-color: #FF7900;
              border-color: #FF7900;
 
+         }
+         .bigbox{
+             display: none;
+         }
+         .select2-container {
+             width: 100% !important;
+             padding-bottom: 1%;
+             padding-left: 0.5%;
+             padding-right: 0.5%;
+         }
+
+         .bigbox{
+             display: none;
+         }
+
+         input{
+             width: 100%;
          }
          .pagination>li>a, .pagination>li>span {
 
@@ -128,21 +172,122 @@
 
             {% for message in app.flashes('notification') %}
                 <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
-
-
                     <div class="boutonS">
                         <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <br>
                     {{ message }}
-
-
                 </div>
             {% endfor %}
             <br>
+            <div role="row" >
 
+                {{ form_start(form) }}
+                <div  id="filter" class="text-center">
+
+                    {#<div style="width: 30%" class="container">
+                                    {{ form_widget(form.q, {
+                                        'label_attr': {'class': 'form_control'}}
+                                    ) }}</div>
+                                        <img src="/photo/filtre.png" width="4%" height="4%" onclick="loadfiler()">
+                                    <button type="submit" class="text-white bg-black btn">Rechercher</button>#}
+                    <table >
+                        <tr>
+                            <th style="border-color: white">
+                                {{ form_widget(form.q, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+
+                            <th style="border-color: white">
+                                <button type="submit" class="text-white bg-black btn">Rechercher</button>
+                            </th>
+
+                            <th style="border-color: white ">
+                                <img src="/photo/filtre.png" width="7%" height="7%" onclick="loadfiler()">
+
+                            </th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
             <br>
+            <div class="bigbox" id="bigbox">
+                <table style="width: 100%" >
+                    <tr style="border-color: white">
+                        <th style="border-color: white">
+                            <div class="select2-container">
+                                {{ form_widget(form.ref ,{
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</div>
+
+
+                        </th>
+                        <th style="border-color: white">
+                            {{ form_widget(form.phases, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+                        </th>
+                    </tr>
+                    <tr style="border-color: white">
+                        <th style="border-color: white">
+                            {{ form_widget(form.fournisseurs, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+
+                        </th>
+                        <th style="border-color: white">
+                            {{ form_widget(form.priority, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+                        </th>
+                    </tr>
+                    <tr style="border-color: white">
+                        <th style="border-color: white">
+                            <div class="select2-container">
+                                {{ form_widget(form.domain, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </div>
+
+
+                        </th>
+                        <th style="border-color: white">
+
+                            {{ form_widget(form.risques, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+
+                        </th>
+                    <tr style="border-color: white">
+
+
+                        <th style="border-color: white">
+                            <div class="select2-container">
+                                {{ form_widget(form.sdomain, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </div>
+
+                        </th>
+                        <th style="border-color: white">
+
+                            {{ form_widget(form.bu, {
+                                'label_attr': {'class': 'form_control'}}
+                            ) }}
+
+                        </th>
+                    </tr>
+
+
+
+                    </tr>
+
+                    {{ form_end(form) }}
+                </table>
+            </div>
             <br>
+
             <table class="table" id="table">
 
                 <thead>
@@ -179,6 +324,7 @@
 
 {% endblock  %}
 
+
 {% block javascripts %}
     {{ parent() }}
     <script src="//code.jquery.com/jquery-1.12.3.js"></script>
@@ -186,12 +332,46 @@
     <script
             src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     <script>
+
+        function loadfiler()
+        {
+            let filtdiv = document.getElementById("bigbox");
+            if(getComputedStyle(filtdiv).display != "none"){
+                filtdiv.style.display = "none";
+            } else {
+                filtdiv.style.display = "block";
+            }
+        }
+
+        $('.js-example-basic-single').select2({
+            allowClear: true,
+            language: 'fr',
+            multiple:true,
+            style:'width',
+        });
+        $('#phases').select2({
+            placeholder: "Selectionnez une phase"
+        });
+        $('#fournisseurs').select2({
+            placeholder: "Selectionnez un fournisseur"
+        });
+        $('#bu').select2({
+            placeholder: "Selectionnez un type de BU"
+        });
+        $('#risques').select2({
+            placeholder: "Selectionnez un risque"
+        });
+        $('#priority').select2({
+            placeholder: "Selectionnez une priorité"
+        });
+
+
         let bouton1 = document.getElementById("bouton1");
-
         let dive1 = document.getElementById("dive1");
-
         bouton1.addEventListener("click", () => {
             if(getComputedStyle(dive1).display != "none"){
                 dive1.style.display = "none";
@@ -199,7 +379,8 @@
                 dive1.style.display = "block";
             }
         })
-
     </script>
 
+
 {% endblock  %}
+
