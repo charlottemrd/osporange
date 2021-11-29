@@ -102,6 +102,86 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
+    public function findSearchMof(SearchData $search, User $user) : array
+    {
+
+        $query = $this
+            ->createQueryBuilder('o');
+        if (!in_array('ROLE_ADMIN', $user->getRoles())) {
+
+
+            $user=$user->getId();
+            $query = $query
+                ->andWhere('o.user =:user')
+                ->setParameter('user', $user);
+        }
+        if (!empty($search->q)) {
+            $query = $query
+                ->andWhere('o.description LIKE :q')
+                ->setParameter('q', "%{$search->q}%");
+        }
+
+        if (!empty($search->ref)) {
+            $query = $query
+                ->andWhere('o.reference LIKE :ref')
+                ->setParameter('ref', "%{$search->ref}%");
+        }
+
+        if (!empty($search->fournisseurs)) {
+            $query = $query->andWhere('o.fournisseur IN (:fournisseurs)')
+                ->setParameter('fournisseurs', $search->fournisseurs);
+        }
+
+
+
+        if (!empty($search->domain)) {
+            $query = $query
+                ->andWhere('o.domaine LIKE :domain')
+                ->setParameter('domain', "%{$search->domain}%");
+        }
+
+        if (!empty($search->sdomain)) {
+            $query = $query
+                ->andWhere('o.sdomaine LIKE :sdomain')
+                ->setParameter('sdomain', "%{$search->sdomain}%");
+        }
+
+
+        if (!empty($search->phases)) {
+            $query = $query
+                ->andWhere('o.Phase IN (:phases)')
+                ->setParameter('phases', $search->phases);
+        }
+
+        if (!empty($search->risques)) {
+            $query = $query->andWhere('o.risque IN (:risques)')
+                ->setParameter('risques', $search->risques);
+        }
+
+
+        if (!empty($search->bu)) {
+            $query = $query
+                ->andWhere('o.typebu IN (:bu)')
+                ->setParameter('bu', $search->bu);
+        }
+
+        if (!empty($search->priority)) {
+            $query = $query->andWhere('o.priorite IN (:priority)')
+                ->setParameter('priority', $search->priority);
+        }
+        $query = $query->andWhere('o.paiement IN (:paye)')
+            ->setParameter('paye', 2);
+
+        return $query->getQuery()->getResult();
+
+    }
+
+
+
+    /**
+     * Récupère les produits en lien avec une recherche
+     * @return Projet[]
+     */
     public function findSearchProjetM( User $user) : array
     {
 

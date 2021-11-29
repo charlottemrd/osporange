@@ -1,62 +1,308 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Modalites{% endblock %}
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
 
-{% block body %}
-    <h1>Modalites</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ modalite.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ modalite.description }}</td>
-            </tr>
-            <tr>
-                <th>Pourcentage</th>
-                <td>{{ modalite.pourcentage }}</td>
-            </tr>
-            <tr>
-                <th>Datedebut</th>
-                <td>{{ modalite.datedebut ? modalite.datedebut|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Datefin</th>
-                <td>{{ modalite.datefin ? modalite.datefin|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Conditionsatisfield</th>
-                <td>{{ modalite.conditionsatisfield ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Conditions</th>
-                <td>{{ modalite.conditions }}</td>
-            </tr>
-            <tr>
-                <th>Isapproved</th>
-                <td>{{ modalite.isapproved ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Isencours</th>
-                <td>{{ modalite.isencours ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Rank</th>
-                <td>{{ modalite.rank }}</td>
-            </tr>
-            <tr>
-                <th>Decisionsapproved</th>
-                <td>{{ modalite.decisionsapproved ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
 
-    <a href="{{ path('modalitesof_index') }}">back to list</a>
+             background-color: #FF7900;
+             border-color: #FF7900;
 
-    <a href="{{ path('modalitesof_edit', {'id': modalite.id}) }}">edit</a>
+         }
+         .pagination>li>a, .pagination>li>span {
 
-    {{ include('modalitesof/_delete_form.html.twig') }}
-{% endblock %}
+             color: black;
+
+         }
+         body {
+             max-width: 100%;
+             margin: 0;
+         }
+         body {
+             min-height:100vh;
+         }
+
+         .flex-fill {
+             flex:1 1 auto;
+         }
+
+         div.dataTables_length select {
+             width: 0px;
+         }
+
+         .form-signin{
+             padding-bottom: 2%;
+             padding-top: 2%;
+             padding-right: 10%;
+             padding-left: 10%;
+
+         }
+         input:disabled {
+             cursor: default;
+             background-color: white;
+             text-align: right;
+             border-color: white;
+             border-top: none;
+             border-left: none;
+         }
+
+
+
+         .searching{
+             display: inline-block;
+         }
+         @media (max-width:765px)
+         {
+             .form-signin{
+                 padding-bottom: 25%;
+                 padding-top: 7%;
+                 padding-right: 8%;
+                 padding-left: 8%;
+
+             }
+
+             .photoclose{
+                 width: 100%;
+             }
+             img.photocheck{
+                 width: 100%;
+             }
+             .photopen{
+                 width: 70%;
+             }
+
+         }
+         .row:after {
+             content: "";
+             display: table;
+             clear: both;
+         }
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+
+         }
+
+         select{
+             border:none;
+             background-color: lightgrey;
+         }
+
+         input[type="number"] {
+             text-align: center;
+             width: 100%;
+             background: none;
+             border: none;
+         }
+
+         select{
+             text-align: center;
+         }
+
+         span#profilnameof.form-control,span#labelp.form-control{
+             background: none;
+             border: none;
+         }
+
+
+         @media (max-width:765px)
+         {
+             .toreduce{
+                 width: 50%;
+
+             }
+         }
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center" >Modalités du projet {{ projet.reference }}</h1>
+
+
+        <div class="form-signin">
+
+            <div id="dive1" class="dive1" style="display: none; background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                <div class="boutonS">
+                    <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <br>
+                <div class="texterror" id="texterror"></div>
+
+
+            </div>
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive2" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonSo">
+                        <button id="bouton2" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            <br>
+            <table id="couts" style="display:block" >
+                <thead  >
+                <tr>
+                    <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
+                    Condition
+                    </th>
+                <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
+                   Pourcentage
+                </td>
+                    <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
+                        Le bilan mensuel a t-il été approuvé ?
+                    </td>
+                <td width="10%"  style="text-align: center;background-color: white">
+                    <br><br>
+                </td>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for modalite in modalites %}
+                    <tr>
+                    <td width="20%" style="text-align:center;border: black solid 0.5px">
+                        {{ modalite.conditions }}
+                    </td>
+                    <td width="20%" style="text-align:center;border: black solid 0.5px">
+                        {{ modalite.pourcentage }}
+                    </td>
+                    <td width="20%" style="text-align:center;border: black solid 0.5px">
+                         {{ modalite.isapproved ? 'Oui' : 'Non' }}
+                    </td>
+                    {% if modalite.isapproved ==0 %}
+                    <td  style="display:flex;border:none;border-right: rgba(0,0,0,0.63) solid 0.25px;border-bottom: rgba(0,0,0,0.63) solid 0.12px" >
+
+                        <button class="text-decoration-none"  style="display: block;width: 100%;border: none" type="button" onclick="approved({{ modalite.pourcentage }}) ">Approuver <br> la modalité</button>
+
+                    </td>
+                        {% else%}
+                            <td  style="display:block;border:none;border-right:none;border-bottom: none" >
+
+                                <br> <br>
+                            </td>
+                    {% endif%}
+
+                        {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+
+
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+    <script>
+
+
+        function approved(condition){
+            jQuery(document).ready(function (){
+                $.ajax({
+                    method: "POST",
+                    url: "{{ path('modalitesof_show', {'id': projet.id}) }}",
+                    data: {pourcentage: condition},
+                    dataType: 'json',
+                    success: function (html) {
+                        console.log(html);
+                        if (html.success) {
+                            window.location.href = html.redirect; // <-- HERE
+                        } else {
+                            $("#texterror").html(html.message);
+                            $('#dive1').css('display', 'block');
+                        }
+                    }
+                }).done(function (response) {
+
+
+                }).fail(function (jxh, textmsg, errorThrown) {
+                    console.log(textmsg);
+                    console.log(errorThrown);
+                    alert(errorThrown);
+                });
+
+            })
+
+
+
+
+
+
+        }
+
+
+
+
+
+        let bouton1 = document.getElementById("bouton1");
+        let dive1 = document.getElementById("dive1");
+        bouton1.addEventListener("click", () => {
+            if(getComputedStyle(dive1).display != "none"){
+                dive1.style.display = "none";
+            } else {
+                dive1.style.display = "block";
+            }
+        })
+        let bouton2 = document.getElementById("bouton2");
+        let dive2 = document.getElementById("dive2");
+        bouton2.addEventListener("click", () => {
+            if(getComputedStyle(dive2).display != "none"){
+                dive2.style.display = "none";
+            } else {
+                dive2.style.display = "block";
+            }
+        })
+
+
+
+
+
+
+
+    </script>
+
+{% endblock  %}
