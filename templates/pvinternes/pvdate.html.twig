@@ -225,7 +225,7 @@
                                 {%  if   (pv.isvalidate==false)%}
                                     <a href={{ path('modifypv', {'pvinternes':pv.id, 'id': datepv.id })}}><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
                                 {% else %}
-                                    <a href=""><img src="/photo/document.png "  width="15%" height="100%"></img></a>
+                                    <a href={{ path('pvrinternes_pvr', { 'id': pv.id })}}><img src="/photo/document.png "  width="15%" height="100%"></img></a>
                                 {% endif %}
 
                             </td>

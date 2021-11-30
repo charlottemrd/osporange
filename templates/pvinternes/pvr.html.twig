@@ -1,0 +1,506 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet" href="{{ asset('css/connexion.css') }}" />
+     <link href="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/css/smart_wizard_all.min.css" rel="stylesheet" type="text/css" />
+     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+     <style>
+
+         .select23  {
+             /* for Firefox */
+             -moz-appearance: none;
+             /* for Chrome */
+             -webkit-appearance: none;
+         }
+
+         /* For IE10 */
+         .select23::-ms-expand {
+             display: none;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done::after {
+             border-left-color: darkgrey;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.done {
+             border-color: darkgrey;
+             border-top-color: darkgrey;
+             border-right-color: darkgrey;
+             border-bottom-color: darkgrey;
+             border-left-color: darkgrey;
+             background: darkgrey;
+             background-color: darkgrey;
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active {
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background: #FF7900;
+             background-color:#FF7900;
+
+             color: black;
+         }
+
+         .sw-theme-arrows>.nav .nav-link.active::after {
+             border-left-color: #FF7900;
+             color: black;
+         }
+
+
+         .sw-theme-arrows>.nav .nav-link.active {
+
+             border-color: #FF7900;
+             border-top-color: #FF7900;
+             border-right-color: #FF7900;
+             border-bottom-color: #FF7900;
+             border-left-color: #FF7900;
+             background-color:#FF7900;
+             color: black;
+
+         }
+
+         .sw-theme-arrows .toolbar>.btn{
+             background-color: #FF7900;
+             border-color: #FF7900;
+             color: black;
+         }
+
+
+         input[type="date"] {
+             width:55%;
+         }
+         input#pvr_datesignature{
+             width:100%
+         }
+
+         input#pvr_pourcentage,input#pvr_conditions,input#pvr_nomdesignation, input#pvr_qttdesignation,input#pvr_nomdesignation2, input#pvr_qttdesignation2
+         {
+             border : none;
+         }
+
+     </style>
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+    <main class="container-fluid flex-fill ">
+        <br>
+        <h1 class="text-center">Procès verbal de réception interne du projet : {{ projet.reference }}</h1>
+        <br>
+
+
+        {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
+        <div id="smartwizard">
+
+            <ul class="nav" >
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-1">
+                        Description
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-2">
+                        Réserves
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-3">
+                        Dispositions Contractuelles Sujettes de Validation
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#step-4">
+                        Informations signataire
+                    </a>
+                </li>
+
+            </ul>
+            <div class="tab-content" id="tab-content">
+                <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <table>
+                        <tr>
+                            <th> {{ form_label(form, 'Objet *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.objet, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Référence PV *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.refpv, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Date PV *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="64%">
+                                {{ form_widget(form.datepv, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Référence contrat *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.refcontrat, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Facture *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.facture, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Reference contrat SAP *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.refcontratsap, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Bon de commande *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.boncommande, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Date de début *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="64%">{{ form_widget(form.datedebut, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Date de fin *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="64%">{{ form_widget(form.datefin, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+
+
+                    </table>
+
+                </div>
+                <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+
+                    <table>
+                        <tr>
+                            <th> {{ form_label(form, 'Réserves mineures', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="64%">{{ form_widget(form.reservemineure, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                        <tr>
+                            <th> {{ form_label(form, 'Réserves majeures', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th width="64%">{{ form_widget(form.reservemajeure, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                    </table>
+
+                </div>
+                <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <br>
+                    <div style="display: none" id="blocbap">
+                        <p id="errorbap"></p>
+                    </div>
+                    <table>
+                        <th> {{ form_label(form, 'Est-ce que ce document constitue un « Bon à Payer » ?', {
+                                'label_attr': {'class': 'input-group-text'}}) }}</th>
+                        <td>{{ form_widget(form.bonapayer)}} </td>
+                    </table>
+                    <p>Dispositions Contractuelles Sujettes de Validation : </p>
+                    <br>
+                    <div class="d-flex justify-content-center" >
+                        <table>
+                            <tr>
+                                <th style="border: black solid 1px">Désignation</th>
+                                <th style="border: black solid 1px">Quantité livrée</th>
+                            </tr>
+                            <tr>
+                                <th style="border: black solid 1px">{{ form_widget(form.conditions, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                                <th style="border: black solid 1px">{{ form_widget(form.pourcentage, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                            </tr>
+                            <tr>
+                                <th style="border: black solid 1px" >{{ form_widget(form.nomdesignation, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                                <th style="border: black solid 1px">{{ form_widget(form.qttdesignation, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                            </tr>
+                            <tr>
+                                <th style="border: black solid 1px" >{{ form_widget(form.nomdesignation2, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                                <th style="border: black solid 1px">{{ form_widget(form.qttdesignation2, {
+                                        'label_attr': {'class': 'form_control'}} )}} </th>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                </div>
+
+
+
+                <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    <table>
+                        <tr>
+                            <th> {{ form_label(form, 'Nom du signataire', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.signataire, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Qualité du signataire', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.rolesignataire, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+
+                        <tr>
+                            <th> {{ form_label(form, 'Date', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th>{{ form_widget(form.datesignature, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+
+
+
+
+
+            {{ form_end(form) }}
+
+
+
+
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-visible/1.2.0/jquery.visible.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.js" type="text/javascript"></script>
+    <script src=" https://cdn.jsdelivr.net/npm/jquery-validation@1.19.3/dist/additional-methods.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        let bap = false;
+         $(document).ready(function () {
+            $.validator.messages.required = 'Ce champ est requis';
+            $.validator.messages.pattern = 'Le format rentré est incorrect';
+            document.getElementById('pvr_bonapayer_0').required = false;
+            document.getElementById('pvr_bonapayer_1').required = false;
+
+            $('.pvr_bonapayer').change(function () {
+                bap=true;
+            });
+
+
+
+
+
+
+
+
+
+        })
+        var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+            .on('click', function(){
+
+
+                onsubmit();
+
+
+            });
+
+
+
+        $('#smartwizard').smartWizard({
+            selected: 0, // Initial selected step, 0 = first step
+            theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
+            justified: true, // Nav menu justification. true/false
+            darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+            autoAdjustHeight: true, // Automatically adjust content height
+            cycleSteps: false, // Allows to cycle the navigation of steps
+            backButtonSupport: true, // Enable the back button support
+            enableURLhash: false, // Enable selection of the step based on url hash
+            transition: {
+                animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
+                speed: '400', // Transion animation speed
+                easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+            },
+            toolbarSettings: {
+                toolbarPosition: 'bottom', // none, top, bottom, both
+                toolbarButtonPosition: 'right', // left, right, center
+                showNextButton: true, // show/hide a Next button
+                showPreviousButton: true, // show/hide a Previous button
+                toolbarExtraButtons: [btnFinish] // Extra buttons to show on toolbar, array of jQuery input/buttons elements
+
+            },
+            anchorSettings: {
+                anchorClickable: false, // Enable/Disable anchor navigation  //to change
+                enableAllAnchors: false, // Activates all anchors clickable all times  //to change
+                markDoneStep: true, // Add done state on navigation
+                markAllPreviousStepsAsDone: true, // When a step selected by url hash, all previous steps are marked done
+                removeDoneStepOnNavigateBack: false, // While navigate back done step after active step will be cleared
+                enableAnchorOnDoneStep: true // Enable/Disable the done steps navigation
+            },
+            keyboardSettings: {
+                keyNavigation: true, // Enable/Disable keyboard navigation(left and right keys are used if enabled)
+                keyLeft: [37], // Left key code
+                keyRight: [39] // Right key code
+            },
+            lang: { // Language variables for button
+                next: 'Suivant',
+                previous: 'Précédant'
+            },
+            disabledSteps: [], // Array Steps disabled
+            errorSteps: [], // Highlight step with errors
+            hiddenSteps: [], // Hidden steps
+
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+        function validateSteps(stepnumber){
+            var isStepValid = true;
+            if(stepnumber==2){
+                if (bap==false){
+                    isStepValid = false;
+                    document.getElementById('errorbap').innerHTML='Le champ \'Est-ce que ce document constitue un « Bon à Payer » ?\' est requis';
+                    document.getElementById('blocbap').style.display='block';
+                }
+                else{
+                    document.getElementById('blocbap').style.display='none';
+                }
+                if(!isStepValid){
+                    document.getElementById('smartwizard').style.height = "200%";
+                    document.getElementById('tab-content').style.height = "200%";
+                }
+            }
+
+
+
+            return isStepValid;
+        }
+
+
+        $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                if (stepDirection > stepNumber) {
+                    if ($('#myForm').valid() && validateSteps(stepNumber) == true) {
+                        if (stepDirection == "3") //here is the final step: Note: 0,1,2
+                        {
+                            $('.sw-btn-group-extra').removeClass('d-none');
+                        } else {
+                            $('.sw-btn-group-extra').addClass('d-none');
+                            return true;
+                        }
+                    } else {
+                        return false
+                    }
+                    return true;
+
+                } else {
+                    if (stepDirection == "3") //here is the final step: Note: 0,1,2
+                    {
+                        $('.sw-btn-group-extra').removeClass('d-none');
+                    } else {
+                        $('.sw-btn-group-extra').addClass('d-none');
+                        return true;
+                    }
+
+                }
+            }
+        )
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+
+
+{% endblock  %}

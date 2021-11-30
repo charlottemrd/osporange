@@ -8,6 +8,7 @@ use App\Entity\SearchDatePv;
 use App\Entity\Searchpv;
 use App\Form\Pvinterneform;
 use App\Form\PvinternesType;
+use App\Form\PvrType;
 use App\Entity\SearchProjetPv;
 use App\Form\SearchDatePvinterne;
 use App\Form\SearchpvType;
@@ -240,5 +241,72 @@ class PvinternesController extends AbstractController
 
 
     }
+
+
+
+    #[Route('/{id}/pvr', name: 'pvrinternes_pvr', methods: ['GET', 'POST'])]
+    public function pvr(Request $request, Pvinternes $pvinternes): Response
+    {
+        $form = $this->createForm(PvrType::class, $pvinternes);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $objet= $form->get('objet')->getNormData();
+            $refpv=$form->get('refpv')->getNormData();
+            $datepv = $form->get('datepv')->getViewData();
+            $datepv=date("d/m/Y",strtotime($datepv));
+            $refcontrat=$form->get('refcontrat')->getNormData();
+            $facture=$form->get('facture')->getNormData();
+            $refcontratsap=$form->get('refcontratsap')->getNormData();
+            $boncommande=$form->get('boncommande')->getNormData();
+
+            $datedebut = $form->get('datedebut')->getViewData();
+            $datedebut=date("d/m/Y",strtotime($datedebut));
+            $datefin = $form->get('datefin')->getViewData();
+            $datefin=date("d/m/Y",strtotime($datefin));
+
+            $reservemineure=$form->get('reservemineure')->getViewData();
+            $reservemajeure=$form->get('reservemajeure')->getViewData();
+            $conditions=$form->get('conditions')->getViewData();
+            $pourcentage=$form->get('pourcentage')->getViewData();
+            $nomdesignation=$form->get('nomdesignation')->getViewData();
+            $qttdesignation=$form->get('qttdesignation')->getViewData();
+            $nomdesignation2=$form->get('nomdesignation2')->getViewData();
+            $qttdesignation2=$form->get('qttdesignation2')->getViewData();
+
+            $bonapayer=$form->get('bonapayer')->getViewData();
+
+            $signataire=$form->get('signataire')->getViewData();
+            $rolesignataire=$form->get('rolesignataire')->getViewData();
+            $datesignature = $form->get('datesignature')->getViewData();
+            $datesignature=date("d/m/Y",strtotime($datesignature));
+            $fournisseur=$pvinternes->getProjet()->getFournisseur()->getName();
+
+
+
+
+
+
+
+            try {
+                //$this->createpvr($objet,$refpv,$datepv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $datesignature, $fournisseur);
+            }
+            catch (IOException $exception){}
+
+        }
+        return $this->renderForm('pvinternes/pvr.html.twig', [
+            'pvinternes'=>$pvinternes,
+            'projet'=>$pvinternes->getProjet(),
+            'form' => $form,
+        ]);
+    }
+
+
+
+
+
+
+
 
 }
