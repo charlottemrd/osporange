@@ -135,7 +135,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#step-5">
-                        Information signataire
+                        Informations signataire
                     </a>
                 </li>
 
@@ -263,9 +263,11 @@
                     <table>
                     <th> {{ form_label(form, 'Y-a-t-il  des Pénalités à appliquer ? ', {
                             'label_attr': {'class': 'input-group-text'}}) }}</th>
-                    <td>{{ form_widget(form.penalites.0) }}{{ form_label(form.penalites.0) }} &nbsp{{ form_widget(form.penalites.1) }}{{ form_label(form.penalites.1) }}  </td>
+                    <td>{{ form_widget(form.penalites)}} </td>
                       </table>
-                    <br>
+                    <div style="display: none" id="blocpenal">
+                        <p id="errorpenal"></p>
+                    </div>
                     <div class="d-flex justify-content-center" >
                     <table width="100%">
                         <thead>
@@ -383,6 +385,15 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
+        let penal = false;
+
+        let retard = true;
+        let respect= true;
+        let degat = true;
+        let qualite = true;
+        let retardfact = true;
+        let autre = true;
+
 
 
 
@@ -391,72 +402,83 @@
             $.validator.messages.required = 'Ce champ est requis';
             $.validator.messages.pattern = 'Le format rentré est incorrect';
             document.getElementById('pac_penalites_0').required = false;
-            document.getElementById('pac_retardmontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_respectmontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_degatmontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_qualitemontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_retardfactmontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_autremontant').setAttribute('disabled', 'disabled');
-            document.getElementById('pac_autredesc').setAttribute('disabled', 'disabled');
+            document.getElementById('pac_penalites_1').required = false;
+
+            $('.pac_penalites').change(function () {
+                penal=true;
+            });
+
 
             $('.pac_retard').change(function () {
-                if (document.getElementById(pac_retard).value==1) {
+                if (retard==true) {
                     document.getElementById('pac_retardmontant').required = true;
+                    retard=false;
                 }
                 else{
                     document.getElementById('pac_retardmontant').required = false;
+                    retard=true;
                 }
 
 
             });
             $('.pac_respect').change(function () {
-                if (document.getElementById(pac_respect).value==1) {
+                if (respect==true) {
                     document.getElementById('pac_respectmontant').required = true;
+                    respect=false;
                 }
                 else{
                     document.getElementById('pac_respectmontant').required = false;
+                    respect=true;
                 }
 
 
             });
 
             $('.pac_degat').change(function () {
-                if (document.getElementById(pac_degat).value==1) {
+                if (degat==true) {
                     document.getElementById('pac_degatmontant').required = true;
+                    degat=false;
                 }
                 else{
                     document.getElementById('pac_degatmontant').required = false;
+                    degat=true;
                 }
 
 
             });
             $('.pac_qualite').change(function () {
-                if (document.getElementById(pac_qualite).value==1) {
+                if (qualite==true) {
                     document.getElementById('pac_qualitemontant').required = true;
+                    qualite=false;
                 }
                 else{
                     document.getElementById('pac_qualitemontant').required = false;
+                    qualite=true;
                 }
 
 
             });
 
             $('.pac_retardfact').change(function () {
-                if (document.getElementById(pac_retardfact).value==1) {
+                if (retardfact==true) {
                     document.getElementById('pac_retardfactmontant').required = true;
+                    retardfact=false;
                 }
                 else{
                     document.getElementById('pac_retardfactmontant').required = false;
+                    retardfact=true;
                 }
 
 
             });
             $('.pac_autre').change(function () {
-                if (document.getElementById(pac_autre).value==1) {
+                if (autre==true) {
                     document.getElementById('pac_autremontant').required = true;
+                    autre=false;
                 }
                 else{
                     document.getElementById('pac_autremontant').required = false;
+                    autre=true;
                 }
 
 
@@ -470,24 +492,6 @@
         })
                 var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-                    if (document.getElementById(pac_retard).value==0) {
-                        document.getElementById('pac_retardmontant').value='';
-                    }
-                    if (document.getElementById(pac_respect).value==0) {
-                        document.getElementById('pac_respectmontant').value='';
-                    }
-                        if (document.getElementById(pac_degat).value==0) {
-                            document.getElementById('pac_degatmontant').value = '';}
-                        if (document.getElementById(pac_qualite).value == 0) {
-                            document.getElementById('pac_qualitemontant').value = '';
-                        }
-                        if (document.getElementById(pac_retardfact).value == 0) {
-                            document.getElementById('pac_retardfactmontant').value = '';
-                        }
-                        if (document.getElementById(pac_autre).value == 0) {
-                            document.getElementById('pac_autremontant').value = '';
-                            document.getElementById('pac_autredesc').value = '';
-                        }
 
 
                         onsubmit();
@@ -556,6 +560,20 @@
 
             function validateSteps(stepnumber){
                 var isStepValid = true;
+                if(stepnumber==3){
+                    if (penal==false){
+                        isStepValid = false;
+                        document.getElementById('errorpenal').innerHTML='Le champ \' y-a-t-il des pénalités à appliquer\' est requis';
+                        document.getElementById('blocpenal').style.display='block';
+                    }
+                    else{
+                        document.getElementById('blocpenal').style.display='none';
+                    }
+                    if(!isStepValid){
+                        document.getElementById('smartwizard').style.height = "200%";
+                        document.getElementById('tab-content').style.height = "200%";
+                    }
+                }
 
 
 

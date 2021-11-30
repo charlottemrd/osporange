@@ -105,12 +105,11 @@ class PacType extends AbstractType
             ])
 
             ->add('penalites', ChoiceType::class,[
-
                 'expanded'=>true,
                 'multiple'=>false,
                 'mapped'=>false,
                 'label' => false,
-                "row_attr" => [
+                "attr" => [
                     "class" => "pac_penalites"
                 ],
                 'choices'  => [

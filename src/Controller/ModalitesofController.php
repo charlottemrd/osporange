@@ -77,8 +77,7 @@ class ModalitesofController extends AbstractController
                     'status' => 'OK',
                     'message' => $message0,
                     'success' => true,
-                    'redirect' => $this->generateUrl('projet_index')  //rediriger apres vers editer pva
-
+                    'redirect' => $this->generateUrl('modalitesof_pac', ['id' => $themodalite->getId()])
                 ),
                     200);
             }
