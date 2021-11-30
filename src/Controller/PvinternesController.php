@@ -283,12 +283,6 @@ class PvinternesController extends AbstractController
             $datesignature=date("d/m/Y",strtotime($datesignature));
             $fournisseur=$pvinternes->getProjet()->getFournisseur()->getName();
 
-
-
-
-
-
-
             try {
                 //$this->createpvr($objet,$refpv,$datepv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $datesignature, $fournisseur);
             }
