@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 use App\Form\SearchType;
+use TCPDF;
 
 
 #[Route('/listemodalites')]
@@ -109,19 +110,53 @@ class ModalitesofController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-           /* $referencefl = $form->get('reference')->getData();
-            $prioritefl = $form->get('priorite')->getViewData();
-            $dateemise = $form->get('dateemis')->getViewData();
-            //$dateemisfl = 'vgh';
-            $dateemisfl=date("d/m/Y",strtotime($dateemise));
-            $emetteurfl = $form->get('emetteur')->getData();
-            $sujetfl = $form->get('sujet')->getData();
-            $descriptionfl = $form->get('description')->getData();
-            $piecejointesfl = $form->get('piecejointes')->getData();
-            try {
-                $this->createfl($referencefl, $prioritefl, $dateemisfl, $emetteurfl, $sujetfl, $descriptionfl, $piecejointesfl);
-            }
-            catch (IOException $exception){}*/
+            $objet= $form->get('objet')->getNormData();
+            $refpv=$form->get('refpv')->getNormData();
+            $datepv=$form->get('datepv')->getViewData();
+            $refcontrat=$form->get('refcontrat')->getNormData();
+            $facture=$form->get('facture')->getNormData();
+            $refcontratsap=$form->get('refcontratsap')->getNormData();
+            $boncommande=$form->get('boncommande')->getNormData();
+            $datedebut=$form->get('datedebut')->getViewData();
+            $datefin=$form->get('datefin')->getViewData();
+
+            $reserve1=$form->get('reserve1')->getViewData();
+            $conditions=$form->get('conditions')->getViewData();
+            $pourcentage=$form->get('pourcentage')->getViewData();
+            $nomdesignation=$form->get('nomdesignation')->getViewData();
+            $qttdesignation=$form->get('qttdesignation')->getViewData();
+
+            $penalites=$form->get('penalites')->getViewData();
+            $retard=$form->get('retard')->getViewData();
+            $retardmontant=$form->get('retardmontant')->getViewData();
+            $respect=$form->get('respect')->getViewData();
+            $respectmontant=$form->get('respectmontant')->getViewData();
+            $degat=$form->get('degat')->getViewData();
+            $degatmontant=$form->get('degatmontant')->getViewData();
+            $qualite=$form->get('qualite')->getViewData();
+            $qualitemontant=$form->get('qualitemontant')->getViewData();
+            $retardfact=$form->get('retardfact')->getViewData();
+            $retardfactmontant=$form->get('retardfactmontant')->getViewData();
+            $autre=$form->get('autre')->getViewData();
+            $autremontant=$form->get('autremontant')->getViewData();
+            $autredesc=$form->get('autredesc')->getViewData();
+
+            $signataire=$form->get('signataire')->getViewData();
+            $rolesignataire=$form->get('rolesignataire')->getViewData();
+            $datesignature=$form->get('datesignature')->getViewData();
+            $fournisseur=$modalites->getProjet()->getFournisseur()->getName();
+
+
+
+
+
+
+
+           try {
+                $this->createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur);
+
+          }
+            catch (IOException $exception){}
 
         }
         return $this->renderForm('modalitesof/pac.html.twig', [
@@ -131,7 +166,8 @@ class ModalitesofController extends AbstractController
         ]);
     }
 
-    function createpac($referencefl,$prioritefl,$dateemisfl,$emetteurfl,$sujetfl,$descriptionfl,$piecejointesfl){
+    function createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur)
+{
 
         // create new PDF document
         $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -145,7 +181,7 @@ class ModalitesofController extends AbstractController
         $pdf->SetFont('dejavusans', '', 10);
         $pdf->AddPage();
 
-        $tbl ='';
+/*        $tbl ='';
         $tbl='<p>Référence (FL_CP_aaaammjj_nn)   :  '.$referencefl.'</p>
            <table cellspacing="0" cellpadding="0" border="0" >
          <tr>
@@ -153,25 +189,25 @@ class ModalitesofController extends AbstractController
         </td>
         </tr>
     <tr>
-        
+
         <td colspan="2" style=" background-color: lightgrey; text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p style="font-weight: bold">ENTITE EMETTRICE</p></td>
     </tr>
-    
+
       <tr>
       <td colspan="2"  style=" background-color: lightgrey;border-bottom: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
         </td>
-      
+
     </tr>
-    
+
     <tr>
    <td colspan="2" style="border-right: black solid 1px; border-left: black solid 1px">
-      
+
 </td>
     </tr>
-    
+
     <tr>
         <td style="border-left: black solid 1px">
-     
+
        Date d\'émission : '.$dateemisfl.' </td>';
 
         if ($prioritefl=='1') {
@@ -307,7 +343,7 @@ Priorité:
  
 
 
- 
+
 </table>
 
 
@@ -331,15 +367,305 @@ Priorité:
 
 
  </form>
- ';
+ ';*/
+    $tbf ='';
+    $tbf='
+    <div style="width: 100%;border-bottom: black 1px solid">
+   <table cellspacing="0" cellpadding="0" border="0">
+    
+     <tr>
+       <td style="font-weight: bold;font-size:12vh">'.$fournisseur.'</td>
+        <td style="font-size:12vh">Facture ' .$facture.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Objet : '.$objet.'</td>
+        <td style="font-size:12vh">Réf. Contrat Cadre SAP ' .$refcontratsap.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Référence PV '.$refpv.'</td>
+        <td style="font-size:12vh">Bon de commande : '.$boncommande.'</td>
+    </tr>
+    <tr>
+        <td style="font-size:12vh">Date PV : '.$datepv.'</td>
+        <td style="font-size:12vh">Période du ' .$datedebut.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Réf. Contrat '.$refcontrat.'</td>
+        <td style="font-size:12vh">Au : '.$datefin.'</td>
+    </tr>
+
+</table>
+<br>
+</div>
+<div style="width: 100%;border-bottom: black 1px solid">
+<div style="font-size: 12vh">
+Les services/équipements relatives aux contrat/BC/Facture/Période cités ci-dessus  ont été bien réalisés selon les termes du bon de commande et/ou dispositions contractuelles convenus entre <span style="font-weight: bold">Orange Maroc</span> et <span style="font-weight: bold">'.$fournisseur.' </span></div>
+
+<div style="font-size: 12vh">Ce PV a été dressé aux fins de preuve et de confirmation de la bonne réalisation/livraison/installation des dites prestations/équipements sous réserves des remarques ci-dessous
+</div>
+<div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Réserves :
+</span>
+</div>';
+if ($reserve1!=null){
+    $tbf.='
+    <div style="font-size: 12vh">
+       '.$reserve1.'
+</div>';
+}
+    else
+    {$tbf.='
+        <div style="font-size: 12vh">Pas de réserves</div>
+';
+}
+
+$tbf.='
+<div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Dispositions contractuelles Sujettes de Validation :
+</span>
+</div>
+<br>
+<table cellspacing="0" cellpadding="0" border="1">
+    
+     <tr>
+       <td style="font-size:12vh; text-align: center">Désignation</td>
+       <td style="font-size:12vh;text-align: center">Quantité livrée</td>
+        
+    </tr>
+     <tr>
+        <td style="font-size:12vh;text-align: center">'.$conditions.'</td>
+        <td style="font-size:12vh;text-align: center">'.$pourcentage.'</td>
+       
+    </tr>
+     <tr>
+         <td style="font-size:12vh;text-align: center">'.$nomdesignation.'</td>
+        <td style="font-size:12vh;text-align: center">'.$qttdesignation.'</td>
+    </tr>
+    </table>
+    <br>
+</div>
+<div style="width: 100%;border-bottom: black 1px solid">
+    <div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Pénalités :
+</span>
+<span style="font-size: 10vh;text-decoration-line: underline">
+(Mention  Obligatoire)</span> <span font-size: 10vh> Y-a-t-il  des Pénalités à appliquer ?  </span>                  
+';
+    if ($penalites==0) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Oui</label>
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Non</label>
+   </div>             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Oui</label>
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Non</label>               
+</div>
+';}
+
+    $tbf.='
+
+<table cellspacing="0" cellpadding="0" border="1">
+    
+     <tr>
+       <td style="font-size:12vh; text-align: center">Nature</td>
+       <td style="font-size:12vh;text-align: center">Montant (*)</td>
+        
+    </tr>
+     <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($retard==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Retard dans les délais d’exécution / Livraison.</span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$retardmontant.'</td>
+       
+    </tr>
+    
+    
+    <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($respect==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Non-respect des SLA & Obligations techniques</span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$respectmontant.'</td>
+       
+    </tr>
+    
+       <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($degat==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Dégâts</span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$degatmontant.'</td>
+       
+    </tr> 
+                 
+         <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($qualite==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Qualité de la prestation / marchandise</span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$qualitemontant.'</td>
+       
+    </tr>   
+    
+                     
+         <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($retardfact==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Retard dans les délais de facturation</span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$retardfactmontant.'</td>
+       
+    </tr> 
+    
+             <tr>
+        <td style="font-size:12vh;text-align: left">
+        ';
+    if ($autre==true) {
+        $tbf.='
+                <input type="checkbox" name="agree" value="1"  checked disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                             
+'; }
+
+    else  {  $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree"></label>
+                
+';}
+
+    $tbf.='  
+  <span style="font-size:10vh">Autres : '.$autredesc.' </span> 
+</td>
+        <td style="font-size:12vh;text-align: left">'.$autredesc.'</td>
+       
+    </tr>  
+        
+    </table>
+    <br>
+    </div>
+ <div style="width: 100%;border-bottom: black 1px solid">
+ 
+ <table cellspacing="0" cellpadding="0" border="1">
+    
+     <tr>
+       <td style="font-size:12vh; text-align: center"></td>
+       <td style="font-size:12vh;text-align: center;font-weight: bold">Orange Maroc</td>
+       <td style="font-size:12vh;text-align: center;font-weight: bold">'.$fournisseur.'</td>
+    </tr>
+    <tr>
+       <td style="font-size:12vh; text-align: center">Nom du signataire</td>
+       <td style="font-size:12vh;text-align: center">'.$signataire.'</td>
+       <td style="font-size:12vh;text-align: center"></td>
+    </tr>
+    <tr>
+       <td style="font-size:12vh; text-align: center">Qualité du signataire</td>
+       <td style="font-size:12vh;text-align: center">'.$rolesignataire.'</td>
+       <td style="font-size:12vh;text-align: center"></td>
+    </tr>
+     <tr>
+       <td style="font-size:12vh; text-align: center">Date</td>
+       <td style="font-size:12vh;text-align: center">'.$datesignature.'</td>
+       <td style="font-size:12vh;text-align: center"></td>
+    </tr> 
+    
+    <tr >
+       <td style="font-size:12vh; text-align: center">Cachet et signature</td>
+       <td style="font-size:12vh;text-align: center"><br><br></td>
+       <td style="font-size:12vh;text-align: center"><br><br></td>
+    </tr>   
+    
+ </table>
+ 
+ </div>   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ';
 
 
 
 
-        $pdf->setFormDefaultProp(array('lineWidth'=>1, 'borderStyle'=>'none', 'fillColor'=>array(255, 255, 200), 'strokeColor'=>array(255, 128, 128)));
-        $pdf->writeHTMLCell(200, 30, 0, 0,  '<img src="/photo/entetefichefl.png">',0, 1, 0 );
-        $pdf->writeHTMLCell(150,0,30,30,$tbl);
 
+
+
+
+
+
+
+
+        //$pdf->WriteHTMLCell(200, 10,0,0,'', 'B', 'C', 0, 0);
+        $pdf->writeHTMLCell(200, 20,5 , 0,  '<img src="/photo/entetepac.PNG">','B', 1, 0 );
+        $pdf->writeHTMLCell(200,0,5,45,$tbf,0,1,0);
 
 
 
@@ -361,7 +687,7 @@ EOF;
 
 //Close and output PDF document
         $namefl='';
-        $namefl="ficheliaison".$referencefl.".pdf";
+        $namefl="ficheliaison.pdf";
         //;
 
         $pdf->Output($namefl, 'D');
