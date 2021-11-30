@@ -507,9 +507,7 @@ EOF;
         $namefl='';
         $namefl="PAC_projet_".$reference.".pdf";
         //;
-
         $pdf->Output($namefl, 'D');
-
     }
 
 
