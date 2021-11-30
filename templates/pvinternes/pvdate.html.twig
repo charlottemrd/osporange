@@ -134,7 +134,7 @@
 
 
     <main class="container-fluid flex-fill ">
-        <h1 class="text-center" >Liste des PV internes pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
+        <h1 class="text-center" >Liste des PVR internes pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
 
 
         <div class="form-signin">
@@ -210,7 +210,7 @@
 
 
                         <th class="text-center" data-sorter="shortDate" data-date-format=" d MMM yyyy" style="width: 30%; border: black solid 1px">Projet</th>
-                        <th class="text-center" style="width: 30%; border: black solid 1px">PV interne validé</th>
+                        <th class="text-center" style="width: 30%; border: black solid 1px">PVR interne validé</th>
                         <th class="text-center"  style="width: 30% ; border: black solid 1px">Actions</th>
 
                     </tr>
@@ -221,11 +221,11 @@
                              <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
                             <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
                             <td class="text-center" style="width: 30%;border: black solid 1px">
-                                <a href="#"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
+                                <a href="{{ path('showpv', {'pvinternes':pv.id, 'id': datepv.id })}}"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
                                 {%  if   (pv.isvalidate==false)%}
-                                    <a href={{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id })}}><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
+                                    <a href={{ path('modifypv', {'pvinternes':pv.id, 'id': datepv.id })}}><img src="/photo/modify.png "  width="15%" height="100%"></img></a>
                                 {% else %}
-                                    <a href="#"><img src="/photo/document.png "  width="15%" height="100%"></img></a>
+                                    <a href=""><img src="/photo/document.png "  width="15%" height="100%"></img></a>
                                 {% endif %}
 
                             </td>

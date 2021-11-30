@@ -180,7 +180,7 @@
                    Pourcentage
                 </td>
                     <td width="8%" style="text-align: center;background-color: lightgrey;border-top:black solid 0.5px; border-left: black solid 0.5px;border-right: black solid 0.5px">
-                        Le bilan mensuel a t-il été approuvé ?
+                        La modalité a t-elle été approuvé ?
                     </td>
                 <td width="10%"  style="text-align: center;background-color: white">
                     <br><br>
@@ -203,13 +203,13 @@
                     {% if modalite.isapproved ==0 %}
                     <td  style="display:flex;border:none;border-right: rgba(0,0,0,0.63) solid 0.25px;border-bottom: rgba(0,0,0,0.63) solid 0.12px" >
 
-                        <button class="text-decoration-none"  style="display: block;width: 100%;border: none" type="button" onclick="approved({{ modalite.pourcentage }}) ">Approuver <br> la modalité</button>
+                        <button class="text-decoration-none"  style="display: block;width: 100%;border: none;background-color: lightgrey" type="button" onclick="approved({{ modalite.pourcentage }}) ">Approuver <br> la modalité</button>
 
                     </td>
                         {% else%}
                             <td  style=" display:flex;border:none;border-right: rgba(0,0,0,0.63) solid 0.25px;border-bottom: rgba(0,0,0,0.63) solid 0.12px" >
 
-                                <a href="{{ path('modalitesof_pac', {'id': modalite.id}) }}" class="text-decoration-none"  style=" padding-top: 3%;padding-bottom: 3%;display: block;text-align: center;color: black; width: 100%;border: none" type="button" >Documents <br> </a>
+                                <a href="{{ path('modalitesof_pac', {'id': modalite.id}) }}" class="text-decoration-none"  style="background-color: lightgrey  ;padding-top: 3%;padding-bottom: 3%;display: block;text-align: center;color: black; width: 100%;border: none" type="button" >Documents <br> </a>
 
                             </td>
                     {% endif%}

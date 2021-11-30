@@ -346,7 +346,7 @@ class BilanMensuelController extends AbstractController
                         $idmonthbm->setIsaccept(true);
                         $mymonth = date_format($myyearmonth, 'm');
                         $myyear = date_format($myyearmonth, 'Y');
-                        $day = 2;
+
                         if ($mymonth == 12) {
                             $myyear = $myyear + 1;
                             $mymonth = 1;

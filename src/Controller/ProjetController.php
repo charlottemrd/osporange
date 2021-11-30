@@ -231,6 +231,7 @@ class ProjetController extends AbstractController
                 }// si paiement = bilan mensuel
 
 
+
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($projet);
@@ -238,14 +239,17 @@ class ProjetController extends AbstractController
 
             if(($projet->getPhase()->getId()>=6)&&($projet->getPaiement()->getId()==2)){
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                if($ml){
                 $ui=0;
                 foreach ($ml as $k){
                     $k->setRank($ui+1);
                     $ui=$ui+1;
                 }
+                }
                 $entityManager->flush();
                 $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
-                $mlm->setIsencours(true);
+                if($mlm){
+                $mlm->setIsencours(true);}
                 $entityManager->flush();
             }
 
@@ -739,10 +743,12 @@ class ProjetController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
+                if($ml){
                 $ui=0;
                 foreach ($ml as $k){
                     $k->setRank($ui+1);
                     $ui=$ui+1;
+                }
                 }
                 $this->getDoctrine()->getManager()->flush();
 
@@ -852,10 +858,12 @@ class ProjetController extends AbstractController
                 $projet->setDatemaj(new \DateTime());
                 $this->getDoctrine()->getManager()->flush();
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
-                $ui=0;
-                foreach ($ml as $k){
-                    $k->setRank($ui+1);
-                    $ui=$ui+1;
+                if($ml) {
+                    $ui = 0;
+                    foreach ($ml as $k) {
+                        $k->setRank($ui + 1);
+                        $ui = $ui + 1;
+                    }
                 }
                 $this->getDoctrine()->getManager()->flush();
 
@@ -968,10 +976,12 @@ class ProjetController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
-                $ui=0;
-                foreach ($ml as $k){
-                    $k->setRank($ui+1);
-                    $ui=$ui+1;
+                if($ml) {
+                    $ui = 0;
+                    foreach ($ml as $k) {
+                        $k->setRank($ui + 1);
+                        $ui = $ui + 1;
+                    }
                 }
                 $this->getDoctrine()->getManager()->flush();
 
@@ -1083,11 +1093,13 @@ class ProjetController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
-                $ui=0;
-                foreach ($ml as $k){
-                    $k->setRank($ui+1);
-                    $ui=$ui+1;
-                }
+               if($ml) {
+                   $ui = 0;
+                   foreach ($ml as $k) {
+                       $k->setRank($ui + 1);
+                       $ui = $ui + 1;
+                   }
+               }
                 $this->getDoctrine()->getManager()->flush();
 
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
@@ -1201,10 +1213,12 @@ class ProjetController extends AbstractController
 
                 $this->getDoctrine()->getManager()->flush();
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
-                $ui=0;
-                foreach ($ml as $k){
-                    $k->setRank($ui+1);
-                    $ui=$ui+1;
+                if($ml) {
+                    $ui = 0;
+                    foreach ($ml as $k) {
+                        $k->setRank($ui + 1);
+                        $ui = $ui + 1;
+                    }
                 }
                 $this->getDoctrine()->getManager()->flush();
 
@@ -1235,7 +1249,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(PvinternesRepository $pvinternesRepository, DatepvinterneRepository $datepvinterneRepository, ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1447,7 +1461,44 @@ class ProjetController extends AbstractController
                         }
                         $this->getDoctrine()->getManager()->flush();
                         $mlm=$modalitesRepository->findOneBy(array('projet'=>$projet,'rank'=>1));
-                        $mlm->setIsencours(true);
+                        if($mlm) {
+                            $mlm->setIsencours(true);
+                        }
+                        $dateactuelle=new \DateTime();
+                        $moisencours=date_format($dateactuelle, 'm');
+                        $anneeencours=date_format($dateactuelle, 'Y');
+                        //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
+                        $pvinternepass=$datepvinterneRepository->owndatepv($moisencours,$anneeencours);
+                        if($pvinternepass){ //on cree un pv interne avec date= pv interne pass
+
+                            $pvinterne=new Pvinternes();
+                            $pvinterne->setProjet($projet);
+                            $pvinterne->setDate($pvinternepass);
+                            $pvinterne->setIsmodified(false);
+                            $pvinterne->setIsvalidate(false);
+                            $pvinterne->setPourcentage(0);
+                            $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
+                        }
+                        else{ // on cree tout
+
+                            $datepvinterne=new Datepvinterne();
+                            $datepvinterne->setDatemy(new \DateTime());
+                            $pvinterne=new Pvinternes();
+                            $pvinterne->setProjet($projet);
+                            $pvinterne->setDate($datepvinterne);
+                            $pvinterne->setIsmodified(false);
+                            $pvinterne->setIsvalidate(false);
+                            $pvinterne->setPourcentage(0);
+                            $this->getDoctrine()->getManager()->persist($datepvinterne);
+                            $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
+                        }
+
+
+
                         $this->getDoctrine()->getManager()->flush();
                     }
 
@@ -1505,6 +1556,10 @@ class ProjetController extends AbstractController
                             }
 
                         }
+                    }
+                    else{
+                        $pvis=$pvinternesRepository->findOneBy(array('projet'=>$projet->getId(),'isvalidate'=>false));
+                        $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
 
@@ -1577,6 +1632,10 @@ class ProjetController extends AbstractController
 
                         }
                     }
+                    else{
+                        $pvis=$pvinternesRepository->findOneBy(array('projet'=>$projet->getId(),'isvalidate'=>false));
+                        $this->getDoctrine()->getManager()->remove($pvis);
+                    }
                 }
 
                 $this->getDoctrine()->getManager()->flush();
@@ -1614,6 +1673,10 @@ class ProjetController extends AbstractController
                             }
 
                         }
+                    }
+                    else{
+                        $pvis=$pvinternesRepository->findOneBy(array('projet'=>$projet->getId(),'isvalidate'=>false));
+                        $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
 
@@ -1663,6 +1726,10 @@ class ProjetController extends AbstractController
 
                         }
                     }
+                    else{
+                        $pvis=$pvinternesRepository->findOneBy(array('projet'=>$projet->getId(),'isvalidate'=>false));
+                        $this->getDoctrine()->getManager()->remove($pvis);
+                    }
                 }
 
                 $this->getDoctrine()->getManager()->flush();
@@ -1701,6 +1768,10 @@ class ProjetController extends AbstractController
                             }
 
                         }
+                    }
+                    else{
+                        $pvis=$pvinternesRepository->findOneBy(array('projet'=>$projet->getId(),'isvalidate'=>false));
+                        $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
 
@@ -1786,6 +1857,40 @@ class ProjetController extends AbstractController
                                 $info1->setBilanmensuel($bilanadd);
                                 $this->getDoctrine()->getManager()->persist($info1);
                             }
+                        }
+                    }
+                    else{
+                        $dateactuelle=new \DateTime();
+                        $moisencours=date_format($dateactuelle, 'm');
+                        $anneeencours=date_format($dateactuelle, 'Y');
+                        //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
+                        $pvinternepass=$datepvinterneRepository->owndatepv($moisencours,$anneeencours);
+                        if($pvinternepass){ //on cree un pv interne avec date= pv interne pass
+
+                            $pvinterne=new Pvinternes();
+                            $pvinterne->setProjet($projet);
+                            $pvinterne->setDate($pvinternepass);
+                            $pvinterne->setIsmodified(false);
+                            $pvinterne->setIsvalidate(false);
+                            $pvinterne->setPourcentage(0);
+                            $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
+                        }
+                        else{ // on cree tout
+
+                            $datepvinterne=new Datepvinterne();
+                            $datepvinterne->setDatemy(new \DateTime());
+                            $pvinterne=new Pvinternes();
+                            $pvinterne->setProjet($projet);
+                            $pvinterne->setDate($datepvinterne);
+                            $pvinterne->setIsmodified(false);
+                            $pvinterne->setIsvalidate(false);
+                            $pvinterne->setPourcentage(0);
+                            $this->getDoctrine()->getManager()->persist($datepvinterne);
+                            $this->getDoctrine()->getManager()->persist($pvinterne);
+
+
                         }
                     }
                 }

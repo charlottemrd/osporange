@@ -135,22 +135,30 @@
 
 
     <main class="container-fluid flex-fill ">
-        <h1 class="text-center" >PV interne du projet {{ pv.projet }} pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
+        <h1 class="text-center" >PVR interne du projet {{ pv.projet }} pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
 
 
         <div class="form-signin">
 
+            <div id="dive1" class="dive1" style="display: none; background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                <div class="boutonS">
+                    <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <br>
+                <div class="texterror" id="texterror"></div>
+
+
+            </div>
+
             {% for message in app.flashes('notification') %}
-                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
-
-
-                    <div class="boutonS">
-                        <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div id="dive2" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+                    <div class="boutonSo">
+                        <button id="bouton2" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </div>
                     <br>
                     {{ message }}
-
-
                 </div>
             {% endfor %}
             <br>
@@ -180,7 +188,7 @@
                             <td class="text-center " style="width: 30%;border: black solid 1px;padding-bottom: 1%;padding-top: 1%">{{ pv.projet }}</td>
                             {{ form_start(form) }}
                             <td style="text-align: center;border: black solid 0.5px" >
-                               <span  ><label data-tooltip="Taux de réception déjà percu : {{ maxp }} %" >
+                               <span  ><label data-tooltip="Taux de réception déjà perçu : {{ maxp }} %" >
                                    {{ form_widget(form.pourcentage, {
                                        'label_attr': {'class': 'form_control'}}
                                    ) }} </label> </span>
@@ -233,13 +241,23 @@
             }
         })
 
+        let bouton2 = document.getElementById("bouton2");
+        let dive2 = document.getElementById("dive2");
+        bouton2.addEventListener("click", () => {
+            if(getComputedStyle(dive2).display != "none"){
+                dive2.style.display = "none";
+            } else {
+                dive2.style.display = "block";
+            }
+        })
+
 
         function submission(){
         jQuery(document).ready(function () {
             $taux = document.getElementById('pvinterneform_pourcentage').value;
                 $.ajax({
                     method: "POST",
-                    url: "{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id }) }}",
+                    url: "{{ path('modifypv', {'pvinternes':pv.id, 'id':datepv.id }) }}",
                     data: {name: $taux, type: 2,},
                     dataType: 'json',
                     success: function (html) {
@@ -248,9 +266,9 @@
                             window.location.href = html.redirect; // <-- HERE
 
                         } else {
-
                             $("#texterror").html(html.message);
                             $('#dive1').css('display', 'block');
+
                         }
 
                     }
@@ -275,13 +293,13 @@
 
 
 
-        function enregistrer() {
+        function acceptation() {
             $taux = document.getElementById('pvinterneform_pourcentage').value;
             jQuery(document).ready(function () {
                 $.ajax({
                     method: "POST",
-                    url: "{{ path('modifypv', {'pvinternes': datepv.id,'id':pv.id }) }}",
-                    data: {name: $taux, type: 1,},
+                    url: "{{ path('modifypv', {'pvinternes':pv.id, 'id':datepv.id }) }}",
+                    data: {taux: $taux, type: 2,},
                     dataType: 'json',
                     success: function (html) {
                         console.log(html);

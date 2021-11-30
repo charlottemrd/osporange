@@ -17,6 +17,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -91,6 +92,7 @@ class PvinternesController extends AbstractController
                         return new JsonResponse(array( //cas succes
                             'status' => 'OK',
                             'message' => 'le pourcentage ne peut pas inférieure à ce qui a déjà été débité',
+                            'gfyvuzq'=>$taux,
                             'success' => false,
                             // 'redirect' => $this->generateUrl('])
                         ),
@@ -105,14 +107,14 @@ class PvinternesController extends AbstractController
                             ),
                                 200);
                         } else {
-
-
+                            $pvinternes->setPourcentage($taux);
                             $this->getDoctrine()->getManager()->flush();
+                            $notifier->send(new Notification('Le PVR interne a bien été modifié', ['browser']));
                             return new JsonResponse(array( //cas succes
                                 'status' => 'OK',
-                                'message' => 'le bilan mensuel a bien été modifié',
+                                'message' => 'le PVR interne a bien été modifié',
                                 'success' => true,
-                                'redirect' => $this->generateUrl('modifypv', ['pvinternes' => $datepvinterne->getId(), 'id' => $pvinternes->getId()])
+                                'redirect' => $this->generateUrl('modifypv', ['pvinternes'=>$pvinternes->getId(),'id'=>$pvinternes->getDate()->getId() ])
                             ),
                                 200);
 
@@ -121,7 +123,92 @@ class PvinternesController extends AbstractController
                 }
 
 
-            }// fin cas où on modifie le bilan mensuel
+            }
+            else{
+                if ($taux > 100) {
+                    return new JsonResponse(array( //cas succes
+                        'status' => 'OK',
+                        'message' => 'le pourcentage ne peut pas être supérieure à 100%',
+                        'success' => false,
+                        // 'redirect' => $this->generateUrl('])
+                    ),
+                        200);
+                } else {
+                    if ($taux <= $maxpv) {
+                        return new JsonResponse(array( //cas succes
+                            'status' => 'OK',
+                            'message' => 'le pourcentage ne peut pas inférieure à ce qui a déjà été débité',
+                            'gfyvuzq'=>$taux,
+                            'success' => false,
+                            // 'redirect' => $this->generateUrl('])
+                        ),
+                            200);
+                    } else {
+                        if ($taux < 0) {
+                            return new JsonResponse(array( //cas succes
+                                'status' => 'OK',
+                                'message' => 'le pourcentage ne peut pas être négatif',
+                                'success' => false,
+                                // 'redirect' => $this->generateUrl('])
+                            ),
+                                200);
+                        } else {
+                            $pvinternes->setPourcentage($taux);
+                            $pvinternes->setIsvalidate(true);
+                            $mymonth=date_format($datepvinterne->getDatemy(),'m');
+                            $myyear=date_format($datepvinterne->getDatemy(),'Y');
+                            if ($mymonth == 12) {
+                                $myyear = $myyear + 1;
+                                $mymonth = 1;
+                            } else {
+                                $mymonth = $mymonth + 1;
+                            }
+                            $sched = new \DateTime();
+                            $sched->setDate($myyear, $mymonth, 1);
+                            $existpv=$datepvinterneRepository->owndatepv($mymonth, $myyear);
+                            if($taux<100) {
+                                if ($existpv) { //on cree un pv interne avec date= pv interne pass
+
+                                    $pvinterne = new Pvinternes();
+                                    $pvinterne->setProjet($pvinternes->getProjet());
+                                    $pvinterne->setDate($existpv);
+                                    $pvinterne->setIsmodified(false);
+                                    $pvinterne->setIsvalidate(false);
+                                    $pvinterne->setPourcentage(0);
+                                    $this->getDoctrine()->getManager()->persist($pvinterne);
+                                    $this->getDoctrine()->getManager()->flush();
+
+                                } else { // on cree tout
+
+                                    $datepvinterne = new Datepvinterne();
+                                    $datepvinterne->setDatemy($sched);
+                                    $pvinterne = new Pvinternes();
+                                    $pvinterne->setProjet($pvinternes->getProjet());
+                                    $pvinterne->setDate($datepvinterne);
+                                    $pvinterne->setIsmodified(false);
+                                    $pvinterne->setIsvalidate(false);
+                                    $pvinterne->setPourcentage(0);
+                                    $this->getDoctrine()->getManager()->persist($datepvinterne);
+                                    $this->getDoctrine()->getManager()->persist($pvinterne);
+                                    $this->getDoctrine()->getManager()->flush();
+
+                                }
+                            }
+                            $this->getDoctrine()->getManager()->flush();
+                            $notifier->send(new Notification('Le PVR interne a bien été validé', ['browser']));
+
+                            return new JsonResponse(array( //cas succes
+                                'status' => 'OK',
+                                'message' => 'le PVR interne',
+                                'success' => true,
+                                'redirect' => $this->generateUrl('projet_new')
+                            ),
+                                200);
+
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -142,6 +229,16 @@ class PvinternesController extends AbstractController
 
     }
 
+    #[Route('/pvinterne/{pvinternes}/{id}', name: 'showpv', methods: ['GET','POST'])]
+    public function show(NotifierInterface $notifier, PvinternesRepository $pvinternesRepository,Datepvinterne $datepvinterne, Pvinternes $pvinternes,DatepvinterneRepository $datepvinterneRepository,Request $request)
+    {
+        return $this->render('pvinternes/show.html.twig', [
+            'datepv'=>$datepvinterne,
+            'pv'=>$pvinternes,
 
+        ]);
+
+
+    }
 
 }
