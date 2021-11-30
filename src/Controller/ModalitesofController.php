@@ -112,13 +112,17 @@ class ModalitesofController extends AbstractController
 
             $objet= $form->get('objet')->getNormData();
             $refpv=$form->get('refpv')->getNormData();
-            $datepv=$form->get('datepv')->getViewData();
+            $datepv = $form->get('datepv')->getViewData();
+            $datepv=date("d/m/Y",strtotime($datepv));
             $refcontrat=$form->get('refcontrat')->getNormData();
             $facture=$form->get('facture')->getNormData();
             $refcontratsap=$form->get('refcontratsap')->getNormData();
             $boncommande=$form->get('boncommande')->getNormData();
-            $datedebut=$form->get('datedebut')->getViewData();
-            $datefin=$form->get('datefin')->getViewData();
+
+            $datedebut = $form->get('datedebut')->getViewData();
+            $datedebut=date("d/m/Y",strtotime($datedebut));
+            $datefin = $form->get('datefin')->getViewData();
+            $datefin=date("d/m/Y",strtotime($datefin));
 
             $reserve1=$form->get('reserve1')->getViewData();
             $conditions=$form->get('conditions')->getViewData();
@@ -143,8 +147,10 @@ class ModalitesofController extends AbstractController
 
             $signataire=$form->get('signataire')->getViewData();
             $rolesignataire=$form->get('rolesignataire')->getViewData();
-            $datesignature=$form->get('datesignature')->getViewData();
+            $datesignature = $form->get('datesignature')->getViewData();
+            $datesignature=date("d/m/Y",strtotime($datesignature));
             $fournisseur=$modalites->getProjet()->getFournisseur()->getName();
+            $reference=$modalites->getProjet()->getReference();
 
 
 
@@ -153,7 +159,7 @@ class ModalitesofController extends AbstractController
 
 
            try {
-                $this->createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur);
+                $this->createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur,$reference);
 
           }
             catch (IOException $exception){}
@@ -166,7 +172,7 @@ class ModalitesofController extends AbstractController
         ]);
     }
 
-    function createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur)
+    function createpac($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reserve1,$conditions,$pourcentage,$nomdesignation,$qttdesignation,$penalites,$retard,$retardmontant,$respect,$respectmontant,$degat,$degatmontant,$qualite,$qualitemontant,$retardfact,$retardfactmontant,$autre,$autremontant,$autredesc,$signataire,$rolesignataire,$datesignature,$fournisseur,$reference)
 {
 
         // create new PDF document
@@ -181,196 +187,10 @@ class ModalitesofController extends AbstractController
         $pdf->SetFont('dejavusans', '', 10);
         $pdf->AddPage();
 
-/*        $tbl ='';
-        $tbl='<p>Référence (FL_CP_aaaammjj_nn)   :  '.$referencefl.'</p>
-           <table cellspacing="0" cellpadding="0" border="0" >
-         <tr>
-           <td colspan="2"  style=" background-color: lightgrey;border-top: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
-        </td>
-        </tr>
-    <tr>
 
-        <td colspan="2" style=" background-color: lightgrey; text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p style="font-weight: bold">ENTITE EMETTRICE</p></td>
-    </tr>
-
-      <tr>
-      <td colspan="2"  style=" background-color: lightgrey;border-bottom: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
-        </td>
-
-    </tr>
-
-    <tr>
-   <td colspan="2" style="border-right: black solid 1px; border-left: black solid 1px">
-
-</td>
-    </tr>
-
-    <tr>
-        <td style="border-left: black solid 1px">
-
-       Date d\'émission : '.$dateemisfl.' </td>';
-
-        if ($prioritefl=='1') {
-            $tbl.='<td style="border-right: black solid 1px" >
-<br />
-Priorité:
-                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
-                <input type="checkbox" name="agree" value="0" disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
-                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
-                </td>
-
-
-
-
-
-'; }
-
-        else if ($prioritefl=='2') {
-
-            $tbl.='<td style="border-right: black solid 1px" >
-<br />
-Priorité:
-                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
-                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
-                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
-                </td>
-'; }
-
-        else{
-
-            $tbl.='<td  style="border-right: black solid 1px">
-Priorité:
-                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Haute </label>
-                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Moyenne </label>
-                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Basse</label><br>
-                </td>
-'; }
-
-        $tbl.= '</tr>
-<tr  >
-<td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
-       
-        Emetteur : &nbsp; &nbsp; &thinsp; &thinsp; 
-        '.$emetteurfl.'<br /></td>
- </tr>
- <tr>
-  <td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
-        Sujet : &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; &thinsp;
-        '.$sujetfl.'<br /></td>
- </tr>
- 
-  <tr>
- <td colspan="2"  style="border-left: black solid 1px;border-right: black solid 1px" >
-       
-        Description : &nbsp; &nbsp; 
-        '.$descriptionfl.' <br /></td>
- </tr>
- 
-  <tr>
-  <td colspan="2"  style="border-bottom: black solid 1px;border-left: black solid 1px;border-right: black solid 1px" >
-       
-         Pièces jointes : 
-        '.$piecejointesfl.' <br /></td>
- </tr>
- 
-</table>
-
-<table cellspacing="0" cellpadding="0" border="0" >
-         <tr>
-           <td colspan="2"  >
-        </td>
-        </tr>
-         <tr>
-           <td colspan="2"   >
-        </td>
-        </tr>
-         <tr>
-           <td colspan="2" >
-        </td>
-        </tr>
-</table>
-
-
-
-<form method="post" action="http://localhost/printvars.php" >
-<table cellspacing="0" cellpadding="0" border="0" >
-   <tr>
-           <td colspan="2"  style=" background-color: lightgrey;border-top: black solid 1px;border-left: black solid 1px;border-right: black solid 1px;" >
-        </td>
-        </tr>
-    <tr>
-        
-        <td colspan="2" style=" background-color: lightgrey;text-align: center;border-left: black solid 1px;border-right: black solid 1px"><p style="font-weight: bold">ENTITE RECEPTRICE</p></td>
-    </tr>
-    
-      <tr>
-      <td colspan="2"  style=" background-color: lightgrey;border-left: black solid 1px;border-right: black solid 1px;" >
-        </td>
-      
-    </tr>
-     <tr>
-   <td colspan="2" style="border-left: black solid 1px;border-right: black solid 1px;border-top: black solid 1px">
-      
-</td>
-    </tr>
-    <tr  >
- <td colspan="2" style="text-align: left;border-left: black solid 1px;border-right: black solid 1px;">
-<label for="name">
-        Date de réception :</label> <input type="text" name="name" value="" size="6" maxlength="6" />/<input type="text" name="name2" value="" size="6" maxlength="6" />/<input type="text" name="name3" value="" size="6" maxlength="6" /><br />
-
-</td>
- </tr>
- <tr >
- <td colspan="2" rowspan="1" style="text-align: left;border-left: black solid 1px;border-right: black solid 1px;">
-<label for="name">
-        Récepteur:</label> <textarea cols="40" rows="1"name="name0" value="" /><br />
-</td>
- </tr>
-  <tr >
- <td colspan="2" rowspan="4" style="text-align: left;border-left: black solid 1px;border-bottom:  black solid 1px;border-right: black solid 1px;">
-<label for="name">
-        Réponse:&nbsp;&nbsp;&nbsp;</label> <textarea cols="40" rows="3"name="name7" value="" /><br />
-</td>
- </tr>
- <tr >
- <td >
-</td>
- </tr>
-  <tr >
- <td >
-</td>
- </tr>
- 
-
-
-
-</table>
-
-
-<table cellspacing="0" cellpadding="0" border="0" >
-         <tr>
-           <td colspan="2"  >
-        </td>
-        </tr>
-         <tr>
-           <td colspan="2"   >
-        </td>
-        </tr>
-         <tr>
-           <td colspan="1" >
-            </td>
-             <td colspan="1" style="text-align: right" >
-             <p style="font-size: 10px;">Signature du récepteur</p>
-            </td>
-        </tr>
-</table>
-
-
- </form>
- ';*/
     $tbf ='';
     $tbf='
-    <div style="width: 100%;border-bottom: black 1px solid">
+    <div style="width: 100%;border-bottom: black 2px solid">
    <table cellspacing="0" cellpadding="0" border="0">
     
      <tr>
@@ -395,13 +215,12 @@ Priorité:
     </tr>
 
 </table>
-<br>
 </div>
-<div style="width: 100%;border-bottom: black 1px solid">
-<div style="font-size: 12vh">
+<div style="width: 100%;border-bottom: black 2px solid">
+<div style="font-size: 11vh">
 Les services/équipements relatives aux contrat/BC/Facture/Période cités ci-dessus  ont été bien réalisés selon les termes du bon de commande et/ou dispositions contractuelles convenus entre <span style="font-weight: bold">Orange Maroc</span> et <span style="font-weight: bold">'.$fournisseur.' </span></div>
 
-<div style="font-size: 12vh">Ce PV a été dressé aux fins de preuve et de confirmation de la bonne réalisation/livraison/installation des dites prestations/équipements sous réserves des remarques ci-dessous
+<div style="font-size: 11vh">Ce PV a été dressé aux fins de preuve et de confirmation de la bonne réalisation/livraison/installation des dites prestations/équipements sous réserves des remarques ci-dessous
 </div>
 <div style="font-size: 12vh">
 <span style="font-weight: bold;text-decoration-line: underline">
@@ -426,7 +245,6 @@ $tbf.='
 Dispositions contractuelles Sujettes de Validation :
 </span>
 </div>
-<br>
 <table cellspacing="0" cellpadding="0" border="1">
     
      <tr>
@@ -444,9 +262,8 @@ Dispositions contractuelles Sujettes de Validation :
         <td style="font-size:12vh;text-align: center">'.$qttdesignation.'</td>
     </tr>
     </table>
-    <br>
 </div>
-<div style="width: 100%;border-bottom: black 1px solid">
+<div style="width: 100%;border-bottom: black 2px solid">
     <div style="font-size: 12vh">
 <span style="font-weight: bold;text-decoration-line: underline">
 Pénalités :
@@ -607,8 +424,8 @@ Pénalités :
     </table>
     <br>
     </div>
- <div style="width: 100%;border-bottom: black 1px solid">
- 
+ <div style="width: 100%;border-bottom: black 2px solid">
+<form method="post" action="http://localhost/printvars.php" >
  <table cellspacing="0" cellpadding="0" border="1">
     
      <tr>
@@ -619,28 +436,29 @@ Pénalités :
     <tr>
        <td style="font-size:12vh; text-align: center">Nom du signataire</td>
        <td style="font-size:12vh;text-align: center">'.$signataire.'</td>
-       <td style="font-size:12vh;text-align: center"></td>
+       <td style="font-size:12vh;text-align: left"><input  type="text" name="name" value="" size="15"  maxlength="50" /></td>
     </tr>
     <tr>
        <td style="font-size:12vh; text-align: center">Qualité du signataire</td>
        <td style="font-size:12vh;text-align: center">'.$rolesignataire.'</td>
-       <td style="font-size:12vh;text-align: center"></td>
+       <td style="font-size:12vh;text-align: left"><input type="text" name="nameb" value="" size="15" maxlength="50" /></td>
     </tr>
      <tr>
        <td style="font-size:12vh; text-align: center">Date</td>
        <td style="font-size:12vh;text-align: center">'.$datesignature.'</td>
-       <td style="font-size:12vh;text-align: center"></td>
+       <td style="font-size:12vh;text-align: left"><input type="text" name="namec" value="" size="15" maxlength="20"/></td>
     </tr> 
     
     <tr >
        <td style="font-size:12vh; text-align: center">Cachet et signature</td>
-       <td style="font-size:12vh;text-align: center"><br><br></td>
-       <td style="font-size:12vh;text-align: center"><br><br></td>
+       <td style="font-size:12vh;text-align: center"><br><br><br></td>
+       <td style="font-size:12vh;text-align: center"><br><br><br></td>
     </tr>   
     
  </table>
- 
- </div>   
+ </form>
+ </div> 
+ <span style="font-size:9vh">(*) Le cas échant, joindre au PAC le détail de calcul de la pénalité.</span>
     
     
     
@@ -665,7 +483,7 @@ Pénalités :
 
         //$pdf->WriteHTMLCell(200, 10,0,0,'', 'B', 'C', 0, 0);
         $pdf->writeHTMLCell(200, 20,5 , 0,  '<img src="/photo/entetepac.PNG">','B', 1, 0 );
-        $pdf->writeHTMLCell(200,0,5,45,$tbf,0,1,0);
+        $pdf->writeHTMLCell(200,0,5,40,$tbf,0,1,0);
 
 
 
@@ -687,7 +505,7 @@ EOF;
 
 //Close and output PDF document
         $namefl='';
-        $namefl="ficheliaison.pdf";
+        $namefl="PAC_projet_".$reference.".pdf";
         //;
 
         $pdf->Output($namefl, 'D');
