@@ -89,7 +89,11 @@
              width: 100%;
          }
 
-
+         #tore{width:20%;}
+         @media (max-width:765px)
+         {
+             #tore{width:50%;}
+         }
 
 
      </style>
@@ -131,7 +135,7 @@
 
                                 {{ form_label(form, 'Phase', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}

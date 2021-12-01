@@ -89,6 +89,18 @@
              width: 100%;
          }
 
+         #tore{
+             width:20%;}
+
+         @media (max-width:765px)
+         {   #tore{
+             width:50%;}
+
+             #lors{
+                 width:20%;
+
+             }}
+
 
 
 
@@ -135,7 +147,7 @@
 
                                 {{ form_label(form, 'Phase *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -148,7 +160,7 @@
                     <table>
                         <tr id="boxchoix30">
                             <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T3 ? *</td>
-                            <th>{{ form_widget(form.choix30, {
+                            <th id="lors">{{ form_widget(form.choix30, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="40%" style="padding-left: 1%"><label id="phasef_choix30-error" class="error" for="phasef_choix30"></label></th>

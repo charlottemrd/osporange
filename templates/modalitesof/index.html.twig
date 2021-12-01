@@ -33,6 +33,18 @@
             width: 100%;
         }
 
+        @media (max-width:765px)
+        {   img.view{
+            width: 30%;
+        }
+            img.filter{
+                width: 15%;
+            }
+            #tocut{
+                width: 35%;
+            }
+        }
+
 
 
     </style>
@@ -79,7 +91,7 @@
                                     <button type="submit" class="text-white bg-black btn">Rechercher</button>#}
                     <table >
                         <tr>
-                            <th style="border-color: white">
+                            <th style="border-color: white" id="tocut">
                                 {{ form_widget(form.q, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -90,7 +102,7 @@
                             </th>
 
                             <th style="border-color: white ">
-                                <img src="/photo/filtre.png" width="7%" height="7%" onclick="loadfiler()">
+                                <img class="filter" src="/photo/filtre.png" width="7%" height="7%" onclick="loadfiler()">
 
                             </th>
                         </tr>

@@ -80,7 +80,23 @@
              border-color: #FF7900;
              color: black;
          }
-
+         #tocut{
+             width:50%;
+         }
+         #reverse{
+             display: inline-flex;
+         }
+         @media (max-width:765px)
+         {   #tocut{
+             width:100%;
+         }
+             #reverse{
+                 display: grid;
+             }
+             #pred{
+                 width: 250%;
+             }
+         }
 
 
 
@@ -154,7 +170,7 @@
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
 
                     {%if projet.reference!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Reference</span>
                             </div>
@@ -162,7 +178,7 @@
                         </div>
                     {% endif %}
                     {%if projet.datecrea!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Date de création</span>
                             </div>
@@ -171,7 +187,7 @@
                     {% endif %}
 
                     {%if projet.user!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Chef de projet</span>
                             </div>
@@ -179,7 +195,7 @@
                         </div>
                     {% endif %}
                     {%if projet.Phase!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Phase</span>
                             </div>
@@ -187,7 +203,7 @@
                         </div>
                     {% endif %}
                     {%if projet.domaine!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Domaine</span>
                             </div>
@@ -195,7 +211,7 @@
                         </div>
                     {% endif %}
                     {%if projet.sdomaine!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Sous-domaine</span>
                             </div>
@@ -203,7 +219,7 @@
                         </div>
                     {% endif %}
                     {%if projet.fournisseur!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Fournisseur</span>
                             </div>
@@ -211,7 +227,7 @@
                         </div>
                     {% endif %}
                     {%if projet.typebu!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3">
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Type de BU</span>
                             </div>
@@ -219,7 +235,7 @@
                         </div>
                     {% endif %}
                     {%if projet.description!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3">
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Description</span>
                             </div>
@@ -232,7 +248,7 @@
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
                     <table style="border-color: white;width:100%">
                         {%if projet.taux!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Taux d'avancement</span>
                                 </div>
@@ -240,15 +256,15 @@
                             </div>
                         {% endif %}
                         {%if projet.isplanningrespecte!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
-                                    <span class="input-group-text" id="basic-addon1">Respect du planning</span>
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Respect du planning</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.isplanningrespecte }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.priorite!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Priorité</span>
                                 </div>
@@ -256,7 +272,7 @@
                             </div>
                         {% endif %}
                         {%if projet.risque!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Risque</span>
                                 </div>
@@ -272,7 +288,7 @@
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
                     <table style="border-color: white;width:100%">
                         {%if projet.datel1!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T-1</span>
                                 </div>
@@ -280,7 +296,7 @@
                             </div>
                         {% endif %}
                         {%if projet.datereel0!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T0</span>
                                 </div>
@@ -288,7 +304,7 @@
                             </div>
                         {% endif %}
                         {%if projet.date1!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date réel T1</span>
                                 </div>
@@ -296,7 +312,7 @@
                             </div>
                         {% endif %}
                         {%if projet.date2!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date T2</span>
                                 </div>
@@ -304,7 +320,7 @@
                             </div>
                         {% endif %}
                         {%if projet.date3!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Date T3</span>
                                 </div>
@@ -312,9 +328,9 @@
                             </div>
                         {% endif %}
                         {%if projet.datespec!=null %}
-                            <div class="input-group mb-3" style="width: 50%">
+                            <div id="tocut" class="input-group mb-3" >
                                 <div class="input-group-prepend " style="width: 40%">
-                                    <span class="input-group-text" id="basic-addon1">Date des spécifications</span>
+                                    <span class="input-group-text" id="basic-addon1" style="white-space: pre-wrap">Date des spécifications</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datespec|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
@@ -323,10 +339,10 @@
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
 
-                        <div  style="display: inline-flex;width: 100%">
+                        <div id="reverse" class=" justify-content-center" style="width: 100%">
                             <div id="tableaul1" style="text-align: center">
                             <div id='backl1'>
-                                <p>Ancienne dates T-1</p>
+                                <p id="pred">Ancienne dates T-1</p>
                                 <table  class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -345,7 +361,7 @@
                             </div>
                             <div id="tableau0" style="text-align: center;padding-left: 1%">
                                 <div id='back0'>
-                                <p>Ancienne dates T0</p>
+                                <p id="pred">Ancienne dates T0</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -364,7 +380,7 @@
                             </div>
                             <div id="tableau1" style="text-align: center;padding-left: 1%">
                                 <div id='back1'>
-                                <p>Ancienne dates T1</p>
+                                <p id="pred">Ancienne dates T1</p>
                                 <table  class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -383,7 +399,7 @@
                             </div>
                             <div id="tableau2" style="text-align: center;padding-left: 1%">
                                 <div id='back2'>
-                                <p>Ancienne dates T2</p>
+                                <p id="pred">Ancienne dates T2</p>
                                 <table  class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -402,7 +418,7 @@
                             </div>
                             <div id="tableau3" style="text-align: center;padding-left: 1%">
                                 <div id='back3'>
-                                <p>Ancienne dates T3</p>
+                                <p id="pred">Ancienne dates T3</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
                                         <th class="text-center ">Dates</th>
@@ -470,17 +486,17 @@
 
                 <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
                     {%if projet.paiement!=null %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div id="tocut" class="input-group mb-3" >
                             <div class="input-group-prepend " style="width: 40%">
-                                <span class="input-group-text" id="basic-addon1">Mode de paiement</span>
+                                <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Mode de paiement</span>
                             </div>
                             <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.paiement }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.paiement=="paiement par modalités" %}
-                    <div class="input-group mb-3" style="width: 50%">
+                    <div id="tocut" class="input-group mb-3" >
                         <div class="input-group-prepend " style="width: 40%">
-                            <span class="input-group-text" id="basic-addon1">Durée de la garantie (mois)</span>
+                            <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Durée de la garantie (mois)</span>
                         </div>
                         <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.garanti}}"  aria-describedby="basic-addon1">
                     </div>
@@ -507,25 +523,25 @@
                         </table>
                     {% else %}
                         {%if projet.debit1bm!=null %}
-                            <div class="input-group mb-3" style="width: 100%">
+                            <div id="tocut" class="input-group mb-3" style="width: 100%">
                                 <div class="input-group-prepend " style="width: 30%">
-                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant la conception (%)</span>
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant la conception (%)</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit1bm }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.debit2bm!=null %}
-                            <div class="input-group mb-3" style="width: 100%">
+                            <div id="tocut" class="input-group mb-3" style="width: 100%">
                                 <div class="input-group-prepend " style="width: 30%">
-                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant le codage (%)</span>
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant le codage (%)</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit2bm }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.debit3bm!=null %}
-                            <div class="input-group mb-3" style="width: 100%">
+                            <div id="tocut" class="input-group mb-3" style="width: 100%">
                                 <div class="input-group-prepend " style="width: 30%">
-                                    <span class="input-group-text" id="basic-addon1">Cout débité pendant le test et recette (%)</span>
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant le test et recette (%)</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit3bm}}"  aria-describedby="basic-addon1">
                             </div>

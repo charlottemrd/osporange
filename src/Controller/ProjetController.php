@@ -37,6 +37,7 @@ use App\Form\SearchType;
 use App\Form\PhaseaType;
 use App\Form\PhasebType;
 use App\Entity\SearchData;
+use App\Controller\BilanMensuelController;
 use App\Repository\BilanmensuelRepository;
 use App\Repository\CoutRepository;
 use App\Repository\DatepvinterneRepository;
@@ -482,8 +483,15 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==9)||(($projet->getPhase()->getId()==9)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==9))){ //test
+            $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
+            $profit=[];
+            if($idmonthbm) {
+                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+            }
             return $this->render('projet/showdg.html.twig', [
                 'projet' => $projet,
+                'bilas'=>$profit,
+                'idmonthbms'=>$idmonthbm,
                 'date_lones'=>$projet->getDateLones(),
                 'date_zeros'=>$projet->getDateZeros(),
                 'date_one_pluses'=>$projet->getDateOnePluses(),
@@ -1377,7 +1385,7 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 //$pcom=whichpoc($projet);
-                                $mth=manymonthleft($projet,$idmonthbmpasse);
+                                $mth = manymonthleft($projet,$idmonthbmpasse);
                                 $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);

@@ -8,7 +8,7 @@
           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('css/indexprojet.css') }}" />
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+    <link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet" />
     <style>
         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
             background-color: #FF7900;
@@ -17,7 +17,9 @@
         .pagination>li>a, .pagination>li>span {
             color: black;
         }
-
+        input{
+            width: 100%;
+        }
         .select2-container {
             width: 100% !important;
             padding-bottom: 1%;
@@ -32,7 +34,17 @@
         input{
             width: 100%;
         }
-
+        @media screen and (max-width: 600px)
+        {
+            #filter{width: 50%;}
+            #tocut{
+                width: 35%;
+                border: red 1px solid;
+            }
+            img.filter{
+                width: 15%;
+            }
+        }
 
 
     </style>
@@ -71,7 +83,7 @@
                 {{ form_start(form) }}
                 <div  id="filter" class="text-center">
 
-                                    {#<div style="width: 30%" class="container">
+                    {#<div style="width: 30%" class="container">
                                     {{ form_widget(form.q, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}</div>
@@ -79,7 +91,7 @@
                                     <button type="submit" class="text-white bg-black btn">Rechercher</button>#}
                     <table >
                         <tr>
-                            <th style="border-color: white">
+                            <th style="border-color: white" id="tocut">
                                 {{ form_widget(form.q, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -90,12 +102,12 @@
                             </th>
 
                             <th style="border-color: white ">
-                                <img src="/photo/filtre.png" width="7%" height="7%" onclick="loadfiler()">
+                                <img class="filter" src="/photo/filtre.png" width="7%" height="7%" onclick="loadfiler()">
 
                             </th>
                         </tr>
                     </table>
-</div>
+                </div>
             </div>
             <br>
             <div class="bigbox" id="bigbox">
@@ -173,27 +185,27 @@
             </table>
             </div>
             <br>
-            <div class="text-right">
+           <div class="text-right">
                 <a  href="/projet/new"><img src="/photo/add.png "  width="5%" height="5%" ></a>
                 <a  href="/export/"><img src="/photo/dowload.png "  width="5%" height="5%" ></a>
             </div>
 
 
 
-        <table class="table" id="table">
+        <table class="table" id="table" class="display responsive nowrap" width="100%">
 
             <thead>
 
             <tr>
 
-                <th class="text-center " style="width: 10%">Référence FL</th>
-                    <th class="text-center " style="width: 10%">Fournisseur</th>
-                    <th class="text-center "style="width: 10%" >Priorité</th>
-                    <th class="text-center " style="width: 10%" >Risque</th>
-                    <th class="text-center " style="width: 7%">Planning</th>
-                    <th class="text-center " style="width: 10%">Phase</th>
-                    <th class="text-center " style="width: 10%">Type de BU</th>
-                    <th  class="text-center " style="width: 15%">Actions</th>
+                <th data-priority="1" class="text-center " style="width: 10%">Référence FL</th>
+                    <th data-priority="2" class="text-center " style="width: 10%">Fournisseur</th>
+                    <th data-priority="7" class="text-center "style="width: 10%" >Priorité</th>
+                    <th data-priority="5" class="text-center " style="width: 10%" >Risque</th>
+                    <th data-priority="6" class="text-center " style="width: 7%">Planning</th>
+                    <th data-priority="4" class="text-center " style="width: 10%">Phase</th>
+                    <th data-priority="8" class="text-center " style="width: 10%">Type de BU</th>
+                    <th data-priority="3" class="text-center " style="width: 15%">Actions</th>
 
             </tr>
             </thead>
@@ -251,7 +263,7 @@
             src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
     <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
     <script>
 

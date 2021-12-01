@@ -128,6 +128,9 @@ class PvrType extends AbstractType
                 "attr" => [
                     "class" => "pvr_bonapayer"
                 ],
+                "label_attr" => [
+                    "class" => "pvr_labelbonapayer"
+                ],
                 'choices'  => [
                     'Oui' =>'0',
                     'Non' =>'1',

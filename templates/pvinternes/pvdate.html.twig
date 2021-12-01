@@ -53,6 +53,15 @@
          }
          @media (max-width:765px)
          {
+            #tocut{
+                width: 50%;
+            }
+             input#ref{
+                 width: 300%;
+             }
+             img{
+                 width: 30%;
+             }
              .form-signin{
                  padding-bottom: 25%;
                  padding-top: 7%;
@@ -133,7 +142,7 @@
 
 
 
-    <main class="container-fluid flex-fill ">
+    <main class="container-fluid flex-fill">
         <h1 class="text-center" >Liste des PVR internes pour le mois de {{ datepv.datemy |date('m/Y') }}:  </h1>
 
 
@@ -159,7 +168,7 @@
 
             <br>
             <div class="bigbox" id="bigbox" style="width: 100%">
-                <div class="d-flex justify-content-center" >
+                <div class="d-flex justify-content-center" id="tocut">
                     <table width="10%" class="tablesorter" >
                         <tr style="border-color: white">
                             <th style="border-color: white;width: 20%" id="toreduce" >
@@ -218,8 +227,8 @@
                     <tbody>
                     {% for pv in pvs %}
                         <tr >
-                             <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.projet }}</td>
-                            <td class="text-center " style="width: 30%;border: black solid 1px"><br>{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
+                             <td class="text-center " style="width: 30%;border: black solid 1px">{{ pv.projet }}</td>
+                            <td class="text-center " style="width: 30%;border: black solid 1px">{{ pv.isvalidate ? 'Oui' : 'Non' }}</td>
                             <td class="text-center" style="width: 30%;border: black solid 1px">
                                 <a href="{{ path('showpv', {'pvinternes':pv.id, 'id': datepv.id })}}"><img src="/photo/view.png "  width="15%" height="100%"></img></a>
                                 {%  if   (pv.isvalidate==false)%}

@@ -91,6 +91,14 @@
              color: black;
          }
 
+         #tore{width:20%;}
+         @media (max-width:765px)
+         {
+             #tore{width:50%;}
+
+         }
+
+
 
 
 
@@ -138,7 +146,7 @@
 
                                 {{ form_label(form, 'Phase', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -166,18 +174,18 @@
                         <tr id="datel1">
                             <th width="15%"> {{ form_label(form, 'Date T-1 *', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_datel1'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.datel1, {
+                            <th id="tore">{{ form_widget(form.datel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_datel1-error" class="error" for="phasea_datel1"></label></th>
+                            <th   style="padding-left: 1%"><label id="phasea_datel1-error" class="error" for="phasea_datel1"></label></th>
                         </tr>
                         <tr id="date0" style="display: none">
                             <th width="15%"> {{ form_label(form, 'Date T0', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_date0'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date0, {
+                            <th id="tore">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasea_date0-error" class="error" for="phasea_date0"></label></th>
+                            <th   style="padding-left: 1%"><label id="phasea_date0-error" class="error" for="phasea_date0"></label></th>
                         </tr>
 
 
@@ -298,8 +306,8 @@
                     document.getElementById('label_date0').innerText='Date T0 *';
 
                     document.getElementById('navdate').style.display="none";
-                    document.getElementById('phasea_datel1').style.display="none";
-                    document.getElementById('datel1').style.display="none";
+                    document.getElementById('phasea_datel1').style.display="block";
+                    document.getElementById('datel1').style.display="block";
                     document.getElementById("phasea_datel1").required=false;
 
                     document.getElementById('phasea_date0').style.display="block";

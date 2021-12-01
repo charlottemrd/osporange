@@ -94,6 +94,19 @@
              border : none;
          }
 
+
+         @media screen and (max-width: 600px)
+         {
+             input[type="date"] {
+                 width:65%;
+             }
+             label#tocut {
+             white-space: pre-line;}
+             .tocuttd{
+                 width:60%
+             }
+         }
+
      </style>
 
 
@@ -236,14 +249,15 @@
                 </div>
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
                     <br>
+
+                    <table>
+                        <th class="tocuttd"> {{ form_label(form.bonapayer, 'Est-ce que ce document constitue un « Bon à Payer » ?', {
+                                'label_attr': {'class': 'input-group-text','id':'tocut'}}) }}</th>
+                        <td>{{ form_widget(form.bonapayer)}} </td>
+                    </table>
                     <div style="display: none" id="blocbap">
                         <p id="errorbap"></p>
                     </div>
-                    <table>
-                        <th> {{ form_label(form, 'Est-ce que ce document constitue un « Bon à Payer » ?', {
-                                'label_attr': {'class': 'input-group-text'}}) }}</th>
-                        <td>{{ form_widget(form.bonapayer)}} </td>
-                    </table>
                     <p>Dispositions Contractuelles Sujettes de Validation : </p>
                     <br>
                     <div class="d-flex justify-content-center" >
@@ -456,6 +470,10 @@
                             return true;
                         }
                     } else {
+                        if((stepNumber==0)||(stepNumber==2)){
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                        }
                         return false
                     }
                     return true;

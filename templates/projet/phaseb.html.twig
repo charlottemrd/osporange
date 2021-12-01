@@ -90,7 +90,11 @@
              border-color: #FF7900;
              color: black;
          }
-
+         #tore{width:20%;}
+         @media (max-width:765px)
+         {
+             #tore{width:50%;}
+         }
 
 
 
@@ -144,7 +148,7 @@
 
                                 {{ form_label(form, 'Phase *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -157,12 +161,12 @@
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
 
                     <table>
-                        <tr id="boxchoix1">
-                            <td>Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T-1 ? *</td>
-                            <th>{{ form_widget(form.choix1, {
+                        <tr id="boxchoix1" style="display: table-row">
+                            <td id="15%">Lors de la phase actuelle, y-a-t-il eu un retard lors de la date T-1 ? *</td>
+                            <th id="tore">{{ form_widget(form.choix1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="40%" style="padding-left: 1%"><label id="phaseb_choix1-error" class="error" for="phaseb_choix1"></label></th>
+                            <th   style="padding-left: 1%"><label id="phaseb_choix1-error" class="error" for="phaseb_choix1"></label></th>
                         </tr>
                     </table>
                     <table style="border-color: white;width:100%">
@@ -170,7 +174,7 @@
                         <tr id="datereell1" style="display: none" >
                             <th width="15%"> {{ form_label(form, 'Date réelle T-1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.datereell1, {
+                            <th id="tore">{{ form_widget(form.datereell1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phaseb_datereell1-error" class="error" for="phaseb_datereell1"></label></th>
@@ -191,7 +195,7 @@
                         <tr id="date0" >
                             <th width="15%"> {{ form_label(form, 'Date T0 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.date0, {
+                            <th id="tore">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phaseb_date0-error" class="error" for="phaseb_date0"></label></th>

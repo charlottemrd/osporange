@@ -89,6 +89,14 @@
              width: 100%;
          }
 
+         #tore{
+             width:20%;}
+
+         @media (max-width:765px)
+         {   #tore{
+             width:50%;
+         }}
+
 
 
 
@@ -146,7 +154,7 @@
 
                                 {{ form_label(form, 'Référence *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.reference, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -158,7 +166,7 @@
 
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.user, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -173,7 +181,7 @@
 
                                 {{ form_label(form, 'Phase', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -244,7 +252,7 @@
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%) *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.taux, {
+                            <th id="tore">{{ form_widget(form.taux, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th style="padding-left: 1%;width:50%" ><label id="modifyc_taux-error" class="error" for="modifyc_taux"></label></th>
@@ -252,7 +260,7 @@
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Respect du planning', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
+                            <th id="tore" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th style="padding-left: 1%;width:50%" ><label id="modifyc_isplanningrespecte-error" class="error" for="modifyc_isplanningrespecte"></label></th>
@@ -260,7 +268,7 @@
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Priorité', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.priorite, {
+                            <th id="tore">{{ form_widget(form.priorite, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th style="padding-left: 1%;width:50%" ><label id="modifyc_priorite-error" class="error" for="modifyc_priorite"></label></th>
@@ -297,7 +305,7 @@
 
                                 {{ form_label(form, 'Date reel T-1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datereell1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
@@ -309,7 +317,7 @@
 
                                     {{ form_label(form, 'Date T0 *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
+                                <th  id="tore">
                                     {{ form_widget(form.date0, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
@@ -323,7 +331,7 @@
 
                                     {{ form_label(form, 'Date réel T-1', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
+                                <th id="tore">
                                     {{ form_widget(form.datereell1, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
@@ -335,7 +343,7 @@
 
                                     {{ form_label(form, 'Date T0', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
+                                <th  id="tore">
                                     {{ form_widget(form.date0, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
@@ -358,7 +366,7 @@
                                     {{ form_label(commentaire.description, 'Commentaire *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
-                                <th  width="20%">
+                                <th  id="tore">
                                     {{ form_widget(commentaire.description, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
@@ -383,7 +391,7 @@
 
                                             {{ form_label(form, 'Commentaire *', {
                                                 'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                        <th  width="20%">
+                                        <th id="tore">
                                             {{ form_widget(commentairesField.description, {
                                                 'label_attr': {'class': 'form_control'}}
                                             ) }}

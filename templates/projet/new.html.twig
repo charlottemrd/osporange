@@ -16,9 +16,6 @@
              width: 100%;
 
          }
-         select#projet_paiement.projet_paiement{
-             width: 200%;
-         }
 
 
          textarea {
@@ -99,15 +96,21 @@
          .select23::-ms-expand {
              display: none;
          }
+         #tocutlab{
+             width:15%;
+         }
 
          @media screen and (max-width: 600px)
          {
-             thead, tbody, tfoot, tr, td, th {
+             thead, tbody, tfoot,  td {
                  width: 25%;
-            }
+             }
              toreduc1{
                  width:100%;
-         }
+             }
+             #tocutlab{
+                 width:30%;
+             }
              select#projet_paiement.projet_paiement{
                  width: auto;}
              input#garanti,input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,textarea#projet_description {
@@ -291,53 +294,54 @@
                     </div>
                     <table style="border-color: white;width:100%">
                         <tr id="datel1">
-                            <th  width="15%"> {{ form_label(form, 'Date T-1',{
+                            <th id="tocutlab" > {{ form_label(form, 'Date T-1',{
                                     'label_attr': {'class': 'input-group-text','id': 'label_tl1'}}) }}</th>
                             <th width="20%">{{ form_widget(form.datel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th class="toreduc1"  width="50%" style="padding-left: 1%"><label id="projet_datel1-error" class="error" for="projet_datel1"></label></th>
+                            <th style="padding-left: 1%"><label id="projet_datel1-error" class="error" for="projet_datel1"></label></th>
+
                         </tr>
                         <tr id="date0">
-                            <th width="15%"> {{ form_label(form, 'Date T0', {
+                            <th id="tocutlab"  > {{ form_label(form, 'Date T0', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_t0'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  class="toreduc" width="50%" style="padding-left: 1%"><label id="projet_date0-error" class="error" for="projet_date0"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_date0-error" class="error" for="projet_date0"></label></th>
                         </tr>
 
                         <tr id="date1">
-                            <th width="15%"> {{ form_label(form, 'Date T1', {
+                            <th id="tocutlab" > {{ form_label(form, 'Date T1', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_t1'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th class="toreduc" width="50%" style="padding-left: 1%"><label id="projet_date1-error" class="error" for="projet_date1"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_date1-error" class="error" for="projet_date1"></label></th>
                         </tr>
                         <tr id="date2">
-                            <th width="15%"> {{ form_label(form, 'Date T2', {
+                            <th id="tocutlab" > {{ form_label(form, 'Date T2', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_t2'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th class="toreduc"  width="50%" style="padding-left: 1%"><label id="projet_date2-error" class="error" for="projet_date2"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_date2-error" class="error" for="projet_date2"></label></th>
                         </tr>
                         <tr id="date3">
-                            <th width="15%"> {{ form_label(form, 'Date T3', {
+                            <th id="tocutlab" > {{ form_label(form, 'Date T3', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_t3'}}) }}</th>
                             <th width="20%">{{ form_widget(form.date3, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th class="toreduc"  width="50%" style="padding-left: 1%"><label id="projet_date3-error" class="error" for="projet_date3"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_date3-error" class="error" for="projet_date3"></label></th>
                         </tr>
                         <tr id="datespec">
-                            <th width="15%" > {{ form_label(form, 'Date de spécifications', {
+                            <th id="tocutlab" > {{ form_label(form, 'Date de spécifications', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_spec'}}) }}</th>
-                            <th width="20%" >{{ form_widget(form.datespec, {
+                            <th width="15%" >{{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th class="toreduc"  width="50%" style="padding-left: 1%"><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
+                            <th><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
                         </tr>
                         <tr>
                             <th> <p id="messerror1"></p></th>
@@ -398,7 +402,7 @@
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
-                    <table>
+                    <table width="100%">
 
                         <tr id="mode">
                             <th  width="15%"> {{ form_label(form, 'Mode de paiement *', {
@@ -406,6 +410,8 @@
                             <th  width="20%">{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
+                            <th   style="padding-left: 1%"><label id="projet_paiement-error" class="error" for="projet_paiement"></label></th>
+
 
                         </tr>
                         </tr>
@@ -415,24 +421,24 @@
                             <th width="20%">{{ form_widget(form.garanti, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="projet_garanti-error" class="error" for="projet_garanti"></label></th>
+                            <th   style="padding-left: 1%"><label id="projet_garanti-error" class="error" for="projet_garanti"></label></th>
 
-                             </tr>
+                        </tr>
                         <tr id="debit1bm" style="display: none">
                             <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
                                     'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
                             <th width="20%">{{ form_widget(form.debit1bm, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit1bm-error" class="error" for="projet_debit1bm"></label></th>
-                             </tr>
+                            <th  style="padding-left: 1%"><label id="projet_debit1bm-error" class="error" for="projet_debit1bm"></label></th>
+                        </tr>
                         <tr id="debit2bm" style="display: none">
                             <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
                                     'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
                             <th width="20%">{{ form_widget(form.debit2bm, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit2bm-error" class="error" for="projet_debit2bm"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_debit2bm-error" class="error" for="projet_debit2bm"></label></th>
 
                         </tr>
                         <tr id="debit3bm" style="display: none">
@@ -441,7 +447,7 @@
                             <th width="20%">{{ form_widget(form.debit3bm, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="projet_debit3bm-error" class="error" for="projet_debit2bm"></label></th>
+                            <th  style="padding-left: 1%"><label id="projet_debit3bm-error" class="error" for="projet_debit3bm"></label></th>
                         </tr>
 
                     </table>
@@ -604,8 +610,8 @@
 
 
 
-                    document.getElementById('navmode').style.display="block";
-                    document.getElementById('mode').style.display="inline-block";
+                    document.getElementById('navmode').style.display="none";
+                    document.getElementById('mode').style.display="none";
                     document.getElementById("projet_paiement").required=false;
 
                     document.getElementById('modalites').style.display="none";
@@ -743,7 +749,7 @@
 
 
                     document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="inline-block";
+                    document.getElementById('mode').style.display="table-row";
                 }
 
 
@@ -784,7 +790,7 @@
 
 
                     document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="block";
+                    document.getElementById('mode').style.display="table-row";
                     document.getElementById("projet_paiement").required=true;
 
 
@@ -825,7 +831,7 @@
 
 
                     document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="inline-block";
+                    document.getElementById('mode').style.display="table-row";
                     document.getElementById("projet_paiement").required=true;
 
 
@@ -866,7 +872,7 @@
 
 
                     document.getElementById('navmode').style.display="none";
-                    document.getElementById('mode').style.display="inline-block";
+                    document.getElementById('mode').style.display="table-row";
                     document.getElementById("projet_paiement").required=true;
 
 
@@ -989,9 +995,9 @@
                         document.getElementById('projet_debit3bm').required=true;
                         document.getElementById('projet_debit3bm').value='80'
 
-                        document.getElementById('debit1bm').style.display="block";
-                        document.getElementById('debit2bm').style.display="block";
-                        document.getElementById('debit3bm').style.display="block";
+                        document.getElementById('debit1bm').style.display="table-row";
+                        document.getElementById('debit2bm').style.display="table-row";
+                        document.getElementById('debit3bm').style.display="table-row";
 
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
@@ -999,7 +1005,7 @@
                     }
                     if (selectValue2=='2'){ //modalite
                         document.getElementById('projet_garanti').required=true;
-                        document.getElementById('garanti').style.display="block";
+                        document.getElementById('garanti').style.display="table-row";
                         document.getElementById('modalites').style.display="block";
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
@@ -1277,7 +1283,7 @@
                                 }
                             }
                             if((jalontaille!=0)&&(!jalontaux.includes(100))) {
-                                    full=true;
+                                full=true;
 
                             }
 

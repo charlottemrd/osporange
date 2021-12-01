@@ -5,7 +5,7 @@
     "language": {
     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
 },
-
+    responsive:true,
     pagingType: "simple_numbers",
     "bLengthChange": false,
     "bInfo" : false,

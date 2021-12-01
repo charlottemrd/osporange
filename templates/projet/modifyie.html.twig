@@ -89,6 +89,25 @@
              width: 100%;
          }
 
+         label#debit1bm,label#debit2bm,label#debit3bm{
+             white-space: pre-wrap;
+         }
+
+         #tore{width:20%;}
+         #toc{width:50%;}
+
+         @media (max-width:765px)
+         {
+             #tore{width:50%;}
+             #toc{width:100%;}
+             #tof{width:60%;
+             }
+             input#modifyie_garanti{
+                 width:1500%;
+             }
+         }
+
+
 
 
 
@@ -156,24 +175,24 @@
 
                                 {{ form_label(form, 'Référence *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.reference, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%;width: 50%"><label id="modifyie                           modifyie_reference-error" class="error" for="modifyie                           modifyie_reference"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_reference-error" class="error" for="modifyie_reference"></label></th>
                         </tr>
                         <tr style="border-color: white" >
                             <th>
 
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.user, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_user-error" class="error" for="modifyie                           modifyie_user"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_user-error" class="error" for="modifyie_user"></label></th>
 
 
                         </tr>
@@ -183,12 +202,12 @@
 
                                 {{ form_label(form, 'Phase', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.Phase, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_Phase-error" class="error" for="modifyie                           modifyie_Phase"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_Phase-error" class="error" for="modifyie_Phase"></label></th>
 
 
                         </tr>
@@ -200,7 +219,7 @@
                             <th>{{ form_widget(form.domaine, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_domaine-error" class="error" for="modifyie                           modifyie_domaine"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_domaine-error" class="error" for="modifyie_domaine"></label></th>
 
 
                         </tr>
@@ -210,7 +229,7 @@
                             <th>{{ form_widget(form.sdomaine, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_sdomaine-error" class="error" for="modifyie                           modifyie_sdomaine"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_sdomaine-error" class="error" for="modifyie_sdomaine"></label></th>
 
 
                         </tr>
@@ -221,7 +240,7 @@
                             <th>{{ form_widget(form.fournisseur, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_fournisseur-error" class="error" for="modifyie                           modifyie_fournisseur"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_fournisseur-error" class="error" for="modifyie_fournisseur"></label></th>
 
 
                         </tr>
@@ -232,7 +251,7 @@
                             <th>{{ form_widget(form.typebu, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_typebu-error" class="error" for="modifyie                           modifyie_typebu"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_typebu-error" class="error" for="modifyie_typebu"></label></th>
 
 
                         </tr>
@@ -243,7 +262,7 @@
                             <th>{{ form_widget(form.description, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_description-error" class="error" for="modifyie                           modifyie_description"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_description-error" class="error" for="modifyie_description"></label></th>
                         </tr>
                     </table>
 
@@ -254,26 +273,26 @@
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Taux d\'avancement (%) *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.taux, {
+                            <th id="tore">{{ form_widget(form.taux, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%;width:50%" ><label id="modifyie                           modifyie_taux-error" class="error" for="modifyie                           modifyie_taux"></label></th>
+                            <th style="padding-left: 1%" ><label id="modifyie_taux-error" class="error" for="modifyie_taux"></label></th>
                         </tr>
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Respect du planning', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
+                            <th id="tore" style="text-align: left">{{ form_widget(form.isplanningrespecte, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%;width:50%" ><label id="modifyie                           modifyie_isplanningrespecte-error" class="error" for="modifyie                           modifyie_isplanningrespecte"></label></th>
+                            <th style="padding-left: 1%" ><label id="modifyie_isplanningrespecte-error" class="error" for="modifyie_isplanningrespecte"></label></th>
                         </tr>
                         <tr>
                             <th width="15%"> {{ form_label(form, 'Priorité', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="20%">{{ form_widget(form.priorite, {
+                            <th id="tore">{{ form_widget(form.priorite, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th style="padding-left: 1%;width:50%" ><label id="modifyie                           modifyie_priorite-error" class="error" for="modifyie                           modifyie_priorite"></label></th>
+                            <th style="padding-left: 1%" ><label id="modifyie_priorite-error" class="error" for="modifyie_priorite"></label></th>
                         </tr>
                         <tr style="border-color: white">
                             <th>
@@ -284,7 +303,7 @@
                                 {{ form_widget(form.risque, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
-                            <th style="padding-left: 1%"><label id="modifyie                           modifyie_risque_error" class="error" for="modifyie                           modifyie_risque"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_risque_error" class="error" for="modifyie_risque"></label></th>
 
                             </th>
 
@@ -307,12 +326,12 @@
 
                                 {{ form_label(form, 'Date réel T-1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th  id="tore">
                                 {{ form_widget(form.datereell1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datereell1-error" class="error" for="modifyie_datereell1"></label></th>
+                            <th  style="padding-left: 1%"><label id="modifyie_datereell1-error" class="error" for="modifyie_datereell1"></label></th>
 
                         </tr>
                         <tr style="border-color: white" id="navdate0" >
@@ -320,12 +339,12 @@
 
                                 {{ form_label(form, 'Date réel T0 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datereel0, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datereel0-error" class="error" for="modifyie_datereel0"></label></th>
+                            <th  style="padding-left: 1%"><label id="modifyie_datereel0-error" class="error" for="modifyie_datereel0"></label></th>
 
                         </tr>
 
@@ -334,12 +353,12 @@
 
                                 {{ form_label(form, 'Date réel T1 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datereel1, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datereel1-error" class="error" for="modifyie_datereel1"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_datereel1-error" class="error" for="modifyie_datereel1"></label></th>
 
                         </tr>
 
@@ -348,12 +367,12 @@
 
                                 {{ form_label(form, 'Date réel T2 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datereel2, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datereel2-error" class="error" for="modifyie_datereel2"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_datereel2-error" class="error" for="modifyie_datereel2"></label></th>
                         </tr>
 
                         <tr style="border-color: white" id="navdate3">
@@ -361,12 +380,12 @@
 
                                 {{ form_label(form, 'Date réel T3 *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datereel3, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datereel3-error" class="error" for="modifyie_datereel3"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_datereel3-error" class="error" for="modifyie_datereel3"></label></th>
 
                         </tr>
                         <tr style="border-color: white" >
@@ -374,12 +393,12 @@
 
                                 {{ form_label(form, 'Date des spécifications *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th  width="20%">
+                            <th id="tore">
                                 {{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th  width="50%" style="padding-left: 1%"><label id="modifyie_datespec-error" class="error" for="modifyie_datespec"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_datespec-error" class="error" for="modifyie_datespec"></label></th>
                         </tr>
 
 
@@ -430,10 +449,10 @@
                         <tr id="mode">
                             <th> {{ form_label(form, 'Mode de paiement', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th id="xmode">{{ form_widget(form.paiement, {
+                            <th >{{ form_widget(form.paiement, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
-                            <th  id ="bmode" width="50%" style="padding-left: 1%"><label id="modifyie_paiement-error" class="error" for="modifyie_paiement"></label></th>
+                            <th    style="padding-left: 1%"><label id="modifyie_paiement-error" class="error" for="modifyie_paiement"></label></th>
 
                         </tr>
                     </table>
@@ -441,42 +460,42 @@
 
 
                     {%if projet.paiement!="bilan mensuel" %}
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div class="input-group mb-3">
                             <table>
                                 <tr>
                                 <th width="15%">
                                     {{ form_label(form, 'Durée de la garantie (mois)', {
                                         'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                <th  width="20%">
+                                <th id="tore">
                                     {{ form_widget(form.garanti, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th  width="50%" style="padding-left: 1%"><label id="modifyie_garanti-error" class="error" for="modifyie_garanti"></label></th>
+                                <th   style="padding-left: 1%"><label id="modifyie_garanti-error" class="error" for="modifyie_garanti"></label></th>
                                 </tr>
                                 <tr id="debit1bm" style="display: none">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                    <th id="tore">{{ form_widget(form.debit1bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit1bm-error" class="error" for="modifyie_debit1bm"></label></th>
+                                    <th  style="padding-left: 1%"><label id="modifyie_debit1bm-error" class="error" for="modifyie_debit1bm"></label></th>
                                 </tr>
                                 <tr id="debit2bm" style="display: none">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                    <th id="tore">{{ form_widget(form.debit2bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit2bm-error" class="error" for="modifyie_debit2bm"></label></th>
+                                    <th   style="padding-left: 1%"><label id="modifyie_debit2bm-error" class="error" for="modifyie_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display: none">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                    <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit3bm-error" class="error" for="modifyie_debit3bm"></label></th>
+                                    <th   style="padding-left: 1%"><label id="modifyie_debit3bm-error" class="error" for="modifyie_debit3bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -639,42 +658,42 @@
 
                     {%else %}
 
-                        <div class="input-group mb-3" style="width: 50%">
+                        <div class="input-group mb-3" id="toc">
                             <table>
                                 <tr style="display: none">
                                     <th width="15%" >
                                         {{ form_label(form, 'Durée de la garantie (mois)', {
                                             'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                    <th  width="20%">
+                                    <th id="tore">
                                         {{ form_widget(form.garanti, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}
                                     </th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_garanti-error" class="error" for="modifyie_garanti"></label></th>
+                                    <th style="padding-left: 1%"><label id="modifyie_garanti-error" class="error" for="modifyie_garanti"></label></th>
                                 </tr>
                                 <tr id="debit1bm" style="display: block">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit1bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit1bm, {
+                                    <th id="tore">{{ form_widget(form.debit1bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit1bm-error" class="error" for="modifyie_debit1bm"></label></th>
+                                    <th   style="padding-left: 1%"><label id="modifyie_debit1bm-error" class="error" for="modifyie_debit1bm"></label></th>
                                 </tr>
                                 <tr id="debit2bm" style="display: block">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit2bm, {
+                                    <th id="tore">{{ form_widget(form.debit2bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit2bm-error" class="error" for="modifyie_debit2bm"></label></th>
+                                    <th   style="padding-left: 1%"><label id="modifyie_debit2bm-error" class="error" for="modifyie_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display:block">
-                                    <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
-                                    <th width="20%">{{ form_widget(form.debit3bm, {
+                                    <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
-                                    <th  width="50%" style="padding-left: 1%"><label id="modifyie_debit3bm-error" class="error" for="modifyie_debit3bm"></label></th>
+                                    <th   style="padding-left: 1%"><label id="modifyie_debit3bm-error" class="error" for="modifyie_debit3bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -693,12 +712,12 @@
                                     {{ form_label(commentaire.description, 'Commentaire *', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
-                                <th  width="20%">
+                                <th id="tore">
                                     {{ form_widget(commentaire.description, {
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyie_commentaires-error" class="error" for="modifyie_commentaires"></label></th>
 
                             </tr>
 
@@ -718,12 +737,12 @@
 
                                             {{ form_label(form, 'Commentaire *', {
                                                 'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                        <th  width="20%">
+                                        <th id="tore">
                                             {{ form_widget(commentairesField.description, {
                                                 'label_attr': {'class': 'form_control'}}
                                             ) }}
                                         </th>
-                                        <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                        <th style="padding-left: 1%"><label id="modifyie_commentaires-error" class="error" for="modifyie_commentaires"></label></th>
                                     </tr>
                                     <br>
                                 </table>
