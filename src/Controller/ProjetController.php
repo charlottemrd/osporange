@@ -38,6 +38,7 @@ use App\Form\PhaseaType;
 use App\Form\PhasebType;
 use App\Entity\SearchData;
 use App\Controller\BilanMensuelController;
+use App\Service\Monthleft;
 use App\Repository\BilanmensuelRepository;
 use App\Repository\CoutRepository;
 use App\Repository\DatepvinterneRepository;
@@ -292,7 +293,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/cout', name: 'projet_cout', methods: ['GET', 'POST'])]
-    public function cout(BilanMensuelController $bilanMensuelController,  ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function cout(Monthleft $monthleft, BilanMensuelController $bilanMensuelController,  ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         $mform = $this->createForm(ProjetCoutType::class, $projet);
         $mform->handleRequest($request);
@@ -317,8 +318,10 @@ class ProjetController extends AbstractController
                     foreach ($profilsfournisseur as $po){
                         $info1=new Infobilan();
                         //   $pcom=whichpoc($projet);
-                        $mth=manymonthleft($projet,$idmonthbmpasse);
-                        $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
+                        //$mth=manymonthleft($projet,$idmonthbmpasse);
+                        //$sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
+                        $mth= $monthleft->manymonthleft($projet,$idmonthbmpasse);
+                        $sxz = $monthleft->proposeTGIM($infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
 
                         $info1->setNombreprofit($sxz);
                         $info1->setProfil($po);
@@ -345,8 +348,11 @@ class ProjetController extends AbstractController
                     foreach ($profilsfournisseur as $po){
                         $info1=new Infobilan();
                         //    $pcom=whichpoc($projet);
-                        $mth=manymonthleft($projet,$infmon);
-                        $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
+
+                        $mth= $monthleft->manymonthleft($projet,$infmon);
+                        $sxz = $monthleft->proposeTGIM($infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
+
+
                         $info1->setNombreprofit($sxz);
                         $info1->setProfil($po);
                         $info1->setBilanmensuel($bilanadd);
@@ -1257,7 +1263,7 @@ class ProjetController extends AbstractController
     }
 
     #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
-    public function phase(PvinternesRepository $pvinternesRepository, DatepvinterneRepository $datepvinterneRepository, ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
+    public function phase(Monthleft $monthleft,PvinternesRepository $pvinternesRepository, DatepvinterneRepository $datepvinterneRepository, ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
             $form = $this->createForm(PhaseaType::class, $projet);
@@ -1385,8 +1391,11 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 //$pcom=whichpoc($projet);
-                                $mth = manymonthleft($projet,$idmonthbmpasse);
-                                $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
+                                //$mth = manymonthleft();
+                                $mth= $monthleft->manymonthleft($projet,$idmonthbmpasse);
+                                $sxz = $monthleft->proposeTGIM($infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet, $mth);
+
+
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
                                 $info1->setBilanmensuel($bilanadd);
@@ -1417,8 +1426,11 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 //   $pcom=whichpoc($projet);
-                                $mth=manymonthleft($projet,$infmon);
-                                $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
+
+                                $mth= $monthleft->manymonthleft($projet,$infmon);
+                                $sxz = $monthleft->proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
+
+
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
                                 $info1->setBilanmensuel($bilanadd);
@@ -1437,7 +1449,7 @@ class ProjetController extends AbstractController
 
                 if($projet->getPhase()->getId()==6) {
                     if ($projet->getPaiement()->getId() == 1) {
-                        $couttotal = coutprojet($projet);
+                        $couttotal = $monthleft->coutprojet($projet);
                         $anciensbilans = $infobilanRepository->searchinfobilandebitefalse($projet->getId());
 
                         if (sizeof($anciensbilans, COUNT_NORMAL) == 0) {
@@ -1451,7 +1463,8 @@ class ProjetController extends AbstractController
                                 $coutdebit = $coutdebit + ($nb * $pmd);
                             }
                         }
-                        $pourcentage = whichpoc($projet);
+
+                        $pourcentage = $monthleft->whichpoc($projet);
                         if ($coutdebit > $couttotal * ($pourcentage / 100)) {
                             $inf = $bilanmensuelRepository->findOneBy(array('id' => $mybilan));
                             foreach ($inf->getInfobilans() as $fo) {
@@ -1484,6 +1497,7 @@ class ProjetController extends AbstractController
                             $pvinterne->setDate($pvinternepass);
                             $pvinterne->setIsmodified(false);
                             $pvinterne->setIsvalidate(false);
+                            $pvinterne->setDatedebut(new \DateTime());
                             $pvinterne->setPourcentage(0);
                             $this->getDoctrine()->getManager()->persist($pvinterne);
 
@@ -1495,6 +1509,7 @@ class ProjetController extends AbstractController
                             $datepvinterne->setDatemy(new \DateTime());
                             $pvinterne=new Pvinternes();
                             $pvinterne->setProjet($projet);
+                            $pvinterne->setDatedebut(new \DateTime());
                             $pvinterne->setDate($datepvinterne);
                             $pvinterne->setIsmodified(false);
                             $pvinterne->setIsvalidate(false);
@@ -1831,8 +1846,9 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po){
                                 $info1=new Infobilan();
                                 // $pcom=whichpoc($projet);
-                                $mth=manymonthleft($projet,$idmonthbmpasse);
-                                $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet,$mth);
+                                $mth= $monthleft->manymonthleft($projet,$idmonthbmpasse);
+                                $sxz= $monthleft->proposeTGIM( $infobilanRepository, $coutRepository,  $idmonthbmpasse,$po, $projet,$mth);
+
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
                                 $info1->setBilanmensuel($bilanadd);
@@ -1858,8 +1874,8 @@ class ProjetController extends AbstractController
                             foreach ($profilsfournisseur as $po) {
                                 $info1 = new Infobilan();
                                 // $pcom=whichpoc($projet);
-                                $mth=manymonthleft($projet,$infmon);
-                                $sxz= proposeTGIM( $infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
+                                $mth=$monthleft->manymonthleft($projet,$infmon);
+                                $sxz=$monthleft->proposeTGIM($infobilanRepository, $coutRepository,  $infmon,$po, $projet, $mth);
                                 $info1->setNombreprofit($sxz);
                                 $info1->setProfil($po);
                                 $info1->setBilanmensuel($bilanadd);
@@ -1867,32 +1883,48 @@ class ProjetController extends AbstractController
                             }
                         }
                     }
-                    else{
-                        $dateactuelle=new \DateTime();
-                        $moisencours=date_format($dateactuelle, 'm');
-                        $anneeencours=date_format($dateactuelle, 'Y');
-                        //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
-                        $pvinternepass=$datepvinterneRepository->owndatepv($moisencours,$anneeencours);
-                        if($pvinternepass){ //on cree un pv interne avec date= pv interne pass
+                    else {
 
-                            $pvinterne=new Pvinternes();
+                        $maxpvs=$pvinternesRepository->maxpv($projet->getId());
+                        $pourcentagepv = array();
+                        foreach ($maxpvs as$po){
+                            array_push($pourcentagepv,$po->getPourcentage());
+                        }
+                        if(sizeof($pourcentagepv,COUNT_NORMAL)==0){
+                            $maxpv=0;
+                        }
+                        else {
+                            $maxpv = max($pourcentagepv);
+                        }
+                        if($maxpv!=100){
+
+
+                        $dateactuelle = new \DateTime();
+                        $moisencours = date_format($dateactuelle, 'm');
+                        $anneeencours = date_format($dateactuelle, 'Y');
+                        //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
+                        $pvinternepass = $datepvinterneRepository->owndatepv($moisencours, $anneeencours);
+                        if ($pvinternepass) { //on cree un pv interne avec date= pv interne pass
+
+                            $pvinterne = new Pvinternes();
                             $pvinterne->setProjet($projet);
                             $pvinterne->setDate($pvinternepass);
                             $pvinterne->setIsmodified(false);
+                            $pvinterne->setDatedebut(new \DateTime());
                             $pvinterne->setIsvalidate(false);
                             $pvinterne->setPourcentage(0);
                             $this->getDoctrine()->getManager()->persist($pvinterne);
 
 
-                        }
-                        else{ // on cree tout
+                        } else { // on cree tout
 
-                            $datepvinterne=new Datepvinterne();
+                            $datepvinterne = new Datepvinterne();
                             $datepvinterne->setDatemy(new \DateTime());
-                            $pvinterne=new Pvinternes();
+                            $pvinterne = new Pvinternes();
                             $pvinterne->setProjet($projet);
                             $pvinterne->setDate($datepvinterne);
                             $pvinterne->setIsmodified(false);
+                            $pvinterne->setDatedebut(new \DateTime());
                             $pvinterne->setIsvalidate(false);
                             $pvinterne->setPourcentage(0);
                             $this->getDoctrine()->getManager()->persist($datepvinterne);
@@ -1900,6 +1932,7 @@ class ProjetController extends AbstractController
 
 
                         }
+                    }
                     }
                 }
                 $this->getDoctrine()->getManager()->flush();

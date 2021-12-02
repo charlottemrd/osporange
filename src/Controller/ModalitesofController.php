@@ -195,22 +195,22 @@ class ModalitesofController extends AbstractController
     
      <tr>
        <td style="font-weight: bold;font-size:12vh">'.$fournisseur.'</td>
-        <td style="font-size:12vh">Facture ' .$facture.'</td>
+        <td style="font-size:12vh">Facture : ' .$facture.'</td>
     </tr>
      <tr>
         <td style="font-size:12vh">Objet : '.$objet.'</td>
-        <td style="font-size:12vh">Réf. Contrat Cadre SAP ' .$refcontratsap.'</td>
+        <td style="font-size:12vh">Réf. Contrat Cadre SAP : ' .$refcontratsap.'</td>
     </tr>
      <tr>
-        <td style="font-size:12vh">Référence PV '.$refpv.'</td>
+        <td style="font-size:12vh">Référence PV : '.$refpv.'</td>
         <td style="font-size:12vh">Bon de commande : '.$boncommande.'</td>
     </tr>
     <tr>
         <td style="font-size:12vh">Date PV : '.$datepv.'</td>
-        <td style="font-size:12vh">Période du ' .$datedebut.'</td>
+        <td style="font-size:12vh">Période du : ' .$datedebut.'</td>
     </tr>
      <tr>
-        <td style="font-size:12vh">Réf. Contrat '.$refcontrat.'</td>
+        <td style="font-size:12vh">Réf. Contrat : '.$refcontrat.'</td>
         <td style="font-size:12vh">Au : '.$datefin.'</td>
     </tr>
 

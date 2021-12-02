@@ -84,8 +84,15 @@
         input,select,textarea{
             width: 120%;
         }
+         #tore{width:20%;}
 
-
+         @media (max-width:765px)
+         {
+             #tore{width:50%;}
+             input,select,textarea{
+                 width: 100%;
+             }
+         }
 
 
      </style>
@@ -99,68 +106,67 @@
         <br>
         <h1 class="text-center">Fiche de liaison du projet : {{ projet.reference }}</h1>
         <br>
-
         {{ form_start(form, {'attr': {'id': 'myForm'}}) }}
         <div style="display:flex;justify-content:center">
-<table>
+<table width="100%">
         <tr>
-            <th> {{ form_label(form, 'Référence de fiche de liaison *', {
+            <th width="15%"> {{ form_label(form, 'Référence de fiche de liaison *', {
                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.reference, {
+            <th id="tore">{{ form_widget(form.reference, {
                     'label_attr': {'class': 'form_control'}}
                 ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_reference-error" class="error" for="fichefl_reference"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Date d\'émission *', {
+            <th width="15%"> {{ form_label(form, 'Date d\'émission *', {
                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.dateemis, {
+            <th id="tore">{{ form_widget(form.dateemis, {
                     'label_attr': {'class': 'form_control'}}
                 ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_dateemis-error" class="error" for="fichefl_dateemis"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Priorité *', {
+            <th width="15%"> {{ form_label(form, 'Priorité *', {
                 'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.priorite, {
+            <th id="tore">{{ form_widget(form.priorite, {
                 'label_attr': {'class': 'form_control'}}
             ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_priorite-error" class="error" for="fichefl_priorite"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Emetteur *', {
+            <th width="15%"> {{ form_label(form, 'Emetteur *', {
                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.emetteur, {
+            <th id="tore">{{ form_widget(form.emetteur, {
                     'label_attr': {'class': 'form_control'}}
                 ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_emetteur-error" class="error" for="fichefl_emetteur"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Sujet *', {
+            <th width="15%">{{ form_label(form, 'Sujet *', {
                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.sujet, {
+            <th id="tore">{{ form_widget(form.sujet, {
                     'label_attr': {'class': 'form_control'}}
                 ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_sujet-error" class="error" for="fichefl_sujet"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Description *', {
+            <th width="15%">{{ form_label(form, 'Description *', {
                 'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.description, {
+            <th id="tore">{{ form_widget(form.description, {
                 'label_attr': {'class': 'form_control'}}
             ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_piecejointes-error" class="error" for="fichefl_piecejointes"></label></th>
         </tr>
     <br>
         <tr>
-            <th> {{ form_label(form, 'Pièces jointes', {
+            <th width="15%">{{ form_label(form, 'Pièces jointes', {
                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-            <th>{{ form_widget(form.piecejointes, {
+            <th id="tore">{{ form_widget(form.piecejointes, {
                     'label_attr': {'class': 'form_control'}}
                 ) }}</th>
             <th style="padding-left: 1%"><label id="fichefl_piecejointes-error" class="error" for="fichefl_piecejointes"></label></th>

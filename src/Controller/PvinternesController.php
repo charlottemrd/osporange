@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use TCPDF;
 
 #[Route('/pvinternes')]
 class PvinternesController extends AbstractController
@@ -156,6 +157,7 @@ class PvinternesController extends AbstractController
                         } else {
                             $pvinternes->setPourcentage($taux);
                             $pvinternes->setIsvalidate(true);
+                            $pvinternes->setDatefin(new \DateTime());
                             $mymonth=date_format($datepvinterne->getDatemy(),'m');
                             $myyear=date_format($datepvinterne->getDatemy(),'Y');
                             if ($mymonth == 12) {
@@ -173,6 +175,7 @@ class PvinternesController extends AbstractController
                                     $pvinterne = new Pvinternes();
                                     $pvinterne->setProjet($pvinternes->getProjet());
                                     $pvinterne->setDate($existpv);
+                                    $pvinterne->setDatedebut(new \DateTime());
                                     $pvinterne->setIsmodified(false);
                                     $pvinterne->setIsvalidate(false);
                                     $pvinterne->setPourcentage(0);
@@ -184,6 +187,7 @@ class PvinternesController extends AbstractController
                                     $datepvinterne = new Datepvinterne();
                                     $datepvinterne->setDatemy($sched);
                                     $pvinterne = new Pvinternes();
+                                    $pvinterne->setDatedebut(new \DateTime());
                                     $pvinterne->setProjet($pvinternes->getProjet());
                                     $pvinterne->setDate($datepvinterne);
                                     $pvinterne->setIsmodified(false);
@@ -202,7 +206,7 @@ class PvinternesController extends AbstractController
                                 'status' => 'OK',
                                 'message' => 'le PVR interne',
                                 'success' => true,
-                                'redirect' => $this->generateUrl('projet_new')
+                                'redirect' => $this->generateUrl('pvrinternes_pvr', [ 'id'=> $pvinternes->getId()]),
                             ),
                                 200);
 
@@ -248,6 +252,8 @@ class PvinternesController extends AbstractController
     public function pvr(Request $request, Pvinternes $pvinternes): Response
     {
         $form = $this->createForm(PvrType::class, $pvinternes);
+        $form->get('signataire')->setData($this->getUser());
+        $form->get('datesignature')->setData(new \DateTime());
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -284,7 +290,7 @@ class PvinternesController extends AbstractController
             $fournisseur=$pvinternes->getProjet()->getFournisseur()->getName();
 
             try {
-                //$this->createpvr($objet,$refpv,$datepv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $datesignature, $fournisseur);
+                $this->createpvr($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire,  $datesignature, $fournisseur);
             }
             catch (IOException $exception){}
 
@@ -298,9 +304,237 @@ class PvinternesController extends AbstractController
 
 
 
+    function createpvr($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $fournisseur)
+{
+
+        // create new PDF document
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+        $pdf->SetTitle('Fiche de liaison');
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+        $pdf->SetMargins(PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+        $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM,PDF_MARGIN_LEFT,  PDF_MARGIN_RIGHT);
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+        $pdf->SetFont('dejavusans', '', 10);
+        $pdf->AddPage();
+
+
+        $tbf ='';
+        $tbf='
+    <div style="width: 100%;border-bottom: black 2px solid">
+   <table cellspacing="0" cellpadding="0" border="0">
+    
+     <tr>
+       <td style="font-weight: bold;font-size:12vh">'.$fournisseur.'</td>
+        <td style="font-size:12vh">Facture : ' .$facture.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Objet : '.$objet.'</td>
+        <td style="font-size:12vh">Réf. Contrat Cadre SAP : ' .$refcontratsap.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Référence PV : '.$refpv.'</td>
+        <td style="font-size:12vh">Bon de commande : '.$boncommande.'</td>
+    </tr>
+    <tr>
+        <td style="font-size:12vh">Date PV : '.$datepv.'</td>
+        <td style="font-size:12vh">Période du : ' .$datedebut.'</td>
+    </tr>
+     <tr>
+        <td style="font-size:12vh">Réf. Contrat : '.$refcontrat.'</td>
+        <td style="font-size:12vh">Au : '.$datefin.'</td>
+    </tr>
+
+</table>
+</div>
+<div style="width: 100%;border-bottom: black 2px solid">
+<div style="font-size: 11vh">
+Les services/équipements relatives aux contrat/BC/Facture/Période cités ci-dessus  ont été bien réalisés selon les termes du bon de commande et/ou dispositions contractuelles convenus entre <span style="font-weight: bold">Orange Maroc</span> et <span style="font-weight: bold">'.$fournisseur.' </span></div>
+
+<div style="font-size: 11vh">Ce PV a été dressé aux fins de preuve et de confirmation de la bonne réalisation/livraison/installation des dites prestations/équipements sous réserves des remarques ci-dessous
+</div>
+<div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Réserves :
+</span>
+</div>';
+        if ($reservemajeure!=null){
+            $tbf.='
+    <div style="font-size: 12vh">
+       '.$reservemajeure.'
+</div>';
+        }
+        else
+        {$tbf.='
+        <div style="font-size: 12vh">- RAS</div>
+';
+        }
+
+    if ($reservemineure!=null){
+        $tbf.='
+    <div style="font-size: 12vh">
+       '.$reservemineure.'
+</div>';
+    }
+    else
+    {$tbf.='
+        <div style="font-size: 12vh">- RAS</div>
+';
+    }
+
+        $tbf.='
+<div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Dispositions contractuelles Sujettes de Validation :
+</span>
+</div>
+<table cellspacing="0" cellpadding="0" border="1">
+    
+     <tr>
+       <td style="font-size:12vh; text-align: center">Désignation</td>
+       <td style="font-size:12vh;text-align: center">Quantité livrée</td>
+        
+    </tr>
+     <tr>
+        <td style="font-size:12vh;text-align: center">'.$conditions.'</td>
+        <td style="font-size:12vh;text-align: center">'.$pourcentage.'</td>
+       
+    </tr>
+     <tr>
+         <td style="font-size:12vh;text-align: center">'.$nomdesignation.'</td>
+        <td style="font-size:12vh;text-align: center">'.$qttdesignation.'</td>
+    </tr>
+         <tr>
+         <td style="font-size:12vh;text-align: center">'.$nomdesignation2.'</td>
+        <td style="font-size:12vh;text-align: center">'.$qttdesignation2.'</td>
+    </tr>
+    </table>
+</div>
+<div style="width: 100%;border-bottom: black 2px solid">
+    <div style="font-size: 12vh">
+<span style="font-weight: bold;text-decoration-line: underline">
+Pénalités :
+</span>
+<span style="font-size: 10vh;text-decoration-line: underline">
+(Mention  Obligatoire)</span><br> <span font-size: 10vh>Est-ce que ce document constitue un « Bon à Payer »?  </span>                  
+';
+        if ($bonapayer==0) {
+            $tbf.='
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Oui</label>
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Non</label>
+   </div>             
+'; }
+
+        else  {  $tbf.='
+                <input type="checkbox" name="agree" value="1" checked="checked" disabled="disabled" readonly="readonly"/> <label for="agree">Oui</label>
+                <input type="checkbox" name="agree" value="0"  disabled="disabled" readonly="readonly"/> <label for="agree">Non</label>               
+</div>
+';}
+
+        $tbf.='
+
+        
+   
+    <br>
+    </div>
+ <div style="width: 100%;border-bottom: black 2px solid">
+<form method="post" action="http://localhost/printvars.php" >
+ <table cellspacing="0" cellpadding="0" border="1">
+    
+     <tr>
+       <td style="font-size:12vh; text-align: center"></td>
+       <td style="font-size:12vh;text-align: center;font-weight: bold">Orange Maroc</td>
+       <td style="font-size:12vh;text-align: center;font-weight: bold">'.$fournisseur.'</td>
+    </tr>
+    <tr>
+       <td style="font-size:12vh; text-align: center">Nom du signataire</td>
+       <td style="font-size:12vh;text-align: center">'.$signataire.'</td>
+       <td style="font-size:12vh;text-align: left"><input  type="text" name="name" value="" size="15"  maxlength="50" /></td>
+    </tr>
+    <tr>
+       <td style="font-size:12vh; text-align: center">Qualité du signataire</td>
+       <td style="font-size:12vh;text-align: center">'.$rolesignataire.'</td>
+       <td style="font-size:12vh;text-align: left"><input type="text" name="nameb" value="" size="15" maxlength="50" /></td>
+    </tr>
+     <tr>
+       <td style="font-size:12vh; text-align: center">Date</td>
+       <td style="font-size:12vh;text-align: center">'.$datesignature.'</td>
+       <td style="font-size:12vh;text-align: left"><input type="text" name="namec" value="" size="15" maxlength="20"/></td>
+    </tr> 
+    
+    <tr >
+       <td style="font-size:12vh; text-align: center">Cachet et signature</td>
+       <td style="font-size:12vh;text-align: center"><br><br><br></td>
+       <td style="font-size:12vh;text-align: center"><br><br><br></td>
+    </tr>   
+    
+ </table>
+ </form>
+ </div> 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    ';
+
+
+
+
+
+
+
+
+
+
+
+
+        //$pdf->WriteHTMLCell(200, 10,0,0,'', 'B', 'C', 0, 0);
+        $pdf->writeHTMLCell(200, 20,5 , 0,  '<img src="/photo/pvrentete.PNG">','B', 1, 0 );
+        $pdf->writeHTMLCell(200,0,5,40,$tbf,0,1,0);
+
+
+
+
+
+        $html = <<<EOF
+
+EOF;
+
+// output the HTML content
+        $pdf->writeHTML($html, true, false, true, false, '');
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+// reset pointer to the last page
+        $pdf->lastPage();
+
+// ---------------------------------------------------------
+
+//Close and output PDF document
+        $namefl='';
+        $namefl="PAC_projet_.pdf";
+        //;
+        $pdf->Output($namefl, 'D');
+    }
+
+
+
+
+
+
 
 
 
 
 
 }
+
+
+

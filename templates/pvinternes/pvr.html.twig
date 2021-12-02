@@ -82,24 +82,24 @@
          }
 
 
-         input[type="date"] {
-             width:55%;
-         }
-         input#pvr_datesignature{
-             width:100%
-         }
+
 
          input#pvr_pourcentage,input#pvr_conditions,input#pvr_nomdesignation, input#pvr_qttdesignation,input#pvr_nomdesignation2, input#pvr_qttdesignation2
          {
              border : none;
          }
-
+         #tore{width:20%;}
 
          @media screen and (max-width: 600px)
          {
-             input[type="date"] {
-                 width:65%;
+             #tore{width:50%;}
+             input,select{
+                 width: 100%;
              }
+             input#pvr_bonapayer_0,input#pvr_bonapayer_1{
+                 width: 50%;
+             }
+
              label#tocut {
              white-space: pre-line;}
              .tocuttd{
@@ -148,76 +148,76 @@
             </ul>
             <div class="tab-content" id="tab-content">
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
-                    <table>
+                    <table width="100%">
                         <tr>
-                            <th> {{ form_label(form, 'Objet *', {
+                            <th width="15%"> {{ form_label(form, 'Objet *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.objet, {
+                            <th id="tore">{{ form_widget(form.objet, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Référence PV *', {
+                            <th width="15%"> {{ form_label(form, 'Référence PV *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.refpv, {
+                            <th id="tore">{{ form_widget(form.refpv, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Date PV *', {
+                            <th width="15%"> {{ form_label(form, 'Date PV *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="64%">
+                            <th id="tore">
                                 {{ form_widget(form.datepv, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Référence contrat *', {
+                            <th width="15%"> {{ form_label(form, 'Référence contrat *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.refcontrat, {
+                            <th id="tore">{{ form_widget(form.refcontrat, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Facture *', {
+                            <th width="15%"> {{ form_label(form, 'Facture *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.facture, {
+                            <th id="tore">{{ form_widget(form.facture, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Reference contrat SAP *', {
+                            <th width="15%"> {{ form_label(form, 'Reference contrat SAP *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.refcontratsap, {
+                            <th id="tore">{{ form_widget(form.refcontratsap, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Bon de commande *', {
+                            <th width="15%"> {{ form_label(form, 'Bon de commande *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.boncommande, {
+                            <th id="tore">{{ form_widget(form.boncommande, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Date de début *', {
+                            <th width="15%"> {{ form_label(form, 'Date de début *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="64%">{{ form_widget(form.datedebut, {
+                            <th id="tore">{{ form_widget(form.datedebut, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Date de fin *', {
+                            <th width="15%"> {{ form_label(form, 'Date de fin *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th width="64%">{{ form_widget(form.datefin, {
+                            <th id="tore">{{ form_widget(form.datefin, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
@@ -295,25 +295,25 @@
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
                     <table>
                         <tr>
-                            <th> {{ form_label(form, 'Nom du signataire', {
+                            <th width="15%"> {{ form_label(form, 'Nom du signataire', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.signataire, {
+                            <th id="tore">{{ form_widget(form.signataire, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Qualité du signataire', {
+                            <th width="15%"> {{ form_label(form, 'Qualité du signataire', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.rolesignataire, {
+                            <th id="tore">{{ form_widget(form.rolesignataire, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
 
                         <tr>
-                            <th> {{ form_label(form, 'Date', {
+                            <th width="15%"> {{ form_label(form, 'Date', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.datesignature, {
+                            <th id="tore">{{ form_widget(form.datesignature, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
@@ -368,7 +368,7 @@
 
 
         })
-        var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+        var btnFinish = $('<button></button>').text('Editer').addClass('btn btn-info sw-btn-group-extra d-none')
             .on('click', function(){
 
 

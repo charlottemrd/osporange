@@ -36,13 +36,17 @@
         }
         @media screen and (max-width: 600px)
         {
-            #filter{width: 50%;}
+
             #tocut{
                 width: 35%;
-                border: red 1px solid;
+
+            }
+
+            th#tocutb{
+                width: 60%
             }
             img.filter{
-                width: 15%;
+                width: 30%;
             }
         }
 
@@ -91,7 +95,7 @@
                                     <button type="submit" class="text-white bg-black btn">Rechercher</button>#}
                     <table >
                         <tr>
-                            <th style="border-color: white" id="tocut">
+                            <th id="tocutb" style="border-color: white" >
                                 {{ form_widget(form.q, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}

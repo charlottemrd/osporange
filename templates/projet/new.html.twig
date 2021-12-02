@@ -357,7 +357,8 @@
                     {% macro information_prototype(modalite) %}
 
                         <br>
-                        <table width="100%">
+                        <table width="100%" style="display: table-cell">
+                               Jalon
                             <tr>
                                 <th  width="15%">
                                     {{ form_label(modalite.conditions, 'Condition *', {
@@ -470,7 +471,7 @@
                         <table>
                             <tr>
                                 <th  width="15%">
-                                    {{ form_label(commentaire.description, 'Condition *', {
+                                    {{ form_label(commentaire.description, 'Commentaire*', {
                                         'label_attr': {'class': 'input-group-text'}}) }}
                                 </th>
                                 <th  width="20">

@@ -43,6 +43,16 @@ class Pvinternes
      */
     private $date;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datedebut;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datefin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +114,30 @@ class Pvinternes
     public function setDate(?Datepvinterne $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getDatedebut(): ?\DateTimeInterface
+    {
+        return $this->datedebut;
+    }
+
+    public function setDatedebut(?\DateTimeInterface $datedebut): self
+    {
+        $this->datedebut = $datedebut;
+
+        return $this;
+    }
+
+    public function getDatefin(): ?\DateTimeInterface
+    {
+        return $this->datefin;
+    }
+
+    public function setDatefin(?\DateTimeInterface $datefin): self
+    {
+        $this->datefin = $datefin;
 
         return $this;
     }
