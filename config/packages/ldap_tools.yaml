@@ -1,0 +1,29 @@
+ldap_tools:
+  domains:
+    Labo1.int:
+      domain_name: Labo1.int
+      base_dn: 'DC=Labo1,DC=int'
+      username: AppwebAccount
+      password: O$TA@.f>@Xv9@8
+      servers: [10.128.1.205]
+      bind_format: "CN=%%username%%,OU=Utilisateurs,DC=Labo1,DC=int"
+
+  security:
+    guard:
+
+      # This is the entry point/start path route name for the RedirectResponse of the Guard component
+      login_path: app_login
+      default_target_path: '/'
+      always_use_target_path: false
+      target_path_parameter: '_target_path'
+      use_referer: false
+      failure_path: null
+      failure_forward: false
+      failure_path_parameter: '_failure_path'
+      remember_me: false
+      http_basic: false
+      http_basic_domain: null
+      http_basic_realm: null
+
+
+

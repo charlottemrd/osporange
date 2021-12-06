@@ -1,6 +1,9 @@
 {
-    "beberlei/doctrineextensions": {
-        "version": "v1.3.0"
+    "brick/math": {
+        "version": "0.9.3"
+    },
+    "chadsikorra/php-simple-enum": {
+        "version": "1.0.0"
     },
     "composer/package-versions-deprecated": {
         "version": "1.11.99.3"
@@ -118,6 +121,12 @@
     "laminas/laminas-code": {
         "version": "4.4.2"
     },
+    "ldaptools/ldaptools": {
+        "version": "v0.25.2"
+    },
+    "ldaptools/ldaptools-bundle": {
+        "version": "dev-symfony-5"
+    },
     "maennchen/zipstream-php": {
         "version": "2.1.0"
     },
@@ -221,6 +230,12 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "ramsey/collection": {
+        "version": "1.2.2"
+    },
+    "ramsey/uuid": {
+        "version": "4.2.3"
     },
     "sabberworm/php-css-parser": {
         "version": "8.3.1"

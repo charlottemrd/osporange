@@ -72,8 +72,9 @@ use \setasign\Fpdi\FpdfTpl;
 class ProjetController extends AbstractController
 {
 
-
-    #[Route('/', name: 'projet_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="projet_index",methods={"GET"})
+     */
     public function index(ProjetRepository $projetRepository,Request $request)
     {
         $data=new SearchData();

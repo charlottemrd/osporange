@@ -1,53 +1,47 @@
 security:
-    # https://symfony.com/doc/current/security/experimental_authenticators.html
-    enable_authenticator_manager: true
-    # https://symfony.com/doc/current/security.html#c-hashing-passwords
-    password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
-        App\Entity\User:
-            algorithm: auto
+    hide_user_not_found:  false
+    encoders:
+        # This is the default user class returned from the LDAP provider below
+        LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUser: plaintext
 
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        ldap:
+            id: ldap_tools.security.user.ldap_user_provider
+
     firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
-            lazy: true
-            provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            anonymous: ~
+            # Use the default LDAP user provider defined above
+            provider: ldap
+            pattern: ^/
+            logout: ~
+            guard:
+                authenticators:
+                    - ldap_tools.security.ldap_guard_authenticator
+        default:
+            guard:
+                authenticators:
+                    - ldap_tools.security.ldap_guard_authenticator
+           # form_login:
+            #    login_path: app_login
+            #    check_path: app_login
+              #  csrf_token_generator: security.csrf.token_manager
 
+        login:
+            pattern: ^/
+            anonymous: ~
 
-                    # configure the maximum login attempts in a custom period of time
-            login_throttling:
-                max_attempts: 3
-                interval: '15 minutes'
-
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                target: app_login
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
-         - { path: ^/fournisseur/liste, roles: ROLE_USER }
-         - { path: ^/projet, roles: ROLE_USER }
-         - { path: ^/bilanmensuel, roles: ROLE_USER }
-         - { path: ^/listemodalites, roles: ROLE_USER }
-         - { path: ^/admin, roles: ROLE_ADMIN }
+       # - { path: ^/fournisseur/liste, roles: ROLE_USER }
+        #- { path: ^/projet, roles: ROLE_USER }
+        #- { path: ^/bilanmensuel, roles: ROLE_USER }
+        #- { path: ^/listemodalites, roles: ROLE_USER }
+        #- { path: ^/admin, roles: ROLE_ADMIN }
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]
