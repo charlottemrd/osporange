@@ -25,12 +25,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Notifier\Notification\Notification;
 use DateInterval;
-#[Route('/bilanmensuel')]
+
+/**
+ * @Route("/bilanmensuel")
+ */
 class BilanMensuelController extends AbstractController
 {
 
 
-    #[Route('/', name: 'bilanmensuel_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="bilanmensuel_index",methods={"GET"})
+     */
     public function index(ProjetRepository $projetRepository, FournisseurRepository $fournisseurRepository,Request $request)
     {
         $projets = $fournisseurRepository->searchbilanfournisseur();
@@ -39,7 +44,9 @@ class BilanMensuelController extends AbstractController
         ]);
     }
 
-    #[Route('/{name}', name: 'bilanmensuel_fournisseur', methods: ['GET'])]
+    /**
+     * @Route("/name", name="bilanmensuel_fournisseur",methods={"GET"})
+     */
     public function fournisseur(Fournisseur $fournisseur, IdmonthbmRepository $idmonthbmRepository, Request $request)
     {
         $data=new SearchBilanmensuel();
@@ -57,7 +64,10 @@ class BilanMensuelController extends AbstractController
 
 
 
-    #[Route('/{name}/{idmonthbm}/{month}/{year}', name: 'bilanmensuel_fournisseurmois', methods: ['GET','POST'])]
+
+    /**
+     * @Route("/{name}/{idmonthbm}/{month}/{year}", name="bilanmensuel_fournisseurmois",methods={"GET","POST"})
+     */
     public function fournisseurmois(Monthleft $monthleft, NotifierInterface $notifier, CoutRepository $coutRepository, InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
     {
 
@@ -533,7 +543,10 @@ class BilanMensuelController extends AbstractController
 
 
 
-    #[Route('/show/{name}/{idmonthbm}/{month}/{year}', name: 'showbilanmensuel_fournisseurmois', methods: ['GET','POST'])]
+
+    /**
+     * @Route("/show/{name}/{idmonthbm}/{month}/{year}", name="showbilanmensuel_fournisseurmois",methods={"GET","POST"})
+     */
     public function showfournisseurmois(   Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository,Request $request)
     {
 

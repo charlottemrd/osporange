@@ -23,10 +23,15 @@ use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use TCPDF;
 
-#[Route('/pvinternes')]
+/**
+ * @Route("/pvinternes")
+ */
 class PvinternesController extends AbstractController
 {
-    #[Route('/', name: 'pvinternes_index', methods: ['GET'])]
+
+    /**
+     * @Route("/", name="pvinternes_index",methods={"GET"})
+     */
     public function index(DatepvinterneRepository $datepvinterneRepository,Request $request)
     {
         $data=new SearchDatePv();
@@ -42,7 +47,9 @@ class PvinternesController extends AbstractController
 
     }
 
-    #[Route('/date/{datepvinterne}/{month}/{year}', name: 'pvinternesdate', methods: ['GET'])]
+    /**
+     * @Route("/date/{datepvinterne}/{month}/{year}", name="pvinternesdate",methods={"GET"})
+     */
     public function indexdate(PvinternesRepository $pvinternesRepository,Datepvinterne $datepvinterne,DatepvinterneRepository $datepvinterneRepository,Request $request)
     {
         $data=new Searchpv();
@@ -59,7 +66,9 @@ class PvinternesController extends AbstractController
 
     }
 
-    #[Route('/modification/{pvinternes}/{id}', name: 'modifypv', methods: ['GET','POST'])]
+    /**
+     * @Route("/modification/{pvinternes}/{id}", name="modifypv",methods={"GET","POST"})
+     */
     public function modify(NotifierInterface $notifier, PvinternesRepository $pvinternesRepository,Datepvinterne $datepvinterne, Pvinternes $pvinternes,DatepvinterneRepository $datepvinterneRepository,Request $request)
     { $maxpvs=$pvinternesRepository->maxpv($pvinternes->getProjet()->getId());
        $pourcentagepv = array();
@@ -234,7 +243,9 @@ class PvinternesController extends AbstractController
 
     }
 
-    #[Route('/pvinterne/{pvinternes}/{id}', name: 'showpv', methods: ['GET','POST'])]
+    /**
+     * @Route("/pvinterne/{pvinternes}/{id}", name="showpv",methods={"GET","POST"})
+     */
     public function show(NotifierInterface $notifier, PvinternesRepository $pvinternesRepository,Datepvinterne $datepvinterne, Pvinternes $pvinternes,DatepvinterneRepository $datepvinterneRepository,Request $request)
     {
         return $this->render('pvinternes/show.html.twig', [
@@ -248,7 +259,9 @@ class PvinternesController extends AbstractController
 
 
 
-    #[Route('/{id}/pvr', name: 'pvrinternes_pvr', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/pvr", name="pvrinternes_pvr",methods={"GET","POST"})
+     */
     public function pvr(Request $request, Pvinternes $pvinternes): Response
     {
         $form = $this->createForm(PvrType::class, $pvinternes);

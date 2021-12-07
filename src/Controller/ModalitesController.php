@@ -10,10 +10,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/modalites')]
+/**
+ * @Route("/modalites")
+ */
 class ModalitesController extends AbstractController
 {
-    #[Route('/', name: 'modalites_index', methods: ['GET'])]
+    /**
+     * @Route("/", name="modalites_index",methods={"GET"})
+     */
     public function index(ModalitesRepository $modalitesRepository): Response
     {
         return $this->render('modalites/index.html.twig', [

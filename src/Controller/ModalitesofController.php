@@ -19,10 +19,15 @@ use App\Form\SearchType;
 use TCPDF;
 
 
-#[Route('/listemodalites')]
+/**
+ * @Route("/listemodalites")
+ */
 class ModalitesofController extends AbstractController
 {
-    #[Route('/', name: 'modalitesof_index', methods: ['GET','POST'])]
+
+    /**
+     * @Route("/", name="modalitesof_index",methods={"GET","POST"})
+     */
     public function index(ModalitesRepository $modalitesRepository, ProjetRepository $projetRepository, Request $request)  //par projet
     {
         $data=new SearchData();
@@ -38,7 +43,9 @@ class ModalitesofController extends AbstractController
 
 
 
-    #[Route('/{id}', name: 'modalitesof_show', methods: ['GET','POST'])]
+    /**
+     * @Route("/{id}", name="modalitesof_show",methods={"GET","POST"})
+     */
     public function show(Projet $projet,ModalitesRepository $modalitesRepository,Request $request)
     {
         if ($request->isXmlHttpRequest()) {
@@ -100,7 +107,9 @@ class ModalitesofController extends AbstractController
 
 
 
-    #[Route('/{id}/pac', name: 'modalitesof_pac', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/pac", name="modalitesof_pac",methods={"GET","POST"})
+     */
     public function pac(Request $request, Modalites $modalites): Response
     {
         $form = $this->createForm(PacType::class, $modalites);

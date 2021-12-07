@@ -68,7 +68,9 @@ use TCPDF;
 
 
 use \setasign\Fpdi\FpdfTpl;
-#[Route('/projet')]
+/**
+ * @Route("/projet")
+ */
 class ProjetController extends AbstractController
 {
 
@@ -110,7 +112,9 @@ class ProjetController extends AbstractController
     }
 
 
-    #[Route('/new', name: 'projet_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/new", name="projet_new",methods={"GET","POST"})
+     */
     public function new(ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
@@ -293,7 +297,10 @@ class ProjetController extends AbstractController
 
     }
 
-    #[Route('/{id}/cout', name: 'projet_cout', methods: ['GET', 'POST'])]
+
+    /**
+     * @Route("/{id}/cout", name="projet_cout",methods={"GET","POST"})
+     */
     public function cout(Monthleft $monthleft, BilanMensuelController $bilanMensuelController,  ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         $mform = $this->createForm(ProjetCoutType::class, $projet);
@@ -383,7 +390,9 @@ class ProjetController extends AbstractController
 
 
 
-    #[Route('/{id}', name: 'projet_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="projet_show",methods={"GET"})
+     */
     public function show(Projet $projet, InfobilanRepository $infobilanRepository, IdmonthbmRepository $idmonthbmRepository, BilanmensuelRepository $bilanmensuelRepository): Response
     {
         if(($projet->getPhase()->getId()==3)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==3))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==3))){//non demarre
@@ -543,7 +552,9 @@ class ProjetController extends AbstractController
 
 
 
-    #[Route('/{id}/edit', name: 'projet_edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/edit", name="projet_edit",methods={"GET","POST"})
+     */
     public function edit(ModalitesRepository $modalitesRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
@@ -1263,7 +1274,9 @@ class ProjetController extends AbstractController
         }
     }
 
-    #[Route('/{id}/phase', name: 'projet_phase', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/phase", name="projet_phase",methods={"GET","POST"})
+     */
     public function phase(Monthleft $monthleft,PvinternesRepository $pvinternesRepository, DatepvinterneRepository $datepvinterneRepository, ModalitesRepository $modalitesRepository, IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository, InfobilanRepository $infobilanRepository,CoutRepository $coutRepository,  BilanmensuelRepository $bilanmensuelRepository, PhaseRepository $phaseRepository,Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
@@ -1958,7 +1971,9 @@ class ProjetController extends AbstractController
         }
     }
 
-    #[Route('/{id}', name: 'projet_delete', methods: ['POST'])]
+    /**
+     * @Route("/delete/{id}", name="projet_delete",methods={"POST"})
+     */
     public function delete(Request $request, Projet $projet): Response
     {
         if ($this->isCsrfTokenValid('delete'.$projet->getId(), $request->request->get('_token'))) {
@@ -1973,7 +1988,9 @@ class ProjetController extends AbstractController
 
 
 
-    #[Route('/{id}/fichefl', name: 'projet_fichefl', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/fichefl", name="projet_fichefl",methods={"GET","POST"})
+     */
     public function ficheliaison(Request $request, Projet $projet, FournisseurRepository $fournisseurRepository): Response
     {
         $form = $this->createForm(FicheliaisonType::class, $projet);

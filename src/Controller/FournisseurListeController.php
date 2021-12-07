@@ -13,10 +13,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
-#[Route('/fournisseur/liste')]
+/**
+ * @Route("/fournisseur/liste")
+ */
 class FournisseurListeController extends AbstractController
 {
-    #[Route('/', name: 'fournisseur_liste_index', methods: ['GET'])]
+
+    /**
+     * @Route("/", name="fournisseur_liste_index",methods={"GET"})
+     */
     public function index(FournisseurRepository $fournisseurRepository): Response
     {
         return $this->render('fournisseur_liste/index.html.twig', [
@@ -24,7 +29,9 @@ class FournisseurListeController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'fournisseur_liste_new', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/new", name="fournisseur_liste_new",methods={"GET","POST"})
+     */
     public function new(Request $request, NotifierInterface $notifier): Response
     {
         $fournisseur = new Fournisseur();
@@ -49,7 +56,9 @@ class FournisseurListeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'fournisseur_liste_show', methods: ['GET'])]
+    /**
+     * @Route("/{id}", name="fournisseur_liste_show",methods={"GET"})
+     */
     public function show(Fournisseur $fournisseur): Response
     {
         return $this->render('fournisseur_liste/show.html.twig', [
@@ -58,7 +67,9 @@ class FournisseurListeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'fournisseur_liste_edit', methods: ['GET', 'POST'])]
+    /**
+     * @Route("/{id}/edit", name="fournisseur_liste_edit",methods={"GET","POST"})
+     */
     public function edit(Request $request, Fournisseur $fournisseur): Response
     {
         $form = $this->createForm(FournisseurType::class, $fournisseur);
@@ -77,7 +88,9 @@ class FournisseurListeController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'fournisseur_liste_delete', methods: ['POST'])]
+    /**
+     * @Route("/{id}", name="fournisseur_liste_delete",methods={"POST"})
+     */
     public function delete(Request $request, Fournisseur $fournisseur,NotifierInterface $notifier): Response
     {
         if ($this->isCsrfTokenValid('delete'.$fournisseur->getId(), $request->request->get('_token'))) {

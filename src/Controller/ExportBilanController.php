@@ -32,7 +32,10 @@ class ExportBilanController extends AbstractController
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/export/bilan/{name}/{idmonthbm}/{month}/{year}', name: 'export_bilan', methods: ['GET', 'POST'])]
+
+    /**
+     * @Route("/export/bilan/{name}/{idmonthbm}/{month}/{year}", name="export_bilan",methods={"GET","POST"})
+     */
     public function indexgetData(InfobilanRepository $infobilanRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository, Request $request)
     {
 
