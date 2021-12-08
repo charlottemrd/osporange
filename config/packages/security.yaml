@@ -3,6 +3,8 @@ security:
     encoders:
         # This is the default user class returned from the LDAP provider below
         LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUser: plaintext
+        App\Entity\User:
+            algorithm: auto
 
     providers:
         ldap:

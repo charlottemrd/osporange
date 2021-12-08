@@ -6,7 +6,7 @@ use App\Repository\ProjetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-
+use LdapTools\Bundle\LdapToolsBundle\Annotation as LdapTools;
 
 
 /**
@@ -128,11 +128,7 @@ class Projet
      */
     private $fournisseur;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="projets")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $user;
+
 
     /**
      * @ORM\OneToMany(targetEntity=Cout::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
@@ -238,6 +234,27 @@ class Projet
      * @ORM\OneToMany(targetEntity=Pvinternes::class, mappedBy="projet")
      */
     private $pvinternes;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $samaccountchefprojet;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fullnamechefprojet;
+
+    /**
+     * @ORM\Column(type="ldap_object", nullable=true)
+     * @LdapTools\LdapObject(type="group")
+     */
+    private $ldapuser;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $iduserldap;
 
 
 
@@ -520,17 +537,6 @@ class Projet
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
 
 
 
@@ -976,6 +982,54 @@ class Projet
                 $pvinterne->setProjet(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSamaccountchefprojet(): ?string
+    {
+        return $this->samaccountchefprojet;
+    }
+
+    public function setSamaccountchefprojet(?string $samaccountchefprojet): self
+    {
+        $this->sAMAccountchefprojet = $samaccountchefprojet;
+
+        return $this;
+    }
+
+    public function getFullnamechefprojet(): ?string
+    {
+        return $this->fullnamechefprojet;
+    }
+
+    public function setFullnamechefprojet(?string $fullnamechefprojet): self
+    {
+        $this->fullnamechefprojet = $fullnamechefprojet;
+
+        return $this;
+    }
+
+    public function getLdapuser()
+    {
+        return $this->ldapuser;
+    }
+
+    public function setLdapuser($ldapuser): self
+    {
+        $this->ldapuser = $ldapuser;
+
+        return $this;
+    }
+
+    public function getIduserldap(): ?string
+    {
+        return $this->iduserldap;
+    }
+
+    public function setIduserldap(?string $iduserldap): self
+    {
+        $this->iduserldap = $iduserldap;
 
         return $this;
     }

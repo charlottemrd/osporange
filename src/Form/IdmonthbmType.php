@@ -18,7 +18,7 @@ class IdmonthbmType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('bilanMensuels', CollectionType::class, array(
+            ->add('bilanmensuels', CollectionType::class, array(
                 'entry_type'   => BilanmensuelType::class,
                 'allow_add'    => false,
                 'allow_delete' => true,

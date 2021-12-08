@@ -50,7 +50,7 @@ class Bilanmensuel
     private $havebeenmodified;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Idmonthbm::class, inversedBy="bilanMensuels")
+     * @ORM\ManyToOne(targetEntity=Idmonthbm::class, inversedBy="bilanmensuels")
      */
     private $idmonthbm;
 

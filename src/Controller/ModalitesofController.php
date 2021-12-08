@@ -113,7 +113,7 @@ class ModalitesofController extends AbstractController
     public function pac(Request $request, Modalites $modalites): Response
     {
         $form = $this->createForm(PacType::class, $modalites);
-        $form->get('signataire')->setData($this->getUser());
+        $form->get('signataire')->setData($this->getUser()->getUsername());
         $form->get('datesignature')->setData(new \DateTime());
         $form->handleRequest($request);
 

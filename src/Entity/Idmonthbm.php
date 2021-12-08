@@ -35,13 +35,13 @@ class Idmonthbm
     private $fournisseur;
 
     /**
-     * @ORM\OneToMany(targetEntity=BilanMensuel::class, mappedBy="idmonthbm",orphanRemoval=true, cascade={"persist"})
+     * @ORM\OneToMany(targetEntity=Bilanmensuel::class, mappedBy="idmonthbm",orphanRemoval=true, cascade={"persist"})
      */
-    private $bilanMensuels;
+    private $bilanmensuels;
 
     public function __construct()
     {
-        $this->bilanMensuels = new ArrayCollection();
+        $this->bilanmensuels = new ArrayCollection();
     }
 
 
@@ -87,29 +87,29 @@ class Idmonthbm
     }
 
     /**
-     * @return Collection|BilanMensuel[]
+     * @return Collection|Bilanmensuel[]
      */
-    public function getBilanMensuels(): Collection
+    public function getBilanmensuels(): Collection
     {
-        return $this->bilanMensuels;
+        return $this->bilanmensuels;
     }
 
-    public function addBilanMensuel(BilanMensuel $bilanMensuel): self
+    public function addBilanmensuel(Bilanmensuel $bilanmensuel): self
     {
-        if (!$this->bilanMensuels->contains($bilanMensuel)) {
-            $this->bilanMensuels[] = $bilanMensuel;
-            $bilanMensuel->setIdmonthbm($this);
+        if (!$this->bilanmensuels->contains($bilanmensuel)) {
+            $this->bilanmensuels[] = $bilanmensuel;
+            $bilanmensuel->setIdmonthbm($this);
         }
 
         return $this;
     }
 
-    public function removeBilanMensuel(BilanMensuel $bilanMensuel): self
+    public function removeBilanmensuel(Bilanmensuel $bilanmensuel): self
     {
-        if ($this->bilanMensuels->removeElement($bilanMensuel)) {
+        if ($this->bilanmensuels->removeElement($bilanmensuel)) {
             // set the owning side to null (unless already changed)
-            if ($bilanMensuel->getIdmonthbm() === $this) {
-                $bilanMensuel->setIdmonthbm(null);
+            if ($bilanmensuel->getIdmonthbm() === $this) {
+                $bilanmensuel->setIdmonthbm(null);
             }
         }
 

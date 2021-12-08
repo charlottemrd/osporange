@@ -265,7 +265,7 @@ class PvinternesController extends AbstractController
     public function pvr(Request $request, Pvinternes $pvinternes): Response
     {
         $form = $this->createForm(PvrType::class, $pvinternes);
-        $form->get('signataire')->setData($this->getUser());
+        $form->get('signataire')->setData($this->getUser()->getUsername());
         $form->get('datesignature')->setData(new \DateTime());
         $form->handleRequest($request);
 

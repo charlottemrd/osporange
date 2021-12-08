@@ -9,7 +9,6 @@ use App\Entity\Priorite;
 use App\Entity\Projet;
 use App\Entity\Phase;
 use App\Entity\Risque;
-use App\Entity\User;
 use App\Entity\TypeBU;
 use App\Form\CoutType;
 use App\Form\ModalitesType;

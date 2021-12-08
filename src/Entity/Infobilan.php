@@ -31,7 +31,7 @@ class Infobilan
     private $profil;
 
     /**
-     * @ORM\ManyToOne(targetEntity=BilanMensuel::class, inversedBy="infobilans")
+     * @ORM\ManyToOne(targetEntity=Bilanmensuel::class, inversedBy="infobilans")
      */
     private $bilanmensuel;
 
@@ -66,12 +66,12 @@ class Infobilan
         return $this;
     }
 
-    public function getBilanmensuel(): ?BilanMensuel
+    public function getBilanmensuel(): ?Bilanmensuel
     {
         return $this->bilanmensuel;
     }
 
-    public function setBilanmensuel(?BilanMensuel $bilanmensuel): self
+    public function setBilanmensuel(?Bilanmensuel $bilanmensuel): self
     {
         $this->bilanmensuel = $bilanmensuel;
 

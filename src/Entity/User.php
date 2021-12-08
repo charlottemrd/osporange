@@ -42,10 +42,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $name;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Projet::class, mappedBy="user", orphanRemoval=true)
-     */
-    private $projets;
 
     /**
      * @ORM\OneToMany(targetEntity=Fournisseur::class, mappedBy="interlocuteur",orphanRemoval=true, cascade={"persist"})
@@ -54,7 +50,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->projets = new ArrayCollection();
+
         $this->fournisseurs = new ArrayCollection();
     }
 
@@ -159,35 +155,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Projet[]
-     */
-    public function getProjets(): Collection
-    {
-        return $this->projets;
-    }
 
-    public function addProjet(Projet $projet): self
-    {
-        if (!$this->projets->contains($projet)) {
-            $this->projets[] = $projet;
-            $projet->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProjet(Projet $projet): self
-    {
-        if ($this->projets->removeElement($projet)) {
-            // set the owning side to null (unless already changed)
-            if ($projet->getUser() === $this) {
-                $projet->setUser(null);
-            }
-        }
-
-        return $this;
-    }
     public function __toString()
     {
         return $this->getName();

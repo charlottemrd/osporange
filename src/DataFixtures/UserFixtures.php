@@ -200,7 +200,7 @@ class UserFixtures extends Fixture
         $projet1->setPaiement($paiement);
         $projet1->setRisque($risque2);
         $projet1->setPriorite($priorite2);
-        $projet1->setUser($user);
+
 
         $cout1=new Cout();
         $cout1->setProfil($profil1);
@@ -236,7 +236,7 @@ class UserFixtures extends Fixture
         $projet2->setPaiement($paiement);
         $projet2->setRisque($risque2);
         $projet2->setPriorite($priorite2);
-        $projet2->setUser($user);
+
         $cout3=new Cout();
         $cout3->setProfil($profil1);
         $cout3->setProjet($projet2);

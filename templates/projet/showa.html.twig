@@ -168,12 +168,12 @@
                             <input   type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datemaj |date('d/m/Y')  }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
-                        {%if projet.user!=null %}
+                        {%if projet.fullnamechefprojet!=null %}
                             <div class="input-group mb-3" id="tocut">
                                 <div class="input-group-prepend " style="width: 40%">
                                     <span class="input-group-text" id="basic-addon1">Chef de projet</span>
                                 </div>
-                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.user }}"  aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{projet.fullnamechefprojet }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {%if projet.Phase!=null %}

@@ -7,6 +7,7 @@ use App\Entity\SearchData;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUser;
 
 /**
  * @method Projet|null find($id, $lockMode = null, $lockVersion = null)
@@ -26,18 +27,18 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function findSearch(SearchData $search, User $user) : array
+    public function findSearch(SearchData $search, LdapUser $user,string  $nameof) : array
     {
+        $usernameof = $user->getUsername();
 
             $query = $this
             ->createQueryBuilder('o');
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
 
 
-            $user=$user->getId();
             $query = $query
-            ->andWhere('o.user =:user')
-            ->setParameter('user', $user);
+            ->andWhere('o.iduserldap =:user')
+            ->setParameter('user',$nameof );
             }
        if (!empty($search->q)) {
            $query = $query
@@ -110,10 +111,10 @@ class ProjetRepository extends ServiceEntityRepository
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
 
 
-            $user=$user->getId();
+            $nameof=$user->getUsername();
             $query = $query
-                ->andWhere('o.user =:user')
-                ->setParameter('user', $user);
+                ->andWhere('o.iduserldap =:user')
+                ->setParameter('user', $nameof);
         }
         if (!empty($search->q)) {
             $query = $query
@@ -190,10 +191,10 @@ class ProjetRepository extends ServiceEntityRepository
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
 
 
-            $user=$user->getId();
+            $nameof=$user->getUsername();
             $query = $query
-                ->andWhere('o.user =:user')
-                ->setParameter('user', $user);
+                ->andWhere('o.user =:iduserldap')
+                ->setParameter('user', $nameof);
         }
 
 
@@ -222,10 +223,10 @@ class ProjetRepository extends ServiceEntityRepository
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
 
 
-            $user=$user->getId();
+            $nameof=$user->getUsername();
             $query = $query
-                ->andWhere('o.user =:user')
-                ->setParameter('user', $user);
+                ->andWhere('o.iduserldap =:user')
+                ->setParameter('user', $nameof);
         }
 
 
@@ -260,8 +261,9 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function createRef( User $user) : array
+    public function createRef( LdapUser $user) : array
     {
+        $usernameof = $user->getUsername();
         $localdate=new \DateTime();
         $from = new \DateTime($localdate->format("Y-m-d")." 00:00:00");
         $to   = new \DateTime($localdate->format("Y-m-d")." 23:59:59");
@@ -271,8 +273,8 @@ class ProjetRepository extends ServiceEntityRepository
 
 
            $query = $query
-                ->andWhere('o.user =:user')
-                ->setParameter('user', $user);
+                ->andWhere('o.iduserldap =:user')
+                ->setParameter('user', $usernameof);
 
         $query = $query
             ->andWhere('o.datecrea BETWEEN :from AND :to')

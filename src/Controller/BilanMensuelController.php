@@ -232,7 +232,7 @@ class BilanMensuelController extends AbstractController
                     }
                 }// fin cas où on modifie le bilan mensuel
                 else {  //type=2 ; on souhaite valide le bilan mensuel
-                    $projets = $idmonthbm->getBilanMensuels();
+                    $projets = $idmonthbm->getBilanmensuels();
                     $resultt=false;
                     foreach ($projets as $po) {
                         $pom = $po->getProjet();

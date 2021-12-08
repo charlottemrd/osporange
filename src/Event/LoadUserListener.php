@@ -3,9 +3,20 @@ namespace App\Event;
 
 use LdapTools\Bundle\LdapToolsBundle\Event\LoadUserEvent;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Security;
+
+use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 class LoadUserListener
 {
+
+    private $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     public function beforeLoadUser(LoadUserEvent $event)
     {
         /*
@@ -19,6 +30,7 @@ class LoadUserListener
 
     public function afterLoadUser(LoadUserEvent $event)
     {
+
 
         /*$userToken = $event->getAuthenticationToken();
         if ($this->ldapManager->authenticate($event->getUsername(), $this->requestStack->getCurrentRequest()->get('password'))) {//good credentials

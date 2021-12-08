@@ -6,12 +6,12 @@
 ldap_tools:
     domains:
         Labo1.int:
-            domain_name: Labo1.int
-            base_dn: 'DC=Labo1,DC=int'
-            username: AppwebAccount
-            password: O$TA@.f>@Xv9@8
-            servers: [10.128.1.205]
-            bind_format: '%%username%%@labo1.int'
+            domain_name: '%env(DOMAINE_NAME)%'
+            base_dn: '%env(BASE_OF_DN)%'
+            username: '%env(USERNAME_ADMIN)%'
+            password: '%env(PSWD_ADMIN)%'
+            servers: ['%env(IP_SERVER)%']
+            bind_format: '%%username%%@%env(DOMAINE_NAME)%'
 
 
     security:
@@ -32,8 +32,8 @@ ldap_tools:
             http_basic_realm: null
         roles:
     # Using the common group name
-            #ROLE_ADMIN: [ 'CN=Appweb_Manager,OU=Groupes,OU=Appweb,OU=ApplicationsProfils,DC=Labo1,DC=int' ]
-            ROLE_USER: [ 'CN=Appweb_CP,OU=Groupes,OU=Appweb,OU=ApplicationsProfils,DC=Labo1,DC=int' ]
+            #ROLE_ADMIN: [ '%env(CP_GROUPE)%' ]
+            ROLE_USER: [ '%env(MANAGER_GROUPE)%' ]
     # Using the distinguished name of the group
         default_role: ROLE_ANONYMOUS
 
@@ -42,6 +42,17 @@ ldap_tools:
 
 parameters:
 #locale: fr
+
+    app.domainename: '%env(DOMAINE_NAME)%'
+    app.basedn: '%env(BASE_OF_DN)%'
+    app.adminusername: '%env(USERNAME_ADMIN)%'
+    app.adminpswd: '%env(PSWD_ADMIN)%'
+    app.ip: '%env(IP_SERVER)%'
+    app.managergrp: '%env(MANAGER_GROUPE)%'
+    app.chefprojetgrp: '%env(CP_GROUPE)%'
+
+
+
 services:
 
     # default configuration for services in *this* file
@@ -89,7 +100,13 @@ services:
         tags:
              - { name: kernel.event_listener, event: ldap_tools_bundle.load_user.before, method: beforeLoadUser }
              - { name: kernel.event_listener, event: ldap_tools_bundle.load_user.after, method: afterLoadUser }
+    App\Event\InteractiveLoginListener:
+        tags:
+            - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
 
             # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+
+
 

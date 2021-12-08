@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\ProjetRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\Ldap\Security\LdapUser;
 use Symfony\Component\Routing\Annotation\Route;
 
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -39,7 +39,7 @@ class ExporthomeController extends AbstractController
     private function getData(ProjetRepository $projetRepository): array
     {
         /**
-         * @var $user User[]
+         * @var $user LdapUser[]
          */
         $user = $this->getUser();
         $projets = $projetRepository->findexportSearch($user);
@@ -66,7 +66,7 @@ class ExporthomeController extends AbstractController
                 $projet->getPriorite(),
                 $projet->getPhase(),
                 $projet->getFournisseur(),
-                $projet->getUser(),
+                $projet->getFullnamechefprojet(),
 
                /* $projet->getDatereel1(),
                 $projet->getDatereel2(),

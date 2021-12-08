@@ -14,7 +14,8 @@ use App\Entity\Idmonthbm;
 use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
-
+use LdapTools\LdapManager;
+use LdapTools\Query\LdapQueryBuilder;
 use App\Entity\Pvinternes;
 use App\Form\FicheliaisonType;
 use App\Form\ModifyaType;
@@ -58,6 +59,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Notifier\Notification\Notification;
 use Symfony\Component\Notifier\NotifierInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Csrf\TokenStorage\TokenStorageInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Encoder\XmlEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -74,6 +78,7 @@ use \setasign\Fpdi\FpdfTpl;
 class ProjetController extends AbstractController
 {
 
+
     /**
      * @Route("/", name="projet_index",methods={"GET"})
      */
@@ -86,7 +91,7 @@ class ProjetController extends AbstractController
 
 
 
-        $projets = $projetRepository->findSearch($data,$user);
+        $projets = $projetRepository->findSearch($data,$user,$user->getUsername());
         return $this->render('projet/index.html.twig', [
             'projets'=>$projets,
             'form'=>$form->createView()
@@ -115,15 +120,50 @@ class ProjetController extends AbstractController
     /**
      * @Route("/new", name="projet_new",methods={"GET","POST"})
      */
-    public function new(ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(LdapManager $ldapManager ,Security $security,  ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         $projet = new Projet();
         $projet->setTaux('0');
         $projet->setDatecrea(new \DateTime());
         $user = $this->getUser();
 
+        $ldaprdn = $_ENV['USERNAME_ADMIN'];
+        $ldappass = $_ENV['PSWD_ADMIN'];
+        $ldapconn = ldap_connect($_ENV['IP_SERVER']);
+        $usernametoget='';
+        $upn = $user->getUsername() . '@' . $_ENV['DOMAINE_NAME'];
+        ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
+
+
+        if ($ldapconn) {
+            $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
+
+            if ($ldapbind) {
+                $attributes = ['displayname'];
+                $filter = "(&(objectClass=user)(objectCategory=person)(userPrincipalName=" . ldap_escape($upn, null, LDAP_ESCAPE_FILTER) . "))";
+                $baseDn = $_ENV['BASE_OF_DN'];
+                $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
+                $info = ldap_get_entries($ldapconn, $results);
+
+                if(isset($info[0]['displayname'][0])){
+                    $usernametoget= $info[0]['displayname'][0];
+                    }
+                else{
+                    $attributesb = ['samaccountname'];
+                    $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);
+                    $infob = ldap_get_entries($ldapconn, $resultsb);
+                    $usernametoget= $infob[0]['samaccountname'][0];
+                   }
+
+            }
+        }
+
+
+
+
         //create reference FL
-        $initiales=$this->initiales($user);
+        $initiales=$this->initiales($usernametoget);
         $numeroref=$projetRepository->Createref($user);
         $chiffre=(count($numeroref)) +1;
         $date=new \DateTime();
@@ -136,10 +176,11 @@ class ProjetController extends AbstractController
         }
 
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
-            $projet->setUser($user);
-
+            $projet->setIduserldap($user->getUsername());
+            $projet->setFullnamechefprojet($security->getToken()->getAttribute('fullname'));
 
         }
+
 
 
 
@@ -160,9 +201,110 @@ class ProjetController extends AbstractController
 
         $form->handleRequest($request);
 
+        if ($request->isXmlHttpRequest()) {
+
+            $type = $request->request->get('type');
+            if ($type == 1) {
+                $indexofm = $request->request->get('index');
+                $guidof = $request->request->get('guid');
+
+                $guid = $ldapManager->buildLdapQuery()
+                    ->select('cn')
+                    ->fromUsers()
+                    ->where(['guid' => $guidof])
+                    ->getLdapQuery()
+                    ->getSingleScalarResult();
+
+                return new JsonResponse(array( //cas succes
+                    'indexofr' => $indexofm,
+                    'message' => $guid,
+                    'success' => true,
+                     ),
+                    200);
+            }}
+
+
         if ($form->isSubmitted() && $form->isValid()) {
             $projet->setHighestphase($projet->getPhase()->getRang());
             $com=$projet->getCommentaires();
+            if($projet->getFullnamechefprojet()==null){
+                $ldaprdn = $_ENV['USERNAME_ADMIN'];
+                $ldappass = $_ENV['PSWD_ADMIN'];
+                $ldapconn = ldap_connect($_ENV['IP_SERVER']);
+                $usernametoget='';
+                ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
+                ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
+
+
+                if ($ldapconn) {
+                    $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
+
+                    if ($ldapbind) {
+                        $attributes = ['displayname'];
+                        $filter = "(&(objectClass=user)(objectCategory=person)(dn=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
+                        $baseDn = $_ENV['BASE_OF_DN'];
+                        $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
+                        $info = ldap_get_entries($ldapconn, $results);
+
+                        if(isset($info[0]['displayname'][0])){
+                            $usernametogetd= $info[0]['displayname'][0];
+                        }
+                        else{
+                            $attributesb = ['samaccountname'];
+                            $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);
+                            $infob = ldap_get_entries($ldapconn, $resultsb);
+                            $usernametogetd= $infob[0]['samaccountname'][0];
+                        }
+
+                    }
+                    $projet->setFullnamechefprojet($usernametogetd);
+                }
+
+
+
+
+            }
+
+            if($projet->getIduserldap()==null){
+                $ldaprdnc = $_ENV['USERNAME_ADMIN'];
+                $ldappassc = $_ENV['PSWD_ADMIN'];
+                $ldapconnc = ldap_connect($_ENV['IP_SERVER']);
+                $usernametogetc='';
+                ldap_set_option($ldapconnc, LDAP_OPT_PROTOCOL_VERSION, 3);
+                ldap_set_option($ldapconnc, LDAP_OPT_REFERRALS, 0);
+
+
+                if ($ldapconnc) {
+                    $ldapbindc = ldap_bind($ldapconnc, $ldaprdnc, $ldappassc);
+
+                    if ($ldapbindc) {
+                        $attributesc = ['objectguid'];
+                        $filterc = "(&(objectClass=user)(objectCategory=person)(dn=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
+                        $baseDnc = $_ENV['BASE_OF_DN'];
+                        $resultsc = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesc);
+                        $infoc = ldap_get_entries($ldapconnc, $resultsc);
+
+                        if(isset($infoc[0]['objectguid'][0])){
+                            $usernametogetc= $infoc[0]['objectguid'][0];
+                        }
+                        else{
+                            $attributesd = ['name'];
+                            $resultsd = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesd);
+                            $infod = ldap_get_entries($ldapconnc, $resultsd);
+                            $usernametogetd= $infod[0]['name'][0];
+                        }
+
+                    }
+                    $projet->setFullnamechefprojet($usernametogetd);
+                }
+
+
+
+
+            }
+
+
+
             foreach ($com as $c){
                 if ($c->getDate()==null){
                     $c->setDate(new \DateTime());
@@ -276,22 +418,11 @@ class ProjetController extends AbstractController
 
 
 
-        /*if ($request->isXmlHttpRequest()) {
-
-            $profils = $profilRepository->findProfils($_POST['id']);
-            foreach ($profils as $pp) {
-                $cout1 = new Cout();
-                $cout1->setProfil($pp);
-                $projet->getCouts()->add($cout1);
-            }
-            $couts = array();
-            $couts = $projet->getCouts();
-            return $this->json(array('couts' => $couts));
-        }*/
 
         return $this->renderForm('projet/new.html.twig', [
             'projet' => $projet,
             'form' => $form,
+            'nameuser'=>$this->getUser()->getUsername(),
         ]);
 
 
@@ -303,6 +434,7 @@ class ProjetController extends AbstractController
      */
     public function cout(Monthleft $monthleft, BilanMensuelController $bilanMensuelController,  ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
+
         $mform = $this->createForm(ProjetCoutType::class, $projet);
         $mform->handleRequest($request);
         if ($mform->isSubmitted() && $mform->isValid()) {
@@ -421,7 +553,7 @@ class ProjetController extends AbstractController
             //$idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
-                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+                $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
 
 
@@ -450,7 +582,7 @@ class ProjetController extends AbstractController
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
-                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+                $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
 
             return $this->render('projet/showde.html.twig', [
@@ -476,7 +608,7 @@ class ProjetController extends AbstractController
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
-                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+                $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
 
 
@@ -502,7 +634,7 @@ class ProjetController extends AbstractController
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
-                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+                $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
             return $this->render('projet/showdg.html.twig', [
                 'projet' => $projet,
@@ -527,7 +659,7 @@ class ProjetController extends AbstractController
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
-                $profit = $idmonthbm[0]->getBilanMensuels()[0]->getInfobilans();
+                $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
 
             return $this->render('projet/showe.html.twig', [
@@ -1582,13 +1714,13 @@ class ProjetController extends AbstractController
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
                         foreach ($idmonthy as $idmonthies){
-                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
                                     foreach ($bmtodeletes->getInfobilans() as $infs){
                                         $bmtodeletes->removeInfobilan($infs);
                                     }
-                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                    $idmonthies->removeBilanmensuel($bmtodeletes);
                                 }
                             }
 
@@ -1659,11 +1791,11 @@ class ProjetController extends AbstractController
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
                         foreach ($idmonthy as $idmonthies){
-                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
                                     $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                    $idmonthies->removeBilanmensuel($bmtodeletes);
                                 }
                             }
 
@@ -1701,11 +1833,11 @@ class ProjetController extends AbstractController
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
                         foreach ($idmonthy as $idmonthies){
-                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
                                     $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                    $idmonthies->removeBilanmensuel($bmtodeletes);
                                 }
                             }
 
@@ -1753,11 +1885,11 @@ class ProjetController extends AbstractController
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
                         foreach ($idmonthy as $idmonthies){
-                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
                                     $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                    $idmonthies->removeBilanmensuel($bmtodeletes);
                                 }
                             }
 
@@ -1795,11 +1927,11 @@ class ProjetController extends AbstractController
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
                         foreach ($idmonthy as $idmonthies){
-                            $bmtodelete=$idmonthies->getBilanMensuels();
+                            $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
                                     $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanMensuel($bmtodeletes);
+                                    $idmonthies->removeBilanmensuel($bmtodeletes);
 
                                 }
                             }

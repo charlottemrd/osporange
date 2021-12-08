@@ -27,7 +27,6 @@ use App\Entity\Cout;
 use App\Entity\Bilanmensuel;
 use App\Entity\Paiement;
 use App\Entity\Projet;
-use App\Entity\User;
 use App\Form\CoutType;
 use App\Form\ModalitesType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

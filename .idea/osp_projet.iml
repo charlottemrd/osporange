@@ -164,6 +164,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/ldaptools/ldaptools-bundle" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/ldaptools/ldaptools" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/chadsikorra/php-simple-enum" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/beberlei/doctrineextensions" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

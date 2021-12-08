@@ -208,15 +208,15 @@
                 </thead>
                 <tbody>
                 {%set index=0 %}
-                {% for bilanMensuel in form.bilanMensuels %}
+                {% for bilanmensuel in form.bilanmensuels %}
                 <tr>
                     <td width="20%" style="text-align:center;background-color: lightgrey;border: black solid 0.5px">
-                              <span>{{ form_widget(bilanMensuel.projet, {
+                              <span>{{ form_widget(bilanmensuel.projet, {
                                       'label_attr': {'class': 'form_control'}}
                                   ) }}</span>
                     </td>
 
-                    {% for infobilan in bilanMensuel.Infobilans %}
+                    {% for infobilan in bilanmensuel.Infobilans %}
                         <td width="10%" style="text-align: center;border: black solid 0.5px" >
                                <span> {{ form_widget(infobilan.nombreprofit, {
                                        'label_attr': {'class': 'form_control'}}
@@ -231,7 +231,7 @@
 
 
                     <td style="border: black solid 0.5px;text-align: center;justify-items: center">
-                       <span>{{ form_widget(bilanMensuel.datemaj, {
+                       <span>{{ form_widget(bilanmensuel.datemaj, {
                                'label_attr': {'class': 'form_control'}}
                            ) }}</span>
 
@@ -239,7 +239,7 @@
 
                     <td  style="display:flex;border:none;border-right: rgba(0,0,0,0.63) solid 0.25px;border-bottom: rgba(0,0,0,0.63) solid 0.12px" >
 
-                        <button class="text-decoration-none" id=bilanMensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img class="photopen" src="/photo/pen.png "  width="30%" ></img></button>
+                        <button class="text-decoration-none" id=bilanmensuel_{{ index }} style="display: block;width: 100%;background-color: white;border: none" type="button" onclick=makeeditable({{ index }})><img class="photopen" src="/photo/pen.png "  width="30%" ></img></button>
                         <button class="text-decoration-none" id=validbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="button" onclick="submission({{ index }})"><img class="photocheck" src="/photo/check.png "  width="70%" height="100%"></img></button>
                         <button class="text-decoration-none" id=closingbm_{{ index }} style="display: none;width: 50%;background-color: white;border: none" type="reset" onclick=annulmodif({{ index }})><img class="photoclose" src="/photo/close.png "  width="40%" height="80%"></img></button>
 
@@ -286,12 +286,12 @@
         {% for profil in profils %}
         jo = jo + 1;
         {% endfor %}
-        {% for bilanMensuel in form.bilanMensuels %}
+        {% for bilanmensuel in form.bilanmensuels %}
         po = po + 1;
         {% endfor %}
         for (az = 0; az < jo + 1; az++) {
             for (pz = 0; pz < po + 1; pz++) {
-                dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [pz] + '_Infobilans_' + [az] + '_nombreprofit').setAttribute('disabled', 'disabled');
+                dxeqz = document.getElementById('idmonthbm_bilanmensuels_' + [pz] + '_Infobilans_' + [az] + '_nombreprofit').setAttribute('disabled', 'disabled');
             }
         }
         double = false;
@@ -343,7 +343,7 @@
 
         function submission(i) {
             $indexprojet = i;
-            $phasing6 = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_projet');
+            $phasing6 = document.getElementById('idmonthbm_bilanmensuels_' + [i] + '_projet');
             var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
 
                jQuery(document).ready(function () {
@@ -357,9 +357,9 @@
                     for (im = 0; im < profilarray.length; im++) {
                         var tableaucompose = new Array();
                         tableaucompose.push(profilarray[im]);
-                        tableaucompose.push(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
+                        tableaucompose.push(document.getElementById('idmonthbm_bilanmensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
                         tableaufinal.push(tableaucompose);
-                        if(document.getElementById('idmonthbm_bilanMensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value<0){
+                        if(document.getElementById('idmonthbm_bilanmensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value<0){
                             isnegative=true;
                         }
                     }
@@ -415,9 +415,9 @@
                 j = j + 1;
                 {% endfor %}
                 for (p = 0; p < j + 1; p++) {
-                    dxeqz = document.getElementById('idmonthbm_bilanMensuels_' + [i] + '_Infobilans_' + [p] + '_nombreprofit').removeAttribute("disabled");
+                    dxeqz = document.getElementById('idmonthbm_bilanmensuels_' + [i] + '_Infobilans_' + [p] + '_nombreprofit').removeAttribute("disabled");
                 }
-                document.getElementById('bilanMensuel_' + [i]).style.display = "none";
+                document.getElementById('bilanmensuel_' + [i]).style.display = "none";
                 document.getElementById('closingbm_' + [i]).style.display = "inline-block";
                 document.getElementById('validbm_' + [i]).style.display = "inline-block";
                 double = true;
@@ -429,7 +429,7 @@
         function annulmodif(i) {
 
 
-            document.getElementById('bilanMensuel_' + [i]).style.display = "inline-block";
+            document.getElementById('bilanmensuel_' + [i]).style.display = "inline-block";
             document.getElementById('closingbm_' + [i]).style.display = "none";
             document.getElementById('validbm_' + [i]).style.display = "none";
             double = false;
