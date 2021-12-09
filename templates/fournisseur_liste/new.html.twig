@@ -128,10 +128,11 @@
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
+
                         <tr>
                             <th> {{ form_label(form, 'Interlocuteur', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.interlocuteur, {
+                            <th>{{ form_widget(form.fournisseurldap, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
@@ -235,6 +236,43 @@
     <script>
         $.validator.messages.required = 'Ce champ est requis';
         $.validator.messages.pattern='Le format rentré est incorrect';
+        $(document).ready(function (){
+
+            ListeOption = document.getElementById('fournisseur_fournisseurldap')
+            for (var i =1, l = ListeOption.options.length; i < l; i++) {
+                if (ListeOption.options[i].label == '') {
+                    var guidvalue = ListeOption.options[i].value;
+
+                    jQuery(document).ready(function () {
+                        $.ajax({
+                            method: "POST",
+                            url: "{{ path('fournisseur_liste_new') }}",
+                            data: {type: 1, index: i , guid: guidvalue },
+                            dataType: 'json',
+                            success: function (html) {
+                                console.log(html);
+                                if (html.success) {
+                                    sz = document.getElementById('fournisseur_fournisseurldap');
+                                    sz.options[i-1].innerText=html.message;
+                                }
+                            }
+                        }).done(function (response) {
+                        }).fail(function (jxh, textmsg, errorThrown) {
+                            console.log(textmsg);
+                            console.log(errorThrown);
+                            alert(errorThrown);
+                        });
+                    })
+                }
+            }
+
+
+        });
+
+
+
+
+
     </script>
 
 

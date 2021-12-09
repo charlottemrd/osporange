@@ -241,7 +241,7 @@ class ProjetController extends AbstractController
 
                     if ($ldapbind) {
                         $attributes = ['displayname'];
-                        $filter = "(&(objectClass=user)(objectCategory=person)(dn=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
+                        $filter = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
                         $baseDn = $_ENV['BASE_OF_DN'];
                         $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
                         $info = ldap_get_entries($ldapconn, $results);
@@ -279,7 +279,7 @@ class ProjetController extends AbstractController
 
                     if ($ldapbindc) {
                         $attributesc = ['objectguid'];
-                        $filterc = "(&(objectClass=user)(objectCategory=person)(dn=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
+                        $filterc = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
                         $baseDnc = $_ENV['BASE_OF_DN'];
                         $resultsc = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesc);
                         $infoc = ldap_get_entries($ldapconnc, $resultsc);
@@ -295,7 +295,7 @@ class ProjetController extends AbstractController
                         }
 
                     }
-                    $projet->setFullnamechefprojet($usernametogetd);
+                    $projet->getIduserldap($usernametogetd);
                 }
 
 

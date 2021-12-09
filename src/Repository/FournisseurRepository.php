@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Fournisseur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Ldap\Security\LdapUser;
 
 /**
  * @method Fournisseur|null find($id, $lockMode = null, $lockVersion = null)
@@ -52,7 +53,7 @@ class FournisseurRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Fournisseur[]
      */
-    public function searchbilanfournisseur() : array
+    public function searchbilanfournisseur(String $userid) : array
     {
            $query = $this
             ->createQueryBuilder('fournisseur');
@@ -62,6 +63,10 @@ class FournisseurRepository extends ServiceEntityRepository
         $query = $query
             ->andWhere('paiement.id =:key')
             ->setParameter('key', 1);
+
+        $query = $query
+            ->andWhere('fournisseur.fournisseurid =:key')
+            ->setParameter('key',$userid );
 
         return $query->getQuery()->getResult();
 

@@ -42,7 +42,7 @@ class InteractiveLoginListener
                 $info = ldap_get_entries($ldapconn, $results);
                 if(isset($info[0]['displayname'][0])){
                 $usernametoget= $info[0]['displayname'][0];
-                $this->security->getToken()->setAttribute('full name',$usernametoget );}
+                $this->security->getToken()->setAttribute('fullname',$usernametoget );}
                 else{
                     $attributesb = ['samaccountname'];
                     $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);

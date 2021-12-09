@@ -17,8 +17,8 @@
         <source>Authentication request could not be processed due to a system problem.</source>
         <target>La requête d'authentification n'a pas pu être executée à cause d'un problème système.</target>
       </trans-unit>
-      <trans-unit id="qr0aiUo" resname="Invalid credentials.">
-        <source>Invalid credentials.</source>
+      <trans-unit id="qr0aiUo" resname="Invalid credentials">
+        <source>Invalid credentials</source>
         <target>Identifiants invalides.</target>
       </trans-unit>
       <trans-unit id="zrJWK0F" resname="Cookie has already been used by someone else.">

@@ -23,10 +23,7 @@
             You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-    {% if error %}
-        {{  dump(error) }}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+
     <h1 class="h2 mb-3 fw-normal text-center">Connectez-vous</h1>
     <br>
     <div class="form-floating">

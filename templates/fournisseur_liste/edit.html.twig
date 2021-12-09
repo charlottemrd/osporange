@@ -134,12 +134,18 @@
                                 ) }}
                             </th>
                         </tr>
-                        <tr>
-                            <th> {{ form_label(form, 'Interlocuteur', {
+
+                        <tr style="border-color: white" >
+                            <th>
+                                {{ form_label(form, 'Interlocuteur', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th>{{ form_widget(form.interlocuteur, {
+                            <th  id="tore">
+                                {{ form_widget(form.fournisseurfullname, {
                                     'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
+                                ) }}
+                            </th>
+
+
                         </tr>
                         <tr>
                             <th> {{ form_label(form, 'Numéro de téléphone', {
@@ -281,6 +287,8 @@
         });
         $.validator.messages.required = 'Ce champ est requis';
         $.validator.messages.pattern='Le format rentré est incorrect';
+
+
     </script>
 
 

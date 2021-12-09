@@ -43,10 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $name;
 
 
-    /**
-     * @ORM\OneToMany(targetEntity=Fournisseur::class, mappedBy="interlocuteur",orphanRemoval=true, cascade={"persist"})
-     */
-    private $fournisseurs;
+
 
     public function __construct()
     {
@@ -169,27 +166,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->fournisseurs;
     }
 
-    public function addFournisseur(Fournisseur $fournisseur): self
-    {
-        if (!$this->fournisseurs->contains($fournisseur)) {
-            $this->fournisseurs[] = $fournisseur;
-            $fournisseur->setInterlocuteur($this);
-        }
 
-        return $this;
-    }
 
-    public function removeFournisseur(Fournisseur $fournisseur): self
-    {
-        if ($this->fournisseurs->removeElement($fournisseur)) {
-            // set the owning side to null (unless already changed)
-            if ($fournisseur->getInterlocuteur() === $this) {
-                $fournisseur->setInterlocuteur(null);
-            }
-        }
-
-        return $this;
-    }
 
 
 }

@@ -25,11 +25,13 @@ class LdapLoginListener
 
     public function onLdapLoginSuccess(LdapLoginEvent $event)
     {
-        #return new RedirectResponse($this->router->generate('projet_index'));
+
+        //$event->addListener(new RedirectResponse('projet_index'));
+        //$event->setResponse(new
         //$event->getUser()->add('sz','zs');
+       // return new RedirectResponse($this->router->generate('projet_index'));
 
 
-        //$this->security->getToken()->setAttribute('perimetre', 'nj');
     }
 
 

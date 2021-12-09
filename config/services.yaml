@@ -32,8 +32,8 @@ ldap_tools:
             http_basic_realm: null
         roles:
     # Using the common group name
-            #ROLE_ADMIN: [ '%env(CP_GROUPE)%' ]
-            ROLE_USER: [ '%env(MANAGER_GROUPE)%' ]
+            ROLE_ADMIN: [ '%env(MANAGER_GROUPE)%' ]
+            ROLE_USER: [ '%env(CP_GROUPE)%','%env(MANAGER_GROUPE)%' ]
     # Using the distinguished name of the group
         default_role: ROLE_ANONYMOUS
 

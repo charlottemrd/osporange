@@ -103,7 +103,7 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function findSearchMof(SearchData $search, User $user) : array
+    public function findSearchMof(SearchData $search, LdapUser $user) : array
     {
 
         $query = $this
@@ -183,7 +183,7 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function findSearchProjetM( User $user) : array
+    public function findSearchProjetM( LdapUser $user) : array
     {
 
         $query = $this
@@ -215,7 +215,7 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function findexportSearch(User $user) : array
+    public function findexportSearch(LdapUser $user) : array
     {
 
         $query = $this

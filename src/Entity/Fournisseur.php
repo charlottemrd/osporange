@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use LdapTools\Bundle\LdapToolsBundle\Annotation as LdapTools;
 
 /**
  * @ORM\Entity(repositoryClass=FournisseurRepository::class)
@@ -64,10 +65,22 @@ class Fournisseur
      */
     private $idmonthbms;
 
+
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="fournisseurs")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $interlocuteur;
+    private $fournisseurid;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $fournisseurfullname;
+
+    /**
+     * @ORM\Column(type="ldap_object", nullable=true)
+     * @LdapTools\LdapObject(type="group")
+     */
+    private $fournisseurldap;
 
     public function __construct()
     {
@@ -237,14 +250,35 @@ class Fournisseur
         return $this;
     }
 
-    public function getInterlocuteur(): ?User
+
+
+    public function setFournisseurid(?string $fournisseurid): self
     {
-        return $this->interlocuteur;
+        $this->fournisseurid = $fournisseurid;
+
+        return $this;
     }
 
-    public function setInterlocuteur(?User $interlocuteur): self
+    public function getFournisseurfullname(): ?string
     {
-        $this->interlocuteur = $interlocuteur;
+        return $this->fournisseurfullname;
+    }
+
+    public function setFournisseurfullname(?string $fournisseurfullname): self
+    {
+        $this->fournisseurfullname = $fournisseurfullname;
+
+        return $this;
+    }
+
+    public function getFournisseurldap()
+    {
+        return $this->fournisseurldap;
+    }
+
+    public function setFournisseurldap($fournisseurldap): self
+    {
+        $this->fournisseurldap = $fournisseurldap;
 
         return $this;
     }

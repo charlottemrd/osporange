@@ -165,7 +165,6 @@ class UserFixtures extends Fixture
         $fournisseur1=new Fournisseur();
         $fournisseur1->setName('fournisseur A');
         $fournisseur1->setDevise('a');
-        $fournisseur1->setInterlocuteur($user);
 
         $profil1=new Profil();
         $profil1->setName('a');
