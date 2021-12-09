@@ -394,13 +394,13 @@
                         </table>
                         <br>
                     {% endmacro %}
-                    <br>
-                    <p id="tauxerror"></p>
-                    <div id="navmode" style="display: none">
+
+                    <div id="navmode" style="display: block">
                         Pas de modalités de réceptions demandées
                         <br>
                         Vous pouvez passer à l'étape suivante
                     </div>
+                    <p id="tauxerror"></p>
                     <table width="100%">
 
                         <tr id="mode">
@@ -650,7 +650,7 @@
 
 
 
-                    document.getElementById('navmode').style.display="none";
+                    document.getElementById('navmode').style.display="block";
                     document.getElementById('mode').style.display="none";
                     document.getElementById("projet_paiement").required=false;
 
