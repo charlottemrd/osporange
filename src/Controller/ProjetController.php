@@ -2012,6 +2012,9 @@ class ProjetController extends AbstractController
         else if($projet->getPhase()->getId()==2) { //stand by
 
             $namephaseint=$projet->getHighestphase();
+            if($namephaseint==2){
+                $namephaseint=3;
+            }
             $namephase = $phaseRepository->find( $namephaseint)->getName();
 
             $form = $this->createForm(PhasehType::class,$projet);
