@@ -6,7 +6,7 @@
         img#logo{
             width: 35%;
         }
-        h3#logotitle{
+        h1#logotitle{
             font-size: 30px;
         }
     }
@@ -15,14 +15,16 @@
 <div class=" container-fluid bg-black nav-bar">
     <header class="blog-header py-3">
         <div class="row flex-nowrap justify-content-between align-items-center">
-
             <div class="col-4 " class="img-fluid">
-                <img id="logo" src="/photo/logo_orange.jpg "  width="15%" height="15%"></img>
+                {% if is_granted('ROLE_USER') %}
+                    <a  href="/projet"><img id="logo" src="/photo/logo_orange.jpg "  width="15%" height="15%" ></a>
+                {% else %}
+                    <img id="logo" src="/photo/logo_orange.jpg "  width="15%" height="15%" >
+                {% endif %}
             </div>
             <div class="col-4 text-center">
-                <h3 id="logotitle" class="text-white" >OSP</h3>
+                <h1 id="logotitle" class="text-white" >OSP</h1>
             </div>
-
             <div class="col-4 d-flex justify-content-end align-items-center">
                 {% if is_granted('ROLE_USER') %}
                 <div class="btn-group">
@@ -33,21 +35,17 @@
                         <div class="dropdown-menu">
                             <a class="dropdown-item" href="/projet/">Projets</a>
                             <a class="dropdown-item" href="/projet/new">Ajouter un projet</a>
-                            <a class="dropdown-item" href="/bilanmensuel/">Bilan mensuel</a>
+                            <a class="dropdown-item" href="/bilanmensuel/">Bilan mensuels</a>
                             <a class="dropdown-item" href="/listemodalites/">Modalités</a>
                             <a class="dropdown-item" href="/pvinternes/">PVR internes</a>
-                            <a class="dropdown-item" href="/fournisseur/liste">Fournisseur</a>
+                            <a class="dropdown-item" href="/fournisseur/liste">Fournisseurs</a>
                             <a class="dropdown-item" href="#">Aide</a>
-                            <a class="dropdown-item" href="#">FAQ</a>
                             <a class="dropdown-item" href="/logout">Déconnexion</a>
                         </div>
                     </div>
-
                 </div>
                 {% endif %}
             </div>
-
         </div>
-
     </header>
 </div>

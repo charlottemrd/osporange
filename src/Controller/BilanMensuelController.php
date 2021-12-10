@@ -25,7 +25,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Notifier\Notification\Notification;
 use DateInterval;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 /**
  * @Route("/bilanmensuel")
  */
@@ -46,7 +52,8 @@ class BilanMensuelController extends AbstractController
     }
 
     /**
-     * @Route("/name", name="bilanmensuel_fournisseur",methods={"GET"})
+     * @Route("/{name}", name="bilanmensuel_fournisseur",methods={"GET","POST"})
+     * @Entity("comment", expr="repository.find(name)")
      */
     public function fournisseur(Fournisseur $fournisseur, IdmonthbmRepository $idmonthbmRepository, Request $request)
     {
@@ -68,7 +75,9 @@ class BilanMensuelController extends AbstractController
 
     /**
      * @Route("/{name}/{idmonthbm}/{month}/{year}", name="bilanmensuel_fournisseurmois",methods={"GET","POST"})
+     * @Entity("comment", expr="repository.find(name)")
      */
+
     public function fournisseurmois(Monthleft $monthleft, NotifierInterface $notifier, CoutRepository $coutRepository, InfobilanRepository $infobilanRepository, ProjetRepository $projetRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository,IdmonthbmRepository $idmonthbmRepository, ProfilRepository $profilRepository,Request $request)
     {
 

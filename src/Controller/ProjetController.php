@@ -295,7 +295,7 @@ class ProjetController extends AbstractController
                         }
 
                     }
-                    $projet->getIduserldap($usernametogetd);
+                    $projet->setIduserldap($usernametogetd);
                 }
 
 

@@ -169,6 +169,7 @@
       <path value="$PROJECT_DIR$/vendor/ldaptools/ldaptools" />
       <path value="$PROJECT_DIR$/vendor/chadsikorra/php-simple-enum" />
       <path value="$PROJECT_DIR$/vendor/beberlei/doctrineextensions" />
+      <path value="$PROJECT_DIR$/vendor/tattali/calendar-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
