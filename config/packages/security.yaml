@@ -1,7 +1,6 @@
 security:
     hide_user_not_found:  false
     encoders:
-        # This is the default user class returned from the LDAP provider below
         LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUser: plaintext
         App\Entity\User:
             algorithm: auto
@@ -18,7 +17,6 @@ security:
 
         main:
             anonymous: ~
-            # Use the default LDAP user provider defined above
             provider: ldap
             pattern: ^/
             logout: ~
@@ -29,10 +27,7 @@ security:
             guard:
                 authenticators:
                     - ldap_tools.security.ldap_guard_authenticator
-           # form_login:
-            #    login_path: app_login
-            #    check_path: app_login
-              #  csrf_token_generator: security.csrf.token_manager
+
 
         login:
             pattern: ^/
@@ -48,6 +43,7 @@ security:
         - { path: ^/modalites, role: ROLE_USER }
         - { path: ^/export, role: ROLE_USER }
         - { path: ^/exporthome, role: ROLE_USER }
+
     role_hierarchy:
         ROLE_ADMIN: ROLE_USER
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]

@@ -11,19 +11,7 @@ class ProjetCrudController extends AbstractCrudController
     {
         return Projet::class;
     }
-    public function configureFields(string $pageName): iterable
-    {
-        return [
-            'reference',['label_attr'=>['placeholder'=>'xzs']],
-            'Fournisseur',
-            'domaine'=>'Domaine',
-            'sdomaine'=>'Sous domaine',
-            'description'=>'Description',
-            'taux'=>'Avancement',
-            'isplanningrespecte'=>'Respect du planning',
 
-        ];
-    }
 
     /*
     public function configureFields(string $pageName): iterable

@@ -27,20 +27,20 @@ class UserFixtures extends Fixture
     }
     public function load(ObjectManager $manager)
     {
-        $user = new User();
-        $user->setEmail('john.kind@gmail.coms');
-        $user->setRoles(['ROLE_USER']);
-        $user->setPassword($this->passwordEncoder->encodePassword($user, 'Test1234'));
-
-        $user->setName('John Kind');
-        $manager->persist($user);
-
-        $user2 = new User();
-        $user2->setEmail('marcel.abc@gmail.coms');
-        $user2->setRoles(['ROLE_ADMIN']);
-        $user2->setPassword($this->passwordEncoder->encodePassword($user2,'Test1234'));
-        $user2->setName('Marcel ABC');
-        $manager->persist($user2);
+//        $user = new User();
+//        $user->setEmail('john.kind@gmail.coms');
+//        $user->setRoles(['ROLE_USER']);
+//        $user->setPassword($this->passwordEncoder->encodePassword($user, 'Test1234'));
+//
+//        $user->setName('John Kind');
+//        $manager->persist($user);
+//
+//        $user2 = new User();
+//        $user2->setEmail('marcel.abc@gmail.coms');
+//        $user2->setRoles(['ROLE_ADMIN']);
+//        $user2->setPassword($this->passwordEncoder->encodePassword($user2,'Test1234'));
+//        $user2->setName('Marcel ABC');
+//        $manager->persist($user2);
 
 
         $paiement = new Paiement();
@@ -164,14 +164,16 @@ class UserFixtures extends Fixture
         //dataset for bilanmensuel :essai
         $fournisseur1=new Fournisseur();
         $fournisseur1->setName('fournisseur A');
-        $fournisseur1->setDevise('a');
+        $fournisseur1->setDevise('MAD');
+        $fournisseur1->setFournisseurid('UserAppweb_Manager');
+        $fournisseur1->setFournisseurfullname('UserAppweb_Manager');
 
         $profil1=new Profil();
-        $profil1->setName('a');
-        $profil1->setTarif(100);
+        $profil1->setName('profil 1');
+        $profil1->setTarif(200);
         $profil1->setFournisseur($fournisseur1);
         $profil2=new Profil();
-        $profil2->setName('b');
+        $profil2->setName('profil 2');
         $profil2->setTarif(100);
         $profil2->setFournisseur($fournisseur1);
         $fournisseur1->getProfils()->add($profil1);
@@ -180,7 +182,7 @@ class UserFixtures extends Fixture
         $manager->persist($fournisseur1);
 
 
-        $projet1=new Projet();
+        /*$projet1=new Projet();
         $projet1->setTypebu($typebu);
         $projet1->setFournisseur($fournisseur1);
         $projet1->setPhase($phase6);
@@ -276,13 +278,13 @@ class UserFixtures extends Fixture
         $info2->setNombreprofit(0);
         $info2->setProfil($profil2);
         $info2->setBilanmensuel($bilan1);
-        $manager->persist($info2);
+        $manager->persist($info2);*/
 
        /* $info2=new Infobilan();
         $info2->setNombreprofit(0);
         $info2->setProfil($profil2);
         $info2->setBilanmensuel($bilan1);
-        $bilan1->getInfobilans()->add($info2);*/
+        $bilan1->getInfobilans()->add($info2);
 
         $manager->persist($bilan1);
 
@@ -308,7 +310,7 @@ class UserFixtures extends Fixture
 
 
         $manager->persist($bilan2);
-
+*/
 
 
 

@@ -84,6 +84,13 @@ class ProjetController extends AbstractController
      */
     public function index(ProjetRepository $projetRepository,Request $request)
     {
+        // function de la liste des projets
+        //les projets visibles dependent de la recherche de l utilisateur et du statut de l utilisateur
+        // si l utilisateur est chef de projet, il ne voit que ses propres projets
+        //si l utilisateur est manager, il voit tous les projets
+
+
+
         $data=new SearchData();
         $form=$this->createForm(SearchType::class,$data);
         $form->handleRequest($request);
@@ -122,6 +129,15 @@ class ProjetController extends AbstractController
      */
     public function new(LdapManager $ldapManager ,Security $security,  ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
+        //on cree un nouveau projet avec les paramatres suivants prerempli :
+        // taux avancement = 0
+        // date creation = date actuelle
+        // chef de projet : si utilisateur connecte  est chef de projet =>ce dernier est affecte au role
+        // sinon le manager peut choisir qui il veut
+        // planning respecte
+
+
+
         $projet = new Projet();
         $projet->setTaux('0');
         $projet->setDatecrea(new \DateTime());
@@ -203,6 +219,9 @@ class ProjetController extends AbstractController
 
         if ($request->isXmlHttpRequest()) {
 
+            // la requete sert a remplir le choice list du chef de projet
+            //si une personne n a pas d attribut displayname sur ldap
+
             $type = $request->request->get('type');
             if ($type == 1) {
                 $indexofm = $request->request->get('index');
@@ -224,10 +243,14 @@ class ProjetController extends AbstractController
             }}
 
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {  // soumission formulaire valide
             $projet->setHighestphase($projet->getPhase()->getRang());
             $com=$projet->getCommentaires();
             if($projet->getFullnamechefprojet()==null){
+
+                // on recupere l id et le nom complet du chef de projet que l on stocke dans la bdd
+
+
                 $ldaprdn = $_ENV['USERNAME_ADMIN'];
                 $ldappass = $_ENV['PSWD_ADMIN'];
                 $ldapconn = ldap_connect($_ENV['IP_SERVER']);
@@ -306,12 +329,16 @@ class ProjetController extends AbstractController
 
 
             foreach ($com as $c){
+                // si un nouveau commentaire est cree, on ajoute sa date de creation
                 if ($c->getDate()==null){
                     $c->setDate(new \DateTime());
                 }
             }
 
             if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPhase()->getId()==3)||($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)){
+             // si le projet est abandonne / stand by / non demarre / caadrage / etude
+                // on supprime toutes les informations non utiles lors de ces phases
+                //qui pourraient avoir ete rentrer par l utilisateur
                 foreach ($projet->getModalites() as $myp){
                     $projet->removeModalite($myp);
                 }
@@ -323,7 +350,7 @@ class ProjetController extends AbstractController
                 $projet->setIseligibletobm(false);
             }
 
-            //to change after
+            // on prerempli le cout du projet grace au fournisseur => cout = 0
             $fournisseur=$projet->getFournisseur();
             $profils=$fournisseur->getProfils();
             foreach ($profils as $p){
@@ -334,6 +361,7 @@ class ProjetController extends AbstractController
                 $projet->getCouts()->add($cout);
             }
 
+            //on ajoute des informations aux modalites qui viennent d etre creee
             $mod=$projet->getModalites();
             foreach ($mod as $m){
                 if ($m->getConditionsatisfield()==null){
@@ -344,14 +372,18 @@ class ProjetController extends AbstractController
             }
             $myphase=$projet->getPhase()->getId();
             if($myphase>=6){
+                // si le projet est eligible au paiement
                 if ($projet->getPaiement()->getId()==2){
+                    //si il s agit d un paiement par pv interne
                     $dateactuelle=new \DateTime();
                     $moisencours=date_format($dateactuelle, 'm');
                     $anneeencours=date_format($dateactuelle, 'Y');
                     //$idmonthbmpasse=$idmonthbmRepository->ownmonthfournisseur($moisencours,$anneeencours,$projet->getFournisseur()->getId());
                     $pvinternepass=$datepvinterneRepository->owndatepv($moisencours,$anneeencours);
-                    if($pvinternepass){ //on cree un pv interne avec date= pv interne pass
-
+                    // si des pvrs  du mois en cours existent  deja, on cree un nouveau pvr avec la date des
+                    // pvrs actuelles
+                    if($pvinternepass){
+                        // on cree le pvr
                         $pvinterne=new Pvinternes();
                         $pvinterne->setProjet($projet);
                         $pvinterne->setDate($pvinternepass);
@@ -362,7 +394,8 @@ class ProjetController extends AbstractController
 
 
                 }
-                    else{ // on cree tout
+                    else{
+                        // sinon on cree une nouvelle date pour le pvr interne du mois actuel
 
                         $datepvinterne=new Datepvinterne();
                         $datepvinterne->setDatemy(new \DateTime());
@@ -377,7 +410,7 @@ class ProjetController extends AbstractController
 
 
                     }
-                }// si paiement = bilan mensuel
+                }
 
 
 
@@ -387,6 +420,8 @@ class ProjetController extends AbstractController
             $entityManager->flush();
 
             if(($projet->getPhase()->getId()>=6)&&($projet->getPaiement()->getId()==2)){
+                // si le paiement est par modalite
+                // on etablie un rang des modalite par rapport au pourcentage
                 $ml=$modalitesRepository->findBy(array('projet'=>$projet),array('pourcentage'=>'ASC'));
                 if($ml){
                 $ui=0;
@@ -406,11 +441,13 @@ class ProjetController extends AbstractController
             if(($myphase==6)||($myphase==7)||($myphase==8)||($myphase==9)||($myphase==10))
             {
 
-
+                // si le projet est eligible au paiement
+                // on demande le nb de profils
                 return $this->redirectToRoute('projet_cout', ['projet'=>$projet,'id'=>$projet->getId()], Response::HTTP_SEE_OTHER);
 
             }
             else{
+                //sinon le projet est ajoute, on va vers la liste des projets
                 $notifier->send(new Notification('Le projet a bien été ajouté', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
@@ -434,6 +471,9 @@ class ProjetController extends AbstractController
      */
     public function cout(Monthleft $monthleft, BilanMensuelController $bilanMensuelController,  ProfilRepository $profilRepository,BilanmensuelRepository $bilanmensuelRepository, InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
+        // function qui demande le cout du projet pour chaque profil du fournisseur
+        // si le mode de paiement est par bilan mensuel
+        //on cree le bilan mensuel selon les profils rentree dans l application
 
         $mform = $this->createForm(ProjetCoutType::class, $projet);
         $mform->handleRequest($request);
@@ -527,13 +567,17 @@ class ProjetController extends AbstractController
      */
     public function show(Projet $projet, InfobilanRepository $infobilanRepository, IdmonthbmRepository $idmonthbmRepository, BilanmensuelRepository $bilanmensuelRepository): Response
     {
+        //montre les details d un projet selon sa phase
+
         if(($projet->getPhase()->getId()==3)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==3))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==3))){//non demarre
+          //projet => phase = non demarre
             return $this->render('projet/showa.html.twig', [
                 'projet' => $projet,
                 'commentaires'=>$projet->getCommentaires(),
             ]);
         }
         else if(($projet->getPhase()->getId()==4)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==4))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==4))){ //cadrage
+          //projet => phase = cadrage
             return $this->render('projet/showb.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
@@ -541,6 +585,7 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==5)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==5))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==5))){ //etude
+           // projet =>phase = etude
             return $this->render('projet/showc.html.twig', [
                 'projet' => $projet,
                 'date_lones'=>$projet->getDateLones(),
@@ -549,6 +594,7 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==6)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==6))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==6))){ //consctruction
+           // projet => phase = conception
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             //$idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
@@ -578,7 +624,7 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==7)||(($projet->getPhase()->getId()==1)&&($projet->getHighestphase()==7))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==7))){ //consctruction
-
+            // projet phase => test
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
@@ -605,6 +651,7 @@ class ProjetController extends AbstractController
         }
 
         else if(($projet->getPhase()->getId()==8)||(($projet->getPhase()->getId()==8)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==8))){ //test
+            // projet phase => recette
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
@@ -631,6 +678,7 @@ class ProjetController extends AbstractController
             ]);
         }
         else if(($projet->getPhase()->getId()==9)||(($projet->getPhase()->getId()==9)&&($projet->getHighestphase()==1))||(($projet->getPhase()->getId()==2)&&($projet->getHighestphase()==9))){ //test
+           // projet phase => production
             $idmonthbm=$idmonthbmRepository->ownprojet($projet->getId());
             $profit=[];
             if($idmonthbm) {
