@@ -268,7 +268,18 @@
 
 
                         </tr>
+                        <tr style="border-color: white" >
+                            <th width="15%">
 
+                                {{ form_label(form, 'Date des spécifications *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th id="tore">
+                                {{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th  style="padding-left: 1%"><label id="modifyd_datespec-error" class="error" for="modifyd_datespec"></label></th>
+                        </tr>
                         <tr>
                             <th> {{ form_label(form, 'Description', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -411,18 +422,7 @@
                             <th   style="padding-left: 1%"><label id="modifyd_date3-error" class="error" for="modifyd_date3"></label></th>
 
                         </tr>
-                        <tr style="border-color: white" >
-                            <th width="15%">
 
-                                {{ form_label(form, 'Date des spécifications *', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th id="tore">
-                                {{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}
-                            </th>
-                            <th  style="padding-left: 1%"><label id="modifyd_datespec-error" class="error" for="modifyd_datespec"></label></th>
-                        </tr>
 
 
                     </table>

@@ -260,9 +260,18 @@ e                            modifyde_fournisseur"></label></th>
 e                            modifyde_typebu-error" class="error" for="modify
 e                            modifyde_typebu"></label></th>
 
-
                         </tr>
-
+                        <tr style="border-color: white" >
+                            <th width="15%">
+                                {{ form_label(form, 'Date des spécifications *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th id="tore">
+                                {{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%"><label id="modifyde_datespec-error" class="error" for="modifyde_datespec"></label></th>
+                        </tr>
                         <tr>
                             <th> {{ form_label(form, 'Description', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -405,18 +414,7 @@ e                            modifyde_risque"></label></th>
                             <th  style="padding-left: 1%"><label id="modifyde_date3-error" class="error" for="modifyde_date3"></label></th>
 
                         </tr>
-                        <tr style="border-color: white" >
-                            <th width="15%">
 
-                                {{ form_label(form, 'Date des spécifications *', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th id="tore">
-                                {{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}
-                            </th>
-                            <th style="padding-left: 1%"><label id="modifyde_datespec-error" class="error" for="modifyde_datespec"></label></th>
-                        </tr>
 
 
                     </table>

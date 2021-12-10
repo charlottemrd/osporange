@@ -228,14 +228,7 @@
                                 ) }}</th>
                             <th  width="50%" style="padding-left: 1%"><label id="phasec_date3-error" class="error" for="phasec_date3"></label></th>
                         </tr>
-                        <tr id="datespec">
-                            <th width="15%" > {{ form_label(form, 'Date de spécifications *', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th id="tore" >{{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th  width="50%" style="padding-left: 1%"><label id="phasec_datespec-error" class="error" for="phasec_datespec"></label></th>
-                        </tr>
+
                     </table>
                     <p style="font-weight: bold"   id="messerror1"></p>
 
@@ -494,8 +487,7 @@
                 document.getElementById('phasec_date1').value=null;
                 document.getElementById('phasec_date2').value=null;
                 document.getElementById('phasec_date3').value=null;
-                document.getElementById('phasec_datespec').value=null;
-                document.getElementById('phasec_paiement').value=null;
+                 document.getElementById('phasec_paiement').value=null;
                 document.getElementById('modalites').style.display="none";
                 document.getElementById('phasec_debit1bm').value=null;
                 document.getElementById('phasec_debit2bm').value=null;
@@ -524,9 +516,6 @@
                     document.getElementById('date3').style.display="none";
                     document.getElementById("phasec_date3").required=false;
 
-                    document.getElementById('phasec_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("phasec_datespec").required=false;
 
                     document.getElementById('navdate').style.display="block";
 
@@ -568,9 +557,6 @@
                     document.getElementById("phasec_date3").required=true;
 
 
-                    document.getElementById('phasec_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("phasec_datespec").required=true;
                     document.getElementById('phasec_paiement').required=true;
 
                     document.getElementById('navdate').style.display="none";

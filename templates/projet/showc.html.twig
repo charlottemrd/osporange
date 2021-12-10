@@ -219,6 +219,14 @@
                             <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.typebu }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
+                    {%if projet.datespec!=null %}
+                        <div id="tore" class="input-group mb-3" >
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span class="input-group-text" id="basic-addon1" style="white-space: pre-wrap">Date des spécifications</span>
+                            </div>
+                            <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datespec|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
                     {%if projet.description!=null %}
                         <div class="input-group mb-3" id="tore">
                             <div class="input-group-prepend " style="width: 40%">

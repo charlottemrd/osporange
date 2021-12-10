@@ -11,7 +11,8 @@
          input#projet_domaine,input#projet_sdomaine, select#projet_fournisseur.projet_fournisseur,
          select#projet_typebu.projet_typebu,select#projet_priorite,select#projet_risque,
          input#projet_garanti,select#projet_modalites,input#projet_modalites,
-         input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,textarea#projet_description
+         input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,textarea#projet_description,
+         input#projet_datespec
          {
              width: 100%;
 
@@ -244,6 +245,17 @@
 
 
                         </tr>
+
+                        <tr id="datespec">
+                            <th id="tocutlab" > {{ form_label(form, 'Date de spécifications', {
+                                    'label_attr': {'class': 'input-group-text','id': 'label_spec'}}) }}</th>
+                            <th width="15%" >{{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
+                        </tr>
+
+
                         <tr>
                             <th> {{ form_label(form, 'Priorité ', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
@@ -251,9 +263,11 @@
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th style="padding-left: 1%"><label id="projet_priorite-error" class="error" for="projet_priorite"></label></th>
-
-
                         </tr>
+
+
+
+
                         <tr style="border-color: white">
                             <th>
 
@@ -333,14 +347,7 @@
                                 ) }}</th>
                             <th  style="padding-left: 1%"><label id="projet_date3-error" class="error" for="projet_date3"></label></th>
                         </tr>
-                        <tr id="datespec">
-                            <th id="tocutlab" > {{ form_label(form, 'Date de spécifications', {
-                                    'label_attr': {'class': 'input-group-text','id': 'label_spec'}}) }}</th>
-                            <th width="15%" >{{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}</th>
-                            <th><label id="projet_datespec-error" class="error" for="projet_datespec"></label></th>
-                        </tr>
+
                         <tr>
                             <th> <p id="messerror1"></p></th>
                         </tr>
@@ -642,9 +649,7 @@
                     document.getElementById('date3').style.display="none";
                     document.getElementById("projet_date3").required=false;
 
-                    document.getElementById('projet_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("projet_datespec").required=false;
+
 
                     document.getElementById('navdate').style.display="block";
 
@@ -695,9 +700,7 @@
                     document.getElementById('date3').style.display="none";
                     document.getElementById("projet_date3").required=false;
 
-                    document.getElementById('projet_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("projet_datespec").required=false;
+
 
                     document.getElementById('navdate').style.display="none";
 
@@ -733,9 +736,7 @@
                     document.getElementById('date3').style.display="none";
                     document.getElementById("projet_date3").required=false;
 
-                    document.getElementById('projet_datespec').style.display="none";
-                    document.getElementById('datespec').style.display="none";
-                    document.getElementById("projet_datespec").required=false;
+
 
                     document.getElementById('navdate').style.display="none";
 
@@ -779,9 +780,7 @@
                     document.getElementById('date3').style.display="block";
                     document.getElementById("projet_date3").required=true;
 
-                    document.getElementById('projet_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("projet_datespec").required=true;
+
                     document.getElementById('projet_paiement').required=true;
 
                     document.getElementById('navdate').style.display="none";
@@ -819,10 +818,6 @@
                     document.getElementById('projet_date3').style.display="block";
                     document.getElementById('date3').style.display="block";
                     document.getElementById("projet_date3").required=true;
-
-                    document.getElementById('projet_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("projet_datespec").required=true;
 
 
                     document.getElementById('navdate').style.display="none";
@@ -862,10 +857,6 @@
                     document.getElementById('date3').style.display="block";
                     document.getElementById("projet_date3").required=true;
 
-                    document.getElementById('projet_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("projet_datespec").required=true;
-
 
                     document.getElementById('navdate').style.display="none";
 
@@ -903,9 +894,6 @@
                     document.getElementById('date3').style.display="block";
                     document.getElementById("projet_date3").required=false;
 
-                    document.getElementById('projet_datespec').style.display="block";
-                    document.getElementById('datespec').style.display="block";
-                    document.getElementById("projet_datespec").required=true;
 
 
                     document.getElementById('navdate').style.display="none";

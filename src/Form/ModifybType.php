@@ -95,6 +95,12 @@ class ModifybType extends AbstractType
                 'placeholder'=>'',
             ])
 
+            ->add('datespec', DateType::class, [
+                'label' => 'invoice_date',
+                'widget' => 'single_text',
+                'required' => true,
+            ])
+
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {

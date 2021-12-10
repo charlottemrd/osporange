@@ -226,6 +226,20 @@
 
                         </tr>
 
+
+                        <tr style="border-color: white" >
+                            <th width="15%">
+
+                                {{ form_label(form, 'Date des spécifications *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th  width="20%">
+                                {{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th  width="50%" style="padding-left: 1%"><label id="modifya_datespec-error" class="error" for="modifya_datespec"></label></th>
+                        </tr>
+
                         <tr>
                             <th> {{ form_label(form, 'Description', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>

@@ -85,6 +85,11 @@ class ModifyaType extends AbstractType
                 'class' => Risque::class,
                 'placeholder'=>'',
             ])
+            ->add('datespec', DateType::class, [
+                'label' => 'invoice_date',
+                'widget' => 'single_text',
+                'required' => true,
+            ])
 
         ;
 

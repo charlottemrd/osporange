@@ -96,11 +96,7 @@ class PhasecType extends AbstractType
                 'widget' => 'single_text',
                 'required' => true,
             ])
-            ->add('datespec', DateType::class, [
-                'label' => 'invoice_date',
-                'widget' => 'single_text',
-                'required' => true,
-            ])
+
             ->add('datereel0', DateType::class, [
                 'label' => 'invoice_date',
                 'widget' => 'single_text',

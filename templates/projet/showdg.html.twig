@@ -235,6 +235,14 @@
                             <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.typebu }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
+                    {%if projet.datespec!=null %}
+                        <div class="input-group mb-3" id="tocut">
+                            <div class="input-group-prepend " style="width: 40%">
+                                <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Date des spécifications</span>
+                            </div>
+                            <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datespec|date('d/m/Y') }}"  aria-describedby="basic-addon1">
+                        </div>
+                    {% endif %}
                     {%if projet.description!=null %}
                         <div class="input-group mb-3" id="tocut">
                             <div class="input-group-prepend " style="width: 40%">
@@ -328,14 +336,7 @@
                                 <input type="text" class="form-control" style="background-color: white" disabled="disabled" placeholder="{{ projet.date3|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
-                        {%if projet.datespec!=null %}
-                            <div class="input-group mb-3" id="tocut">
-                                <div class="input-group-prepend " style="width: 40%">
-                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Date des spécifications</span>
-                                </div>
-                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datespec|date('d/m/Y') }}"  aria-describedby="basic-addon1">
-                            </div>
-                        {% endif %}
+
                     </table>
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
