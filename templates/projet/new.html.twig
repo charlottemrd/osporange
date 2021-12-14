@@ -502,7 +502,8 @@
 
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-                    <h4>Veuillez vérifier vos données avant de soumettre le formulaire</h4>
+
+                    <h4 id="textconf" ></h4>
                     <div class=" ncje" >
                     <div class="allof" style="width: 50%;scroll-behavior: auto ">
                     <h4>Description</h4>
@@ -1539,8 +1540,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('projet_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('projet_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('projet_fournisseur').options[document.getElementById('projet_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('projet_typebu').options[document.getElementById('projet_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('projet_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('projet_typebu').options[document.getElementById('projet_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' +new Date(document.getElementById('projet_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('projet_priorite').options[document.getElementById('projet_priorite').selectedIndex].value!='')){
                     document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('projet_priorite').options[document.getElementById('projet_priorite').selectedIndex].innerText ;
                 }
@@ -1551,19 +1552,19 @@
 
 
                 if ((document.getElementById('projet_datel1').value!='')){
-                    document.getElementById('datel1of').innerText = 'Date T-1 : ' +document.getElementById('projet_datel1').value;
+                    document.getElementById('datel1of').innerText = 'Date T-1 : ' + new Date (document.getElementById('projet_datel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                       }
                 if ((document.getElementById('projet_date0').value!='')){
-                    document.getElementById('date0of').innerText = 'Date T0 : ' +document.getElementById('projet_date0').value;
+                    document.getElementById('date0of').innerText = 'Date T0 : ' + new Date (document.getElementById('projet_date0').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('projet_date1').value!='')){
-                    document.getElementById('date1of').innerText = 'Date T1 : ' +document.getElementById('projet_date1').value;
+                    document.getElementById('date1of').innerText = 'Date T1 : ' + new Date (document.getElementById('projet_date1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('projet_date2').value!='')){
-                    document.getElementById('date2of').innerText = 'Date T2 : ' +document.getElementById('projet_date2').value;
+                    document.getElementById('date2of').innerText = 'Date T2 : ' + new Date(document.getElementById('projet_date2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('projet_date3').value!='')){
-                    document.getElementById('date3of').innerText = 'Date T3 : ' +document.getElementById('projet_date3').value;
+                    document.getElementById('date3of').innerText = 'Date T3 : ' + new Date(document.getElementById('projet_date3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                  if ((document.getElementById('projet_paiement').selectedIndex!=-1)) {
                      document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].innerText;
@@ -1646,9 +1647,11 @@
 
                 if(document.getElementById('projet_Phase').value >=6){
                     document.getElementById('modaliteod').style.display='block';
+                    document.getElementById('textconf').innerText='Veuillez vérifier vos données avant de soumettre le formulaire ; \n une fois le formulaire envoyé vous serez redirigé vers une deuxième page vous demandant les coûts du projet';
                 }
                 else{
                     document.getElementById('modaliteod').style.display='none';
+                    document.getElementById('textconf').innerText='Veuillez vérifier vos données avant de soumettre le formulaire';
                 }
                 document.getElementById('smartwizard').style.height = "50%";
                 document.getElementById('tab-content').style.height = "50%";

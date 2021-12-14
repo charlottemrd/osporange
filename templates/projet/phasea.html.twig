@@ -201,6 +201,7 @@
                     <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
                     <p id="newphase"> </p>
                     <p id="datel1op"> </p>
+                    <p id="date0op"> </p>
                 </div>
 
             </div>
@@ -416,8 +417,25 @@
 
 
                 document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasea_Phase').options[document.getElementById('phasea_Phase').selectedIndex].innerText;
-                document.getElementById('datel1op').innerText = 'Date T-1 : ' + document.getElementById('phasea_datel1').value;
 
+                if(document.getElementById('phasea_Phase').value >=4) {
+                    if (document.getElementById('phasea_datel1').value != '') {
+                        document.getElementById('datel1op').innerText = 'Date T-1 : ' + new Date(document.getElementById('phasea_datel1').value).toJSON().slice(0, 10).split('-').reverse().join('/');
+                    }
+                    else{
+                        document.getElementById('datel1op').innerText ='';
+                    }
+                    if (document.getElementById('phasea_date0').value != '') {
+                        document.getElementById('date0op').innerText = 'Date T0 : ' + new Date(document.getElementById('phasea_date0').value).toJSON().slice(0, 10).split('-').reverse().join('/');
+                    }
+                    else{
+                        document.getElementById('date0op').innerText ='';
+                    }
+                }
+                else{
+                    document.getElementById('datel1op').innerText ='';
+
+                }
 
 
 

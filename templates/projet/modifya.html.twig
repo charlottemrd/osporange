@@ -606,8 +606,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifya_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifya_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifya_fournisseur').options[document.getElementById('modifya_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifya_typebu').options[document.getElementById('modifya_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifya_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('modifya_typebu').options[document.getElementById('modifya_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date (document.getElementById('modifya_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifya_priorite').options[document.getElementById('modifya_priorite').selectedIndex].value!='')){
                     document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifya_priorite').options[document.getElementById('modifya_priorite').selectedIndex].innerText ;
                 }

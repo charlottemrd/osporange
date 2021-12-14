@@ -1505,17 +1505,19 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
-                if($projet->getDatereell1()!=null){
-                    $daten=new DateLone();
-                    $daten->setDatereel($projet->getDatel1());
-                    $daten->setProjet($projet);
-                    $projet->getDateLones()->add($daten);
-                    $projet->setDatel1($projet->getDatereell1());
-                }
-                else{
-                    $projet->setDatereell1($projet->getDatel1());
-                }
+                if (($projet->getPhase()->getId()!=1)&&($projet->getPhase()->getId()!=2)) {
+                    if ($projet->getDatereell1() != null) {
+                        $daten = new DateLone();
+                        $daten->setDatereel($projet->getDatel1());
+                        $daten->setProjet($projet);
+                        $projet->getDateLones()->add($daten);
+                        $projet->setDatel1($projet->getDatereell1());
+                    }
 
+                     else{
+                        $projet->setDatereell1($projet->getDatel1());
+                     }
+                }
 
 
 
@@ -1541,15 +1543,16 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
-                if($projet->getDatereel0()!=null){
-                    $daten=new DateZero();
-                    $daten->setDatezero($projet->getDate0());
-                    $daten->setProjet($projet);
-                    $projet->getDateZeros()->add($daten);
-                    $projet->setDate0($projet->getDatereel0());
-                }
-                else{
-                    $projet->setDatereel0($projet->getDate0());
+                if (($projet->getPhase()->getId()!=1)&&($projet->getPhase()->getId()!=2)) {
+                    if ($projet->getDatereel0() != null) {
+                        $daten = new DateZero();
+                        $daten->setDatezero($projet->getDate0());
+                        $daten->setProjet($projet);
+                        $projet->getDateZeros()->add($daten);
+                        $projet->setDate0($projet->getDatereel0());
+                    } else {
+                        $projet->setDatereel0($projet->getDate0());
+                    }
                 }
                 if($projet->getPhase()->getId()==1||($projet->getPhase()->getId()==2)) {
                     foreach ($projet->getCouts() as $c) {
@@ -1564,6 +1567,7 @@ class ProjetController extends AbstractController
                     $projet->setDebit1bm(null);
                     $projet->setDebit2bm(null);
                     $projet->setDebit3bm(null);
+                    $projet->setDebit4bm(null);
                 }
                 if($projet->getPhase()->getId()==6){
                     if($projet->getPaiement()->getId()==1){
@@ -1748,15 +1752,16 @@ class ProjetController extends AbstractController
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
 
-                if($projet->getDatereel1()!=null){
-                    $daten1=new DateOnePlus();
-                    $daten1->setDate($projet->getDate1());
-                    $daten1->setProjet($projet);
-                    $projet->getDateOnePluses()->add($daten1);
-                    $projet->setDate1($projet->getDatereel1());
-                }
-                else{
-                    $projet->setDatereel1($projet->getDate1());
+                if (($projet->getPhase()->getId()!=1)&&($projet->getPhase()->getId()!=2)) {
+                    if ($projet->getDatereel1() != null) {
+                        $daten1 = new DateOnePlus();
+                        $daten1->setDate($projet->getDate1());
+                        $daten1->setProjet($projet);
+                        $projet->getDateOnePluses()->add($daten1);
+                        $projet->setDate1($projet->getDatereel1());
+                    } else {
+                        $projet->setDatereel1($projet->getDate1());
+                    }
                 }
                 if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
                     if($projet->getPaiement()->getId()==1){
@@ -1824,16 +1829,16 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
-
-                if($projet->getDatereel2()!=null){
-                    $daten2=new DateTwo();
-                    $daten2->setDatetwo($projet->getDate2());
-                    $daten2->setProjet($projet);
-                    $projet->getDateTwos()->add($daten2);
-                    $projet->setDate2($projet->getDatereel2());
-                }
-                else{
-                    $projet->setDatereel2($projet->getDate2());
+                if (($projet->getPhase()->getId()!=1)&&($projet->getPhase()->getId()!=2)) {
+                    if ($projet->getDatereel2() != null) {
+                        $daten2 = new DateTwo();
+                        $daten2->setDatetwo($projet->getDate2());
+                        $daten2->setProjet($projet);
+                        $projet->getDateTwos()->add($daten2);
+                        $projet->setDate2($projet->getDatereel2());
+                    } else {
+                        $projet->setDatereel2($projet->getDate2());
+                    }
                 }
                 if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
                     if($projet->getPaiement()->getId()==1){
@@ -1919,15 +1924,16 @@ class ProjetController extends AbstractController
                 if($projet->getHighestphase()<$projet->getPhase()->getRang()){
                     $projet->setHighestphase($projet->getPhase()->getRang());}
                 $projet->setDatemaj(new \DateTime());
-                if($projet->getDatereel3()!=null){
-                    $daten3=new DataTrois();
-                    $daten3->setDatet($projet->getDate3());
-                    $daten3->setProjet($projet);
-                    $projet->getDataTrois()->add($daten3);
-                    $projet->setDate3($projet->getDatereel3());
-                }
-                else{
-                    $projet->setDatereel3($projet->getDate3());
+                if (($projet->getPhase()->getId()!=1)&&($projet->getPhase()->getId()!=2)) {
+                    if ($projet->getDatereel3() != null) {
+                        $daten3 = new DataTrois();
+                        $daten3->setDatet($projet->getDate3());
+                        $daten3->setProjet($projet);
+                        $projet->getDataTrois()->add($daten3);
+                        $projet->setDate3($projet->getDatereel3());
+                    } else {
+                        $projet->setDatereel3($projet->getDate3());
+                    }
                 }
                 if (($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
                     if($projet->getPaiement()->getId()==1){

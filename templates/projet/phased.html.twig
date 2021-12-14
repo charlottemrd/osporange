@@ -366,7 +366,7 @@
                 document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phased_Phase').options[document.getElementById('phased_Phase').selectedIndex].innerText;
                 if ((document.getElementById('phased_choix11').selectedIndex!=-1)) {
                     if (document.getElementById('phased_choix11').options[document.getElementById('phased_choix11').selectedIndex].value == 1) {
-                        document.getElementById('datereel1of').innerText = 'Retard dans la date T1 : ' + document.getElementById('phased_datereel1').value;
+                        document.getElementById('datereel1of').innerText = 'Retard dans la date T1 : ' +new Date (document.getElementById('phased_datereel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                     }
                     else {
                         document.getElementById('datereel1of').innerText = 'Pas de retard dans la date T1 ';

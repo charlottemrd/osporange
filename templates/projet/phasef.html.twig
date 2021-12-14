@@ -369,7 +369,7 @@
                 document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasef_Phase').options[document.getElementById('phasef_Phase').selectedIndex].innerText;
                 if ((document.getElementById('phasef_choix30').selectedIndex!=-1)) {
                     if (document.getElementById('phasef_choix30').options[document.getElementById('phasef_choix30').selectedIndex].value == 1) {
-                        document.getElementById('datereel3of').innerText = 'Retard dans la date T3 : ' + document.getElementById('phasef_datereel3').value;
+                        document.getElementById('datereel3of').innerText = 'Retard dans la date T3 : ' +new Date (document.getElementById('phasef_datereel3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                     }
                     else {
                         document.getElementById('datereel3of').innerText = 'Pas de retard dans la date T3 ';

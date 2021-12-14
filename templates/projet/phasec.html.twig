@@ -1109,7 +1109,7 @@
                 document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasec_Phase').options[document.getElementById('phasec_Phase').selectedIndex].innerText;
                 if ((document.getElementById('phasec_choix10').selectedIndex!=-1)) {
                     if (document.getElementById('phasec_choix10').options[document.getElementById('phasec_choix10').selectedIndex].value == 1) {
-                        document.getElementById('datereel0of').innerText = 'Retard dans la date T0 : ' + document.getElementById('phasec_datereel0').value;
+                        document.getElementById('datereel0of').innerText = 'Retard dans la date T0 : ' +new Date (document.getElementById('phasec_datereel0').value).toJSON().slice(0,10).split('-').reverse().join('/');
                     }
                     else {
                         document.getElementById('datereel0of').innerText = 'Pas de retard dans la date T0 ';
@@ -1180,15 +1180,16 @@
                                     }
                                 }
                                 document.getElementById('jaonof').innerText=textof;
-                                document.getElementById('debit1of').innerText = '';
-                                document.getElementById('debit2of').innerText = '';
-                                document.getElementById('debit3of').innerText = '';
-                                document.getElementById('debit4of').innerText = '';
+
 
                             }
                             else{
                                 document.getElementById('jalonof').style.display='none';
                             }
+                            document.getElementById('debit1of').innerText = '';
+                            document.getElementById('debit2of').innerText = '';
+                            document.getElementById('debit3of').innerText = '';
+                            document.getElementById('debit4of').innerText = '';
                         }
                     }
 
@@ -1204,13 +1205,13 @@
                 }
 
                 if ((document.getElementById('phasec_date1').value!='')){
-                    document.getElementById('date1of').innerText = 'Date T1 : ' +document.getElementById('phasec_date1').value;
+                    document.getElementById('date1of').innerText = 'Date T1 : ' + new Date (document.getElementById('phasec_date1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('phasec_date2').value!='')){
-                    document.getElementById('date2of').innerText = 'Date T2 : ' +document.getElementById('phasec_date2').value;
+                    document.getElementById('date2of').innerText = 'Date T2 : ' + new Date (document.getElementById('phasec_date2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('phasec_date3').value!='')){
-                    document.getElementById('date3of').innerText = 'Date T3 : ' +document.getElementById('phasec_date3').value;
+                    document.getElementById('date3of').innerText = 'Date T3 : ' + new Date (document.getElementById('phasec_date3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
 
 

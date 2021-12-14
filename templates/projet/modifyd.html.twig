@@ -823,7 +823,7 @@
                             <p id="datereel0of"> </p>
                             <p id="date1of"> </p>
                             <p id="date2of"> </p>
-                            <p id="date0of"> </p>
+                            <p id="date3of"> </p>
 
                         </div>
 
@@ -1232,8 +1232,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyd_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyd_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyd_fournisseur').options[document.getElementById('modifyd_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyd_typebu').options[document.getElementById('modifyd_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyd_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU  : ' + document.getElementById('modifyd_typebu').options[document.getElementById('modifyd_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date (document.getElementById('modifyd_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifyd_priorite').options[document.getElementById('modifyd_priorite').selectedIndex].value != '')) {
                     document.getElementById('prioriteof').innerText = 'Priorité : ' + document.getElementById('modifyd_priorite').options[document.getElementById('modifyd_priorite').selectedIndex].innerText;
                 }
@@ -1244,19 +1244,19 @@
                 document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyd_taux').value;
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyd_isplanningrespecte').options[document.getElementById('modifyd_isplanningrespecte').selectedIndex].innerText;
                 if ((document.getElementById('modifyd_datereell1').value != '')) {
-                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyd_datereell1').value;
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 : ' +new Date ( document.getElementById('modifyd_datereell1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyd_datereel0').value != '')) {
-                    document.getElementById('datereel0of').innerText = 'Date réel T0 ' + document.getElementById('modifyd_datereel0').value;
+                    document.getElementById('datereel0of').innerText = 'Date réel T0 : ' + new Date (document.getElementById('modifyd_datereel0').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyd_date1').value != '')) {
-                    document.getElementById('date1of').innerText = 'Date T1 ' + document.getElementById('modifyd_date1').value;
+                    document.getElementById('date1of').innerText = 'Date T1 : ' + new Date (document.getElementById('modifyd_date1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyd_date2').value != '')) {
-                    document.getElementById('date2of').innerText = 'Date T2 ' + document.getElementById('modifyd_date2').value;
+                    document.getElementById('date2of').innerText = 'Date T2 : ' +new Date (document.getElementById('modifyd_date2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyd_date3').value != '')) {
-                    document.getElementById('date3of').innerText = 'Date T3 ' + document.getElementById('modifyd_date3').value;
+                    document.getElementById('date3of').innerText = 'Date T3 : ' + new Date (document.getElementById('modifyd_date3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
 
                 var tarifsof = new Array();
@@ -1326,7 +1326,28 @@
                         }
                     }
 
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
 
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('modifyd_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('modifyd_commentaires_' + [xcp]+ '_description').value);
+                    }
+                    xcp= xcp+ 1;
+                }
+
+                if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
 
 
 

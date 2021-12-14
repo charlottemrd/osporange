@@ -285,7 +285,7 @@
                     document.getElementById('phaseb_date0').style.display="none";
                     document.getElementById('date0').style.display="none";
                     document.getElementById("phaseb_date0").required=false;
-
+                    document.getElementById('phaseb_date0').value=null;
 
                     document.getElementById('navdate').style.display="block";
                     }
@@ -437,15 +437,15 @@
 
 
                 $phasing=document.getElementById('phaseb_Phase');
-                document.getElementById('phaseb_date0').value=null;
-                document.getElementById('phaseb_choix1').value=null;
+
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
 
-                    document.getElementById('datel0op').innerText = 'Date T0 : ' + document.getElementById('phaseb_date0').value;
+                    if (document.getElementById('phaseb_date0').value!=''){
+                    document.getElementById('datel0op').innerText = 'Date T0 : ' + new Date (document.getElementById('phaseb_date0').value).toJSON().slice(0,10).split('-').reverse().join('/');}
 
                 if ((document.getElementById('phaseb_choix1').selectedIndex!=-1)) {
                     if (document.getElementById('phaseb_choix1').options[document.getElementById('phaseb_choix1').selectedIndex].value == 1) {
-                        document.getElementById('datel1reelop').innerText = 'Retard dans la date T-1 : ' + document.getElementById('phaseb_datereell1').value;
+                        document.getElementById('datel1reelop').innerText = 'Retard dans la date T-1 : ' +new Date (document.getElementById('phaseb_datereell1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                     }
                   else {
                         document.getElementById('datel1reelop').innerText = 'Pas de retard dans la date T-1  ';

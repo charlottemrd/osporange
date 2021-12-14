@@ -614,8 +614,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyb_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyb_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyb_fournisseur').options[document.getElementById('modifyb_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyb_typebu').options[document.getElementById('modifyb_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyb_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('modifyb_typebu').options[document.getElementById('modifyb_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date (document.getElementById('modifyb_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifyb_priorite').options[document.getElementById('modifyb_priorite').selectedIndex].value!='')){
                     document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifyb_priorite').options[document.getElementById('modifyb_priorite').selectedIndex].innerText ;
                 }
@@ -625,7 +625,7 @@
                 document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifyb_description').value;
                 document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyb_taux').value;
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyb_isplanningrespecte').options[document.getElementById('modifyb_isplanningrespecte').selectedIndex].innerText;
-                document.getElementById('datel1of').innerText = 'Date T-1 ' + document.getElementById('modifyb_datel1').value;
+                document.getElementById('datel1of').innerText = 'Date T-1 : ' + new Date (document.getElementById('modifyb_datel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
 
                 var comc = $('ul.commentaires').find('li').length-1;
                 var comdifc = new Array();

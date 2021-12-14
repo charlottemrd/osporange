@@ -253,6 +253,18 @@
 
 
                         </tr>
+                        <tr>
+                            <th>
+
+                                {{ form_label(form, 'Date des spécifications *', {
+                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
+                            <th >
+                                {{ form_widget(form.datespec, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}
+                            </th>
+                            <th style="padding-left: 1%"><label id="modifyie_datespec-error" class="error" for="modifyie_datespec"></label></th>
+                        </tr>
 
                         <tr>
                             <th> {{ form_label(form, 'Description', {
@@ -386,18 +398,7 @@
                             <th style="padding-left: 1%"><label id="modifyie_datereel3-error" class="error" for="modifyie_datereel3"></label></th>
 
                         </tr>
-                        <tr style="border-color: white" >
-                            <th width="15%">
 
-                                {{ form_label(form, 'Date des spécifications *', {
-                                    'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th id="tore">
-                                {{ form_widget(form.datespec, {
-                                    'label_attr': {'class': 'form_control'}}
-                                ) }}
-                            </th>
-                            <th style="padding-left: 1%"><label id="modifyie_datespec-error" class="error" for="modifyie_datespec"></label></th>
-                        </tr>
 
 
                     </table>
@@ -793,7 +794,7 @@
                             <p id="risqueof"> </p>
                         </div>
 
-                        <div id="planningof">
+                        <div id="plannificationof">
                             <h4>Planification</h4>
 
                             <p id="datereell1of"> </p>
@@ -1253,8 +1254,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyie_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyie_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyie_fournisseur').options[document.getElementById('modifyie_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyie_typebu').options[document.getElementById('modifyie_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyie_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('modifyie_typebu').options[document.getElementById('modifyie_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date(document.getElementById('modifyie_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifyie_priorite').options[document.getElementById('modifyie_priorite').selectedIndex].value != '')) {
                     document.getElementById('prioriteof').innerText = 'Priorité : ' + document.getElementById('modifyie_priorite').options[document.getElementById('modifyie_priorite').selectedIndex].innerText;
                 }
@@ -1265,20 +1266,28 @@
                 document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyie_taux').value;
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyie_isplanningrespecte').options[document.getElementById('modifyie_isplanningrespecte').selectedIndex].innerText;
                 if ((document.getElementById('modifyie_datereell1').value != '')) {
-                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyie_datereell1').value;
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 :' + new Date(document.getElementById('modifyie_datereell1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyie_datereel0').value != '')) {
-                    document.getElementById('datereel0of').innerText = 'Date réel T0 ' + document.getElementById('modifyie_datereel0').value;
+                    document.getElementById('datereel0of').innerText = 'Date réel T0 : ' + new Date(document.getElementById('modifyie_datereel0').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyie_datereel1').value != '')) {
-                    document.getElementById('datereel1of').innerText = 'Date réel T1 ' + document.getElementById('modifyie_datereel1').value;
+                    document.getElementById('datereel1of').innerText = 'Date réel T1 : ' + new Date(document.getElementById('modifyie_datereel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyie_datereel2').value != '')) {
-                    document.getElementById('datereel2of').innerText = 'Date réel T2 ' + document.getElementById('modifyie_datereel2').value;
+                    document.getElementById('datereel2of').innerText = 'Date réel T2 : ' + new Date(document.getElementById('modifyie_datereel2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyie_datereel3').value != '')) {
-                    document.getElementById('datereel3of').innerText = 'Date réel T3 ' + document.getElementById('modifyie_datereel3').value;
+                    document.getElementById('datereel3of').innerText = 'Date réel T3 : ' + new Date(document.getElementById('modifyie_datereel3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
+                if ( (document.getElementById('modifyie_datereell1').value == '')&&(document.getElementById('modifyie_datereel0').value == '')&& (document.getElementById('modifyie_datereel1').value == '') && (document.getElementById('modifyie_datereel2').value == '') && (document.getElementById('modifyie_datereel3').value == '')){
+                    document.getElementById('plannificationof').style.display='none';
+                }
+                else {
+                    document.getElementById('plannificationof').style.display='block';
+                }
+
+
 
                 var tarifsof = new Array();
                 var tarifsnameof = new Array();

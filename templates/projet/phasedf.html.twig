@@ -371,7 +371,7 @@
                 document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasedf_Phase').options[document.getElementById('phasedf_Phase').selectedIndex].innerText;
                 if ((document.getElementById('phasedf_choix20').selectedIndex!=-1)) {
                     if (document.getElementById('phasedf_choix20').options[document.getElementById('phasedf_choix20').selectedIndex].value == 1) {
-                        document.getElementById('datereel2of').innerText = 'Retard dans la date T2 : ' + document.getElementById('phasedf_datereel2').value;
+                        document.getElementById('datereel2of').innerText = 'Retard dans la date T2 : ' +new Date (document.getElementById('phasedf_datereel2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                     }
                     else {
                         document.getElementById('datereel2of').innerText = 'Pas de retard dans la date T2 ';

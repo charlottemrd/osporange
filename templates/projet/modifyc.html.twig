@@ -657,8 +657,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyc_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyc_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyc_fournisseur').options[document.getElementById('modifyc_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyc_typebu').options[document.getElementById('modifyc_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyc_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('modifyc_typebu').options[document.getElementById('modifyc_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date (document.getElementById('modifyc_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifyc_priorite').options[document.getElementById('modifyc_priorite').selectedIndex].value!='')){
                     document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifyc_priorite').options[document.getElementById('modifyc_priorite').selectedIndex].innerText ;
                 }
@@ -669,9 +669,9 @@
                 document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyc_taux').value;
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyc_isplanningrespecte').options[document.getElementById('modifyc_isplanningrespecte').selectedIndex].innerText;
                 if ((document.getElementById('modifyc_datereell1').value!='')) {
-                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyc_datereell1').value;
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 : ' + new Date (document.getElementById('modifyc_datereell1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
-                document.getElementById('date0of').innerText = 'Date T-0 ' + document.getElementById('modifyc_date0').value;
+                document.getElementById('date0of').innerText = 'Date T-0 :' + new Date (document.getElementById('modifyc_date0').value).toJSON().slice(0,10).split('-').reverse().join('/');
 
                 var comc = $('ul.commentaires').find('li').length-1;
                 var comdifc = new Array();

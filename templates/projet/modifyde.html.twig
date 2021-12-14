@@ -1263,8 +1263,8 @@
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyde_domaine').value;
                 document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyde_sdomaine').value;
                 document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyde_fournisseur').options[document.getElementById('modifyde_fournisseur').selectedIndex].innerText;
-                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyde_typebu').options[document.getElementById('modifyde_typebu').selectedIndex].innerText;
-                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyde_datespec').value;
+                document.getElementById('typebuof').innerText = 'Type de BU : ' + document.getElementById('modifyde_typebu').options[document.getElementById('modifyde_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + new Date(document.getElementById('modifyde_datespec').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 if ((document.getElementById('modifyde_priorite').options[document.getElementById('modifyde_priorite').selectedIndex].value != '')) {
                     document.getElementById('prioriteof').innerText = 'Priorité : ' + document.getElementById('modifyde_priorite').options[document.getElementById('modifyde_priorite').selectedIndex].innerText;
                 }
@@ -1275,19 +1275,19 @@
                 document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyde_taux').value;
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyde_isplanningrespecte').options[document.getElementById('modifyde_isplanningrespecte').selectedIndex].innerText;
                 if ((document.getElementById('modifyde_datereell1').value != '')) {
-                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyde_datereell1').value;
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 : ' + new Date(document.getElementById('modifyde_datereell1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyde_datereel0').value != '')) {
-                    document.getElementById('datereel0of').innerText = 'Date réel T0 ' + document.getElementById('modifyde_datereel0').value;
+                    document.getElementById('datereel0of').innerText = 'Date réel T0 : ' + new Date(document.getElementById('modifyde_datereel0').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyde_datereel1').value != '')) {
-                    document.getElementById('datereel1of').innerText = 'Date T1 ' + document.getElementById('modifyde_datereel1').value;
+                    document.getElementById('datereel1of').innerText = 'Date T1 : ' + new Date(document.getElementById('modifyde_datereel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyde_date2').value != '')) {
-                    document.getElementById('date2of').innerText = 'Date T2 ' + document.getElementById('modifyde_date2').value;
+                    document.getElementById('date2of').innerText = 'Date T2 : ' + new Date(document.getElementById('modifyde_date2').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
                 if ((document.getElementById('modifyde_date3').value != '')) {
-                    document.getElementById('date3of').innerText = 'Date T3 ' + document.getElementById('modifyde_date3').value;
+                    document.getElementById('date3of').innerText = 'Date T3 : ' + new Date(document.getElementById('modifyde_date3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
 
                 var tarifsof = new Array();

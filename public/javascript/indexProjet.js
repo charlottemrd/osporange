@@ -16,7 +16,7 @@ $('.js-example-basic-single').select2({
     style:'width',
 });
 $('#phases').select2({
-    placeholder: "Selectionnez une phases"
+    placeholder: "Selectionnez une phase"
 });
 $('#fournisseurs').select2({
     placeholder: "Selectionnez un fournisseur"
