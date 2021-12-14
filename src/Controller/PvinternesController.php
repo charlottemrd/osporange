@@ -88,7 +88,7 @@ class PvinternesController extends AbstractController
         if ($request->isXmlHttpRequest()) {
 
             $type = $request->request->get('type');
-            $taux = $request->request->get('taux');
+            $taux = $request->request->get('name');
             if ($type == 1) { //enregistrer
                 if ($taux > 100) {
                     return new JsonResponse(array( //cas succes

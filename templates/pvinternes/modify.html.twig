@@ -252,13 +252,13 @@
         })
 
 
-        function submission(){
+        function enregistrer(){
         jQuery(document).ready(function () {
             $taux = document.getElementById('pvinterneform_pourcentage').value;
                 $.ajax({
                     method: "POST",
                     url: "{{ path('modifypv', {'pvinternes':pv.id, 'id':datepv.id }) }}",
-                    data: {name: $taux, type: 2,},
+                    data: {name: $taux, type: 1,},
                     dataType: 'json',
                     success: function (html) {
                         console.log(html);
@@ -299,7 +299,7 @@
                 $.ajax({
                     method: "POST",
                     url: "{{ path('modifypv', {'pvinternes':pv.id, 'id':datepv.id }) }}",
-                    data: {taux: $taux, type: 2,},
+                    data: {name: $taux, type: 2,},
                     dataType: 'json',
                     success: function (html) {
                         console.log(html);
