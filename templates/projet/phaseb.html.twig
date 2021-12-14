@@ -210,8 +210,10 @@
 
 
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
-
+                    <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <p id="newphase"> </p>
+                    <p id="datel1reelop"> </p>
+                    <p id="datel0op"> </p>
                 </div>
 
             </div>
@@ -429,11 +431,29 @@
                             isStepValid = true;
                             document.getElementById('messerror1').innerHTML = '';
 
-
-
-
-
                 } //endif step1
+
+                document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phaseb_Phase').options[document.getElementById('phaseb_Phase').selectedIndex].innerText;
+
+
+                $phasing=document.getElementById('phaseb_Phase');
+                document.getElementById('phaseb_date0').value=null;
+                document.getElementById('phaseb_choix1').value=null;
+                var selectValue = $phasing.options[$phasing.selectedIndex].value;
+
+                    document.getElementById('datel0op').innerText = 'Date T0 : ' + document.getElementById('phaseb_date0').value;
+
+                if ((document.getElementById('phaseb_choix1').selectedIndex!=-1)) {
+                    if (document.getElementById('phaseb_choix1').options[document.getElementById('phaseb_choix1').selectedIndex].value == 1) {
+                        document.getElementById('datel1reelop').innerText = 'Retard dans la date T-1 : ' + document.getElementById('phaseb_datereell1').value;
+                    }
+                  else {
+                        document.getElementById('datel1reelop').innerText = 'Pas de retard dans la date T-1  ';
+                    }
+                }
+
+
+
                 return isStepValid;
             }
 
@@ -443,10 +463,12 @@
                     if(stepDirection == "3") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

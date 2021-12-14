@@ -18,6 +18,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -110,12 +111,18 @@ class ModifyieType extends AbstractType
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'modifyie_garanti']])
 
-            ->add('debit1bm',IntegerType::class,['required'=>false,], ['attr' => [
+
+
+            ->add('debit1bm', NumberType::class, ['required' => false,], ['attr' => [
                 'class' => 'modifyie_debit1bm']])
-            ->add('debit2bm',IntegerType::class,['required'=>false], ['attr' => [
+            ->add('debit2bm', NumberType::class, ['required' => false], ['attr' => [
                 'class' => 'modifyie_debit2bm']])
-            ->add('debit3bm',IntegerType::class,['required'=>false], ['attr' => [
+            ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
                 'class' => 'modifyie_debit3bm']])
+            ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'modifyie_debit4bm']])
+
+
 
             ->add('couts', CollectionType::class, array(
                 'entry_type'   => CoutType::class,
@@ -180,6 +187,7 @@ class ModifyieType extends AbstractType
                     "class" => "d-none"
                 ],
             ))
+
 
 
 

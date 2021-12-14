@@ -352,7 +352,47 @@
 
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+                   <h4>Veuillez vérifier vos données avant de soumettre le formulaire</h4>
+                    <div id="all">
+                        <div id="description">
+                            <h4>Description</h4>
+                            <p id="refof" > </p>
+                            <p id="chefprojet" > </p>
+                            <p id="phaseof" > </p>
+                            <p id="domaineof" > </p>
+                            <p id="sdomaineof" > </p>
+                            <p id="fournisseurof" > </p>
+                            <p id="typebuof"> </p>
+                            <p id="datespecof" > </p>
+
+                            <p id="descriptionof" > </p>
+                        </div>
+
+                            <div id="avanof">
+                                <h4>Avancement</h4>
+                                <p id="tauxof" > </p>
+                                <p id="planningof"> </p>
+                                <p id="prioriteof" > </p>
+                                <p id="risqueof"> </p>
+                            </div>
+
+
+                            <div style="display: none" id="commenof">
+                                <h4>Commentaires</h4>
+                                <p id="comof"></p>
+                            </div>
+                        </div>
+
+
+
+                        </div>
+
+
+
+
+
+
+
                 </div>
 
             </div>
@@ -471,17 +511,11 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
-                .on('click', function(){
-                    onsubmit();
-
-
-                });
 
 
 
 
-            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -566,6 +600,53 @@
                     }
 
 
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifya_fullnamechefprojet').value;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifya_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifya_Phase').options[document.getElementById('modifya_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifya_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifya_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifya_fournisseur').options[document.getElementById('modifya_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifya_typebu').options[document.getElementById('modifya_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifya_datespec').value;
+                if ((document.getElementById('modifya_priorite').options[document.getElementById('modifya_priorite').selectedIndex].value!='')){
+                    document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifya_priorite').options[document.getElementById('modifya_priorite').selectedIndex].innerText ;
+                }
+                if ((document.getElementById('modifya_risque').options[document.getElementById('modifya_risque').selectedIndex].value!='')){
+                    document.getElementById('risqueof').innerText = 'Risque : ' +document.getElementById('modifya_risque').options[document.getElementById('modifya_risque').selectedIndex].innerText ;
+                }
+                document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifya_description').value;
+                document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifya_taux').value;
+                document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifya_isplanningrespecte').options[document.getElementById('modifya_isplanningrespecte').selectedIndex].innerText;
+
+
+
+
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
+
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('modifya_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('modifya_commentaires_' + [xcp]+ '_description').value);
+                    }
+                    xcp= xcp+ 1;
+                }
+
+                if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
+
+
+
+
 
 
 
@@ -580,10 +661,12 @@
                     if(stepDirection == "3") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

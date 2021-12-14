@@ -256,6 +256,11 @@ class Projet
      */
     private $iduserldap;
 
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $debit4bm;
+
 
 
 
@@ -1030,6 +1035,18 @@ class Projet
     public function setIduserldap(?string $iduserldap): self
     {
         $this->iduserldap = $iduserldap;
+
+        return $this;
+    }
+
+    public function getDebit4bm(): ?float
+    {
+        return $this->debit4bm;
+    }
+
+    public function setDebit4bm(?float $debit4bm): self
+    {
+        $this->debit4bm = $debit4bm;
 
         return $this;
     }

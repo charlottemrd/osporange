@@ -335,7 +335,7 @@
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyb_commentaires-error" class="error" for="modifyb_commentaires"></label></th>
 
                             </tr>
 
@@ -360,7 +360,7 @@
                                                 'label_attr': {'class': 'form_control'}}
                                             ) }}
                                         </th>
-                                        <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                        <th style="padding-left: 1%;width: 50%"><label id="modifyb_commentaires-error" class="error" for="modifyb_commentaires"></label></th>
                                     </tr>
                                     <br>
                                 </table>
@@ -373,6 +373,46 @@
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
                     Veuillez vérifier vos données avant de soumettre le formulaire
+                    <div id="all">
+                        <div id="description">
+                            <h4>Description</h4>
+                            <p id="refof" > </p>
+                            <p id="chefprojet" > </p>
+                            <p id="phaseof" > </p>
+                            <p id="domaineof" > </p>
+                            <p id="sdomaineof" > </p>
+                            <p id="fournisseurof" > </p>
+                            <p id="typebuof"> </p>
+                            <p id="datespecof" > </p>
+
+                            <p id="descriptionof" > </p>
+                        </div>
+
+                        <div id="avanof">
+                            <h4>Avancement</h4>
+                            <p id="tauxof" > </p>
+                            <p id="planningof"> </p>
+                            <p id="prioriteof" > </p>
+                            <p id="risqueof"> </p>
+                        </div>
+
+                        <div id="planningof">
+                            <h4>Planification</h4>
+                            <p id="datel1of"> </p>
+                        </div>
+
+
+                        <div style="display: none" id="commenof">
+                            <h4>Commentaires</h4>
+                            <p id="comof"></p>
+                        </div>
+                    </div>
+
+
+
+
+
+
                 </div>
 
             </div>
@@ -568,6 +608,49 @@
                     }
                 }
 
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyb_fullnamechefprojet').value;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyb_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyb_Phase').options[document.getElementById('modifyb_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyb_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyb_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyb_fournisseur').options[document.getElementById('modifyb_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyb_typebu').options[document.getElementById('modifyb_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyb_datespec').value;
+                if ((document.getElementById('modifyb_priorite').options[document.getElementById('modifyb_priorite').selectedIndex].value!='')){
+                    document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifyb_priorite').options[document.getElementById('modifyb_priorite').selectedIndex].innerText ;
+                }
+                if ((document.getElementById('modifyb_risque').options[document.getElementById('modifyb_risque').selectedIndex].value!='')){
+                    document.getElementById('risqueof').innerText = 'Risque : ' +document.getElementById('modifyb_risque').options[document.getElementById('modifyb_risque').selectedIndex].innerText ;
+                }
+                document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifyb_description').value;
+                document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyb_taux').value;
+                document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyb_isplanningrespecte').options[document.getElementById('modifyb_isplanningrespecte').selectedIndex].innerText;
+                document.getElementById('datel1of').innerText = 'Date T-1 ' + document.getElementById('modifyb_datel1').value;
+
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
+
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('modifyb_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('modifyb_commentaires_' + [xcp]+ '_description').value);
+                    }
+                    xcp= xcp+ 1;
+                }
+
+                if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
+
+
 
 
 
@@ -583,10 +666,12 @@
                     if(stepDirection == "4") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

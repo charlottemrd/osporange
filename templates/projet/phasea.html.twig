@@ -198,8 +198,9 @@
 
 
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
-
+                    <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <p id="newphase"> </p>
+                    <p id="datel1op"> </p>
                 </div>
 
             </div>
@@ -414,6 +415,9 @@
                 } //endif step1
 
 
+                document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasea_Phase').options[document.getElementById('phasea_Phase').selectedIndex].innerText;
+                document.getElementById('datel1op').innerText = 'Date T-1 : ' + document.getElementById('phasea_datel1').value;
+
 
 
 
@@ -429,10 +433,12 @@
                     if(stepDirection == "2") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

@@ -89,7 +89,7 @@
              width: 100%;
          }
 
-         label#debit1bm,label#debit2bm,label#debit3bm{
+         label#debit1bm,label#debit2bm,label#debit3bm, label#debit4bm {
              white-space: pre-wrap;
          }
 
@@ -504,6 +504,7 @@
                                         ) }}</th>
                                     <th style="padding-left: 1%"><label id="modifyd_debit1bm-error" class="error" for="modifyd_debit1bm"></label></th>
                                 </tr>
+
                                 <tr id="debit2bm" style="display: none">
                                     <th id="tof"> {{ form_label(form, 'Cout débité pendant le codage (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit2bm'}}) }}</th>
@@ -513,12 +514,20 @@
                                     <th  style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display: none">
-                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test  (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
                                     <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
                                     <th style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
+                                </tr>
+                                <tr id="debit4bm" style="display: none">
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                                    <th id="tore">{{ form_widget(form.debit4bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th style="padding-left: 1%"><label id="modifyd_debit4bm-error" class="error" for="modifyd_debit4bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -710,12 +719,20 @@
                                     <th  style="padding-left: 1%"><label id="modifyd_debit2bm-error" class="error" for="modifyd_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display:block">
-                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test  (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
                                     <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
                                     <th  style="padding-left: 1%"><label id="modifyd_debit3bm-error" class="error" for="modifyd_debit3bm"></label></th>
+                                </tr>
+                                <tr id="debit4bm" style="display:block">
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                                    <th id="tore">{{ form_widget(form.debit4bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th  style="padding-left: 1%"><label id="modifyd_debit4bm-error" class="error" for="modifyd_debit4bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -774,7 +791,73 @@
 
                 </div>
                 <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+
+                    <h4> Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id="all">
+                        <div id="description">
+                            <h4>Description</h4>
+                            <p id="refof" > </p>
+                            <p id="chefprojet" > </p>
+                            <p id="phaseof" > </p>
+                            <p id="domaineof" > </p>
+                            <p id="sdomaineof" > </p>
+                            <p id="fournisseurof" > </p>
+                            <p id="typebuof"> </p>
+                            <p id="datespecof" > </p>
+
+                            <p id="descriptionof" > </p>
+                        </div>
+
+                        <div id="avanof">
+                            <h4>Avancement</h4>
+                            <p id="tauxof" > </p>
+                            <p id="planningof"> </p>
+                            <p id="prioriteof" > </p>
+                            <p id="risqueof"> </p>
+                        </div>
+
+                        <div id="planningof">
+                            <h4>Planification</h4>
+
+                            <p id="datereell1of"> </p>
+                            <p id="datereel0of"> </p>
+                            <p id="date1of"> </p>
+                            <p id="date2of"> </p>
+                            <p id="date0of"> </p>
+
+                        </div>
+
+                        <div id = "coutof" >
+                            <h4>Coût</h4>
+                            <p id="coutofp"> </p>
+                        </div>
+
+                        <div id = "modaliteof" >
+                            <h4>Modalités de réception</h4>
+                            <p id="modeof"> </p>
+                            <p id="debit1of"> </p>
+                            <p id="debit2of"> </p>
+                            <p id="debit3of"> </p>
+                            <p id="debit4of"> </p>
+
+                            <p id="garantiof"> </p>
+
+                            <div style="display: none" id="jalonof">
+                                Liste des jalons :
+                                <p id="jaonof"></p>
+                            </div>
+
+                        </div>
+
+
+                        <div style="display: none" id="commenof">
+                            <h4>Commentaires</h4>
+                            <p id="comof"></p>
+                        </div>
+                    </div>
+
+
+
                 </div>
 
             </div>
@@ -854,7 +937,7 @@
 
         $(document).ready(function () {
             $.validator.messages.required = 'Ce champ est requis';
-            $.validator.messages.pattern='Le format rentré est incorrect';
+            $.validator.messages.pattern = 'Le format rentré est incorrect';
             /*  $('.phased_fournisseur').change(function() {
                   $phasin=document.getElementById('phased_fournisseur').value;
                   $.ajax({
@@ -883,30 +966,28 @@
 */
 
 
-            if (document.getElementById('modifyd_paiement').options[document.getElementById('modifyd_paiement').selectedIndex].value== '2') {
-                document.getElementById('modifyd_debit1bm').required=false;
-                document.getElementById('modifyd_debit2bm').required=false;
-                document.getElementById('modifyd_debit3bm').required=false;
-                document.getElementById('modifyd_garanti').required=true;
-            }else{
-                document.getElementById('modifyd_debit1bm').required=true;
-                document.getElementById('modifyd_debit2bm').required=true;
-                document.getElementById('modifyd_debit3bm').required=true;
-                document.getElementById('modifyd_garanti').required=false;
+            if (document.getElementById('modifyd_paiement').options[document.getElementById('modifyd_paiement').selectedIndex].value == '2') {
+                document.getElementById('modifyd_debit1bm').required = false;
+                document.getElementById('modifyd_debit2bm').required = false;
+                document.getElementById('modifyd_debit3bm').required = false;
+                document.getElementById('modifyd_debit4bm').required = false;
+                document.getElementById('modifyd_garanti').required = true;
+            } else {
+                document.getElementById('modifyd_debit1bm').required = true;
+                document.getElementById('modifyd_debit2bm').required = true;
+                document.getElementById('modifyd_debit3bm').required = true;
+                document.getElementById('modifyd_debit4bm').required = true;
+                document.getElementById('modifyd_garanti').required = false;
             }
 
 
-
-
-
-
             var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
-                .on('click', function(){
-                    var mods=new Array();
+                .on('click', function () {
+                    var mods = new Array();
                     {% for modali in modalis %}
                     mods.push({{ modali.pourcentage }});
                     {% endfor %}
-                    for (jm=0;jm<mods.length;jm++){
+                    for (jm = 0; jm < mods.length; jm++) {
                         document.getElementById('modifyd_modalites_' + [jm] + '_conditions').removeAttribute("disabled");
                         document.getElementById('modifyd_modalites_' + [jm] + '_pourcentage').removeAttribute("disabled");
                         document.getElementById('modifyd_modalites_' + [jm] + '_description').removeAttribute("disabled");
@@ -916,57 +997,54 @@
 
                 });
 
-            var tarifs=new Array();
-            var tarifsname=new Array();
+            var tarifs = new Array();
+            var tarifsname = new Array();
             {% for cout in couts %}
             tarifs.push({{ cout.tarif }});
             tarifsname.push('{{ cout.name }}');
             {% endfor %}
-            var prixav=0;
-            for (j=0;j<tarifs.length;j++){
-                prixav=prixav+((document.getElementById('modifyd_couts_'+[j]+'_nombreprofil').value)*tarifs[j]);
+            var prixav = 0;
+            for (j = 0; j < tarifs.length; j++) {
+                prixav = prixav + ((document.getElementById('modifyd_couts_' + [j] + '_nombreprofil').value) * tarifs[j]);
                 //nb.push(document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value);
             }
-            document.getElementById('price').innerText='Le prix du projet est de '+ prixav+' {{ fournisseur.devise }}';
-            if(document.getElementById("modifyd_datereel0").value==''){
-                document.getElementById("modifyd_datereel0").required=false;
-                document.getElementById('navdate0').style.display="none";
+            document.getElementById('price').innerText = 'Le prix du projet est de ' + prixav + ' {{ fournisseur.devise }}';
+            if (document.getElementById("modifyd_datereel0").value == '') {
+                document.getElementById("modifyd_datereel0").required = false;
+                document.getElementById('navdate0').style.display = "none";
             }
-            if(document.getElementById("modifyd_datereell1").value==''){
-                document.getElementById("modifyd_datereell1").required=false;
-                document.getElementById('navdatel1').style.display="none";
+            if (document.getElementById("modifyd_datereell1").value == '') {
+                document.getElementById("modifyd_datereell1").required = false;
+                document.getElementById('navdatel1').style.display = "none";
 
             }
 
-            if(document.getElementById("modifyd_date1").value==''){
-                document.getElementById("modifyd_date1").required=false;
-                document.getElementById('navdate1').style.display="none";
+            if (document.getElementById("modifyd_date1").value == '') {
+                document.getElementById("modifyd_date1").required = false;
+                document.getElementById('navdate1').style.display = "none";
             }
 
             //
             // <div id="divprix" style="display: none"><p>Le projet coutera</p><p id="price"></p></div>
             //alert(prix);
-            var prix=0;
-            $('.id_nombreprofil').change(function (){
-                var prix=0;
-                for (i=0;i<tarifs.length;i++){
-                    prix=prix+((document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value)*tarifs[i]);
+            var prix = 0;
+            $('.id_nombreprofil').change(function () {
+                var prix = 0;
+                for (i = 0; i < tarifs.length; i++) {
+                    prix = prix + ((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value) * tarifs[i]);
                     //nb.push(document.getElementById('modifyd_couts_'+[i]+'_nombreprofil').value);
                 }
-                document.getElementById('price').innerText='Le prix du projet est de '+prix +' {{ fournisseur.devise}}';
+                document.getElementById('price').innerText = 'Le prix du projet est de ' + prix + ' {{ fournisseur.devise }}';
                 document.getElementById('smartwizard').style.height = "200%";
                 document.getElementById('tab-content').style.height = "200%";
             });
-
-
-
 
 
             $('#smartwizard').smartWizard({
                 selected: 0, // Initial selected step, 0 = first step
                 theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
                 justified: true, // Nav menu justification. true/false
-                darkMode:false, // Enable/disable Dark Mode if the theme supports. true/false
+                darkMode: false, // Enable/disable Dark Mode if the theme supports. true/false
                 autoAdjustHeight: true, // Automatically adjust content height
                 cycleSteps: false, // Allows to cycle the navigation of steps
                 backButtonSupport: true, // Enable the back button support
@@ -974,7 +1052,7 @@
                 transition: {
                     animation: 'none', // Effect on navigation, none/fade/slide-horizontal/slide-vertical/slide-swing
                     speed: '400', // Transion animation speed
-                    easing:'' // Transition animation easing. Not supported without a jQuery easing plugin
+                    easing: '' // Transition animation easing. Not supported without a jQuery easing plugin
                 },
                 toolbarSettings: {
                     toolbarPosition: 'bottom', // none, top, bottom, both
@@ -1009,50 +1087,34 @@
             });
 
 
-
-
-
-
-
-
-
-
-
-
-
-            function validateSteps(stepnumber){
+            function validateSteps(stepnumber) {
                 var isStepValid = true;
-                if(stepnumber==1){
-                    if(document.getElementById('modifyd_taux').value <0) {
-                        isStepValid=false;
-                        document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
-                    }
-                    else if(document.getElementById('modifyd_taux').value >100) {
-                        isStepValid=false;
-                        document.getElementById('messerrortaux').innerText='Le valeur du taux doit être compris entre 0 et 100'
-                    }
-                    else{
-                        isStepValid=true;
+                if (stepnumber == 1) {
+                    if (document.getElementById('modifyd_taux').value < 0) {
+                        isStepValid = false;
+                        document.getElementById('messerrortaux').innerText = 'Le valeur du taux doit être compris entre 0 et 100'
+                    } else if (document.getElementById('modifyd_taux').value > 100) {
+                        isStepValid = false;
+                        document.getElementById('messerrortaux').innerText = 'Le valeur du taux doit être compris entre 0 et 100'
+                    } else {
+                        isStepValid = true;
                     }
                 }
-                if(stepnumber==3){
+                if (stepnumber == 3) {
                     for (var i = 0; i < tarifs.length; i++) {
-                        if((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value)<0){
+                        if ((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value) < 0) {
                             isStepValid = false;
-                            document.getElementById('messageerrorprix').innerText='La valeur du profil '+ tarifsname[i] + ' est  incorrecte ; '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
+                            document.getElementById('messageerrorprix').innerText = 'La valeur du profil ' + tarifsname[i] + ' est  incorrecte ; ' + document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
                             break;
-                        }
-
-                        else {
+                        } else {
                             isStepValid = true;
-                            document.getElementById('messageerrorprix').innerText='';
+                            document.getElementById('messageerrorprix').innerText = '';
                         }
-
 
 
                     }
                 }
-                if(stepnumber==4) {
+                if (stepnumber == 4) {
                     $phasing2 = document.getElementById('modifyd_paiement');
 
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
@@ -1081,8 +1143,8 @@
                         let supe = false;
                         let infto = false;
                         let infpour = false;
-                        resultToReturn=new Set(jalondif).size !== jalondif.length;
-                        doublepo=new Set(jalontaux).size !== jalontaux.length;
+                        resultToReturn = new Set(jalondif).size !== jalondif.length;
+                        doublepo = new Set(jalontaux).size !== jalontaux.length;
                         for (a = 0; a < jalontaux.length; a++) {
                             if (jalontaux[a] <= 0) {
                                 infto = true;
@@ -1090,8 +1152,7 @@
                             } else if (jalontaux[a] > 100) {
                                 supe = true;
                                 break
-                            }
-                            else if ((jalontaux[a] <= {{ pourapproved }})&&(!modavant.includes(jalontaux[a]))) {
+                            } else if ((jalontaux[a] <= {{ pourapproved }}) && (!modavant.includes(jalontaux[a]))) {
                                 infpour = true;
                                 break
                             }
@@ -1106,20 +1167,17 @@
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Des conditions sont identiques';
                             isStepValid = false;
-                        }
-                        else if (infto == true) {
+                        } else if (infto == true) {
                             document.getElementById('smartwizard').style.height = "200%";
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être négatif';
                             isStepValid = false;
-                        }
-                        else if (infpour == true) {
+                        } else if (infpour == true) {
                             document.getElementById('smartwizard').style.height = "200%";
                             document.getElementById('tab-content').style.height = "200%";
-                            document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être inférieure à '+{{ pourapproved }} +' %';
+                            document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être inférieure à ' +{{ pourapproved }} +' %';
                             isStepValid = false;
-                        }
-                        else if (supe == true) {
+                        } else if (supe == true) {
                             document.getElementById('smartwizard').style.height = "200%";
                             document.getElementById('tab-content').style.height = "200%";
                             document.getElementById('tauxerror').innerText = 'Le pourcentage des jalons ne peut pas être supérieur à 100%';
@@ -1142,15 +1200,24 @@
                             document.getElementById('modifyd_debit3bm-error').innerText = 'La valeur ne peut pas être négative';
                             document.getElementById('modifyd_debit3bm-error').style.display = 'block';
                             isStepValid = false;
+                        } else if (document.getElementById('modifyd_debit4bm').value < 0) {
+                            document.getElementById('modifyd_debit4bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifyd_debit4bm-error').style.display = 'block';
+                            isStepValid = false;
+                        } else if (((parseFloat(document.getElementById('modifyd_debit1bm').value) + parseFloat(document.getElementById('modifyd_debit2bm').value) + parseFloat(document.getElementById('modifyd_debit3bm').value) + parseFloat(document.getElementById('modifyd_debit4bm').value))) != 100) {
+                            document.getElementById('modifyd_debit4bm-error').innerText = 'La somme des pourcentages doit être égale à 100%, si vous avez rentrez un nombre floatant, assurez vous qu\'il possède un point';
+                            document.getElementById('modifyd_debit4bm-error').style.display = 'block';
+                            isStepValid = false;
                         } else {
                             document.getElementById('modifyd_debit1bm-error').innerText = '';
                             document.getElementById('modifyd_debit2bm-error').innerText = '';
                             document.getElementById('modifyd_debit3bm-error').innerText = '';
+                            document.getElementById('modifyd_debit4bm-error').innerText = '';
 
                             document.getElementById('modifyd_debit1bm-error').style.display = 'none';
                             document.getElementById('modifyd_debit2bm-error').style.display = 'none';
                             document.getElementById('modifyd_debit3bm-error').style.display = 'none';
-
+                            document.getElementById('modifyd_debit4bm-error').style.display = 'none';
 
                             isStepValid = true;
                         }
@@ -1158,6 +1225,106 @@
 
 
                 }//endif step 3
+
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyd_fullnamechefprojet').value;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyd_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyd_Phase').options[document.getElementById('modifyd_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyd_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyd_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyd_fournisseur').options[document.getElementById('modifyd_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyd_typebu').options[document.getElementById('modifyd_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyd_datespec').value;
+                if ((document.getElementById('modifyd_priorite').options[document.getElementById('modifyd_priorite').selectedIndex].value != '')) {
+                    document.getElementById('prioriteof').innerText = 'Priorité : ' + document.getElementById('modifyd_priorite').options[document.getElementById('modifyd_priorite').selectedIndex].innerText;
+                }
+                if ((document.getElementById('modifyd_risque').options[document.getElementById('modifyd_risque').selectedIndex].value != '')) {
+                    document.getElementById('risqueof').innerText = 'Risque : ' + document.getElementById('modifyd_risque').options[document.getElementById('modifyd_risque').selectedIndex].innerText;
+                }
+                document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifyd_description').value;
+                document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyd_taux').value;
+                document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyd_isplanningrespecte').options[document.getElementById('modifyd_isplanningrespecte').selectedIndex].innerText;
+                if ((document.getElementById('modifyd_datereell1').value != '')) {
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyd_datereell1').value;
+                }
+                if ((document.getElementById('modifyd_datereel0').value != '')) {
+                    document.getElementById('datereel0of').innerText = 'Date réel T0 ' + document.getElementById('modifyd_datereel0').value;
+                }
+                if ((document.getElementById('modifyd_date1').value != '')) {
+                    document.getElementById('date1of').innerText = 'Date T1 ' + document.getElementById('modifyd_date1').value;
+                }
+                if ((document.getElementById('modifyd_date2').value != '')) {
+                    document.getElementById('date2of').innerText = 'Date T2 ' + document.getElementById('modifyd_date2').value;
+                }
+                if ((document.getElementById('modifyd_date3').value != '')) {
+                    document.getElementById('date3of').innerText = 'Date T3 ' + document.getElementById('modifyd_date3').value;
+                }
+
+                var tarifsof = new Array();
+                var tarifsnameof = new Array();
+                var nbprotarifsof = new Array();
+                {% for cout in couts %}
+                tarifsof.push({{ cout.tarif }});
+                tarifsnameof.push('{{ cout.name }}');
+
+                {% endfor %}
+
+
+                var prixof = 0;
+                for (iof = 0; iof < tarifsof.length; iof++) {
+                    prixof = prixof + ((document.getElementById('modifyd_couts_' + [iof] + '_nombreprofil').value) * tarifsof[iof]);
+                    nbprotarifsof.push(document.getElementById('modifyd_couts_' + [iof] + '_nombreprofil').value);
+                }
+                textcoutof = '';
+                for (ibof = 0; ibof < tarifsof.length; ibof++) {
+                    textcoutof = textcoutof + tarifsnameof[ibof] + ':  ' + nbprotarifsof[ibof] + '\n';
+                }
+                textcoutof = textcoutof + 'Le prix du projet est de ' + prixof + ' {{ fournisseur.devise }}';
+                document.getElementById('coutofp').innerText = textcoutof;
+
+                    document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('modifyd_paiement').options[document.getElementById('modifyd_paiement').selectedIndex].innerText;
+                    if (document.getElementById('modifyd_paiement').options[document.getElementById('modifyd_paiement').selectedIndex].value == 1) {
+                        document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('modifyd_debit1bm').value + ' %';
+                        document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('modifyd_debit2bm').value + ' %';
+                        document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('modifyd_debit3bm').value + ' %';
+                        document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('modifyd_debit4bm').value + ' %';
+                        document.getElementById('garantiof').innerText = '';
+                        document.getElementById('jalonof').style.display = 'none';
+                    } else {
+                        document.getElementById('garantiof').innerText = 'Durée de la garantie (mois) : ' + document.getElementById('modifyd_garanti').value;
+                        var tailletauxc = $('ul.modalites').find('input').length;
+                        var jalondifc = new Array();
+                        var jalontauxc = new Array();
+                        var jaloncomc = new Array();
+                        var xc = 0;
+                        while (jalondifc.length != tailletauxc) {
+                            if ((!!document.getElementById('modifyd_modalites_' + [xc] + '_conditions')) == true) {
+                                jalontauxc.push(parseInt(document.getElementById('modifyd_modalites_' + [xc] + '_pourcentage').value));
+                                jalondifc.push(document.getElementById('modifyd_modalites_' + [xc] + '_conditions').value);
+                                jaloncomc.push(document.getElementById('modifyd_modalites_' + [xc] + '_description').value);
+                            }
+                            xc = xc + 1;
+                        }
+                        if (tailletauxc != 0) {
+                            document.getElementById('jalonof').style.display = 'block';
+                            var textof = '';
+                            for (var ap = 0; ap < jalondifc.length; ap++) {
+                                textof = textof + 'Condition : ' + jalondifc[ap] + ' , Pourcentage : ' + jalontauxc[ap] + ' %, Description : ';
+                                if (jaloncomc[ap] != '') {
+                                    textof = textof + jaloncomc[ap] + '\n';
+                                } else {
+                                    textof = textof + '/' + '\n';
+                                }
+                            }
+                            document.getElementById('jaonof').innerText = textof;
+                            document.getElementById('debit1of').innerText = '';
+                            document.getElementById('debit2of').innerText = '';
+                            document.getElementById('debit3of').innerText = '';
+                            document.getElementById('debit4of').innerText = '';
+
+                        } else {
+                            document.getElementById('jalonof').style.display = 'none';
+                        }
+                    }
 
 
 
@@ -1177,10 +1344,12 @@
                     if(stepDirection == "6") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

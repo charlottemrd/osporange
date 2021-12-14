@@ -373,6 +373,14 @@
                                 ) }}</th>
                             <th style="padding-left: 1%"><label id="phasec_debit3bm-error" class="error" for="phasec_debit3bm"></label></th>
                         </tr>
+                        <tr id="debit4bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant la conception (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                            <th id="tore">{{ form_widget(form.debit4bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th style="padding-left: 1%"><label id="phasec_debit4bm-error" class="error" for="phasec_debit4bm"></label></th>
+                        </tr>
 
 
 
@@ -389,7 +397,42 @@
                 </div>
 
                 <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-6">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+                    <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id = "descriptionof " >
+                        <h4>Description</h4>
+                    <p id="newphase"> </p>
+                    </div>
+                    <div id = "avancementof" >
+                        <h4>Avancement</h4>
+                        <p id="datereel0of"> </p>
+                    </div>
+                    <div id = "planificationof" >
+                        <h4>Planification</h4>
+                        <p id="date1of"> </p>
+                        <p id="date2of"> </p>
+                        <p id="date3of"> </p>
+                    </div>
+                    <div id = "coutof" >
+                        <h4>Coût</h4>
+                        <p id="coutofp"> </p>
+                    </div>
+                    <div id = "modaliteof" >
+                        <h4>Modalités de réception</h4>
+                        <p id="modeof"> </p>
+                        <p id="debit1of"> </p>
+                        <p id="debit2of"> </p>
+                        <p id="debit3of"> </p>
+                        <p id="debit4of"> </p>
+
+                        <p id="garantiof"> </p>
+
+                        <div style="display: none" id="jalonof">
+                            Liste des jalons :
+                            <p id="jaonof"></p>
+                        </div>
+
+                    </div>
+
 
                 </div>
 
@@ -456,6 +499,21 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             var tarifs=new Array();
             var tarifsname=new Array();
             {% for cout in couts %}
@@ -492,12 +550,15 @@
                 document.getElementById('phasec_debit1bm').value=null;
                 document.getElementById('phasec_debit2bm').value=null;
                 document.getElementById('phasec_debit3bm').value=null;
+                document.getElementById('phasec_debit4bm').value=null;
                 document.getElementById('phasec_debit1bm').required=false;
                 document.getElementById('phasec_debit2bm').required=false;
                 document.getElementById('phasec_debit3bm').required=false;
+                document.getElementById('phasec_debit4bm').required=false;
                 document.getElementById('debit1bm').style.display="none";
                 document.getElementById('debit2bm').style.display="none";
                 document.getElementById('debit3bm').style.display="none";
+                document.getElementById('debit4bm').style.display="none";
                 document.getElementById('phasec_garanti').value=null;
                 document.getElementById('phasec_garanti').required=false;
                 document.getElementById('garanti').style.display="none";
@@ -529,6 +590,7 @@
                     document.getElementById('debit1bm').style.display="none";
                     document.getElementById('debit2bm').style.display="none";
                     document.getElementById('debit3bm').style.display="none";
+                    document.getElementById('debit4bm').style.display="none";
                     document.getElementById('modalites').style.display="none";
                     $collectionHolder.empty();
                     $collectionHolder.append($nouveau);
@@ -658,17 +720,16 @@
                         document.getElementById('garanti').style.display="none";
                         document.getElementById('phasec_garanti').value=null;
                         document.getElementById('phasec_garanti').required=false;
-                        document.getElementById('phasec_debit1bm').value='20';
-                        document.getElementById('phasec_debit1bm').required=true;
 
-                        document.getElementById('phasec_debit2bm').value='60';
+                        document.getElementById('phasec_debit1bm').required=true;
+                        document.getElementById('phasec_debit4bm').required=true;
                         document.getElementById('phasec_debit2bm').required=true;
                         document.getElementById('phasec_debit3bm').required=true;
-                        document.getElementById('phasec_debit3bm').value='80'
 
                         document.getElementById('debit1bm').style.display="table-row";
                         document.getElementById('debit2bm').style.display="table-row";
                         document.getElementById('debit3bm').style.display="table-row";
+                        document.getElementById('debit4bm').style.display="table-row";
 
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%"
@@ -688,12 +749,17 @@
                         document.getElementById('phasec_debit1bm').value=null;
                         document.getElementById('phasec_debit1bm').required=false;
 
+                        document.getElementById('phasec_debit4bm').value=null;
+                        document.getElementById('phasec_debit4bm').required=false;
+
                         document.getElementById('phasec_debit2bm').value=null;
                         document.getElementById('phasec_debit2bm').required=false;
 
                         document.getElementById('debit1bm').style.display="none";
                         document.getElementById('debit2bm').style.display="none";
                         document.getElementById('debit3bm').style.display="none";
+                        document.getElementById('debit4bm').style.display="none";
+
                         document.getElementById('phasec_debit3bm').value=null;
                         document.getElementById('phasec_debit3bm').required=false;
                     }
@@ -706,7 +772,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -1007,14 +1073,27 @@
                                 document.getElementById('phasec_debit3bm-error').style.display='block';
                                 isStepValid=false;
                             }
+                            else if (document.getElementById('phasec_debit4bm').value<0){
+                                document.getElementById('phasec_debit4bm-error').innerText='La valeur ne peut pas être négative';
+                                document.getElementById('phasec_debit4bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                            else if (((parseFloat(document.getElementById('phasec_debit1bm').value)+parseFloat(document.getElementById('phasec_debit2bm').value)+parseFloat(document.getElementById('phasec_debit3bm').value)+parseFloat(document.getElementById('phasec_debit4bm').value)))!=100)
+                            {
+                                document.getElementById('phasec_debit4bm-error').innerText='La somme des pourcentages doit être égale à 100%, si vous avez rentrez un nombre floatant, assurez vous qu\'il possède un point';
+                                document.getElementById('phasec_debit4bm-error').style.display='block';
+                                isStepValid=false;
+                            }
                             else {
                                 document.getElementById('phasec_debit1bm-error').innerText='';
                                 document.getElementById('phasec_debit2bm-error').innerText='';
                                 document.getElementById('phasec_debit3bm-error').innerText='';
+                                document.getElementById('phasec_debit4bm-error').innerText='';
 
                                 document.getElementById('phasec_debit1bm-error').style.display='none';
                                 document.getElementById('phasec_debit2bm-error').style.display='none';
                                 document.getElementById('phasec_debit3bm-error').style.display='none';
+                                document.getElementById('phasec_debit4bm-error').style.display='none';
 
 
 
@@ -1027,6 +1106,117 @@
                     }
 
                 }//endif step 3
+                document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasec_Phase').options[document.getElementById('phasec_Phase').selectedIndex].innerText;
+                if ((document.getElementById('phasec_choix10').selectedIndex!=-1)) {
+                    if (document.getElementById('phasec_choix10').options[document.getElementById('phasec_choix10').selectedIndex].value == 1) {
+                        document.getElementById('datereel0of').innerText = 'Retard dans la date T0 : ' + document.getElementById('phasec_datereel0').value;
+                    }
+                    else {
+                        document.getElementById('datereel0of').innerText = 'Pas de retard dans la date T0 ';
+                    }
+                }
+
+                if((document.getElementById('phasec_Phase').options[document.getElementById('phasec_Phase').selectedIndex].value)=='6'){
+                    document.getElementById('planificationof').style.display='block';
+                    document.getElementById('coutof').style.display='block';
+                    document.getElementById('modaliteof').style.display='block';
+
+                    var tarifsof=new Array();
+                    var tarifsnameof = new Array() ;
+                    var nbprotarifsof = new Array () ;
+                    {% for cout in couts %}
+                    tarifsof.push({{ cout.tarif }});
+                    tarifsnameof.push('{{ cout.name }}');
+
+                    {% endfor %}
+
+
+                    var prixof = 0;
+                    for (iof=0;iof<tarifsof.length;iof++){
+                        prixof=prixof+((document.getElementById('phasec_couts_'+[iof]+'_nombreprofil').value)*tarifsof[iof]);
+                        nbprotarifsof.push(document.getElementById('phasec_couts_'+[iof]+'_nombreprofil').value);
+                    }
+                    textcoutof = '';
+                    for (ibof = 0; ibof< tarifsof.length ; ibof++){
+                        textcoutof = textcoutof + tarifsnameof[ibof] +  ':  '+ nbprotarifsof[ibof] +'\n';
+                    }
+                    textcoutof=textcoutof+ 'Le prix du projet est de ' + prixof + ' {{ fournisseur.devise}}' ;
+                    document.getElementById('coutofp').innerText = textcoutof;
+
+                    if ((document.getElementById('phasec_paiement').selectedIndex!=-1)) {
+                        document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('phasec_paiement').options[document.getElementById('phasec_paiement').selectedIndex].innerText;
+                        if (document.getElementById('phasec_paiement').options[document.getElementById('phasec_paiement').selectedIndex].value == 1) {
+                            document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('phasec_debit1bm').value +' %';
+                            document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('phasec_debit2bm').value +' %';
+                            document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('phasec_debit3bm').value +' %';
+                            document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('phasec_debit4bm').value +' %';
+                            document.getElementById('garantiof').innerText = '';
+                            document.getElementById('jalonof').style.display='none';
+                        } else {
+                            document.getElementById('garantiof').innerText = 'Durée de la garantie (mois) : ' + document.getElementById('phasec_garanti').value;
+                            var tailletauxc = $('ul.modalites').find('input').length;
+                            var jalondifc = new Array();
+                            var jalontauxc = new Array();
+                            var jaloncomc = new Array();
+                            var xc = 0;
+                            while (jalondifc.length != tailletauxc) {
+                                if ((!!document.getElementById('phasec_modalites_' + [xc] + '_conditions')) == true) {
+                                    jalontauxc.push(parseInt(document.getElementById('phasec_modalites_' + [xc] + '_pourcentage').value));
+                                    jalondifc.push(document.getElementById('phasec_modalites_' + [xc] + '_conditions').value);
+                                    jaloncomc.push(document.getElementById('phasec_modalites_' + [xc] + '_description').value);
+                                }
+                                xc = xc + 1;
+                            }
+                            if (tailletauxc != 0) {
+                                document.getElementById('jalonof').style.display='block';
+                                var textof = '';
+                                for (var ap = 0; ap < jalondifc.length; ap++) {
+                                    textof =  textof + 'Condition : '+jalondifc[ap]+' , Pourcentage : '+jalontauxc[ap]+' %, Description : ';
+                                    if (jaloncomc[ap]!=''){
+                                        textof=textof + jaloncomc[ap]+'\n';
+                                    }
+                                    else{
+                                        textof=textof + '/'+'\n';
+                                    }
+                                }
+                                document.getElementById('jaonof').innerText=textof;
+                                document.getElementById('debit1of').innerText = '';
+                                document.getElementById('debit2of').innerText = '';
+                                document.getElementById('debit3of').innerText = '';
+                                document.getElementById('debit4of').innerText = '';
+
+                            }
+                            else{
+                                document.getElementById('jalonof').style.display='none';
+                            }
+                        }
+                    }
+
+
+
+
+                }
+                else{
+                    document.getElementById('planificationof').style.display='none';
+                    document.getElementById('coutof').style.display='none';
+                    document.getElementById('modaliteof').style.display='none';
+
+                }
+
+                if ((document.getElementById('phasec_date1').value!='')){
+                    document.getElementById('date1of').innerText = 'Date T1 : ' +document.getElementById('phasec_date1').value;
+                }
+                if ((document.getElementById('phasec_date2').value!='')){
+                    document.getElementById('date2of').innerText = 'Date T2 : ' +document.getElementById('phasec_date2').value;
+                }
+                if ((document.getElementById('phasec_date3').value!='')){
+                    document.getElementById('date3of').innerText = 'Date T3 : ' +document.getElementById('phasec_date3').value;
+                }
+
+
+
+
+
 
 
 
@@ -1040,10 +1230,12 @@
                     if(stepDirection == "5") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

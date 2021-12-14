@@ -88,7 +88,7 @@
 
              width: 100%;
          }
-         label#debit1bm,label#debit2bm,label#debit3bm{
+         label#debit1bm,label#debit2bm,label#debit3bm, label#debit4bm {
              white-space: pre-wrap;
          }
 
@@ -509,12 +509,20 @@
                                     <th style="padding-left: 1%"><label id="modifydf_debit2bm-error" class="error" for="modifydf_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display: none">
-                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
                                     <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
                                     <th style="padding-left: 1%"><label id="modifydf_debit3bm-error" class="error" for="modifydf_debit3bm"></label></th>
+                                </tr>
+                                <tr id="debit4bm" style="display: none">
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                                    <th id="tore">{{ form_widget(form.debit4bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th style="padding-left: 1%"><label id="modifydf_debit4bm-error" class="error" for="modifydf_debit4bm"></label></th>
                                 </tr>
                             </table>
                         </div>
@@ -714,6 +722,14 @@
                                         ) }}</th>
                                     <th style="padding-left: 1%"><label id="modifydf_debit3bm-error" class="error" for="modifydf_debit3bm"></label></th>
                                 </tr>
+                                <tr id="debit4bm" style="display: block">
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
+                                            'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                                    <th id="tore">{{ form_widget(form.debit4bm, {
+                                            'label_attr': {'class': 'form_control'}}
+                                        ) }}</th>
+                                    <th style="padding-left: 1%"><label id="modifydf_debit4bm-error" class="error" for="modifydf_debit4bm"></label></th>
+                                </tr>
                             </table>
                         </div>
 
@@ -772,7 +788,71 @@
 
                 </div>
                 <div id="step-7" class="tab-pane" role="tabpanel" aria-labelledby="step-7">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+
+                    <h4> Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id="all">
+                        <div id="description">
+                            <h4>Description</h4>
+                            <p id="refof" > </p>
+                            <p id="chefprojet" > </p>
+                            <p id="phaseof" > </p>
+                            <p id="domaineof" > </p>
+                            <p id="sdomaineof" > </p>
+                            <p id="fournisseurof" > </p>
+                            <p id="typebuof"> </p>
+                            <p id="datespecof" > </p>
+
+                            <p id="descriptionof" > </p>
+                        </div>
+
+                        <div id="avanof">
+                            <h4>Avancement</h4>
+                            <p id="tauxof" > </p>
+                            <p id="planningof"> </p>
+                            <p id="prioriteof" > </p>
+                            <p id="risqueof"> </p>
+                        </div>
+
+                        <div id="planningof">
+                            <h4>Planification</h4>
+
+                            <p id="datereell1of"> </p>
+                            <p id="datereel0of"> </p>
+                            <p id="datereel1of"> </p>
+                            <p id="datereel2of"> </p>
+                            <p id="date3of"> </p>
+
+                        </div>
+
+                        <div id = "coutof" >
+                            <h4>Coût</h4>
+                            <p id="coutofp"> </p>
+                        </div>
+
+                        <div id = "modaliteof" >
+                            <h4>Modalités de réception</h4>
+                            <p id="modeof"> </p>
+                            <p id="debit1of"> </p>
+                            <p id="debit2of"> </p>
+                            <p id="debit3of"> </p>
+                            <p id="debit4of"> </p>
+
+                            <p id="garantiof"> </p>
+
+                            <div style="display: none" id="jalonof">
+                                Liste des jalons :
+                                <p id="jaonof"></p>
+                            </div>
+
+                        </div>
+
+
+                        <div style="display: none" id="commenof">
+                            <h4>Commentaires</h4>
+                            <p id="comof"></p>
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -870,6 +950,7 @@
         });
         });
  })
+ })
 
 
 
@@ -878,11 +959,13 @@
                 document.getElementById('modifydf_debit1bm').required=false;
                 document.getElementById('modifydf_debit2bm').required=false;
                 document.getElementById('modifydf_debit3bm').required=false;
+                document.getElementById('modifydf_debit4bm').required=false;
                 document.getElementById('modifydf_garanti').required=true;
             }else{
                 document.getElementById('modifydf_debit1bm').required=true;
                 document.getElementById('modifydf_debit2bm').required=true;
                 document.getElementById('modifydf_debit3bm').required=true;
+                document.getElementById('modifydf_debit4bm').required=false;
                 document.getElementById('modifydf_garanti').required=false;
             }
 
@@ -890,7 +973,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
                     var mods=new Array();
                     {% for modali in modalis %}
@@ -1148,21 +1231,159 @@
                             document.getElementById('modifydf_debit3bm-error').innerText = 'La valeur ne peut pas être négative';
                             document.getElementById('modifydf_debit3bm-error').style.display = 'block';
                             isStepValid = false;
-                        } else {
+                        }
+                        else if (document.getElementById('modifydf_debit4bm').value < 0) {
+                            document.getElementById('modifydf_debit4bm-error').innerText = 'La valeur ne peut pas être négative';
+                            document.getElementById('modifydf_debit4bm-error').style.display = 'block';
+                            isStepValid = false;
+                        }
+                        else if (((parseFloat(document.getElementById('modifydf_debit1bm').value) + parseFloat(document.getElementById('modifydf_debit2bm').value) + parseFloat(document.getElementById('modifydf_debit3bm').value) + parseFloat(document.getElementById('modifydf_debit4bm').value))) != 100) {
+                            document.getElementById('modifydf_debit4bm-error').innerText = 'La somme des pourcentages doit être égale à 100%, si vous avez rentrez un nombre floatant, assurez vous qu\'il possède un point';
+                            document.getElementById('modifydf_debit4bm-error').style.display = 'block';
+                            document.getElementById('smartwizard').style.height = "200%";
+                            document.getElementById('tab-content').style.height = "200%";
+                            isStepValid = false;
+                        }
+                        else {
                             document.getElementById('modifydf_debit1bm-error').innerText = '';
                             document.getElementById('modifydf_debit2bm-error').innerText = '';
                             document.getElementById('modifydf_debit3bm-error').innerText = '';
+                            document.getElementById('modifydf_debit4bm-error').innerText = '';
 
                             document.getElementById('modifydf_debit1bm-error').style.display = 'none';
                             document.getElementById('modifydf_debit2bm-error').style.display = 'none';
                             document.getElementById('modifydf_debit3bm-error').style.display = 'none';
-
+                            document.getElementById('modifydf_debit4bm-error').style.display = 'none';
 
                             isStepValid = true;
                         }
                     }
                 }//endif step 3
 
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifydf_fullnamechefprojet').value;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifydf_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifydf_Phase').options[document.getElementById('modifydf_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifydf_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifydf_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifydf_fournisseur').options[document.getElementById('modifydf_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifydf_typebu').options[document.getElementById('modifydf_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifydf_datespec').value;
+                if ((document.getElementById('modifydf_priorite').options[document.getElementById('modifydf_priorite').selectedIndex].value != '')) {
+                    document.getElementById('prioriteof').innerText = 'Priorité : ' + document.getElementById('modifydf_priorite').options[document.getElementById('modifydf_priorite').selectedIndex].innerText;
+                }
+                if ((document.getElementById('modifydf_risque').options[document.getElementById('modifydf_risque').selectedIndex].value != '')) {
+                    document.getElementById('risqueof').innerText = 'Risque : ' + document.getElementById('modifydf_risque').options[document.getElementById('modifydf_risque').selectedIndex].innerText;
+                }
+                document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifydf_description').value;
+                document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifydf_taux').value;
+                document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifydf_isplanningrespecte').options[document.getElementById('modifydf_isplanningrespecte').selectedIndex].innerText;
+                if ((document.getElementById('modifydf_datereell1').value != '')) {
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifydf_datereell1').value;
+                }
+                if ((document.getElementById('modifydf_datereel0').value != '')) {
+                    document.getElementById('datereel0of').innerText = 'Date réel T0 ' + document.getElementById('modifydf_datereel0').value;
+                }
+                if ((document.getElementById('modifydf_datereel1').value != '')) {
+                    document.getElementById('datereel1of').innerText = 'Date T1 ' + document.getElementById('modifydf_datereel1').value;
+                }
+                if ((document.getElementById('modifydf_datereel2').value != '')) {
+                    document.getElementById('datereel2of').innerText = 'Date T2 ' + document.getElementById('modifydf_datereel2').value;
+                }
+                if ((document.getElementById('modifydf_date3').value != '')) {
+                    document.getElementById('date3of').innerText = 'Date T3 ' + document.getElementById('modifydf_date3').value;
+                }
+
+                var tarifsof = new Array();
+                var tarifsnameof = new Array();
+                var nbprotarifsof = new Array();
+                {% for cout in couts %}
+                tarifsof.push({{ cout.tarif }});
+                tarifsnameof.push('{{ cout.name }}');
+
+
+                {% endfor %}
+
+
+                var prixof = 0;
+                for (iof = 0; iof < tarifsof.length; iof++) {
+                    prixof = prixof + ((document.getElementById('modifydf_couts_' + [iof] + '_nombreprofil').value) * tarifsof[iof]);
+                    nbprotarifsof.push(document.getElementById('modifydf_couts_' + [iof] + '_nombreprofil').value);
+                }
+                textcoutof = '';
+                for (ibof = 0; ibof < tarifsof.length; ibof++) {
+                    textcoutof = textcoutof + tarifsnameof[ibof] + ':  ' + nbprotarifsof[ibof] + '\n';
+                }
+                textcoutof = textcoutof + 'Le prix du projet est de ' + prixof + ' {{ fournisseur.devise }}';
+                document.getElementById('coutofp').innerText = textcoutof;
+
+                document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('modifydf_paiement').options[document.getElementById('modifydf_paiement').selectedIndex].innerText;
+                if (document.getElementById('modifydf_paiement').options[document.getElementById('modifydf_paiement').selectedIndex].value == 1) {
+                    document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('modifydf_debit1bm').value + ' %';
+                    document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('modifydf_debit2bm').value + ' %';
+                    document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('modifydf_debit3bm').value + ' %';
+                    document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('modifydf_debit4bm').value + ' %';
+                    document.getElementById('garantiof').innerText = '';
+                    document.getElementById('jalonof').style.display = 'none';
+                } else {
+                    document.getElementById('garantiof').innerText = 'Durée de la garantie (mois) : ' + document.getElementById('modifydf_garanti').value;
+                    var tailletauxc = $('ul.modalites').find('input').length;
+                    var jalondifc = new Array();
+                    var jalontauxc = new Array();
+                    var jaloncomc = new Array();
+                    var xc = 0;
+                    while (jalondifc.length != tailletauxc) {
+                        if ((!!document.getElementById('modifydf_modalites_' + [xc] + '_conditions')) == true) {
+                            jalontauxc.push(parseInt(document.getElementById('modifydf_modalites_' + [xc] + '_pourcentage').value));
+                            jalondifc.push(document.getElementById('modifydf_modalites_' + [xc] + '_conditions').value);
+                            jaloncomc.push(document.getElementById('modifydf_modalites_' + [xc] + '_description').value);
+                        }
+                        xc = xc + 1;
+                    }
+                    if (tailletauxc != 0) {
+                        document.getElementById('jalonof').style.display = 'block';
+                        var textof = '';
+                        for (var ap = 0; ap < jalondifc.length; ap++) {
+                            textof = textof + 'Condition : ' + jalondifc[ap] + ' , Pourcentage : ' + jalontauxc[ap] + ' %, Description : ';
+                            if (jaloncomc[ap] != '') {
+                                textof = textof + jaloncomc[ap] + '\n';
+                            } else {
+                                textof = textof + '/' + '\n';
+                            }
+                        }
+                        document.getElementById('jaonof').innerText = textof;
+                        document.getElementById('debit1of').innerText = '';
+                        document.getElementById('debit2of').innerText = '';
+                        document.getElementById('debit3of').innerText = '';
+                        document.getElementById('debit4of').innerText = '';
+
+                    } else {
+                        document.getElementById('jalonof').style.display = 'none';
+                    }
+                }
+
+
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
+
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('modifydf_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('modifydf_commentaires_' + [xcp]+ '_description').value);
+                    }
+                    xcp= xcp+ 1;
+                }
+
+                if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
 
 
 
@@ -1180,10 +1401,12 @@
                     if(stepDirection == "6") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

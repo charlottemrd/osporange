@@ -417,7 +417,45 @@
 
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+
+                 <h4> Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id="all">
+                        <div id="description">
+                            <h4>Description</h4>
+                            <p id="refof" > </p>
+                            <p id="chefprojet" > </p>
+                            <p id="phaseof" > </p>
+                            <p id="domaineof" > </p>
+                            <p id="sdomaineof" > </p>
+                            <p id="fournisseurof" > </p>
+                            <p id="typebuof"> </p>
+                            <p id="datespecof" > </p>
+
+                            <p id="descriptionof" > </p>
+                        </div>
+
+                        <div id="avanof">
+                            <h4>Avancement</h4>
+                            <p id="tauxof" > </p>
+                            <p id="planningof"> </p>
+                            <p id="prioriteof" > </p>
+                            <p id="risqueof"> </p>
+                        </div>
+
+                        <div id="planningof">
+                            <h4>Planification</h4>
+                            <p id="date0of"> </p>
+                            <p id="datereell1of"> </p>
+                        </div>
+
+
+                        <div style="display: none" id="commenof">
+                            <h4>Commentaires</h4>
+                            <p id="comof"></p>
+                        </div>
+                    </div>
+
+
                 </div>
 
             </div>
@@ -613,6 +651,51 @@
                 }
 
 
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyc_fullnamechefprojet').value;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyc_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyc_Phase').options[document.getElementById('modifyc_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyc_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('modifyc_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('modifyc_fournisseur').options[document.getElementById('modifyc_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('modifyc_typebu').options[document.getElementById('modifyc_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('modifyc_datespec').value;
+                if ((document.getElementById('modifyc_priorite').options[document.getElementById('modifyc_priorite').selectedIndex].value!='')){
+                    document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('modifyc_priorite').options[document.getElementById('modifyc_priorite').selectedIndex].innerText ;
+                }
+                if ((document.getElementById('modifyc_risque').options[document.getElementById('modifyc_risque').selectedIndex].value!='')){
+                    document.getElementById('risqueof').innerText = 'Risque : ' +document.getElementById('modifyc_risque').options[document.getElementById('modifyc_risque').selectedIndex].innerText ;
+                }
+                document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('modifyc_description').value;
+                document.getElementById('tauxof').innerText = 'Taux d\'avancement (en %) : ' + document.getElementById('modifyc_taux').value;
+                document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyc_isplanningrespecte').options[document.getElementById('modifyc_isplanningrespecte').selectedIndex].innerText;
+                if ((document.getElementById('modifyc_datereell1').value!='')) {
+                    document.getElementById('datereell1of').innerText = 'Date réel T-1 ' + document.getElementById('modifyc_datereell1').value;
+                }
+                document.getElementById('date0of').innerText = 'Date T-0 ' + document.getElementById('modifyc_date0').value;
+
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
+
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('modifyc_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('modifyc_commentaires_' + [xcp]+ '_description').value);
+                    }
+                    xcp= xcp+ 1;
+                }
+
+                if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
+
 
 
 
@@ -627,10 +710,12 @@
                     if(stepDirection == "4") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

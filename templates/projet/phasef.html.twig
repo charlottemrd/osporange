@@ -185,7 +185,16 @@
                 </div>
 
                 <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+                    <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id = "descriptionof " >
+                        <h4>Description</h4>
+                        <p id="newphase"> </p>
+                    </div>
+                    <div id = "avancementof" >
+                        <h4>Avancement</h4>
+                        <p id="datereel3of"> </p>
+                    </div>
+
 
                 </div>
 
@@ -287,7 +296,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -357,7 +366,15 @@
 
             function validateSteps(stepnumber){
                 var isStepValid = true;
-
+                document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasef_Phase').options[document.getElementById('phasef_Phase').selectedIndex].innerText;
+                if ((document.getElementById('phasef_choix30').selectedIndex!=-1)) {
+                    if (document.getElementById('phasef_choix30').options[document.getElementById('phasef_choix30').selectedIndex].value == 1) {
+                        document.getElementById('datereel3of').innerText = 'Retard dans la date T3 : ' + document.getElementById('phasef_datereel3').value;
+                    }
+                    else {
+                        document.getElementById('datereel3of').innerText = 'Pas de retard dans la date T3 ';
+                    }
+                }
 
 
 
@@ -374,10 +391,12 @@
                     if(stepDirection == "2") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

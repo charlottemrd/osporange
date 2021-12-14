@@ -346,6 +346,7 @@ class ProjetController extends AbstractController
                 $projet->setDebit1bm(null);
                 $projet->setDebit2bm(null);
                 $projet->setDebit3bm(null);
+                $projet->setDebit4bm(null);
                 $projet->setIsfinish(false);
                 $projet->setIseligibletobm(false);
             }

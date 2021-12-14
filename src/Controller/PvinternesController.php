@@ -301,9 +301,9 @@ class PvinternesController extends AbstractController
             $datesignature = $form->get('datesignature')->getViewData();
             $datesignature=date("d/m/Y",strtotime($datesignature));
             $fournisseur=$pvinternes->getProjet()->getFournisseur()->getName();
-
+            $nameof = $pvinternes->getProjet()->getReference();
             try {
-                $this->createpvr($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire,  $datesignature, $fournisseur);
+                $this->createpvr($nameof,$objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire,  $datesignature, $fournisseur);
             }
             catch (IOException $exception){}
 
@@ -317,7 +317,7 @@ class PvinternesController extends AbstractController
 
 
 
-    function createpvr($objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $fournisseur)
+    function createpvr($nameof,$objet,$refpv,$datepv,$refcontrat,$facture,$refcontratsap,$boncommande,$datedebut,$datefin,$reservemineure,$reservemajeure,$conditions,$pourcentage,$nomdesignation, $qttdesignation, $nomdesignation2, $qttdesignation2,$bonapayer, $signataire, $rolesignataire, $datesignature, $fournisseur)
 {
 
         // create new PDF document
@@ -510,7 +510,7 @@ Pénalités :
 
         //$pdf->WriteHTMLCell(200, 10,0,0,'', 'B', 'C', 0, 0);
         $pdf->writeHTMLCell(200, 20,5 , 0,  '<img src="/photo/pvrentete.PNG">','B', 1, 0 );
-        $pdf->writeHTMLCell(200,0,5,40,$tbf,0,1,0);
+        $pdf->writeHTMLCell(200,0,5,50,$tbf,0,1,0);
 
 
 
@@ -532,7 +532,7 @@ EOF;
 
 //Close and output PDF document
         $namefl='';
-        $namefl="PAC_projet_.pdf";
+        $namefl="PVR_interne".$nameof.".pdf";
         //;
         $pdf->Output($namefl, 'D');
     }

@@ -150,7 +150,12 @@
 
 
                 <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+                    <h4>  Veuillez vérifier vos données avant de soumettre le formulaire </h4>
+                    <div id = "descriptionof " >
+                        <h4>Description</h4>
+                        <p id="newphase"> </p>
+                    </div>
+
 
                 </div>
 
@@ -218,7 +223,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Changer de phase').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -288,8 +293,7 @@
 
             function validateSteps(stepnumber){
                 var isStepValid = true;
-
-
+                document.getElementById('newphase').innerText = 'Prochaine phase : ' + document.getElementById('phasee_Phase').options[document.getElementById('phasee_Phase').selectedIndex].innerText;
 
 
 
@@ -305,10 +309,12 @@
                     if(stepDirection == "1") //here is the final step: Note: 0,1,2
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
+                        $('.sw-btn-next').addClass('d-none');
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
                         return true;
                     }
                 } else {

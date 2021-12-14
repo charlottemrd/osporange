@@ -11,7 +11,7 @@
          input#projet_domaine,input#projet_sdomaine, select#projet_fournisseur.projet_fournisseur,
          select#projet_typebu.projet_typebu,select#projet_priorite,select#projet_risque,
          input#projet_garanti,select#projet_modalites,input#projet_modalites,
-         input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,textarea#projet_description,
+         input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,input#projet_debit4bm,textarea#projet_description,
          input#projet_datespec
          {
              width: 100%;
@@ -114,7 +114,7 @@
              }
              select#projet_paiement.projet_paiement{
                  width: auto;}
-             input#garanti,input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,textarea#projet_description {
+             input#garanti,input#projet_debit1bm,input#projet_debit2bm,input#projet_debit3bm,input#projet_debit4bm,textarea#projet_description {
                  width: auto;
              }
 
@@ -448,12 +448,20 @@
 
                         </tr>
                         <tr id="debit3bm" style="display: none">
-                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant le test  (%)', {
                                     'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
                             <th width="20%">{{ form_widget(form.debit3bm, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                             <th  style="padding-left: 1%"><label id="projet_debit3bm-error" class="error" for="projet_debit3bm"></label></th>
+                        </tr>
+                        <tr id="debit4bm" style="display: none">
+                            <th width="15%"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
+                                    'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
+                            <th width="20%">{{ form_widget(form.debit4bm, {
+                                    'label_attr': {'class': 'form_control'}}
+                                ) }}</th>
+                            <th  style="padding-left: 1%"><label id="projet_debit4bm-error" class="error" for="projet_debit4bm"></label></th>
                         </tr>
 
                     </table>
@@ -494,7 +502,55 @@
 
                 </div>
                 <div id="step-5" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
-                    Veuillez vérifier vos données avant de soumettre le formulaire
+                    <h4>Veuillez vérifier vos données avant de soumettre le formulaire</h4>
+                    <div class=" ncje" >
+                    <div class="allof" style="width: 50%;scroll-behavior: auto ">
+                    <h4>Description</h4>
+                        <p id="refof" > </p>
+                        <p id="chefprojet" > </p>
+                        <p id="phaseof" > </p>
+                        <p id="domaineof" > </p>
+                        <p id="sdomaineof" > </p>
+                        <p id="fournisseurof" > </p>
+                        <p id="typebuof"> </p>
+                        <p id="datespecof" > </p>
+                        <p id="prioriteof" > </p>
+                        <p id="risqueof"> </p>
+                        <p id="descriptionof" > </p>
+
+                        <div style="display: none" id="planningof">
+                        <h4>Planification </h4>
+                        <p id="datel1of"> </p>
+                        <p id="date0of" > </p>
+                        <p id="date1of" > </p>
+                        <p id="date2of"> </p>
+                        <p id="date3of" > </p>
+                        </div>
+
+                        <div style="display: none" id="modaliteod">
+                        <h4>Modalités de réception </h4>
+                        <p id="modeof"> </p>
+                        <p id="debit1of" > </p>
+                        <p id="debit2of" > </p>
+                        <p id="debit3of"> </p>
+                        <p id="debit4of" > </p>
+                        <p id="garantiof" > </p>
+                        </div>
+
+                        <div style="display: none" id="jalonof">
+                            Liste des jalons :
+                            <p id="jaonof"></p>
+                        </div>
+
+
+                        <div style="display: none" id="commenof">
+                            <h4>Commentaires</h4>
+                            <p id="comof"></p>
+                        </div>
+</div>
+
+                    </div>
+
 
                 </div>
 
@@ -605,20 +661,22 @@
                 document.getElementById('projet_date1').value=null;
                 document.getElementById('projet_date2').value=null;
                 document.getElementById('projet_date3').value=null;
-                document.getElementById('projet_datespec').value=null;
                 document.getElementById('projet_paiement').value=null;
                 document.getElementById('projet_garanti').value=null;
                 document.getElementById('projet_debit1bm').value=null;
                 document.getElementById('projet_debit2bm').value=null;
                 document.getElementById('projet_debit3bm').value=null;
+                document.getElementById('projet_debit4bm').value=null;
                 document.getElementById('projet_garanti').required=false;
                 document.getElementById('projet_debit1bm').required=false;
                 document.getElementById('projet_debit2bm').required=false;
                 document.getElementById('projet_debit3bm').required=false;
+                document.getElementById('projet_debit4bm').required=false;
                 document.getElementById('garanti').style.display="none";
                 document.getElementById('debit1bm').style.display="none";
                 document.getElementById('debit2bm').style.display="none";
                 document.getElementById('debit3bm').style.display="none";
+                document.getElementById('debit4bm').style.display="none";
                 document.getElementById('modalites').style.display="none";
                 document.getElementById('label_tl1').innerText='Date T-1';
                 document.getElementById('label_t0').innerText='Date T0';
@@ -664,6 +722,7 @@
                     document.getElementById('debit1bm').style.display="none";
                     document.getElementById('debit2bm').style.display="none";
                     document.getElementById('debit3bm').style.display="none";
+                    document.getElementById('debit4bm').style.display="none";
 
 
 
@@ -992,6 +1051,10 @@
                 $('.projet_paiement').change(function() {
                     $phasing2=document.getElementById('projet_paiement');
                     var selectValue2 = $phasing2.options[$phasing2.selectedIndex].value;
+                    document.getElementById('projet_debit1bm').value=null;
+                    document.getElementById('projet_debit2bm').value=null;
+                    document.getElementById('projet_debit3bm').value=null;
+                    document.getElementById('projet_debit4bm').value=null;
                     let full=false;
                     let resultToReturn = false;
                     let doublonpou = false;
@@ -1015,17 +1078,16 @@
                         document.getElementById('projet_garanti').value=null;
                         document.getElementById('projet_garanti').required=false;
 
-                        document.getElementById('projet_debit1bm').value='20';
                         document.getElementById('projet_debit1bm').required=true;
 
-                        document.getElementById('projet_debit2bm').value='60';
                         document.getElementById('projet_debit2bm').required=true;
                         document.getElementById('projet_debit3bm').required=true;
-                        document.getElementById('projet_debit3bm').value='80'
+                        document.getElementById('projet_debit4bm').required=true;
 
                         document.getElementById('debit1bm').style.display="table-row";
                         document.getElementById('debit2bm').style.display="table-row";
                         document.getElementById('debit3bm').style.display="table-row";
+                        document.getElementById('debit4bm').style.display="table-row";
 
                         document.getElementById('smartwizard').style.height = "200%";
                         document.getElementById('tab-content').style.height = "200%";
@@ -1049,6 +1111,9 @@
                         document.getElementById('debit3bm').style.display="none";
                         document.getElementById('projet_debit3bm').value=null;
                         document.getElementById('projet_debit3bm').required=false;
+                        document.getElementById('debit4bm').style.display="none";
+                        document.getElementById('projet_debit4bm').value=null;
+                        document.getElementById('projet_debit4bm').required=false;
 
                     }
                 });
@@ -1060,7 +1125,7 @@
 
 
 
-            var btnFinish = $('<button></button>').text('Ajouter').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
 
@@ -1436,16 +1501,27 @@
                                 document.getElementById('projet_debit3bm-error').style.display='block';
                                 isStepValid=false;
                             }
+                            else if (document.getElementById('projet_debit4bm').value<0){
+                                document.getElementById('projet_debit4bm-error').innerText='La valeur ne peut pas être négative';
+                                document.getElementById('projet_debit4bm-error').style.display='block';
+                                isStepValid=false;
+                            }
+                            else if (((parseFloat(document.getElementById('projet_debit1bm').value)+parseFloat(document.getElementById('projet_debit2bm').value)+parseFloat(document.getElementById('projet_debit3bm').value)+parseFloat(document.getElementById('projet_debit4bm').value)))!=100)
+                            {
+                                document.getElementById('projet_debit4bm-error').innerText='La somme des pourcentages doit être égale à 100%, si vous avez rentrez un nombre floatant, assurez vous qu\'il possède un point';
+                                document.getElementById('projet_debit4bm-error').style.display='block';
+                                isStepValid=false;
+                            }
                             else {
                                 document.getElementById('projet_debit1bm-error').innerText='';
                                 document.getElementById('projet_debit2bm-error').innerText='';
                                 document.getElementById('projet_debit3bm-error').innerText='';
+                                document.getElementById('projet_debit4bm-error').innerText='';
 
                                 document.getElementById('projet_debit1bm-error').style.display='none';
                                 document.getElementById('projet_debit2bm-error').style.display='none';
                                 document.getElementById('projet_debit3bm-error').style.display='none';
-
-
+                                document.getElementById('projet_debit4bm-error').style.display='none';
 
                                 isStepValid=true;
                             }
@@ -1457,6 +1533,125 @@
 
                 }//endif step 3
 
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('projet_ldapuser').options[document.getElementById('projet_ldapuser').selectedIndex].innerText;
+                document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('projet_reference').value;
+                document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('projet_Phase').options[document.getElementById('projet_Phase').selectedIndex].innerText;
+                document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('projet_domaine').value;
+                document.getElementById('sdomaineof').innerText = 'Sous-domaine : ' + document.getElementById('projet_sdomaine').value;
+                document.getElementById('fournisseurof').innerText = 'Fournisseur : ' + document.getElementById('projet_fournisseur').options[document.getElementById('projet_fournisseur').selectedIndex].innerText;
+                document.getElementById('typebuof').innerText = 'Typebuof : ' + document.getElementById('projet_typebu').options[document.getElementById('projet_typebu').selectedIndex].innerText;
+                document.getElementById('datespecof').innerText = 'Date des spécifications : ' + document.getElementById('projet_datespec').value;
+                if ((document.getElementById('projet_priorite').options[document.getElementById('projet_priorite').selectedIndex].value!='')){
+                    document.getElementById('prioriteof').innerText='Priorité : ' +document.getElementById('projet_priorite').options[document.getElementById('projet_priorite').selectedIndex].innerText ;
+                }
+                if ((document.getElementById('projet_risque').options[document.getElementById('projet_risque').selectedIndex].value!='')){
+                    document.getElementById('risqueof').innerText = 'Risque : ' +document.getElementById('projet_risque').options[document.getElementById('projet_risque').selectedIndex].innerText ;
+                }
+                   document.getElementById('descriptionof').innerText = 'Description : ' + document.getElementById('projet_description').value;
+
+
+                if ((document.getElementById('projet_datel1').value!='')){
+                    document.getElementById('datel1of').innerText = 'Date T-1 : ' +document.getElementById('projet_datel1').value;
+                      }
+                if ((document.getElementById('projet_date0').value!='')){
+                    document.getElementById('date0of').innerText = 'Date T0 : ' +document.getElementById('projet_date0').value;
+                }
+                if ((document.getElementById('projet_date1').value!='')){
+                    document.getElementById('date1of').innerText = 'Date T1 : ' +document.getElementById('projet_date1').value;
+                }
+                if ((document.getElementById('projet_date2').value!='')){
+                    document.getElementById('date2of').innerText = 'Date T2 : ' +document.getElementById('projet_date2').value;
+                }
+                if ((document.getElementById('projet_date3').value!='')){
+                    document.getElementById('date3of').innerText = 'Date T3 : ' +document.getElementById('projet_date3').value;
+                }
+                 if ((document.getElementById('projet_paiement').selectedIndex!=-1)) {
+                     document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].innerText;
+                     if (document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].value == 1) {
+                         document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('projet_debit1bm').value;
+                         document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('projet_debit2bm').value;
+                         document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('projet_debit3bm').value;
+                         document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('projet_debit4bm').value;
+                         document.getElementById('garantiof').innerText = '';
+                         document.getElementById('jalonof').style.display='none';
+                     } else {
+                         document.getElementById('garantiof').innerText = 'Durée de la garantie (mois) : ' + document.getElementById('projet_garanti').value;
+                         var tailletauxc = $('ul.modalites').find('input').length;
+                         var jalondifc = new Array();
+                         var jalontauxc = new Array();
+                         var jaloncomc = new Array();
+                         var xc = 0;
+                         while (jalondifc.length != tailletauxc) {
+                             if ((!!document.getElementById('projet_modalites_' + [xc] + '_conditions')) == true) {
+                                 jalontauxc.push(parseInt(document.getElementById('projet_modalites_' + [xc] + '_pourcentage').value));
+                                 jalondifc.push(document.getElementById('projet_modalites_' + [xc] + '_conditions').value);
+                                 jaloncomc.push(document.getElementById('projet_modalites_' + [xc] + '_description').value);
+                             }
+                             xc = xc + 1;
+                         }
+                         if (tailletauxc != 0) {
+                             document.getElementById('jalonof').style.display='block';
+                             var textof = '';
+                             for (var ap = 0; ap < jalondifc.length; ap++) {
+                                 textof =  textof + 'Condition : '+jalondifc[ap]+' , Pourcentage : '+jalontauxc[ap]+', Description : ';
+                                 if (jaloncomc[ap]!=''){
+                                     textof=textof + jaloncomc[ap]+'\n';
+                                 }
+                                 else{
+                                     textof=textof + '/'+'\n';
+                                 }
+                             }
+                             document.getElementById('jaonof').innerText=textof;
+                             document.getElementById('debit1of').innerText = '';
+                             document.getElementById('debit2of').innerText = '';
+                             document.getElementById('debit3of').innerText = '';
+                             document.getElementById('debit4of').innerText = '';
+
+                         }
+                     }
+                 }
+                 else{
+                     document.getElementById('jalonof').style.display='none';
+                 }
+                var comc = $('ul.commentaires').find('li').length-1;
+                var comdifc = new Array();
+
+                var xcp= 0;
+                while (comdifc.length!=comc) {
+                    if ((!!document.getElementById('projet_commentaires_' + [xcp]+ '_description')) == true) {
+                        comdifc.push(document.getElementById('projet_commentaires_' + [xcp]+ '_description').value);
+                        }
+                    xcp= xcp+ 1;
+                }
+
+            if (comdifc.length!=0){
+                    document.getElementById('commenof').style.display='block';
+                    var comtext= '';
+                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
+                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
+                    }
+                    document.getElementById('comof').innerText=comtext;
+                }
+                else{
+                    document.getElementById('commenof').style.display='none';
+                }
+
+
+                if ((document.getElementById('projet_datel1').value=='')&&(document.getElementById('projet_date0').value=='')&&(document.getElementById('projet_date1').value=='')&&(document.getElementById('projet_date1').value=='')&&(document.getElementById('projet_date2').value=='')&&(document.getElementById('projet_date3').value=='')){
+                    document.getElementById('planningof').style.display='none';
+                }
+                else{
+                    document.getElementById('planningof').style.display='block';
+                }
+
+                if(document.getElementById('projet_Phase').value >=6){
+                    document.getElementById('modaliteod').style.display='block';
+                }
+                else{
+                    document.getElementById('modaliteod').style.display='none';
+                }
+                document.getElementById('smartwizard').style.height = "50%";
+                document.getElementById('tab-content').style.height = "50%";
 
                 return isStepValid;
             }
@@ -1468,8 +1663,10 @@
                             if (stepDirection == "4") //here is the final step: Note: 0,1,2
                             {
                                 $('.sw-btn-group-extra').removeClass('d-none');
+                                $('.sw-btn-next').addClass('d-none');
                             } else {
                                 $('.sw-btn-group-extra').addClass('d-none');
+                                $('.sw-btn-next').removeClass('d-none');
                                 return true;
                             }
                         } else {
@@ -1481,8 +1678,10 @@
                         if (stepDirection == "4") //here is the final step: Note: 0,1,2
                         {
                             $('.sw-btn-group-extra').removeClass('d-none');
+                            $('.sw-btn-next').addClass('d-none');
                         } else {
                             $('.sw-btn-group-extra').addClass('d-none');
+                            $('.sw-btn-next').removeClass('d-none');
                             return true;
                         }
 

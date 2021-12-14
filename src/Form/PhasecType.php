@@ -23,6 +23,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -71,13 +72,15 @@ class PhasecType extends AbstractType
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'phasec_garanti']])
 
-            ->add('debit1bm',IntegerType::class,['required'=>false,], ['attr' => [
-                'class' => 'phasec_debit1bm']])
-            ->add('debit2bm',IntegerType::class,['required'=>false], ['attr' => [
-                'class' => 'phasec_debit2bm']])
-            ->add('debit3bm',IntegerType::class,['required'=>false], ['attr' => [
-                'class' => 'phasec_debit3bm']])
 
+            ->add('debit1bm', NumberType::class, ['required' => false,], ['attr' => [
+                'class' => 'phasec_debit1bm']])
+            ->add('debit2bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'phasec_debit2bm']])
+            ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'phasec_debit3bm']])
+            ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'phasec_debit4bm']])
 
             //->add('DateLone')
 
