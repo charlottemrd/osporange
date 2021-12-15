@@ -44,7 +44,7 @@ class User implements LdapUserInterface, UserInterface
     private $fullusername;
 
     /**
-     * @ORM\OneToMany(targetEntity=Projet::class, mappedBy="userchef")
+     * @ORM\OneToMany(targetEntity=Projet::class, mappedBy="userchef",orphanRemoval=true, cascade={"persist"})
      */
     private $projets;
 

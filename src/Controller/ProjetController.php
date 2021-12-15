@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 use App\Entity\Bilanmensuel;
+use App\Entity\Commentaire;
 use App\Entity\Cout;
 use App\Entity\DataTrois;
 use App\Entity\DateLone;
@@ -212,6 +213,11 @@ class ProjetController extends AbstractController
                     $c->setDate(new \DateTime());
                 }
             }
+            $newonec = new Commentaire();
+            $newonec->setDate(new \DateTime());
+            $newonec->setDescription('Le projet vient d\'être ajouté avec pour chef de projet '. $projet->getUserchef());
+            $newonec->setProjet($projet);
+            $this->getDoctrine()->getManager()->persist($newonec);
 
             if(($projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)||($projet->getPhase()->getId()==3)||($projet->getPhase()->getId()==4)||($projet->getPhase()->getId()==5)){
              // si le projet est abandonne / stand by / non demarre / caadrage / etude
@@ -617,6 +623,7 @@ class ProjetController extends AbstractController
     public function edit(ModalitesRepository $modalitesRepository, Request $request, Projet $projet,NotifierInterface $notifier): Response
     {
         if($projet->getPhase()->getId()==3) { //phase actuelle= non demarre
+            $chefavant = $projet->getUserchef();
             $form = $this->createForm(ModifyaType::class, $projet);
             $form->handleRequest($request);
 
@@ -629,6 +636,14 @@ class ProjetController extends AbstractController
                     if ($com->getDate()==null){
                         $com->setDate(new \DateTime());
                     }
+                }
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
                 }
 
                 $projet->setDatemaj(new \DateTime());
@@ -647,6 +662,7 @@ class ProjetController extends AbstractController
 
         else if($projet->getPhase()->getId()==4) { //phase actuelle= cadrage
             $dateTl1avant=$projet->getDatel1();
+            $chefavant = $projet->getUserchef();
             $form = $this->createForm(ModifybType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -663,6 +679,14 @@ class ProjetController extends AbstractController
                     if ($com->getDate()==null){
                         $com->setDate(new \DateTime());
                     }
+                }
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
                 }
 
                 $projet->setDatemaj(new \DateTime());
@@ -684,6 +708,7 @@ class ProjetController extends AbstractController
         else if($projet->getPhase()->getId()==5) { //phase actuelle= etude
             $date0avant=$projet->getDate0();
             $datereell1avant=$projet->getDatereell1();
+            $chefavant = $projet->getUserchef();
             $form = $this->createForm(ModifycType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
@@ -694,7 +719,14 @@ class ProjetController extends AbstractController
                         $com->setDate(new \DateTime());
                     }
                 }
-
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
+                }
                 if($date0avant!=$projet->getDate0()){
                     $daten=new DateZero();
                     $daten->setDatezero($date0avant);
@@ -735,6 +767,7 @@ class ProjetController extends AbstractController
             $date1avant=$projet->getDate1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $chefavant = $projet->getUserchef();
             $lastpourcentage=0;
             $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
             if(sizeof($modfini,COUNT_NORMAL)!=0){
@@ -776,6 +809,15 @@ class ProjetController extends AbstractController
                     if ($com->getDate()==null){
                         $com->setDate(new \DateTime());
                     }
+                }
+
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
                 }
 
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
@@ -856,6 +898,7 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $chefavant = $projet->getUserchef();
             $lastpourcentage=0;
             $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
             if(sizeof($modfini,COUNT_NORMAL)!=0){
@@ -892,6 +935,15 @@ class ProjetController extends AbstractController
                     if ($com->getDate()==null){
                         $com->setDate(new \DateTime());
                     }
+                }
+
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
                 }
 
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
@@ -972,6 +1024,7 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $datereel2avant=$projet->getDatereel2();
             $date3avant=$projet->getDate3();
+            $chefavant = $projet->getUserchef();
             $lastpourcentage=0;
             $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
             if(sizeof($modfini,COUNT_NORMAL)!=0){
@@ -1009,7 +1062,14 @@ class ProjetController extends AbstractController
                         $com->setDate(new \DateTime());
                     }
                 }
-
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
+                }
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
                     $daten2=new DateLone();
@@ -1089,6 +1149,7 @@ class ProjetController extends AbstractController
             $datereel1avant=$projet->getDatereel1();
             $datereel2avant=$projet->getDatereel2();
             $date3avant=$projet->getDate3();
+            $chefavant = $projet->getUserchef();
             $lastpourcentage=0;
             $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
             if(sizeof($modfini,COUNT_NORMAL)!=0){
@@ -1126,7 +1187,14 @@ class ProjetController extends AbstractController
                         $com->setDate(new \DateTime());
                     }
                 }
-
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
+                }
                 if(( $datereell1avant!=$projet->getDatereell1())&&$datereell1avant!=null) //datereel t -1
                 {
                     $daten2=new DateLone();
@@ -1209,6 +1277,7 @@ class ProjetController extends AbstractController
             $date1avant=$projet->getDate1();
             $date2avant=$projet->getDate2();
             $date3avant=$projet->getDate3();
+            $chefavant = $projet->getUserchef();
             $lastpourcentage=0;
             $modfini=$modalitesRepository->findBy(array('projet'=>$projet,'isapproved'=>true),array('pourcentage'=>'DESC'));
             if(sizeof($modfini,COUNT_NORMAL)!=0){
@@ -1227,7 +1296,14 @@ class ProjetController extends AbstractController
                         $com->setDate(new \DateTime());
                     }
                 }
-
+                $chefapres = $projet->getUserchef();
+                if ($chefapres!=$chefavant){
+                    $newonec = new Commentaire();
+                    $newonec->setDate(new \DateTime());
+                    $newonec->setDescription($chefavant. ' n\'est plus chef de projet, il est remplacé par '. $chefapres );
+                    $newonec->setProjet($projet);
+                    $this->getDoctrine()->getManager()->persist($newonec);
+                }
                 $mod=$projet->getModalites();
                 foreach ($mod as $m){
                     if($m->getPourcentage()==null){

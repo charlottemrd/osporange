@@ -346,26 +346,7 @@
                     {% endmacro %}
                     <ul class="commentaires" style="list-style-type: none;" data-prototype="  {{ _self.information_myprototype(form.commentaires.vars.prototype)|e }}">
 
-                        {% for commentairesField in form.commentaires %}
 
-                            <li>
-                                <table style="border-color: white;width:100%">
-                                    <tr style="border-color: white">
-                                        <th width="10%">
-
-                                            {{ form_label(form, 'Commentaire *', {
-                                                'label_attr': {'class': 'input-group-text'}}) }}</th>
-                                        <th  id="tore">
-                                            {{ form_widget(commentairesField.description, {
-                                                'label_attr': {'class': 'form_control'}}
-                                            ) }}
-                                        </th>
-                                        <th style="padding-left: 1%;width: 50%"><label id="modifyb_commentaires-error" class="error" for="modifyb_commentaires"></label></th>
-                                    </tr>
-                                    <br>
-                                </table>
-                            </li>
-                        {% endfor %}
 
 
                     </ul>
@@ -402,10 +383,7 @@
                         </div>
 
 
-                        <div style="display: none" id="commenof">
-                            <h4>Commentaires</h4>
-                            <p id="comof"></p>
-                        </div>
+
                     </div>
 
 
@@ -631,28 +609,9 @@
                 document.getElementById('planningof').innerText = 'Priorité : ' + document.getElementById('modifyb_isplanningrespecte').options[document.getElementById('modifyb_isplanningrespecte').selectedIndex].innerText;
                 document.getElementById('datel1of').innerText = 'Date T-1 : ' + new Date (document.getElementById('modifyb_datel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
 
-                var comc = $('ul.commentaires').find('li').length-1;
-                var comdifc = new Array();
 
-                var xcp= 0;
-                while (comdifc.length!=comc) {
-                    if ((!!document.getElementById('modifyb_commentaires_' + [xcp]+ '_description')) == true) {
-                        comdifc.push(document.getElementById('modifyb_commentaires_' + [xcp]+ '_description').value);
-                    }
-                    xcp= xcp+ 1;
-                }
 
-                if (comdifc.length!=0){
-                    document.getElementById('commenof').style.display='block';
-                    var comtext= '';
-                    for ( var mlk=0;mlk<comdifc.length;mlk++) {
-                        comtext=comtext+ 'Commentaire : '+comdifc[mlk]+'\n' ;
-                    }
-                    document.getElementById('comof').innerText=comtext;
-                }
-                else{
-                    document.getElementById('commenof').style.display='none';
-                }
+
 
 
 
