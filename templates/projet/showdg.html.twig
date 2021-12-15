@@ -584,10 +584,10 @@
                     <table id="couts" width="80%" style="margin-left: 10%" style="border: black 1px solid" >
                         <thead style="border: black 1px solid">
                         <tr style="border: black 1px solid">
-                            <td width="10%" style="text-align: center;border-right: black solid 1px">
+                            <td width="10%" style="text-align: center;border-right: black solid 1px; font-weight: bolder ">
                                 Date
                             </td>
-                            <td width="30%" style="text-align: center">
+                            <td width="30%" style="text-align: center; font-weight: bolder ">
                                 Commentaire
                             </td>
                         </tr>
@@ -597,7 +597,7 @@
 
                             {% for commentaire in commentaires %}
                         <tr>
-                            <td width="10%" style="text-align: center;border: black 1px solid">
+                            <td width="10%" style="text-align: center;border: black 1px solid ">
                                 {{ commentaire.date ? commentaire.date|date('d/m/Y') : ''}}
                             </td>
                             <td width="30%" style="text-align: center;border: black 1px solid">
