@@ -180,6 +180,9 @@ class ModifydeType extends AbstractType
 
 
             ))
+            ->add('userchef', EntityType::class,[ 'required' => true,
+                'class' => User::class,
+            ])
 
 
 
@@ -189,7 +192,7 @@ class ModifydeType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
-            $user = $event->getData()->getFullnamechefprojet();
+
             $fournisseur = $event->getData()->getFournisseur();
             $phase = $event->getData()->getPhase();
             $domaine = $event->getData()->getDomaine();
@@ -199,9 +202,7 @@ class ModifydeType extends AbstractType
 
             $event->getForm()
 
-                ->add(
-                    'fullnamechefprojet', TextType::class, array('disabled' => ($user !== null), 'required' => true,
-                ))
+
 
                 ->add('fournisseur', EntityType::class,array('disabled' => ($fournisseur !== null), 'required' => true,
                     'class' =>Fournisseur::class,

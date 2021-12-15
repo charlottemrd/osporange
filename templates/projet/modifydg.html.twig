@@ -166,13 +166,13 @@
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  width="20%">
-                                {{ form_widget(form.fullnamechefprojet, {
+                                {{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
                             <th style="padding-left: 1%"><label id="modify
-                            modifydf_fullnamechefprojet-error" class="error" for="modify
-                            modifydf_fullnamechefprojet"></label></th>
+                            modifydf_userchef-error" class="error" for="modify
+                            modifydf_userchef"></label></th>
 
 
                         </tr>
@@ -625,13 +625,17 @@
 */
 
 
+            {% if not  is_granted('ROLE_ADMIN') %}
+            document.getElementById('modifydg_userchef').setAttribute('disabled','disabled');
+            {% endif %}
 
 
 
-
-            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-
+                    {% if not  is_granted('ROLE_ADMIN') %}
+                    document.getElementById('modifydg_userchef').removeAttribute('disabled');
+                    {% endif %}
 
                     onsubmit();
 

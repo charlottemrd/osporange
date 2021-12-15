@@ -186,11 +186,11 @@
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  id="tore">
-                                {{ form_widget(form.fullnamechefprojet, {
+                                {{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifyie_fullnamechefprojet-error" class="error" for="modifyie_fullnamechefprojet"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyie_userchef-error" class="error" for="modifyie_userchef"></label></th>
 
 
                         </tr>
@@ -962,10 +962,15 @@
                     mods.push({{ modali.pourcentage }});
                     {% endfor %}
                     for (jm=0;jm<mods.length;jm++){
-                        document.getElementById('modifyde_modalites_' + [jm] + '_conditions').removeAttribute("disabled");
-                        document.getElementById('modifyde_modalites_' + [jm] + '_pourcentage').removeAttribute("disabled");
-                        document.getElementById('modifyde_modalites_' + [jm] + '_description').removeAttribute("disabled");
+                        document.getElementById('modifyie_modalites_' + [jm] + '_conditions').removeAttribute("disabled");
+                        document.getElementById('modifyie_modalites_' + [jm] + '_pourcentage').removeAttribute("disabled");
+                        document.getElementById('modifyie_modalites_' + [jm] + '_description').removeAttribute("disabled");
                     }
+
+                    {% if not  is_granted('ROLE_ADMIN') %}
+                    document.getElementById('modifyie_userchef').removeAttribute('disabled');
+                    {% endif %}
+
                     onsubmit();
 
 
@@ -1249,7 +1254,7 @@
 
 
 
-                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyie_fullnamechefprojet').value;
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyie_userchef').options[document.getElementById('modifyie_userchef').selectedIndex].innerText;
                 document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyie_reference').value;
                 document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyie_Phase').options[document.getElementById('modifyie_Phase').selectedIndex].innerText;
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyie_domaine').value;

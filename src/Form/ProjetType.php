@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Form;
+use App\Entity\User;
 use FontLib\Table\Type\name;
 use LdapTools\Bundle\LdapToolsBundle\Form\Type\LdapObjectType;
 
@@ -182,29 +183,17 @@ class ProjetType extends AbstractType
 
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
-            $iduserldap = $event->getData()->getIduserldap();
-            $fullname = $event->getData()->getFullnamechefprojet();
+            $userchef = $event->getData()->getUserchef();
 
 
 
 
-
-            $event->getForm()->add('ldapuser', LdapObjectType::class,
-
-                ['ldap_type'=>'user',
-               'ldap_query_builder' => function (LdapQueryBuilder $query) {
-                $query->orWhere(['memberof'=>$_ENV['CP_GROUPE']]);
-                $query->orWhere(['memberof'=>$_ENV['MANAGER_GROUPE']]);
-                $query->select('*');
-            },
-                //'choice_label'=>'name',
-                'choice_label'=>'displayName',
-                "attr" => [
-                    "class" => "ldap"
-                ],'placeholder'=>'']
+            $event->getForm()->add('userchef', EntityType::class, array('disabled' => ($userchef !== null), 'required' => true,
+                'class' => User::class,
+                'placeholder' => ''));
 
 
-            );
+
 
 
 

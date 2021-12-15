@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
 
 /**
- * @ORM\Entity
- * @ORM\Table(name="app_user")
+ * @ORM\Entity(repositoryClass=UserRepository::class)
  * @method string getUserIdentifier()
  */
 class User implements LdapUserInterface, UserInterface
@@ -40,6 +42,16 @@ class User implements LdapUserInterface, UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fullusername;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Projet::class, mappedBy="userchef")
+     */
+    private $projets;
+
+    public function __construct()
+    {
+        $this->projets = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -154,4 +166,43 @@ class User implements LdapUserInterface, UserInterface
 
         return $this;
     }
+
+
+    /**
+     * @return Collection|Projet[]
+     */
+    public function getProjets(): Collection
+    {
+        return $this->projets;
+    }
+
+    public function addProjet(Projet $projet): self
+    {
+        if (!$this->projets->contains($projet)) {
+            $this->projets[] = $projet;
+            $projet->setUserchef($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProjet(Projet $projet): self
+    {
+        if ($this->projets->removeElement($projet)) {
+            // set the owning side to null (unless already changed)
+            if ($projet->getUserchef() === $this) {
+                $projet->setUserchef(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    public function __toString()
+    {
+        return $this->getFullusername();
+    }
+
 }

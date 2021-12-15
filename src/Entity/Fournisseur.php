@@ -66,21 +66,6 @@ class Fournisseur
     private $idmonthbms;
 
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $fournisseurid;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $fournisseurfullname;
-
-    /**
-     * @ORM\Column(type="ldap_object", nullable=true)
-     * @LdapTools\LdapObject(type="group")
-     */
-    private $fournisseurldap;
 
     public function __construct()
     {
@@ -252,36 +237,7 @@ class Fournisseur
 
 
 
-    public function setFournisseurid(?string $fournisseurid): self
-    {
-        $this->fournisseurid = $fournisseurid;
 
-        return $this;
-    }
-
-    public function getFournisseurfullname(): ?string
-    {
-        return $this->fournisseurfullname;
-    }
-
-    public function setFournisseurfullname(?string $fournisseurfullname): self
-    {
-        $this->fournisseurfullname = $fournisseurfullname;
-
-        return $this;
-    }
-
-    public function getFournisseurldap()
-    {
-        return $this->fournisseurldap;
-    }
-
-    public function setFournisseurldap($fournisseurldap): self
-    {
-        $this->fournisseurldap = $fournisseurldap;
-
-        return $this;
-    }
 
 
 

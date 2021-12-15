@@ -14,6 +14,7 @@ use App\Entity\Idmonthbm;
 use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
+use App\Repository\UserRepository;
 use LdapTools\LdapManager;
 use LdapTools\Query\LdapQueryBuilder;
 use App\Entity\Pvinternes;
@@ -98,7 +99,7 @@ class ProjetController extends AbstractController
 
 
 
-        $projets = $projetRepository->findSearch($data,$user,$user->getUsername());
+        $projets = $projetRepository->findSearch($data,$user);
 
         return $this->render('projet/index.html.twig', [
             'projets'=>$projets,
@@ -128,7 +129,7 @@ class ProjetController extends AbstractController
     /**
      * @Route("/new", name="projet_new",methods={"GET","POST"})
      */
-    public function new(LdapManager $ldapManager ,Security $security,  ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
+    public function new(UserRepository $userRepository , Security $security,  ModalitesRepository $modalitesRepository ,DatepvinterneRepository $datepvinterneRepository ,InfobilanRepository $infobilanRepository ,CoutRepository $coutRepository, IdmonthbmRepository $idmonthbmRepository, ProjetRepository $projetRepository,ProfilRepository $profilRepository,Request $request,NotifierInterface $notifier): Response
     {
         //on cree un nouveau projet avec les paramatres suivants prerempli :
         // taux avancement = 0
@@ -143,45 +144,14 @@ class ProjetController extends AbstractController
         $projet->setTaux('0');
         $projet->setDatecrea(new \DateTime());
         $user = $this->getUser();
-
-        $ldaprdn = $_ENV['USERNAME_ADMIN'];
-        $ldappass = $_ENV['PSWD_ADMIN'];
-        $ldapconn = ldap_connect($_ENV['IP_SERVER']);
-        $usernametoget='';
-        $upn = $user->getUsername() . '@' . $_ENV['DOMAINE_NAME'];
-        ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-        ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
-
-
-        if ($ldapconn) {
-            $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
-
-            if ($ldapbind) {
-                $attributes = ['displayname'];
-                $filter = "(&(objectClass=user)(objectCategory=person)(userPrincipalName=" . ldap_escape($upn, null, LDAP_ESCAPE_FILTER) . "))";
-                $baseDn = $_ENV['BASE_OF_DN'];
-                $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
-                $info = ldap_get_entries($ldapconn, $results);
-
-                if(isset($info[0]['displayname'][0])){
-                    $usernametoget= $info[0]['displayname'][0];
-                    }
-                else{
-                    $attributesb = ['samaccountname'];
-                    $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);
-                    $infob = ldap_get_entries($ldapconn, $resultsb);
-                    $usernametoget= $infob[0]['samaccountname'][0];
-                   }
-
-            }
-        }
-
+        $theuseroft = $userRepository->findOneBy(array('username'=>$user->getUsername()))->getFullusername();
 
 
 
         //create reference FL
-        $initiales=$this->initiales($usernametoget);
-        $numeroref=$projetRepository->Createref($user);
+        $initiales=$this->initiales($theuseroft);
+
+        $numeroref=$projetRepository->Createref($this->getUser());
         $chiffre=(count($numeroref)) +1;
         $date=new \DateTime();
         $date = $date->format('Ymd');
@@ -193,9 +163,9 @@ class ProjetController extends AbstractController
         }
 
         if (!in_array('ROLE_ADMIN', $user->getRoles())) {
-            $projet->setIduserldap($user->getUsername());
-            $projet->setFullnamechefprojet($security->getToken()->getAttribute('fullname'));
-
+           // $projet->setIduserldap($user->getUsername());
+          //  $projet->setFullnamechefprojet($security->getToken()->getAttribute('fullname'));
+                $projet->setUserchef($user);
         }
 
 
@@ -218,114 +188,21 @@ class ProjetController extends AbstractController
 
         $form->handleRequest($request);
 
-        if ($request->isXmlHttpRequest()) {
 
-            // la requete sert a remplir le choice list du chef de projet
-            //si une personne n a pas d attribut displayname sur ldap
-
-            $type = $request->request->get('type');
-            if ($type == 1) {
-                $indexofm = $request->request->get('index');
-                $guidof = $request->request->get('guid');
-
-                $guid = $ldapManager->buildLdapQuery()
-                    ->select('cn')
-                    ->fromUsers()
-                    ->where(['guid' => $guidof])
-                    ->getLdapQuery()
-                    ->getSingleScalarResult();
-
-                return new JsonResponse(array( //cas succes
-                    'indexofr' => $indexofm,
-                    'message' => $guid,
-                    'success' => true,
-                     ),
-                    200);
-            }}
 
 
         if ($form->isSubmitted() && $form->isValid()) {  // soumission formulaire valide
-            $projet->setHighestphase($projet->getPhase()->getRang());
+            if (( $projet->getPhase()->getId()==1)||($projet->getPhase()->getId()==2)){
+                $projet->setHighestphase(3);
+            }
+            else {
+                $projet->setHighestphase($projet->getPhase()->getRang());
+            }
             $com=$projet->getCommentaires();
-            if($projet->getFullnamechefprojet()==null){
 
                 // on recupere l id et le nom complet du chef de projet que l on stocke dans la bdd
 
 
-                $ldaprdn = $_ENV['USERNAME_ADMIN'];
-                $ldappass = $_ENV['PSWD_ADMIN'];
-                $ldapconn = ldap_connect($_ENV['IP_SERVER']);
-                $usernametoget='';
-                ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
-
-
-                if ($ldapconn) {
-                    $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
-
-                    if ($ldapbind) {
-                        $attributes = ['displayname'];
-                        $filter = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
-                        $baseDn = $_ENV['BASE_OF_DN'];
-                        $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
-                        $info = ldap_get_entries($ldapconn, $results);
-
-                        if(isset($info[0]['displayname'][0])){
-                            $usernametogetd= $info[0]['displayname'][0];
-                        }
-                        else{
-                            $attributesb = ['samaccountname'];
-                            $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);
-                            $infob = ldap_get_entries($ldapconn, $resultsb);
-                            $usernametogetd= $infob[0]['samaccountname'][0];
-                        }
-
-                    }
-                    $projet->setFullnamechefprojet($usernametogetd);
-                }
-
-
-
-
-            }
-
-            if($projet->getIduserldap()==null){
-                $ldaprdnc = $_ENV['USERNAME_ADMIN'];
-                $ldappassc = $_ENV['PSWD_ADMIN'];
-                $ldapconnc = ldap_connect($_ENV['IP_SERVER']);
-                $usernametogetc='';
-                ldap_set_option($ldapconnc, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldapconnc, LDAP_OPT_REFERRALS, 0);
-
-
-                if ($ldapconnc) {
-                    $ldapbindc = ldap_bind($ldapconnc, $ldaprdnc, $ldappassc);
-
-                    if ($ldapbindc) {
-                        $attributesc = ['objectguid'];
-                        $filterc = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($projet->getLdapuser(), null, LDAP_ESCAPE_FILTER) . "))";
-                        $baseDnc = $_ENV['BASE_OF_DN'];
-                        $resultsc = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesc);
-                        $infoc = ldap_get_entries($ldapconnc, $resultsc);
-
-                        if(isset($infoc[0]['objectguid'][0])){
-                            $usernametogetc= $infoc[0]['objectguid'][0];
-                        }
-                        else{
-                            $attributesd = ['name'];
-                            $resultsd = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesd);
-                            $infod = ldap_get_entries($ldapconnc, $resultsd);
-                            $usernametogetd= $infod[0]['name'][0];
-                        }
-
-                    }
-                    $projet->setIduserldap($usernametogetd);
-                }
-
-
-
-
-            }
 
 
 

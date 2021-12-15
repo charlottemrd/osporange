@@ -7,7 +7,7 @@
      <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
      <style>
 
-         input#projet_reference, select#projet_ldapuser, select#projet_Phase.projet_Phase,
+         input#projet_reference, select#projet_userchef, select#projet_Phase.projet_Phase,
          input#projet_domaine,input#projet_sdomaine, select#projet_fournisseur.projet_fournisseur,
          select#projet_typebu.projet_typebu,select#projet_priorite,select#projet_risque,
          input#projet_garanti,select#projet_modalites,input#projet_modalites,
@@ -185,7 +185,7 @@
                         <tr>
                             <th> {{ form_label(form, 'Chef de projet *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
-                            <th >{{ form_widget(form.ldapuser, {
+                            <th >{{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}</th>
                         </tr>
@@ -612,42 +612,10 @@
 
 
 */
-            {% if not  is_granted('ROLE_ADMIN') %}
-            document.getElementById('projet_ldapuser').options[0].innerText='{{ nameuser }}';
-            document.getElementById('projet_ldapuser').setAttribute('disabled','disabled');
-            document.getElementById('projet_ldapuser').required=false;
-            {% endif %}
 
 
 
 
-            ListeOption = document.getElementById('projet_ldapuser')
-            for (var i =1, l = ListeOption.options.length; i < l; i++) {
-                if (ListeOption.options[i].label == '') {
-                    var guidvalue = ListeOption.options[i].value;
-
-                    jQuery(document).ready(function () {
-                        $.ajax({
-                            method: "POST",
-                            url: "{{ path('projet_new') }}",
-                            data: {type: 1, index: i , guid: guidvalue },
-                            dataType: 'json',
-                            success: function (html) {
-                                console.log(html);
-                                if (html.success) {
-                                    sz = document.getElementById('projet_ldapuser');
-                                    sz.options[i-1].innerText=html.message;
-                                }
-                            }
-                        }).done(function (response) {
-                        }).fail(function (jxh, textmsg, errorThrown) {
-                            console.log(textmsg);
-                            console.log(errorThrown);
-                            alert(errorThrown);
-                        });
-                    })
-                }
-            }
 
 
 
@@ -1534,7 +1502,7 @@
 
                 }//endif step 3
 
-                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('projet_ldapuser').options[document.getElementById('projet_ldapuser').selectedIndex].innerText;
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('projet_userchef').options[document.getElementById('projet_userchef').selectedIndex].innerText;
                 document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('projet_reference').value;
                 document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('projet_Phase').options[document.getElementById('projet_Phase').selectedIndex].innerText;
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('projet_domaine').value;

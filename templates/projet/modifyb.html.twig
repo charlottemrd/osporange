@@ -163,11 +163,11 @@
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  id="tore">
-                                {{ form_widget(form.fullnamechefprojet, {
+                                {{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifyb_fullnamechefprojet-error" class="error" for="modifyb_fullnamechefprojet"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyb_userchef-error" class="error" for="modifyb_userchef"></label></th>
 
 
                         </tr>
@@ -522,12 +522,16 @@
 
 
 
+            {% if not  is_granted('ROLE_ADMIN') %}
+            document.getElementById('modifyb_userchef').setAttribute('disabled','disabled');
+            {% endif %}
 
-
-            var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
+            var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
 
-
+                    {% if not  is_granted('ROLE_ADMIN') %}
+                    document.getElementById('modifyb_userchef').removeAttribute('disabled');
+                    {% endif %}
                     onsubmit();
 
 
@@ -608,7 +612,7 @@
                     }
                 }
 
-                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyb_fullnamechefprojet').value;
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyb_userchef').options[document.getElementById('modifyb_userchef').selectedIndex].innerText;
                 document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyb_reference').value;
                 document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyb_Phase').options[document.getElementById('modifyb_Phase').selectedIndex].innerText;
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyb_domaine').value;

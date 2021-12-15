@@ -47,7 +47,7 @@ class BilanMensuelController extends AbstractController
 
 
         $user = $this->getUser();
-        $projets = $fournisseurRepository->searchbilanfournisseur($user->getUsername() );
+        $projets = $fournisseurRepository->searchbilanfournisseur($user);
         return $this->render('bilanmensuel/index.html.twig', [
             'fournisseurs'=>$projets,
         ]);

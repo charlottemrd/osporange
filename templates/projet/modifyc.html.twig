@@ -167,11 +167,11 @@
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  id="tore">
-                                {{ form_widget(form.fullnamechefprojet, {
+                                {{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifyc_fullnamechefprojet-error" class="error" for="modifyc_fullnamechefprojet"></label></th>
+                            <th style="padding-left: 1%"><label id="modifyc_userchef-error" class="error" for="modifyc_userchef"></label></th>
 
 
                         </tr>
@@ -380,7 +380,7 @@
                                         'label_attr': {'class': 'form_control'}}
                                     ) }}
                                 </th>
-                                <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                <th style="padding-left: 1%;width: 50%"><label id="modifyc_commentaires-error" class="error" for="modifyc_commentaires"></label></th>
 
                             </tr>
 
@@ -405,7 +405,7 @@
                                                 'label_attr': {'class': 'form_control'}}
                                             ) }}
                                         </th>
-                                        <th style="padding-left: 1%;width: 50%"><label id="modifya_commentaires-error" class="error" for="modifya_commentaires"></label></th>
+                                        <th style="padding-left: 1%;width: 50%"><label id="modifyc_commentaires-error" class="error" for="modifyc_commentaires"></label></th>
                                     </tr>
                                     <br>
                                 </table>
@@ -557,7 +557,9 @@
 
 
 */
-
+            {% if not  is_granted('ROLE_ADMIN') %}
+            document.getElementById('modifyc_userchef').setAttribute('disabled','disabled');
+            {% endif %}
 
 
 
@@ -568,7 +570,9 @@
 
             var btnFinish = $('<button></button>').text('Modifier').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-
+                    {% if not  is_granted('ROLE_ADMIN') %}
+                    document.getElementById('modifyc_userchef').removeAttribute('disabled');
+                    {% endif %}
 
                     onsubmit();
 
@@ -651,7 +655,7 @@
                 }
 
 
-                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyc_fullnamechefprojet').value;
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifyc_userchef').options[document.getElementById('modifyc_userchef').selectedIndex].innerText;
                 document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifyc_reference').value;
                 document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifyc_Phase').options[document.getElementById('modifyc_Phase').selectedIndex].innerText;
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifyc_domaine').value;

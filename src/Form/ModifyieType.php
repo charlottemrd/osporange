@@ -187,7 +187,9 @@ class ModifyieType extends AbstractType
                     "class" => "d-none"
                 ],
             ))
-
+            ->add('userchef', EntityType::class,[ 'required' => true,
+                'class' => User::class,
+            ])
 
 
 
@@ -195,7 +197,7 @@ class ModifyieType extends AbstractType
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
-            $user = $event->getData()->getFullnamechefprojet();
+
             $fournisseur = $event->getData()->getFournisseur();
             $phase = $event->getData()->getPhase();
             $domaine = $event->getData()->getDomaine();
@@ -206,9 +208,7 @@ class ModifyieType extends AbstractType
 
             $event->getForm()
 
-                ->add(
-                    'fullnamechefprojet', TextType::class, array('disabled' => ($user !== null), 'required' => true,
-                ))
+
                 ->add('paiement', EntityType::class,array('disabled' => ($paiement !== null), 'required' => true,
                     'class' =>Paiement::class,
                     'placeholder' => ''))

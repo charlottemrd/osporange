@@ -158,11 +158,11 @@
                                 {{ form_label(form, 'Chef de projet', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  id="tore">
-                                {{ form_widget(form.fullnamechefprojet, {
+                                {{ form_widget(form.userchef, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
-                            <th style="padding-left: 1%"><label id="modifya_fullnamechefprojet-error" class="error" for="modifya_fullnamechefprojet"></label></th>
+                            <th style="padding-left: 1%"><label id="modifya_userchef-error" class="error" for="modifya_userchef"></label></th>
 
 
                         </tr>
@@ -512,12 +512,16 @@
 
 
 
-
+            {% if not  is_granted('ROLE_ADMIN') %}
+            document.getElementById('modifya_userchef').setAttribute('disabled','disabled');
+            {% endif %}
 
 
             var btnFinish = $('<button></button>').text('Valider').addClass('btn btn-info sw-btn-group-extra d-none')
                 .on('click', function(){
-
+                    {% if not  is_granted('ROLE_ADMIN') %}
+                    document.getElementById('modifya_userchef').removeAttribute('disabled');
+                    {% endif %}
 
                     onsubmit();
 
@@ -600,7 +604,7 @@
                     }
 
 
-                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifya_fullnamechefprojet').value;
+                document.getElementById('chefprojet').innerText = 'Chef de projet : ' + document.getElementById('modifya_userchef').options[document.getElementById('modifya_userchef').selectedIndex].innerText;
                 document.getElementById('refof').innerText = 'Référence : ' + document.getElementById('modifya_reference').value;
                 document.getElementById('phaseof').innerText = 'Phase : ' + document.getElementById('modifya_Phase').options[document.getElementById('modifya_Phase').selectedIndex].innerText;
                 document.getElementById('domaineof').innerText = 'Domaine : ' + document.getElementById('modifya_domaine').value;

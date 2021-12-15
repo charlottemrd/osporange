@@ -165,12 +165,12 @@
                         </div>
                     {% endif %}
 
-                    {%if projet.fullnamechefprojet!=null %}
+                    {%if projet.userchef!=null %}
                         <div class="input-group mb-3" id="tore">
                             <div class="input-group-prepend " style="width: 40%">
                                 <span class="input-group-text" id="basic-addon1">Chef de projet</span>
                             </div>
-                            <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{projet.fullnamechefprojet }}"  aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{projet.userchef }}"  aria-describedby="basic-addon1">
                         </div>
                     {% endif %}
                     {%if projet.Phase!=null %}
@@ -277,7 +277,7 @@
                         {%if projet.datel1!=null %}
                             <div class="input-group mb-3" id="tore">
                                 <div class="input-group-prepend " style="width: 40%">
-                                    <span class="input-group-text" id="basic-addon1">DateT-1</span>
+                                    <span class="input-group-text" id="basic-addon1">Date T-1</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.datel1|date('d/m/Y') }}"  aria-describedby="basic-addon1">
                             </div>

@@ -46,108 +46,12 @@ class FournisseurListeController extends AbstractController
         $form->handleRequest($request);
 
 
-        if ($request->isXmlHttpRequest()) {
 
-            $type = $request->request->get('type');
-            if ($type == 1) {
-                $indexofm = $request->request->get('index');
-                $guidof = $request->request->get('guid');
-
-                $guid = $ldapManager->buildLdapQuery()
-                    ->select('cn')
-                    ->fromUsers()
-                    ->where(['guid' => $guidof])
-                    ->getLdapQuery()
-                    ->getSingleScalarResult();
-
-                return new JsonResponse(array( //cas succes
-                    'indexofr' => $indexofm,
-                    'message' => $guid,
-                    'success' => true,
-                ),
-                    200);
-            }}
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            if($fournisseur->getFournisseurfullname()==null){
-                $ldaprdn = $_ENV['USERNAME_ADMIN'];
-                $ldappass = $_ENV['PSWD_ADMIN'];
-                $ldapconn = ldap_connect($_ENV['IP_SERVER']);
-                $usernametoget='';
-                ldap_set_option($ldapconn, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldapconn, LDAP_OPT_REFERRALS, 0);
 
 
-                if ($ldapconn) {
-                    $ldapbind = ldap_bind($ldapconn, $ldaprdn, $ldappass);
-
-                    if ($ldapbind) {
-                        $attributes = ['displayname'];
-                        $filter = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($fournisseur->getFournisseurldap(), null, LDAP_ESCAPE_FILTER) . "))";
-                        $baseDn = $_ENV['BASE_OF_DN'];
-                        $results = ldap_search($ldapconn, $baseDn, $filter, $attributes);
-                        $info = ldap_get_entries($ldapconn, $results);
-
-                        if(isset($info[0]['displayname'][0])){
-                            $usernametogetd= $info[0]['displayname'][0];
-                        }
-                        else{
-                            $attributesb = ['samaccountname'];
-                            $resultsb = ldap_search($ldapconn, $baseDn, $filter, $attributesb);
-                            $infob = ldap_get_entries($ldapconn, $resultsb);
-
-                            $usernametogetd= $infob[0]['samaccountname'][0];
-                        }
-
-                    }
-
-                    $fournisseur->setFournisseurfullname($usernametogetd);
-                }
-
-
-
-
-            }
-
-            if($fournisseur->getFournisseurid()==null){
-                $ldaprdnc = $_ENV['USERNAME_ADMIN'];
-                $ldappassc = $_ENV['PSWD_ADMIN'];
-                $ldapconnc = ldap_connect($_ENV['IP_SERVER']);
-                $usernametogetc='';
-                ldap_set_option($ldapconnc, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldapconnc, LDAP_OPT_REFERRALS, 0);
-
-
-                if ($ldapconnc) {
-                    $ldapbindc = ldap_bind($ldapconnc, $ldaprdnc, $ldappassc);
-
-                    if ($ldapbindc) {
-                        $attributesc = ['objectguid'];
-                        $filterc = "(&(objectClass=user)(objectCategory=person)(distinguishedname=" . ldap_escape($fournisseur->getFournisseurldap(), null, LDAP_ESCAPE_FILTER) . "))";
-                        $baseDnc = $_ENV['BASE_OF_DN'];
-                        $resultsc = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesc);
-                        $infoc = ldap_get_entries($ldapconnc, $resultsc);
-
-                        if(isset($infoc[0]['objectguid'][0])){
-                            $usernametogetc= $infoc[0]['objectguid'][0];
-                        }
-                        else{
-                            $attributesd = ['name'];
-                            $resultsd = ldap_search($ldapconnc, $baseDnc, $filterc, $attributesd);
-                            $infod = ldap_get_entries($ldapconnc, $resultsd);
-                            $usernametogetd= $infod[0]['name'][0];
-                        }
-
-                    }
-
-                    $fournisseur->setFournisseurid($usernametogetd);
-                }
-
-
-
-
-            }
 
 
             $entityManager = $this->getDoctrine()->getManager();

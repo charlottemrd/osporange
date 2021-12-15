@@ -39,7 +39,7 @@ class ExporthomeController extends AbstractController
     private function getData(ProjetRepository $projetRepository): array
     {
         /**
-         * @var $user LdapUser[]
+         * @var $user User[]
          */
         $user = $this->getUser();
         $projets = $projetRepository->findexportSearch($user);

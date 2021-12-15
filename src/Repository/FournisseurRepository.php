@@ -53,7 +53,7 @@ class FournisseurRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Fournisseur[]
      */
-    public function searchbilanfournisseur(String $userid) : array
+    public function searchbilanfournisseur(User $user) : array
     {
            $query = $this
             ->createQueryBuilder('fournisseur');
@@ -65,8 +65,8 @@ class FournisseurRepository extends ServiceEntityRepository
             ->setParameter('keya', 1);
 
         $query = $query
-            ->andWhere('fournisseur.fournisseurid =:key')
-            ->setParameter('key',$userid );
+            ->andWhere('fournisseur.interlocuteur =:key')
+            ->setParameter('key',$user );
 
         return $query->getQuery()->getResult();
 
