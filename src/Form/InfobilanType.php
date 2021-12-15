@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Infobilan;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -18,7 +19,7 @@ class InfobilanType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nombreprofit',IntegerType::class,['constraints' =>new PositiveOrZero()])
+            ->add('nombreprofit',NumberType::class)
         ;
 
     }

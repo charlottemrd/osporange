@@ -421,6 +421,7 @@
 
                 </div>
                 <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
+                    <p>Si vous rentrez un nombre flottant, merci de séparer les parties entières et décimale avec un point (exemple : 6.5 ; la valeur 6,5 étant incorrecte)</p>
                     <table id="couts" style="display:block" >
                         <thead border="black 1px solid">
                         <tr border="red 1px solid" >
@@ -711,14 +712,14 @@
                                     <th style="padding-left: 1%"><label id="modifyde_debit2bm-error" class="error" for="modifyde_debit2bm"></label></th>
                                 </tr>
                                 <tr id="debit3bm" style="display:block">
-                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test et recette (%)', {
+                                    <th id="tof"> {{ form_label(form, 'Cout débité pendant le test  (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit3bm'}}) }}</th>
                                     <th id="tore">{{ form_widget(form.debit3bm, {
                                             'label_attr': {'class': 'form_control'}}
                                         ) }}</th>
                                     <th style="padding-left: 1%"><label id="modifyde_debit3bm-error" class="error" for="modifyde_debit3bm"></label></th>
                                 </tr>
-                                <tr id="debit4bm" style="display: none">
+                                <tr id="debit4bm" style="display: block">
                                     <th id="tof"> {{ form_label(form, 'Cout débité pendant la recette (%)', {
                                             'label_attr': {'class': 'input-group-text','id': 'debit4bm'}}) }}</th>
                                     <th id="tore">{{ form_widget(form.debit4bm, {

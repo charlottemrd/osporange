@@ -140,27 +140,21 @@ class BilanMensuelController extends AbstractController
                         $coutsoumis = $coutsoumis + ($tariflu * $lignelunb);
                     }
                     $phaseprojet = $project->getPhase()->getId();
-                    if ($phaseprojet == 6) {
-                        if ($project->getDebit1bm() != null) {
-                            $pourcentagecontrol = $project->getDebit1bm();
-                        } else {
-                            $pourcentagecontrol = 20;
-                        }
-                    } elseif ($phaseprojet == 7) {
-                        if ($project->getDebit2bm() != null) {
-                            $pourcentagecontrol = $project->getDebit2bm();
-                        } else {
-                            $pourcentagecontrol = 60;
-                        }
-                    } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-                        if ($project->getDebit3bm() != null) {
-                            $pourcentagecontrol = $project->getDebit3bm();
-                        } else {
-                            $pourcentagecontrol = 80;
-                        }
-                    } else {
-                        $pourcentagecontrol = 100;
-                    }
+
+                    $phaseprojet = $project->getPhase()->getId();
+                    if ($phaseprojet == 6) {  //conception
+                        $pourcentagecontrol = $project->getDebit1bm();
+                    } elseif ($phaseprojet == 7) { //construction
+                        $pourcentagecontrol = $project->getDebit1bm() + $project->getDebit2bm();
+                    } else if ($phaseprojet == 8) // test
+                         {
+                        $pourcentagecontrol = $project->getDebit1bm() + $project->getDebit2bm()+ $project->getDebit3bm();
+                } else {
+                    $pourcentagecontrol = $project->getDebit1bm() + $project->getDebit2bm()+ $project->getDebit3bm()+$project->getDebit4bm();
+                }
+
+
+
                     if ($couttotal == 0) {
                         $pourcentagesoumis = 0;
                     } else {
@@ -222,7 +216,8 @@ class BilanMensuelController extends AbstractController
 
 
                                 $theprofittochange = $infobilanRepository->findOneBy(array('bilanmensuel' => $thebilan, 'profil' => $numberidofprofil));
-                                $theprofittochange->setNombreprofit($lignealire[1]);
+                              $theprofittochange->setNombreprofit($lignealire[1]);
+
                             }
 
                             $this->getDoctrine()->getManager()->flush();
@@ -235,6 +230,7 @@ class BilanMensuelController extends AbstractController
                                 'coutdebit' => $coutdebit,
                                 'idprojet' => $pourcentagesoumis,
                                 'sxz' => $pourcentagecontrol,
+
                                 'redirect' => $this->generateUrl('bilanmensuel_fournisseurmois', ['idmonthbm' => $idmonthbm->getId(), 'name' => $fournisseur->getName(), 'month' => $mymonth, 'year' => $myyear])
                             ),
                                 200);
@@ -273,27 +269,20 @@ class BilanMensuelController extends AbstractController
 
 
                         $phaseprojet = $po->getProjet()->getPhase()->getId();
-                        if ($phaseprojet == 6) {
-                            if ($po->getProjet()->getDebit1bm() != null) {
-                                $pourcentagecontrol = $po->getProjet()->getDebit1bm();
-                            } else {
-                                $pourcentagecontrol = 20;
-                            }
-                        } elseif ($phaseprojet == 7) {
-                            if ($po->getProjet()->getDebit2bm() != null) {
-                                $pourcentagecontrol = $po->getProjet()->getDebit2bm();
-                            } else {
-                                $pourcentagecontrol = 60;
-                            }
-                        } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-                            if ($po->getProjet()->getDebit3bm() != null) {
-                                $pourcentagecontrol = $po->getProjet()->getDebit3bm();
-                            } else {
-                                $pourcentagecontrol = 80;
-                            }
+                        if ($phaseprojet == 6) {  //conception
+                            $pourcentagecontrol = $po->getDebit1bm();
+                        } elseif ($phaseprojet == 7) { //construction
+                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm();
+                        } else if ($phaseprojet == 8) // test
+                        {
+                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm()+ $po->getDebit3bm();
                         } else {
-                            $pourcentagecontrol = 100;
+                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm()+ $po->getDebit3bm()+$po->getDebit4bm();
                         }
+
+
+
+
                         if ($couttotal == 0) {
                             $pourcentagesoumis = 0;
                         } else {

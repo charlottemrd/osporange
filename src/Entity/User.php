@@ -2,103 +2,112 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use LdapTools\Bundle\LdapToolsBundle\Security\User\LdapUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\Entity
+ * @ORM\Table(name="app_user")
+ * @method string getUserIdentifier()
  */
-class User implements UserInterface, PasswordAuthenticatedUserInterface
+class User implements LdapUserInterface, UserInterface
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=100)
      */
-    private $email;
+    private $ldapGuid;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="text")
+     */
+    private $username;
+
+    /**
+     * @var array
+     * @ORM\Column(type="array")
      */
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $password;
+    private $fullusername;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * Get id
+     *
+     * @return integer
      */
-    private $name;
-
-
-
-
-    public function __construct()
-    {
-
-        $this->fournisseurs = new ArrayCollection();
-    }
-
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getEmail(): ?string
+    /**
+     * Set ldapGuid
+     *
+     * @param string $ldapGuid
+     *
+     * @return AppUser
+     */
+    public function setLdapGuid($ldapGuid)
     {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
+        $this->ldapGuid = $ldapGuid;
 
         return $this;
     }
 
     /**
-     * A visual identifier that represents this user.
+     * Get ldapGuid
      *
-     * @see UserInterface
+     * @return string
      */
-    public function getUserIdentifier(): string
+    public function getLdapGuid()
     {
-        return (string) $this->email;
+        return $this->ldapGuid;
     }
 
     /**
-     * @deprecated since Symfony 5.3, use getUserIdentifier instead
+     * Set username
+     *
+     * @param string $username
+     *
+     * @return AppUser
      */
-    public function getUsername(): string
+    public function setUsername($username)
     {
-        return (string) $this->email;
+        $this->username = $username;
+
+        return $this;
     }
 
     /**
-     * @see UserInterface
+     * Get username
+     *
+     * @return string
      */
-    public function getRoles(): array
+    public function getUsername()
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->username;
     }
 
-    public function setRoles(array $roles): self
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @param array $roles
+     * @return $this
+     */
+    public function setRoles(array $roles)
     {
         $this->roles = $roles;
 
@@ -106,68 +115,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
+     * @return array
      */
-    public function getPassword(): string
+    public function getRoles()
     {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
-
-        return $this;
+        return $this->roles;
     }
 
     /**
-     * Returning a salt is only needed, if you are not using a modern
-     * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
-     *
-     * @see UserInterface
+     * @return null
      */
-    public function getSalt(): ?string
+    public function getPassword()
     {
         return null;
     }
 
     /**
-     * @see UserInterface
+     * @return null
      */
-    public function eraseCredentials()
+    public function getSalt()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        return null;
     }
 
-    public function getName(): ?string
+    public function __call($name, $arguments)
     {
-        return $this->name;
+        // TODO: Implement @method string getUserIdentifier()
     }
 
-    public function setName(string $name): self
+    public function getFullusername(): ?string
     {
-        $this->name = $name;
+        return $this->fullusername;
+    }
+
+    public function setFullusername(?string $fullusername): self
+    {
+        $this->fullusername = $fullusername;
 
         return $this;
     }
-
-
-    public function __toString()
-    {
-        return $this->getName();
-    }
-
-    /**
-     * @return Collection|Fournisseur[]
-     */
-    public function getFournisseurs(): Collection
-    {
-        return $this->fournisseurs;
-    }
-
-
-
-
-
 }

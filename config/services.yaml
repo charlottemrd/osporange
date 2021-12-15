@@ -36,6 +36,7 @@ ldap_tools:
             ROLE_USER: [ '%env(CP_GROUPE)%','%env(MANAGER_GROUPE)%' ]
     # Using the distinguished name of the group
         default_role: ROLE_ANONYMOUS
+        user: App\Entity\User
 
 
 
@@ -92,9 +93,9 @@ services:
     app.event.ldap_login_listener:
         class: App\Event\LdapLoginListener
         tags:
-            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLdapLoginSuccess }
-            - { name: kernel.event_listener, event: ldap_tools_bundle.login.failure, method: onLdapLoginFailure }
-        arguments: ['@router']
+            - { name: kernel.event_listener, event: ldap_tools_bundle.login.success, method: onLoginSuccess }
+            - { name: kernel.event_listener, event: ldap_tools_bundle.login.failure, method: onLoginFailure }
+        arguments: ['@doctrine.orm.entity_manager']
     app.event.login_listener:
         class: App\Event\LoadUserListener
         tags:

@@ -71,28 +71,16 @@ class Monthleft
 
     public function proposeTGIM(InfobilanRepository $infobilanRepository, CoutRepository $coutRepository, Idmonthbm $idmonthbm,Profil $profil, Projet $projet,$mois){
         $phaseprojet = $projet->getPhase()->getId();
-        if ($phaseprojet == 6) {
-            if ($projet->getDebit1bm()!=null){
-                $pourcentagecontrol = $projet->getDebit1bm();}
-            else{
-                $pourcentagecontrol = 20;
-            }
-        } elseif ($phaseprojet == 7) {
-            if ($projet->getDebit2bm()!=null){
-                $pourcentagecontrol = $projet->getDebit2bm();}
-            else{
-                $pourcentagecontrol = 60;
-            }
-        } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-            if ($projet->getDebit3bm()!=null){
-                $pourcentagecontrol = $projet->getDebit3bm();}
-            else{
-                $pourcentagecontrol = 80;
-            }
+        if ($phaseprojet == 6) {  //conception
+            $pourcentagecontrol = $projet->getDebit1bm();
+        } elseif ($phaseprojet == 7) { //construction
+            $pourcentagecontrol = $projet->getDebit1bm() + $projet->getDebit2bm();
+        } else if ($phaseprojet == 8) // test
+        {
+            $pourcentagecontrol = $projet->getDebit1bm() +$projet->getDebit2bm() + $projet->getDebit3bm();
         } else {
-            $pourcentagecontrol = 100;
+            $pourcentagecontrol = $projet->getDebit1bm() + $projet->getDebit2bm()+ $projet->getDebit3bm()+$projet->getDebit4bm();
         }
-
 
 
 
@@ -129,27 +117,17 @@ class Monthleft
 
     public function whichpoc(Projet $project){
         $phaseprojet = $project->getPhase()->getId();
-        if ($phaseprojet == 6) {
-            if ($project->getDebit1bm()!=null){
-                $pourcentagecontrol = $project->getDebit1bm();}
-            else{
-                $pourcentagecontrol = 20;
-            }
-        } elseif ($phaseprojet == 7) {
-            if ($project->getDebit2bm()!=null){
-                $pourcentagecontrol = $project->getDebit2bm();}
-            else{
-                $pourcentagecontrol = 60;
-            }
-        } else if (($phaseprojet == 8) || ($phaseprojet == 9)) {
-            if ($project->getDebit3bm()!=null){
-                $pourcentagecontrol = $project->getDebit3bm();}
-            else{
-                $pourcentagecontrol = 80;
-            }
+        if ($phaseprojet == 6) {  //conception
+            $pourcentagecontrol = $project->getDebit1bm();
+        } elseif ($phaseprojet == 7) { //construction
+            $pourcentagecontrol = $project->getDebit1bm() + $project->getDebit2bm();
+        } else if ($phaseprojet == 8) // test
+        {
+            $pourcentagecontrol = $project->getDebit1bm() +$project->getDebit2bm() + $project->getDebit3bm();
         } else {
-            $pourcentagecontrol = 100;
+            $pourcentagecontrol = $project->getDebit1bm() + $project->getDebit2bm()+ $project->getDebit3bm()+$project->getDebit4bm();
         }
+
         return $pourcentagecontrol;
     }
 

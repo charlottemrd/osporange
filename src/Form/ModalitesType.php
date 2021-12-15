@@ -6,6 +6,7 @@ use App\Entity\Modalites;
 use Doctrine\DBAL\Types\BooleanType;
 use phpDocumentor\Reflection\Types\Boolean;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,7 +21,7 @@ class ModalitesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('pourcentage',IntegerType::class,['required'=>true], ['attr' => [
+            ->add('pourcentage',NumberType::class,['required'=>true], ['attr' => [
                 'class' => 'id_pourcentage']])
             ->add('conditions', ChoiceType::class, ['required' => true,'placeholder'=>'',
                 'choices'  => [

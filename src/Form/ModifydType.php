@@ -59,7 +59,7 @@ class ModifydType extends AbstractType
 
             ])
 
-            ->add('taux',IntegerType::class, [
+            ->add('taux',NumberType::class, [
                 'label' => false,
                 'attr' => [
                     'class' => 'modifyd_taux'

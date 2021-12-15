@@ -6,8 +6,13 @@ security:
             algorithm: auto
 
     providers:
+        chain_provider:
+            chain:
+                providers: [ user_db, ldap ]
         ldap:
             id: ldap_tools.security.user.ldap_user_provider
+        user_db:
+            entity: { class: App\Entity\User, property: username }
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -17,16 +22,16 @@ security:
 
         main:
             anonymous: ~
-            provider: ldap
+            provider: chain_provider
             pattern: ^/
             logout: ~
             guard:
                 authenticators:
                     - ldap_tools.security.ldap_guard_authenticator
-        default:
-            guard:
-                authenticators:
-                    - ldap_tools.security.ldap_guard_authenticator
+       # default:
+        #    guard:
+         #       authenticators:
+          #          - ldap_tools.security.ldap_guard_authenticator
 
 
         login:

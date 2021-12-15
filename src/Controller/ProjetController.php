@@ -99,6 +99,7 @@ class ProjetController extends AbstractController
 
 
         $projets = $projetRepository->findSearch($data,$user,$user->getUsername());
+
         return $this->render('projet/index.html.twig', [
             'projets'=>$projets,
             'form'=>$form->createView()

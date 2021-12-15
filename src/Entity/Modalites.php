@@ -23,7 +23,7 @@ class Modalites
     private $description;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $pourcentage;
 
@@ -91,12 +91,12 @@ class Modalites
         return $this;
     }
 
-    public function getPourcentage(): ?int
+    public function getPourcentage(): ?float
     {
         return $this->pourcentage;
     }
 
-    public function setPourcentage(?int $pourcentage): self
+    public function setPourcentage(?float $pourcentage): self
     {
         $this->pourcentage = $pourcentage;
 

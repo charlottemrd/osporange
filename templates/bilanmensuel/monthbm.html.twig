@@ -103,7 +103,7 @@
              background-color: lightgrey;
          }
 
-         input[type="number"] {
+         input[type="text"] {
              text-align: center;
              width: 100%;
              background: none;
@@ -176,8 +176,8 @@
 
 
 
+            <p>Si vous rentrez un nombre flottant, merci de séparer les parties entières et décimale avec un point (exemple : 6.5 ; la valeur 6,5 étant incorrecte)</p>
 
-            <br>
             <table id="couts" style="display:block" >
                 <thead  >
                 <tr>
@@ -346,11 +346,14 @@
             $phasing6 = document.getElementById('idmonthbm_bilanmensuels_' + [i] + '_projet');
             var selectValue6 = $phasing6.options[$phasing6.selectedIndex].innerText;
 
-               jQuery(document).ready(function () {
+
+
+
+                jQuery(document).ready(function () {
                     var myindex = $indexprojet;
                     var profilarray = new Array();
                     var tableaufinal = new Array();
-                    var isnegative=false;
+                    var isnegative = false;
                     {% for profil in profils %}
                     profilarray.push({{ profil.id }})
                     {% endfor %}
@@ -359,13 +362,14 @@
                         tableaucompose.push(profilarray[im]);
                         tableaucompose.push(document.getElementById('idmonthbm_bilanmensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value);
                         tableaufinal.push(tableaucompose);
-                        if(document.getElementById('idmonthbm_bilanmensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value<0){
-                            isnegative=true;
+                        if (document.getElementById('idmonthbm_bilanmensuels_' + [myindex] + '_Infobilans_' + [im] + '_nombreprofit').value < 0) {
+                            isnegative = true;
                         }
+
                     }
 
 
-                    if(isnegative==false) {
+                    if (isnegative == false) {
 
                         $.ajax({
                             method: "POST",
@@ -393,14 +397,14 @@
                             console.log(errorThrown);
                             alert(errorThrown);
                         });
-                    }
-                    else{
+                    } else {
 
-                        document.getElementById('dive1').style.display="block";
-                        document.getElementById('texterror').innerHTML="Le formulaire est incorrect ;  les données soumises ne peuvent pas être négatives."
+                        document.getElementById('dive1').style.display = "block";
+                        document.getElementById('texterror').innerHTML = "Le formulaire est incorrect ;  les données soumises ne peuvent pas être négatives."
                     }
 
                 })
+
 
 
 
@@ -427,7 +431,13 @@
         }
 
         function annulmodif(i) {
-
+            jp = -1;
+            {% for profil in profils %}
+            jp = jp + 1;
+            {% endfor %}
+            for (pj = 0; pj < jp + 1; pj++) {
+                dxeqz = document.getElementById('idmonthbm_bilanmensuels_' + [i] + '_Infobilans_' + [pj] + '_nombreprofit').removeAttribute("disabled");
+            }
 
             document.getElementById('bilanmensuel_' + [i]).style.display = "inline-block";
             document.getElementById('closingbm_' + [i]).style.display = "none";

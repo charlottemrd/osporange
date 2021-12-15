@@ -68,7 +68,7 @@ class ModifyieType extends AbstractType
                 ],
             ])
 
-            ->add('taux',IntegerType::class, [
+            ->add('taux',NumberType::class, [
                 'label' => false,
                 'attr' => [
                     'class' => 'modifyie_taux'

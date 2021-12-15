@@ -42,8 +42,7 @@ class Projet
     private $description;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * private $taux = '0';
+     * @ORM\Column(type="float", nullable=true)
      */
     private $taux;
 
@@ -338,12 +337,12 @@ class Projet
         return $this;
     }
 
-    public function getTaux(): ?int
+    public function getTaux(): ?float
     {
         return $this->taux;
     }
 
-    public function setTaux(?int $taux): self
+    public function setTaux(?float $taux): self
     {
         $this->taux = $taux;
 

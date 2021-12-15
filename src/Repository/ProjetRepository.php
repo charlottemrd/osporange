@@ -27,7 +27,7 @@ class ProjetRepository extends ServiceEntityRepository
      * Récupère les produits en lien avec une recherche
      * @return Projet[]
      */
-    public function findSearch(SearchData $search, LdapUser $user,string  $nameof) : array
+    public function findSearch(SearchData $search, User $user,string  $nameof) : array
     {
         $usernameof = $user->getUsername();
 

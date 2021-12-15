@@ -20,7 +20,7 @@ class Infobilan
 
     /**
      * @Assert\PositiveOrZero
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="float", nullable=true)
      */
     private $nombreprofit;
 
@@ -42,12 +42,12 @@ class Infobilan
         return $this->id;
     }
 
-    public function getNombreprofit(): ?int
+    public function getNombreprofit(): ?float
     {
         return $this->nombreprofit;
     }
 
-    public function setNombreprofit(?int $nombreprofit): self
+    public function setNombreprofit(?float $nombreprofit): self
     {
         $this->nombreprofit = $nombreprofit;
 
