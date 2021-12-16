@@ -243,11 +243,11 @@
 
         $(document).ready( function () {
             var table = $('#table').DataTable( {
+                "ordering": false,
                 "paging": true,
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
                 },
-                // "order": [[ 1, "asc", ]],
                 pagingType: "simple_numbers",
                 "bLengthChange": false,
                 "bInfo" : false,

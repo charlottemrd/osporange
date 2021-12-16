@@ -38,6 +38,7 @@ class PvinternesController extends AbstractController
         $form=$this->createForm(SearchDatePvinterne::class,$data);
         $form->handleRequest($request);
         $datepvs=$datepvinterneRepository->searchbilanmensuelfournisseur($data);
+        dump($datepvs);
         return $this->render('pvinternes/index.html.twig', [
             'datepvs'=>$datepvs,
 
@@ -56,7 +57,6 @@ class PvinternesController extends AbstractController
         $form=$this->createForm(SearchpvType::class,$data);
         $form->handleRequest($request);
         $pvs=$pvinternesRepository->findSearchpv($data,$datepvinterne->getId());
-
         return $this->render('pvinternes/pvdate.html.twig', [
             'datepv'=>$datepvinterne,
             'pvs'=>$pvs,
@@ -99,7 +99,7 @@ class PvinternesController extends AbstractController
                     ),
                         200);
                 } else {
-                    if ($taux <= $maxpv) {
+                    if (($taux <= $maxpv)&&($taux!=0)) {
                         return new JsonResponse(array( //cas succes
                             'status' => 'OK',
                             'message' => 'le pourcentage ne peut pas inférieure à ce qui a déjà été débité',
@@ -145,7 +145,7 @@ class PvinternesController extends AbstractController
                     ),
                         200);
                 } else {
-                    if ($taux <= $maxpv) {
+                    if (($taux <= $maxpv)&&($taux!=0)) {
                         return new JsonResponse(array( //cas succes
                             'status' => 'OK',
                             'message' => 'le pourcentage ne peut pas inférieure à ce qui a déjà été débité',

@@ -90,7 +90,8 @@ class DatepvinterneRepository extends ServiceEntityRepository
                 ->andwhere('YEAR(datepv.datemy) LIKE :yeari')
                 ->setParameter('yeari',"%{$search->year}%");
         }
-
+        $query=$query
+            ->orderBy('datepv.id','DESC');
 
 
 
