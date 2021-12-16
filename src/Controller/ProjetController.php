@@ -15,6 +15,11 @@ use App\Entity\Idmonthbm;
 use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
+use App\Repository\DataTroisRepository;
+use App\Repository\DateLoneRepository;
+use App\Repository\DateOnePlusRepository;
+use App\Repository\DateTwoRepository;
+use App\Repository\DateZeroRepository;
 use App\Repository\UserRepository;
 use DoctrineExtensions\Query\Mysql\Date;
 use LdapTools\LdapManager;
@@ -451,7 +456,7 @@ class ProjetController extends AbstractController
     /**
      * @Route("/{id}", name="projet_show",methods={"GET"})
      */
-    public function show(Projet $projet, InfobilanRepository $infobilanRepository, IdmonthbmRepository $idmonthbmRepository, BilanmensuelRepository $bilanmensuelRepository): Response
+    public function show(DateLoneRepository $dateLoneRepository , DateZeroRepository $dateZeroRepository, DateOnePlusRepository $dateOnePlusRepository, DateTwoRepository $dateTwoRepository, DataTroisRepository $dataTroisRepository , Projet $projet, InfobilanRepository $infobilanRepository, IdmonthbmRepository $idmonthbmRepository, BilanmensuelRepository $bilanmensuelRepository): Response
     {
         //montre les details d un projet selon sa phase
 
@@ -466,7 +471,7 @@ class ProjetController extends AbstractController
           //projet => phase = cadrage
             return $this->render('projet/showb.html.twig', [
                 'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
                 'commentaires'=>$projet->getCommentaires(),
             ]);
         }
@@ -474,8 +479,8 @@ class ProjetController extends AbstractController
            // projet =>phase = etude
             return $this->render('projet/showc.html.twig', [
                 'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
                 'commentaires'=>$projet->getCommentaires(),
             ]);
         }
@@ -495,11 +500,11 @@ class ProjetController extends AbstractController
                 'bilas'=>$profit,
                 'projet' => $projet,
                 'idprojet'=>$projet->getId(),
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
+                'date_one_pluses'=>$dateOnePlusRepository->findBy(array('projet'=>$projet),array('date'=>'DESC') ),
+                'date_twos'=>$dateTwoRepository->findBy(array('projet'=>$projet),array('datetwo'=>'DESC') ),
+                'data_troises'=>$dataTroisRepository->findBy(array('projet'=>$projet),array('datet'=>'DESC')),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
 
@@ -521,11 +526,11 @@ class ProjetController extends AbstractController
                 'idmonthbms'=>$idmonthbm,
                 'bilas'=>$profit,
                 'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
+                'date_one_pluses'=>$dateOnePlusRepository->findBy(array('projet'=>$projet),array('date'=>'DESC') ),
+                'date_twos'=>$dateTwoRepository->findBy(array('projet'=>$projet),array('datetwo'=>'DESC') ),
+                'data_troises'=>$dataTroisRepository->findBy(array('projet'=>$projet),array('datet'=>'DESC')),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
 
@@ -549,11 +554,11 @@ class ProjetController extends AbstractController
                 'idmonthbms'=>$idmonthbm,
                 'bilas'=>$profit,
                 'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
+                'date_one_pluses'=>$dateOnePlusRepository->findBy(array('projet'=>$projet),array('date'=>'DESC') ),
+                'date_twos'=>$dateTwoRepository->findBy(array('projet'=>$projet),array('datetwo'=>'DESC') ),
+                'data_troises'=>$dataTroisRepository->findBy(array('projet'=>$projet),array('datet'=>'DESC')),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
 
@@ -570,18 +575,19 @@ class ProjetController extends AbstractController
             if($idmonthbm) {
                 $profit = $idmonthbm[0]->getBilanmensuels()[0]->getInfobilans();
             }
+
+
             return $this->render('projet/showdg.html.twig', [
                 'projet' => $projet,
                 'bilas'=>$profit,
                 'idmonthbms'=>$idmonthbm,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
+                'date_one_pluses'=>$dateOnePlusRepository->findBy(array('projet'=>$projet),array('date'=>'DESC') ),
+                'date_twos'=>$dateTwoRepository->findBy(array('projet'=>$projet),array('datetwo'=>'DESC') ),
+                'data_troises'=>$dataTroisRepository->findBy(array('projet'=>$projet),array('datet'=>'DESC')),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
-
                 'profils' => $projet->getFournisseur()->getProfils(),
                 'fournisseur'=>$projet->getFournisseur(),
                 'commentaires'=>$projet->getCommentaires(),
@@ -600,11 +606,11 @@ class ProjetController extends AbstractController
                 'idmonthbms'=>$idmonthbm,
                 'bilas'=>$profit,
                 'projet' => $projet,
-                'date_lones'=>$projet->getDateLones(),
-                'date_zeros'=>$projet->getDateZeros(),
-                'date_one_pluses'=>$projet->getDateOnePluses(),
-                'date_twos'=>$projet->getDateTwos(),
-                'data_troises'=>$projet->getDataTrois(),
+                'date_lones'=>$dateLoneRepository->findBy(array('projet'=>$projet),array('datereel'=>'DESC')),
+                'date_zeros'=>$dateZeroRepository->findBy(array('projet'=>$projet),array('datezero'=>'DESC')),
+                'date_one_pluses'=>$dateOnePlusRepository->findBy(array('projet'=>$projet),array('date'=>'DESC') ),
+                'date_twos'=>$dateTwoRepository->findBy(array('projet'=>$projet),array('datetwo'=>'DESC') ),
+                'data_troises'=>$dataTroisRepository->findBy(array('projet'=>$projet),array('datet'=>'DESC')),
                 'couts'=>$projet->getCouts(),
                 'modalites'=>$projet->getModalites(),
                 'profils' => $projet->getFournisseur()->getProfils(),
@@ -732,7 +738,7 @@ class ProjetController extends AbstractController
                 if($date0avant!=$projet->getDate0()){
                     $daten=new DateZero();
                     $daten->setDatezero($date0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                 }
@@ -840,7 +846,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -971,7 +977,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1100,7 +1106,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1230,7 +1236,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1363,7 +1369,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
-                    $daten->setDatezero(new \DateTime());
+                    $daten->setDatemodif0(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1531,7 +1537,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereel0() != null) {
                         $daten = new DateZero();
                         $daten->setDatezero($projet->getDate0());
-                        $daten->setDatezero(new \DateTime());
+                        $daten->setDatemodif0(new \DateTime());
                         $daten->setProjet($projet);
                         $projet->getDateZeros()->add($daten);
                         $projet->setDate0($projet->getDatereel0());

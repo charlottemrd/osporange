@@ -305,10 +305,12 @@
                         <p>Ancienne dates T-1</p>
                         <table class="table" style="border: black solid 1px;padding-right: 5%" >
                             <tr style="border: black solid 1px">
-                                <th class="text-center ">Dates</th>
+                                <th class="text-center ">Date de la modification</th>
+                                <th class="text-center">Ancienne date</th>
                             </tr>
                             {%for date_lone in date_lones%}
                                 <tr>
+                                    <td class="text-center ">{{ date_lone.datemodifl1 ? date_lone.datemodifl1|date('d/m/Y') : '' }}</td>
                                     <td class="text-center ">{{ date_lone.datereel ? date_lone.datereel|date('d/m/Y') : '' }}</td>
                                 </tr>
                             {% else %}
@@ -322,10 +324,12 @@
                             <p>Ancienne dates T0</p>
                             <table class="table" style="border: black solid 1px" >
                                 <tr style="border: black solid 1px">
-                                    <th class="text-center ">Dates</th>
+                                    <th class="text-center ">Date de la modification</th>
+                                    <th class="text-center">Ancienne date</th>
                                 </tr>
                                 {%for date_zero in date_zeros%}
                                     <tr>
+                                        <td class="text-center ">{{ date_zero.datemodif0 ? date_zero.datemodif0|date('d/m/Y') : '' }}</td>
                                         <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
                                     </tr>
                                 {% else %}
@@ -344,10 +348,12 @@
                                 <p>Ancienne dates T0</p>
                                 <table class="table" style="border: black solid 1px" >
                                     <tr style="border: black solid 1px">
-                                        <th class="text-center ">Dates</th>
+                                        <th class="text-center ">Date de la modification</th>
+                                        <th class="text-center">Ancienne date</th>
                                     </tr>
                                     {%for date_zero in date_zeros%}
                                         <tr>
+                                            <td class="text-center ">{{ date_zero.datemodif0 ? date_zero.datemodif0|date('d/m/Y') : '' }}</td>
                                             <td class="text-center ">{{ date_zero.datezero ? date_zero.datezero|date('d/m/Y') : '' }}</td>
                                         </tr>
                                     {% else %}
