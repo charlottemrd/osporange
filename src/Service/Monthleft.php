@@ -105,6 +105,9 @@ class Monthleft
         if($nbt-$nbdebites-$l<=0){
             $l=0;
         }
+        if ($l<0){
+            $l=0;
+        }
 
         return $l;
 

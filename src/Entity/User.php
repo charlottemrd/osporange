@@ -48,9 +48,15 @@ class User implements LdapUserInterface, UserInterface
      */
     private $projets;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Fournisseur::class, mappedBy="interlocuteur",orphanRemoval=true, cascade={"persist"})
+     */
+    private $fournisseurs;
+
     public function __construct()
     {
         $this->projets = new ArrayCollection();
+        $this->fournisseurs = new ArrayCollection();
     }
 
     /**
@@ -203,6 +209,36 @@ class User implements LdapUserInterface, UserInterface
     public function __toString()
     {
         return $this->getFullusername();
+    }
+
+    /**
+     * @return Collection|Fournisseur[]
+     */
+    public function getFournisseurs(): Collection
+    {
+        return $this->fournisseurs;
+    }
+
+    public function addFournisseur(Fournisseur $fournisseur): self
+    {
+        if (!$this->fournisseurs->contains($fournisseur)) {
+            $this->fournisseurs[] = $fournisseur;
+            $fournisseur->setInterlocuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFournisseur(Fournisseur $fournisseur): self
+    {
+        if ($this->fournisseurs->removeElement($fournisseur)) {
+            // set the owning side to null (unless already changed)
+            if ($fournisseur->getInterlocuteur() === $this) {
+                $fournisseur->setInterlocuteur(null);
+            }
+        }
+
+        return $this;
     }
 
 }

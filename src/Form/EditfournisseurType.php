@@ -3,6 +3,7 @@
 namespace App\Form;
 use App\Entity\Profil;
 use App\Entity\Fournisseur;
+use App\Entity\User;
 use App\Form\ProfilType;
 use App\Repository\FournisseurRepository;
 use App\Repository\LdapRepository;
@@ -27,13 +28,9 @@ class EditfournisseurType extends AbstractType
 {
 
     private $fournisseurRepository;
-    private $ldapRepository;
-    private $ldapManager;
-    public function __construct(LdapManager $ldapManager , FournisseurRepository $fournisseurRepository,LdapRepository $ldapRepository)
+    public function __construct( FournisseurRepository $fournisseurRepository)
     {
         $this->fournisseurRepository = $fournisseurRepository;
-        $this->ldapRepository = $ldapRepository;
-        $this->ldapManager = $ldapManager;
     }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -55,17 +52,20 @@ class EditfournisseurType extends AbstractType
                 "row_attr" => [
                     "class" => "d-none"
                 ],
-            ));
+            ))
+            ->add('interlocuteur', \Symfony\Bridge\Doctrine\Form\Type\EntityType::class,[
+                    'required'=>true,
+                    'class'=>User::class,
+                    'placeholder'=>'',
+                    'attr'=>['class'=>'editfournisseur_interlocuteur']
+                ]
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-
-            $interlocuteurfullname = $event->getData()->getFournisseurfullname();
-
-            $event->getForm()->add('fournisseurfullname', TextType::class, array('disabled' => ($interlocuteurfullname !== null), 'required' => true,
-            ));
+            )
 
 
-        });
+        ;
+
+
 
     }
 

@@ -542,9 +542,17 @@
                         {%if projet.debit3bm!=null %}
                             <div id="tocut" class="input-group mb-3" style="width: 100%">
                                 <div class="input-group-prepend " style="width: 30%">
-                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant le test et recette (%)</span>
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant le test  (%)</span>
                                 </div>
                                 <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit3bm}}"  aria-describedby="basic-addon1">
+                            </div>
+                        {% endif %}
+                        {%if projet.debit4bm!=null %}
+                            <div id="tocut" class="input-group mb-3" style="width: 100%">
+                                <div class="input-group-prepend " style="width: 30%">
+                                    <span style="white-space: pre-wrap" class="input-group-text" id="basic-addon1">Cout débité pendant la recette (%)</span>
+                                </div>
+                                <input type="text" class="form-control" disabled="disabled" style="background-color: white" placeholder="{{ projet.debit4bm}}"  aria-describedby="basic-addon1">
                             </div>
                         {% endif %}
                         {% if (bilas) %}

@@ -137,10 +137,10 @@
 
                         <tr style="border-color: white" >
                             <th>
-                                {{ form_label(form, 'Interlocuteur', {
+                                {{ form_label(form, 'Interlocuteur *', {
                                     'label_attr': {'class': 'input-group-text'}}) }}</th>
                             <th  id="tore">
-                                {{ form_widget(form.fournisseurfullname, {
+                                {{ form_widget(form.interlocuteur, {
                                     'label_attr': {'class': 'form_control'}}
                                 ) }}
                             </th>
@@ -434,7 +434,7 @@
                 var isStepValid = true;
                 document.getElementById('nameof').innerText = 'Fournisseur : ' + document.getElementById('editfournisseur_name').value;
                 document.getElementById('deviseof').innerText = 'Devise : ' + document.getElementById('editfournisseur_devise').value;
-                document.getElementById('interlocuteurof').innerText = 'Interlocuteur : ' + document.getElementById('editfournisseur_fournisseurfullname').value;
+                document.getElementById('interlocuteurof').innerText = 'Interlocuteur : ' + document.getElementById('editfournisseur_interlocuteur').options[document.getElementById('editfournisseur_interlocuteur').selectedIndex].innerText;
                 if (document.getElementById('editfournisseur_phone').value != '') {
                     document.getElementById('phoneof').innerText = 'Numéro de téléphone : ' + document.getElementById('editfournisseur_phone').value;
                 }

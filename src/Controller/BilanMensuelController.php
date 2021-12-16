@@ -175,7 +175,8 @@ class BilanMensuelController extends AbstractController
                         for ($iza = 0; $iza < $tailledata; $iza++) { //on lit tout les profils
                             $lignealirea = $datatransmis[$iza];
                             $ligneluprofa = $profilRepository->findOneBy(array('id' => $lignealirea[0])); //profil
-                            $profilsoumis = ($lignealirea[1]); //nb
+
+                            $profilsoumis =($lignealirea[1]); //nb
                             $ancieninfo = $infobilanRepository->searchinfobilandebiteduprofit($project->getId(), $ligneluprofa->getId()); //anciensinfo
                             $profildebite = 0;
                             foreach ($ancieninfo as $au) {
@@ -183,8 +184,9 @@ class BilanMensuelController extends AbstractController
                             }
                             $profitotale = $coutRepository->searchcoutbm($project->getId(), $ligneluprofa->getId());
                             $nbtotalprofit = $profitotale->getNombreprofil();
-                            if ($nbtotalprofit - $profildebite - $profilsoumis < 0) {
+                            if (number_format(  $nbtotalprofit - $profildebite - $profilsoumis,2) < 0.0) {
                                 $resulttoreturn = true;
+
                                 $message0 = 'Impossible de modifier le bilan mensuel pour le projet ' . $project->getReference() . ' ; le profil ' . $ligneluprofa->getName() . ' dépasse le quota autorisé';
                                 break;
                             }
@@ -200,6 +202,7 @@ class BilanMensuelController extends AbstractController
                                 'sz' => $couttotal,
                                 'coutdebit' => $coutdebit,
                                 'idprojet' => $pourcentagesoumis,
+
 
 
                             ),
@@ -270,14 +273,14 @@ class BilanMensuelController extends AbstractController
 
                         $phaseprojet = $po->getProjet()->getPhase()->getId();
                         if ($phaseprojet == 6) {  //conception
-                            $pourcentagecontrol = $po->getDebit1bm();
+                            $pourcentagecontrol = $po->getProjet()->getDebit1bm();
                         } elseif ($phaseprojet == 7) { //construction
-                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm();
+                            $pourcentagecontrol = $po->getProjet()->getDebit1bm() + $po->getProjet()->getDebit2bm();
                         } else if ($phaseprojet == 8) // test
                         {
-                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm()+ $po->getDebit3bm();
+                            $pourcentagecontrol = $po->getProjet()->getDebit1bm() + $po->getProjet()->getDebit2bm()+ $po->getProjet()->getDebit3bm();
                         } else {
-                            $pourcentagecontrol = $po->getDebit1bm() + $po->getDebit2bm()+ $po->getDebit3bm()+$po->getDebit4bm();
+                            $pourcentagecontrol = $po->getProjet()->getDebit1bm() + $po->getProjet()->getDebit2bm()+ $po->getProjet()->getDebit3bm()+$po->getProjet()->getDebit4bm();
                         }
 
 
@@ -312,7 +315,7 @@ class BilanMensuelController extends AbstractController
                                 }
                                 $profitotale = $coutRepository->searchcoutbm($po->getProjet()->getId(), $prof->getId());
                                 $nbtotalprofit = $profitotale->getNombreprofil();
-                                if ($nbtotalprofit - $profildebite < 0) {
+                                if (number_format( $nbtotalprofit - $profildebite,2) < 0) {
                                     $resulttwo = true;
                                     $sortie=true;
                                     $resultt=true;
@@ -340,6 +343,7 @@ class BilanMensuelController extends AbstractController
                             'message' => $message0,
                             'success' => false,
                             'zsa' => $pourcentagesoumis,
+
                         ));
 
                     }
@@ -350,6 +354,7 @@ class BilanMensuelController extends AbstractController
                             'message' => $message0,
                             'success' => false,
                             'zsa' => $pourcentagesoumis,
+
                         ));
 
                     }
@@ -406,7 +411,7 @@ class BilanMensuelController extends AbstractController
                                 $coutencours = $coutencours + (($info->getNombreprofit()) * ($tarif));
                             }
                             if ($couttotal != 0) {
-                                if ($couttotal - $coutencours - $coutdebit == 0) {
+                                if (number_format( $couttotal - $coutencours - $coutdebit,2) == 0) {
                                     $bilansf->getProjet()->setIseligibletobm(false);
                                     $bilansf->getProjet()->setIsfinish(true);
                                 } else {

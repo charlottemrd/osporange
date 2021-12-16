@@ -3,16 +3,17 @@
 namespace App\Form;
 use App\Entity\Profil;
 use App\Entity\Fournisseur;
+use App\Entity\User;
 use App\Form\ProfilType;
 use App\Repository\FournisseurRepository;
 use App\Repository\PhaseRepository;
 use LdapTools\Bundle\LdapToolsBundle\Form\Type\LdapObjectType;
 use LdapTools\Query\LdapQueryBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\CallbackValidator;
@@ -45,18 +46,14 @@ class FournisseurType extends AbstractType
                 ],
             ))
 
-        ->add('fournisseurldap', LdapObjectType::class,
-                ['ldap_type'=>'user',
-                    'ldap_query_builder' => function (LdapQueryBuilder $query) {
-                        $query->orWhere(['memberof'=>$_ENV['CP_GROUPE']]);
-                        $query->orWhere(['memberof'=>$_ENV['MANAGER_GROUPE']]);
-                        $query->select('*');
-                    },
-                    'choice_label'=>'displayName',
-                    "attr" => [
-                        "class" => "ldap"
-                    ],'placeholder'=>'','required'=>true] )
+            ->add('interlocuteur',EntityType::class,[
+                'required'=>true,
+                'class'=>User::class,
+                'placeholder'=>'',
+                'attr'=>['class'=>'fournisseur_interlocuteur']
+                ]
 
+            )
 
 
 
