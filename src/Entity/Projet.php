@@ -230,7 +230,7 @@ class Projet
     private $iseligibletobm;
 
     /**
-     * @ORM\OneToMany(targetEntity=Pvinternes::class, mappedBy="projet")
+     * @ORM\OneToMany(targetEntity=Pvinternes::class, mappedBy="projet",orphanRemoval=true, cascade={"persist"})
      */
     private $pvinternes;
 
