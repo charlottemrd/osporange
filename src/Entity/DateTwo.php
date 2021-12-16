@@ -27,6 +27,11 @@ class DateTwo
      */
     private $projet;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datemodif2;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class DateTwo
     public function setProjet(?Projet $projet): self
     {
         $this->projet = $projet;
+
+        return $this;
+    }
+
+    public function getDatemodif2(): ?\DateTimeInterface
+    {
+        return $this->datemodif2;
+    }
+
+    public function setDatemodif2(?\DateTimeInterface $datemodif2): self
+    {
+        $this->datemodif2 = $datemodif2;
 
         return $this;
     }

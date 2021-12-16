@@ -27,6 +27,11 @@ class DateZero
      */
     private $projet;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datemodif0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class DateZero
     public function setProjet(?Projet $projet): self
     {
         $this->projet = $projet;
+
+        return $this;
+    }
+
+    public function getDatemodif0(): ?\DateTimeInterface
+    {
+        return $this->datemodif0;
+    }
+
+    public function setDatemodif0(?\DateTimeInterface $datemodif0): self
+    {
+        $this->datemodif0 = $datemodif0;
 
         return $this;
     }

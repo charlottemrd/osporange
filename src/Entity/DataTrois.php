@@ -27,6 +27,11 @@ class DataTrois
      */
     private $projet;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $datemodif3;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -52,6 +57,18 @@ class DataTrois
     public function setProjet(?Projet $projet): self
     {
         $this->projet = $projet;
+
+        return $this;
+    }
+
+    public function getDatemodif3(): ?\DateTimeInterface
+    {
+        return $this->datemodif3;
+    }
+
+    public function setDatemodif3(?\DateTimeInterface $datemodif3): self
+    {
+        $this->datemodif3 = $datemodif3;
 
         return $this;
     }

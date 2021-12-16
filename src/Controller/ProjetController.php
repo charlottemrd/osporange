@@ -16,6 +16,7 @@ use App\Entity\Infobilan;
 use App\Entity\Profil;
 use App\Entity\Projet;
 use App\Repository\UserRepository;
+use DoctrineExtensions\Query\Mysql\Date;
 use LdapTools\LdapManager;
 use LdapTools\Query\LdapQueryBuilder;
 use App\Entity\Pvinternes;
@@ -670,6 +671,7 @@ class ProjetController extends AbstractController
                 if($dateTl1avant!=$projet->getDatel1()){
                     $daten=new DateLone();
                     $daten->setDatereel($dateTl1avant);
+                    $daten->setDatemodifl1(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateLones()->add($daten);
                 }
@@ -730,6 +732,7 @@ class ProjetController extends AbstractController
                 if($date0avant!=$projet->getDate0()){
                     $daten=new DateZero();
                     $daten->setDatezero($date0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                 }
@@ -740,6 +743,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
 
@@ -824,6 +828,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
 
@@ -835,6 +840,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -843,6 +849,7 @@ class ProjetController extends AbstractController
                 if($date1avant!=$projet->getDate1()){
                     $daten3=new DateOnePlus();
                     $daten3->setDate($date1avant);
+                    $daten3->setDatemodif1(new \DateTime());
                     $daten3->setProjet($projet);
                     $projet->getDateOnePluses()->add($daten3);
 
@@ -851,6 +858,7 @@ class ProjetController extends AbstractController
                 if($date2avant!=$projet->getDate2()){
                     $daten4=new DateTwo();
                     $daten4->setDatetwo($date2avant);
+                    $daten4->setDatemodif2(new \DateTime());
                     $daten4->setProjet($projet);
                     $projet->getDateTwos()->add($daten4);
                 }
@@ -859,6 +867,7 @@ class ProjetController extends AbstractController
                 {
                     $daten5=new DataTrois();
                     $daten5->setDatet($date3avant);
+                    $daten5->setDatemodif3(new \DateTime());
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
                 }
@@ -950,6 +959,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
 
@@ -961,6 +971,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -969,6 +980,7 @@ class ProjetController extends AbstractController
                 if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
                     $daten3=new DateOnePlus();
                     $daten3->setDate($datereel1avant);
+                    $daten3->setDatemodif1(new \DateTime());
                     $daten3->setProjet($projet);
                     $projet->getDateOnePluses()->add($daten3);
                     $projet->setDate1($projet->getDatereel1());
@@ -977,6 +989,7 @@ class ProjetController extends AbstractController
                 if($date2avant!=$projet->getDate2()){
                     $daten4=new DateTwo();
                     $daten4->setDatetwo($date2avant);
+                    $daten4->setDatemodif2(new \DateTime());
                     $daten4->setProjet($projet);
                     $projet->getDateTwos()->add($daten4);
                 }
@@ -985,6 +998,7 @@ class ProjetController extends AbstractController
                 {
                     $daten5=new DataTrois();
                     $daten5->setDatet($date3avant);
+                    $daten5->setDatemodif3(new \DateTime());
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
                 }
@@ -1074,6 +1088,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
 
@@ -1085,6 +1100,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1093,6 +1109,7 @@ class ProjetController extends AbstractController
                 if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
                     $daten3=new DateOnePlus();
                     $daten3->setDate($datereel1avant);
+                    $daten3->setDatemodif1(new \DateTime());
                     $daten3->setProjet($projet);
                     $projet->getDateOnePluses()->add($daten3);
                     $projet->setDate1($projet->getDatereel1());
@@ -1101,6 +1118,7 @@ class ProjetController extends AbstractController
                 if($datereel2avant!=$projet->getDatereel2()&&$datereel2avant!=null){
                     $daten4=new DateTwo();
                     $daten4->setDatetwo($datereel2avant);
+                    $daten4->setDatemodif2(new \DateTime());
                     $daten4->setProjet($projet);
                     $projet->getDateTwos()->add($daten4);
                     $projet->setDate2($projet->getDatereel2());
@@ -1110,6 +1128,7 @@ class ProjetController extends AbstractController
                 {
                     $daten5=new DataTrois();
                     $daten5->setDatet($date3avant);
+                    $daten5->setDatemodif3(new \DateTime());
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
                 }
@@ -1199,6 +1218,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
 
@@ -1210,6 +1230,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1218,6 +1239,7 @@ class ProjetController extends AbstractController
                 if($datereel1avant!=$projet->getDatereel1()&&$datereel1avant!=null){
                     $daten3=new DateOnePlus();
                     $daten3->setDate($datereel1avant);
+                    $daten3->setDatemodif1(new \DateTime());
                     $daten3->setProjet($projet);
                     $projet->getDateOnePluses()->add($daten3);
                     $projet->setDate1($projet->getDatereel1());
@@ -1226,6 +1248,7 @@ class ProjetController extends AbstractController
                 if($datereel2avant!=$projet->getDatereel2()&&$datereel2avant!=null){
                     $daten4=new DateTwo();
                     $daten4->setDatetwo($datereel2avant);
+                    $daten4->setDatemodif2(new \DateTime());
                     $daten4->setProjet($projet);
                     $projet->getDateTwos()->add($daten4);
                     $projet->setDate2($projet->getDatereel2());
@@ -1235,6 +1258,7 @@ class ProjetController extends AbstractController
                 {
                     $daten5=new DataTrois();
                     $daten5->setDatet($date3avant);
+                    $daten5->setDatemodif3(new \DateTime());
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
                 }
@@ -1328,6 +1352,7 @@ class ProjetController extends AbstractController
                 {
                     $daten2=new DateLone();
                     $daten2->setDatereel($datereell1avant);
+                    $daten2->setDatemodifl1(new \DateTime());
                     $daten2->setProjet($projet);
                     $projet->getDateLones()->add($daten2);
                     $projet->setDatel1($projet->getDatereell1());
@@ -1338,6 +1363,7 @@ class ProjetController extends AbstractController
                 {
                     $daten=new DateZero();
                     $daten->setDatezero($datereel0avant);
+                    $daten->setDatezero(new \DateTime());
                     $daten->setProjet($projet);
                     $projet->getDateZeros()->add($daten);
                     $projet->setDate0($projet->getDatereel0());
@@ -1346,6 +1372,7 @@ class ProjetController extends AbstractController
                 if($datereel1avant!=$projet->getDatereel1()){
                     $daten3=new DateOnePlus();
                     $daten3->setDate($datereel1avant);
+                    $daten3->setDatemodif1(new \DateTime());
                     $daten3->setProjet($projet);
                     $projet->getDateOnePluses()->add($daten3);
                     $projet->setDate1($projet->getDatereel1());
@@ -1355,6 +1382,7 @@ class ProjetController extends AbstractController
                     $daten4=new DateTwo();
                     $daten4->setDatetwo($datereel2avant);
                     $daten4->setProjet($projet);
+                    $daten4->setDatemodif2(new \DateTime());
                     $projet->getDateTwos()->add($daten4);
                     $projet->setDate2($projet->getDatereel2());
                 }
@@ -1362,6 +1390,7 @@ class ProjetController extends AbstractController
                 if($datereel3avant!=$projet->getDatereel3()){
                     $daten5=new DataTrois();
                     $daten5->setDatet($datereel3avant);
+                    $daten5->setDatemodif3(new \DateTime());
                     $daten5->setProjet($projet);
                     $projet->getDataTrois()->add($daten5);
                     $projet->setDate3($projet->getDatereel3());
@@ -1463,6 +1492,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereell1() != null) {
                         $daten = new DateLone();
                         $daten->setDatereel($projet->getDatel1());
+                        $daten->setDatemodifl1(new \DateTime());
                         $daten->setProjet($projet);
                         $projet->getDateLones()->add($daten);
                         $projet->setDatel1($projet->getDatereell1());
@@ -1501,6 +1531,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereel0() != null) {
                         $daten = new DateZero();
                         $daten->setDatezero($projet->getDate0());
+                        $daten->setDatezero(new \DateTime());
                         $daten->setProjet($projet);
                         $projet->getDateZeros()->add($daten);
                         $projet->setDate0($projet->getDatereel0());
@@ -1710,6 +1741,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereel1() != null) {
                         $daten1 = new DateOnePlus();
                         $daten1->setDate($projet->getDate1());
+                        $daten1->setDatemodif1(new \DateTime());
                         $daten1->setProjet($projet);
                         $projet->getDateOnePluses()->add($daten1);
                         $projet->setDate1($projet->getDatereel1());
@@ -1787,6 +1819,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereel2() != null) {
                         $daten2 = new DateTwo();
                         $daten2->setDatetwo($projet->getDate2());
+                        $daten2->setDatemodif2(new \DateTime());
                         $daten2->setProjet($projet);
                         $projet->getDateTwos()->add($daten2);
                         $projet->setDate2($projet->getDatereel2());
@@ -1882,6 +1915,7 @@ class ProjetController extends AbstractController
                     if ($projet->getDatereel3() != null) {
                         $daten3 = new DataTrois();
                         $daten3->setDatet($projet->getDate3());
+                        $daten3->setDatemodif3(new \DateTime());
                         $daten3->setProjet($projet);
                         $projet->getDataTrois()->add($daten3);
                         $projet->setDate3($projet->getDatereel3());
