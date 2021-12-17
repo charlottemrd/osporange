@@ -68,21 +68,6 @@ class ExporthomeController extends AbstractController
                 $projet->getFournisseur(),
                 $projet->getFullnamechefprojet(),
 
-               /* $projet->getDatereel1(),
-                $projet->getDatereel2(),
-                $projet->getDatereel3(),
-
-
-                $projet->getCouts(),
-                $projet->getModalites(),
-                $projet->getDateLones(),
-                $projet->getDatereell1(),
-                $projet->getDateZeros(),
-                $projet->getDatereel0(),
-                $projet->getDateOnePluses(),
-                $projet->getDateTwos(),
-                $projet->getDataTrois(),
-                $projet->getCommentaires()*/
 
 
 

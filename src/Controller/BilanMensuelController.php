@@ -253,8 +253,7 @@ class BilanMensuelController extends AbstractController
                         $couttotal = $monthleft->coutprojet($po->getProjet());
 
 
-                        //  $thebilan = $bilanmensuelRepository->searchlebilanmensuel($idmonthbm->getId(), $po->getId());
-                        //calcul du cout debite du projet
+                         //calcul du cout debite du projet
 
                         $anciensbilans = $infobilanRepository->searchinfobilandebitefalse($po->getProjet()->getId());
 

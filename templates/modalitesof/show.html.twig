@@ -213,7 +213,14 @@
 
                             </td>
                     {% endif%}
+                        {% else %}
+                            <tr>
+                                <td  style="border-top: black solid 1px; border-bottom: black solid 1px; border-left: black solid 1px">Pas de données trouvées</td>
+                                <td  style="border-top: black solid 1px; border-bottom: black solid 1px"></td>
+                                <td  style="border-top: black solid 1px; border-bottom: black solid 1px; border-right: black solid 1px"></td>
 
+
+                            </tr>
                         {% endfor %}
                 </tbody>
             </table>
