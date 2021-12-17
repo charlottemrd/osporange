@@ -198,7 +198,7 @@
 
 
 
-
+                    <p id="profilsdiverror">  </p>
 
                       <ul class="profils" style="list-style-type: none;" data-prototype="  {{ _self.information_prototype(form.profils.vars.prototype)|e }}">
 
@@ -357,13 +357,7 @@
 
 
 
-            $("#myForm").validate( {
-                rules: {
-                    name: {
-                        required: true
-                    }
-                },
-            });
+
 
             $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
                 if ($('#myForm').valid() && validateSteps(stepNumber) == true ) {
@@ -430,6 +424,31 @@
                 else{
                     document.getElementById('bigboxprofils').style.display='none';
                 }
+
+                if (stepnumber==1){
+                    var listeprofilsof = new Array();
+                    var tailledesprofils = $('ul.profils').find('li').length-1;
+
+                    var xpo=0;
+                    while(listeprofilsof.length!=tailledesprofils){
+                        if((!!document.getElementById('fournisseur_profils_' + [xpo]+'_tarif'))==true) {
+                            listeprofilsof.push(document.getElementById('fournisseur_profils_' + [xpo]+'_tarif').value);
+                             }
+                        xpo=xpo+1;
+                    }
+                    for (jmm=0;jmm<listeprofilsof.length;jmm++){
+                        if (listeprofilsof[jmm]<0){
+                            document.getElementById('profilsdiverror').innerText='Le montant d\'un profil ne peux pas être négatif';
+                            isStepValid = false;
+                            break;
+                        }
+                    }
+
+                }
+
+
+
+
                 return isStepValid;
             }
 

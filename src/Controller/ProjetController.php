@@ -1469,8 +1469,11 @@ class ProjetController extends AbstractController
                     $projet->setHighestphase($projet->getPhase()->getRang());
                 }
 
-
-
+            $comfg = new Commentaire();
+            $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+            $comfg->setDate(new \DateTime());
+            $comfg->setProjet($projet);
+            $this->getDoctrine()->getManager()->persist($comfg);
 
                 $this->getDoctrine()->getManager()->flush();
 
@@ -1509,7 +1512,11 @@ class ProjetController extends AbstractController
                         $projet->setDatereell1($projet->getDatel1());
                      }
                 }
-
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
 
 
 
@@ -1718,7 +1725,12 @@ class ProjetController extends AbstractController
 
 
                 }
-
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
+                $this->getDoctrine()->getManager()->flush();
 
 
 
@@ -1800,7 +1812,11 @@ class ProjetController extends AbstractController
                 else{
                     $projet->setDatereel3($projet->getDate3());
                 }*/
-
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -1854,7 +1870,11 @@ class ProjetController extends AbstractController
                         $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
-
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
@@ -1896,6 +1916,11 @@ class ProjetController extends AbstractController
                         $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
@@ -1950,6 +1975,11 @@ class ProjetController extends AbstractController
                         $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
 
                 $this->getDoctrine()->getManager()->flush();
 
@@ -1993,7 +2023,11 @@ class ProjetController extends AbstractController
                         $this->getDoctrine()->getManager()->remove($pvis);
                     }
                 }
-
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
 
                 $this->getDoctrine()->getManager()->flush();
                 $notifier->send(new Notification('Le projet a bien changé de phase', ['browser']));
@@ -2134,6 +2168,11 @@ class ProjetController extends AbstractController
                     }
                     }
                 }
+                $comfg = new Commentaire();
+                $comfg->setDescription('Le projet est passé en phase '. $projet->getPhase());
+                $comfg->setDate(new \DateTime());
+                $comfg->setProjet($projet);
+                $this->getDoctrine()->getManager()->persist($comfg);
                 $this->getDoctrine()->getManager()->flush();
 
 

@@ -122,6 +122,7 @@
 
                 <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
                     <p>Si vous rentrez un nombre flottant, merci de séparer les parties entières et décimale avec un point (exemple : 6.5 ; la valeur 6,5 étant incorrecte)</p>
+                   <p id="diverror" ></p>
                     <table id="couts" style="display:block" >
                         <thead border="black 1px solid">
                         <tr border="red 1px solid" >
@@ -196,21 +197,26 @@
                 .on('click', function(){
 
                     var isStepValid=false;
+                    var tarifsp=new Array();
+                    {% for cout in couts %}
+                    tarifsp.push({{ cout.tarif }});
+                    {% endfor %}
+                    isStepValid = true;
+                    for (var i = 0; i < tarifsp.length; i++)
+                    {
 
-                    for (var i = 0; i < tarifs.length; i++) {
-                        if((document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value)<0){
+                        if((document.getElementById('projet_cout_couts_' + [i] + '_nombreprofil').value)<0){
                             isStepValid = false;
                             break;
                         }
-                        else {
-                            isStepValid = true;
-                        }
                     }
                     if (isStepValid==false){
-                        document.getElementById('messageerrorprix').innerText='La valeur du profil '+ tarifsname[i] + ' est  incorrecte ; '+ document.getElementById('modifyd_couts_' + [i] + '_nombreprofil').value + ' est une valeur négative';
-                    }
+                       document.getElementById('diverror').innerText='Un nombre de profils ne peut pas être négatif';
+                        return false;
+                          }
                     else{
-                        onsubmit();
+                       submit();
+
                     }
 
                 });
