@@ -132,12 +132,8 @@
                             {% for cout in couts %}
                                 <td >
                                     <span class="form-control">{{ cout.name}}</span>
-
-
                                 </td>
                             {% endfor %}
-
-
                         </tr>
                         </thead>
                         <tbody>
@@ -168,10 +164,7 @@
         {{ form_end(mform) }}
     </main>
     </body>
-
-
 {% endblock  %}
-
 {% block javascripts %}
     {{ parent() }}
     <script src="https://cdn.jsdelivr.net/npm/smartwizard@5/dist/js/jquery.smartWizard.min.js" type="text/javascript"></script>
@@ -227,7 +220,6 @@
             tarifs.push({{ cout.tarif }});
             tarifsname.push('{{ cout.name }}');
             {% endfor %}
-
             var prix=0;
             $('.id_nombreprofil').change(function (){
                 var prix=0;
@@ -238,13 +230,7 @@
                 document.getElementById('price').innerText='Le prix du projet est de '+prix +' {{ fournisseur.devise}}';
                 document.getElementById('smartwizard').style.height = "200%";
                 document.getElementById('tab-content').style.height = "200%";
-
             });
-
-
-
-
-
             $('#smartwizard').smartWizard({
                 selected: 0, // Initial selected step, 0 = first step
                 theme: 'arrows', // theme for the wizard, related css need to include for other than default theme
