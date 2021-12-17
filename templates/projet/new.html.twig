@@ -247,7 +247,7 @@
                         </tr>
 
                         <tr id="datespec">
-                            <th id="tocutlab" > {{ form_label(form, 'Date de spécifications', {
+                            <th id="tocutlab" > {{ form_label(form, 'Date de spécifications *', {
                                     'label_attr': {'class': 'input-group-text','id': 'label_spec'}}) }}</th>
                             <th width="15%" >{{ form_widget(form.datespec, {
                                     'label_attr': {'class': 'form_control'}}
@@ -464,6 +464,7 @@
                             <th  style="padding-left: 1%"><label id="projet_debit4bm-error" class="error" for="projet_debit4bm"></label></th>
                         </tr>
 
+
                     </table>
                     <br>
                     <table>
@@ -530,11 +531,15 @@
 
                         <div style="display: none" id="modaliteod">
                         <h4>Modalités de réception </h4>
-                        <p id="modeof"> </p>
+                        <br>
+                        <p id="modeof"></p>
+                            <div id="debdiv">
                         <p id="debit1of" > </p>
                         <p id="debit2of" > </p>
                         <p id="debit3of"> </p>
                         <p id="debit4of" > </p>
+                            </div>
+
                         <p id="garantiof" > </p>
                         </div>
 
@@ -652,7 +657,6 @@
                 document.getElementById('label_t1').innerText='Date T1';
                 document.getElementById('label_t2').innerText='Date T2';
                 document.getElementById('label_t3').innerText='Date T3';
-                document.getElementById('label_spec').innerText='Date de spécifications';
                 var selectValue = $phasing.options[$phasing.selectedIndex].value;
                 if ((selectValue=='1')|| (selectValue=='2')|| (selectValue=='3')){
                     //abondonne non demarre suspendu
@@ -785,7 +789,6 @@
                     document.getElementById('label_t1').innerText='Date T1 *';
                     document.getElementById('label_t2').innerText='Date T2 *';
                     document.getElementById('label_t3').innerText='Date T3 *';
-                    document.getElementById('label_spec').innerText='Date de spécifications *';
 
 
                     document.getElementById('projet_datel1').style.display="block";
@@ -826,7 +829,6 @@
                     document.getElementById('label_t1').innerText='Date T1 ';
                     document.getElementById('label_t2').innerText='Date T2 *';
                     document.getElementById('label_t3').innerText='Date T3 *';
-                    document.getElementById('label_spec').innerText='Date de spécifications *';
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
                     document.getElementById("projet_datel1").required=false;
@@ -864,7 +866,6 @@
                     document.getElementById('label_t1').innerText='Date T1 ';
                     document.getElementById('label_t2').innerText='Date T2 ';
                     document.getElementById('label_t3').innerText='Date T3 *';
-                    document.getElementById('label_spec').innerText='Date de spécifications *';
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
                     document.getElementById("projet_datel1").required=false;
@@ -901,7 +902,6 @@
                     document.getElementById('label_t1').innerText='Date T1 ';
                     document.getElementById('label_t2').innerText='Date T2 ';
                     document.getElementById('label_t3').innerText='Date T3 ';
-                    document.getElementById('label_spec').innerText='Date de spécifications *';
                     document.getElementById('projet_datel1').style.display="block";
                     document.getElementById('datel1').style.display="block";
                     document.getElementById("projet_datel1").required=false;
@@ -1477,7 +1477,7 @@
                             }
                             else if (((parseFloat(document.getElementById('projet_debit1bm').value)+parseFloat(document.getElementById('projet_debit2bm').value)+parseFloat(document.getElementById('projet_debit3bm').value)+parseFloat(document.getElementById('projet_debit4bm').value)))!=100)
                             {
-                                document.getElementById('projet_debit4bm-error').innerText='La somme des pourcentages doit être égale à 100%, si vous avez rentrez un nombre floatant, assurez vous qu\'il possède un point';
+                                document.getElementById('projet_debit4bm-error').innerText='La somme des pourcentages doit être égale à 100%, si vous avez rentrer un nombre floatant, assurez vous qu\'il possède un point';
                                 document.getElementById('projet_debit4bm-error').style.display='block';
                                 isStepValid=false;
                             }
@@ -1522,28 +1522,45 @@
                 if ((document.getElementById('projet_datel1').value!='')){
                     document.getElementById('datel1of').innerText = 'Date T-1 : ' + new Date (document.getElementById('projet_datel1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                       }
+                else{
+                    document.getElementById('datel1of').innerText = '';
+                }
                 if ((document.getElementById('projet_date0').value!='')){
                     document.getElementById('date0of').innerText = 'Date T0 : ' + new Date (document.getElementById('projet_date0').value).toJSON().slice(0,10).split('-').reverse().join('/');
+                }
+                else{
+                    document.getElementById('date0of').innerText = '';
                 }
                 if ((document.getElementById('projet_date1').value!='')){
                     document.getElementById('date1of').innerText = 'Date T1 : ' + new Date (document.getElementById('projet_date1').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
+                else{
+                    document.getElementById('date1of').innerText = '';
+                }
                 if ((document.getElementById('projet_date2').value!='')){
                     document.getElementById('date2of').innerText = 'Date T2 : ' + new Date(document.getElementById('projet_date2').value).toJSON().slice(0,10).split('-').reverse().join('/');
+                }
+                else{
+                    document.getElementById('date2of').innerText='';
                 }
                 if ((document.getElementById('projet_date3').value!='')){
                     document.getElementById('date3of').innerText = 'Date T3 : ' + new Date(document.getElementById('projet_date3').value).toJSON().slice(0,10).split('-').reverse().join('/');
                 }
+                else {
+                    document.getElementById('date3of').innerText='';
+                }
                  if ((document.getElementById('projet_paiement').selectedIndex!=-1)) {
                      document.getElementById('modeof').innerText = 'Mode de paiement : ' + document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].innerText;
-                     if (document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].value == 1) {
-                         document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('projet_debit1bm').value;
-                         document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('projet_debit2bm').value;
-                         document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('projet_debit3bm').value;
-                         document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('projet_debit4bm').value;
+                     if (document.getElementById('projet_paiement').options[document.getElementById('projet_paiement').selectedIndex].value == 1) { //par bilan mensuel
+                         document.getElementById('debit1of').innerText = 'Coût débité pendant la phase de conception : ' + document.getElementById('projet_debit1bm').value + ' %';
+                         document.getElementById('debit2of').innerText = 'Coût débité pendant la phase de codage : ' + document.getElementById('projet_debit2bm').value +' %';
+                         document.getElementById('debit3of').innerText = 'Coût débité pendant la phase de test : ' + document.getElementById('projet_debit3bm').value +' %';
+                         document.getElementById('debit4of').innerText = 'Coût débité pendant la phase de recette : ' + document.getElementById('projet_debit4bm').value + ' %';
                          document.getElementById('garantiof').innerText = '';
+                         document.getElementById('debdiv').style.display='block';
                          document.getElementById('jalonof').style.display='none';
                      } else {
+                         document.getElementById('debdiv').style.display='none';
                          document.getElementById('garantiof').innerText = 'Durée de la garantie (mois) : ' + document.getElementById('projet_garanti').value;
                          var tailletauxc = $('ul.modalites').find('input').length;
                          var jalondifc = new Array();

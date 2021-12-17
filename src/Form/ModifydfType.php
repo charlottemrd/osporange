@@ -61,10 +61,7 @@ class ModifydfType extends AbstractType
             ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
                 'class' => 'modifydf_garanti']])
 
-            ->add('debit1bm', NumberType::class, ['required' => false,], ['attr' => [
-                'class' => 'modifydf_debit1bm']])
-            ->add('debit2bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifydf_debit2bm']])
+
             ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
                 'class' => 'modifydf_debit3bm']])
             ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
@@ -197,6 +194,7 @@ class ModifydfType extends AbstractType
             $sdomaine = $event->getData()->getSDomaine();
             $typebu = $event->getData()->getTypebu();
             $paiement=$event->getData()->getPaiement();
+            $deb1 = $event->getData()->getDebit1bm();
 
             $event->getForm()
 
@@ -218,6 +216,11 @@ class ModifydfType extends AbstractType
                 ->add('paiement', EntityType::class,array('disabled' => ($paiement !== null), 'required' => true,
                     'class' =>Paiement::class,
                     'placeholder' => ''))
+
+                ->add('debit1bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifydf_debit1bm']])
+                ->add('debit2bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifydf_debit2bm']])
             ;
         });
 

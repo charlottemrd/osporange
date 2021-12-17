@@ -31,6 +31,7 @@ use App\Form\ModifybType;
 use App\Form\ModifycType;
 use App\Form\ModifydType;
 use App\Form\ModifydfType;
+use App\Form\ModifydfaType;
 use App\Form\ModifydeType;
 use App\Form\ModifyieType;
 use App\Form\PhasecType;
@@ -1183,7 +1184,7 @@ class ProjetController extends AbstractController
             else{
                 $lastpourcentage=0;
             }
-            $form = $this->createForm(ModifydfType::class, $projet);
+            $form = $this->createForm(ModifydfaType::class, $projet);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $mod=$projet->getModalites();
@@ -1288,7 +1289,7 @@ class ProjetController extends AbstractController
                 $notifier->send(new Notification('Le projet a bien été modifié', ['browser']));
                 return $this->redirectToRoute('projet_index', [], Response::HTTP_SEE_OTHER);
             }
-            return $this->renderForm('projet/modifydf.html.twig', [
+            return $this->renderForm('projet/modifydfa.html.twig', [
                 'projet' => $projet,
                 'form' => $form,
                 'couts' => $projet->getFournisseur()->getProfils(),

@@ -38,7 +38,6 @@ class PvinternesController extends AbstractController
         $form=$this->createForm(SearchDatePvinterne::class,$data);
         $form->handleRequest($request);
         $datepvs=$datepvinterneRepository->searchbilanmensuelfournisseur($data);
-        dump($datepvs);
         return $this->render('pvinternes/index.html.twig', [
             'datepvs'=>$datepvs,
 

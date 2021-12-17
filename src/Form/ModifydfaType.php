@@ -11,7 +11,6 @@ use App\Entity\Phase;
 use App\Entity\Risque;
 use App\Entity\User;
 use App\Entity\TypeBU;
-use App\Entity\Commentaire;
 use App\Form\CoutType;
 use App\Form\ModalitesType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -33,7 +32,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
-class ModifydeType extends AbstractType
+class ModifydfaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -43,30 +42,9 @@ class ModifydeType extends AbstractType
                 'label' => false,
                 'required' => true,
             ])
-            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
-                'class' => 'modifyde_garanti']])
 
 
 
-
-            ->add('debit2bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyde_debit2bm']])
-            ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyde_debit3bm']])
-            ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyde_debit4bm']])
-
-
-            ->add('commentaires', CollectionType::class, [
-                'entry_type' => CommentaireType::class,
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-                "row_attr" => [
-                    "class" => "d-none"
-                ],
-            ])
 
             ->add('description',TextareaType::class, [
                 'label' => false,
@@ -80,11 +58,21 @@ class ModifydeType extends AbstractType
 
 
             ])
+            ->add('garanti',IntegerType::class,['required'=>true], ['attr' => [
+                'class' => 'modifydfa_garanti']])
+
+
+            ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'modifydfa_debit3bm']])
+            ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
+                'class' => 'modifydfa_debit4bm']])
+
+
 
             ->add('taux',NumberType::class, [
                 'label' => false,
                 'attr' => [
-                    'class' => 'modifyde_taux'
+                    'class' => 'modifydfa_taux'
                 ]
             ])
 
@@ -93,7 +81,7 @@ class ModifydeType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyde_datereel0'
+                        'class' => 'modifydfa_datereel0'
                     ]
 
                 ])
@@ -104,17 +92,17 @@ class ModifydeType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyde_datereel1'
+                        'class' => 'modifydfa_datereel1'
                     ]
 
                 ])
 
-            ->add('date2', DateType::class,
+            ->add('datereel2', DateType::class,
                 [
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyde_date2'
+                        'class' => 'modifydfa_datereel2'
                     ]
 
                 ])
@@ -124,7 +112,7 @@ class ModifydeType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyde_date3'
+                        'class' => 'modifydfa_date3'
                     ]
 
                 ])
@@ -134,7 +122,7 @@ class ModifydeType extends AbstractType
                     'label'=>'invoice_date',
                     'widget'=>'single_text',
                     'attr' => [
-                        'class' => 'modifyde_datereell1'
+                        'class' => 'modifydfa_datereell1'
                     ]
 
                 ])
@@ -167,6 +155,17 @@ class ModifydeType extends AbstractType
                 ],
             ))
 
+            ->add('commentaires', CollectionType::class, [
+                'entry_type' => CommentaireType::class,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+                "row_attr" => [
+                    "class" => "d-none"
+                ],
+            ])
+
             ->add('couts', CollectionType::class, array(
                 'entry_type'   => CoutType::class,
                 'allow_add'    => true,
@@ -185,9 +184,6 @@ class ModifydeType extends AbstractType
 
 
 
-
-
-
         ;
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event) {
@@ -198,6 +194,7 @@ class ModifydeType extends AbstractType
             $sdomaine = $event->getData()->getSDomaine();
             $typebu = $event->getData()->getTypebu();
             $paiement=$event->getData()->getPaiement();
+            $deb1 = $event->getData()->getDebit1bm();
 
             $event->getForm()
 
@@ -206,8 +203,6 @@ class ModifydeType extends AbstractType
                 ->add('fournisseur', EntityType::class,array('disabled' => ($fournisseur !== null), 'required' => true,
                     'class' =>Fournisseur::class,
                     'placeholder' => ''))
-                ->add('debit1bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
-                    'class' => 'modifyde_debit1bm']])
                 ->add('Phase', EntityType::class,array('disabled' => ($phase !== null), 'required' => true,
                     'class' =>Phase::class,
                     'placeholder' => ''))
@@ -221,6 +216,14 @@ class ModifydeType extends AbstractType
                 ->add('paiement', EntityType::class,array('disabled' => ($paiement !== null), 'required' => true,
                     'class' =>Paiement::class,
                     'placeholder' => ''))
+
+                ->add('debit1bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifydfa_debit1bm']])
+                ->add('debit2bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifydfa_debit2bm']])
+                ->add('debit3bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifydfa_debit3bm']])
+
             ;
         });
 

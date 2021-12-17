@@ -113,14 +113,7 @@ class ModifyieType extends AbstractType
 
 
 
-            ->add('debit1bm', NumberType::class, ['required' => false,], ['attr' => [
-                'class' => 'modifyie_debit1bm']])
-            ->add('debit2bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyie_debit2bm']])
-            ->add('debit3bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyie_debit3bm']])
-            ->add('debit4bm', NumberType::class, ['required' => false], ['attr' => [
-                'class' => 'modifyie_debit4bm']])
+
 
 
 
@@ -226,6 +219,15 @@ class ModifyieType extends AbstractType
                 ->add('typebu', EntityType::class,array('disabled' => ($typebu !== null), 'required' => true,
                     'class' =>TypeBU::class,
                     'placeholder' => ''))
+
+                ->add('debit1bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifyie_debit1bm']])
+                ->add('debit2bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifyie_debit2bm']])
+                ->add('debit3bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifyie_debit3bm']])
+                ->add('debit4bm', NumberType::class,array('disabled' => ($fournisseur !== null)), ['required' => false,], ['attr' => [
+                    'class' => 'modifyie_debit4bm']])
 
             ;
         });
