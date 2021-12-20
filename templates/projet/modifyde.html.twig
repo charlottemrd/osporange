@@ -1070,7 +1070,7 @@
                 hiddenSteps: [], // Hidden steps
 
             });
-
+            $('.sw-btn-prev').addClass('d-none');
 
 
 
@@ -1355,11 +1355,17 @@
                     {
                         $('.sw-btn-group-extra').removeClass('d-none');
                         $('.sw-btn-next').addClass('d-none');
+                        $('.sw-btn-prev').removeClass('d-none');
+                    }
+                    else if (stepDirection=="0"){
+                        $('.sw-btn-prev').addClass('d-none');
+                        return true;
                     }
                     else
                     {
                         $('.sw-btn-group-extra').addClass('d-none');
                         $('.sw-btn-next').removeClass('d-none');
+                        $('.sw-btn-prev').removeClass('d-none');
                         return true;
                     }
                 } else {

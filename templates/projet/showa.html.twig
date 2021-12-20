@@ -422,6 +422,27 @@
 
             });
 
+            $('.sw-btn-prev').addClass('d-none');
+
+            $('#smartwizard').on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                    if(stepDirection == "3") //here is the final step: Note: 0,1,2
+                    {
+                        $('.sw-btn-next').addClass('d-none');
+                        $('.sw-btn-prev').removeClass('d-none');
+                    }
+                    else if (stepDirection=="0"){
+                        $('.sw-btn-prev').addClass('d-none');
+                        $('.sw-btn-next').removeClass('d-none');
+                        return true;
+                    }
+                    else
+                    {
+                        $('.sw-btn-next').removeClass('d-none');
+                        $('.sw-btn-prev').removeClass('d-none');
+                        return true;
+                    }
+                } )
+
 
 
 

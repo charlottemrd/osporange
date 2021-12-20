@@ -34,6 +34,13 @@
         input{
             width: 100%;
         }
+
+        .select2-container--default .select2-results__option--highlighted.select2-results__option--selectable {
+            background-color: #FF7900;
+            color: white;
+        }
+
+
         @media screen and (max-width: 600px)
         {
 
@@ -48,8 +55,16 @@
             img.filter{
                 width: 30%;
             }
+
+            img.closeof, img.check, img#view, img.modify, img.phase{
+                width: 14%;
+            }
+
         }
 
+        th#deletearrow.text.center.sorting_asc:after {
+            content: none;
+        }
 
     </style>
 
@@ -202,11 +217,12 @@
 
             <tr>
 
-                <th data-priority="1" class="text-center " style="width: 10%">Référence FL</th>
+                    <th data-priority="9" class=" text center" id="deletearrow"  style=" border: none; width: 2%"></th>
+                    <th data-priority="1" class="text-center " style="width: 10%">Référence FL</th>
                     <th data-priority="2" class="text-center " style="width: 10%">Fournisseur</th>
-                    <th data-priority="7" class="text-center "style="width: 10%" >Priorité</th>
+                <th data-priority="7" class="text-center "style="width: 10%" >Priorité</th>
                     <th data-priority="5" class="text-center " style="width: 10%" >Risque</th>
-                    <th data-priority="6" class="text-center " style="width: 7%">Planning</th>
+                    <th data-priority="6" class="text-center " style="width: 12%"> Respect du planning</th>
                     <th data-priority="4" class="text-center " style="width: 10%">Phase</th>
                     <th data-priority="8" class="text-center " style="width: 10%">Type de BU</th>
                     <th data-priority="3" class="text-center " style="width: 15%">Actions</th>
@@ -219,21 +235,29 @@
 
 
 
+                    {% if projet.risque=='pose problème' %}
+                    <td data-priority="9" class=" text center" style="background-color: red; width: 2%" value=3></td>
+                    {% elseif  projet.risque=='à surveiller'  %}
+                        <td data-priority="9" class=" text center" style="background-color:orange; width: 2%" ></td>
+                    {% else %}
+                    <td data-priority="9" class=" text center" style="background-color: limegreen; width: 2%" ></td>
+                    {% endif %}
+                    <td class="text-center " style="width: 10%"><br>{{ projet.reference }}</td>
+                    <td class="text-center " style="width: 10%"><br>{{ projet.fournisseur }}</td>
+                    <td class="text-center " style="width: 10%"><br>{{ projet.priorite }}</td>
+                    <td class="text-center " style="width: 10%"><br>{{ projet.risque }}</td>
+                 <td class="text-center " style="width: 12%;padding-top: 2%;padding-right: 2%; color:white">{{projet.isplanningrespecte ?  '1 <img class="check" src="/photo/check.png" width="25%"   > '  : ' 2<img class="closeof"  src="/photo/close.png" width="23%">' }}</td>
 
 
-                                       <td class="text-center " style="width: 10%"><br>{{ projet.reference }}</td>
-                             <td class="text-center " style="width: 10%"><br>{{ projet.fournisseur }}</td>
-                                    <td class="text-center " style="width: 10%"><br>{{ projet.priorite }}</td>
-                                    <td class="text-center " style="width: 10%"><br>{{ projet.risque }}</td>
-                                  <td class="text-center " style="width: 7%"><br>{{projet.isplanningrespecte ? 'Oui' : 'Non' }}</td>
-                                    <td class="text-center " style="width: 10%"><br>{{ projet.phase }}</td>
-                                         <td class="text-center " style="width: 10%" ><br>{{ projet.typebu }}</td>
+
+                    <td class="text-center " style="width: 10%"><br>{{ projet.phase }}</td>
+                    <td class="text-center " style="width: 10%" ><br>{{ projet.typebu }}</td>
 
                     <td style="width: 15%" >
-                        <a href="{{ path('projet_show', {'id': projet.id}) }}"><img src="/photo/view.png "  width="30%" height="30%"></img></a>
+                        <a href="{{ path('projet_show', {'id': projet.id}) }}"><img id="view" src="/photo/view.png "  width="30%" height="30%"></img></a>
 
-                        <a href="{{ path('projet_edit', {'id': projet.id}) }}"><img src="/photo/modify.png "  width="30%" height="30%"></a>
-                        <a href="{{ path('projet_phase', {'id': projet.id}) }}"><img src="/photo/update.png "  width="30%" height="30%"></a>
+                        <a href="{{ path('projet_edit', {'id': projet.id}) }}"><img class="modify"  src="/photo/modify.png "  width="30%" height="30%"></a>
+                        <a href="{{ path('projet_phase', {'id': projet.id}) }}"><img class="phase"  src="/photo/update.png "  width="30%" height="30%"></a>
 
 
 
@@ -265,12 +289,38 @@
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script
             src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
 
     <script>
 
+        $(document).ready( function () {
+            var table = $('#table').DataTable( {
+                "paging": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+                },
+                responsive:true,
+                pagingType: "simple_numbers",
+                "bLengthChange": false,
+                "bInfo" : false,
+                rowReorder: true,
+                "dom": 'lrtip',
+                "aoColumnDefs": [
+                    { 'bSortable': false, 'aTargets': [ -1,0 ] },
+
+                ],
+
+            });
+
+
+            $('#mySearchButton').on( 'keyup click', function () {
+                table.search($('#mySearchText').val()).draw();
+            } );
+
+
+        } );
         function loadfiler()
         {
             let filtdiv = document.getElementById("bigbox");
