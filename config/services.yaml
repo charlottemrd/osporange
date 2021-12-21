@@ -53,8 +53,13 @@ parameters:
     app.chefprojetgrp: '%env(CP_GROUPE)%'
 
 
-
 services:
+
+    LdapTools\Bundle\LdapToolsBundle\Command\ConfigCommand:
+        tags:
+            - { name: 'console.command', command: 'ldaptools:generate:config' }
+
+
 
     # default configuration for services in *this* file
     _defaults:
