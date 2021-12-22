@@ -1,0 +1,381 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+     <link rel="stylesheet"
+           href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+     <link rel="stylesheet"
+           href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css">
+
+
+     <style>
+         .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
+
+             background-color: #FF7900;
+             border-color: #FF7900;
+
+         }
+         .pagination>li>a, .pagination>li>span {
+
+             color: black;
+
+         }
+
+         h2 {
+
+             color: #091f2f;
+         }
+         .accordion-section .panel-default > .panel-heading {
+             border: 0;
+             background: #f4f4f4;
+             padding: 0;
+         }
+         .accordion-section .panel-default .panel-title a {
+             display: block;
+             font-size: 1.5rem;
+         }
+
+         .accordion-section .panel-default .panel-body {
+             font-size: 1.2rem;
+         }
+
+         body {
+             max-width: 100%;
+             margin: 0;
+         }
+         body {
+             min-height:100vh;
+         }
+
+         .flex-fill {
+             flex:1 1 auto;
+         }
+
+         div.dataTables_length select {
+             width: 0px;
+         }
+
+         .form-signin{
+             padding-bottom: 2%;
+             padding-top: 2%;
+             padding-right: 25%;
+             padding-left: 25%;
+
+         }
+
+         td,table, thead, th,tr{
+             border:black solid 1px;
+         }
+         .panel-default {
+
+             background-color: #f5f5f5;}
+
+        #para{
+             font-size: medium;
+             text-align: justify;
+         }
+        #fontttilile{
+             font-size:18px;
+                text-align: center;
+         }
+
+         .searching{
+             display: inline-block;
+         }
+
+         #collapse0, #collapse1,#collapse2,#collapse3, #collapse4{
+             margin-right: 5%;
+             margin-left: 5%;
+         }
+
+         @media (max-width:765px)
+         {
+             .form-signin{
+                 padding-bottom: 0%;
+                 padding-top: 7%;
+                 padding-right: 8%;
+                 padding-left: 8%;
+
+             }
+         }
+
+
+     </style>
+
+
+
+
+ {% endblock  %}
+
+{% block body  %}
+    <body class="d-flex flex-column">
+
+
+
+    <main class="container-fluid flex-fill ">
+        <h1 class="text-center">Frequently Asked Questions (F.A.Q)</h1>
+
+
+        <div class="form-signin">
+
+            {% for message in app.flashes('notification') %}
+                <div id="dive1" style="background-color: lightgrey; height: 25%; padding-left:2%;padding-right:2%;border-radius:15px;padding-top: 2%;padding-bottom: 2%">
+
+
+                    <div class="boutonS">
+                        <button id="bouton1" type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <br>
+                    {{ message }}
+
+
+                </div>
+            {% endfor %}
+
+            <section class="accordion-section clearfix mt-3" aria-label="Question Accordions">
+
+                <p style="font-size: x-large; font-style:oblique ; text-decoration: underline">Information : </p>
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading0">
+                                <h3 class="panel-title">
+                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse0" aria-expanded="true" aria-controls="collapse0">
+                                        <div id="fontttilile">Quel est le but de l'application ?</div>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse0" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading0">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para">L'application suivi de projets a pour but de suivre l'avancement des projets des managers et chefs de projets  ainsi que le paiement qui y est associé.
+                                    </p>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <p style="font-size: x-large; font-style:oblique ; text-decoration: underline">Les projets : </p>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading1">
+                                <h3 class="panel-title">
+                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                     <div id="fontttilile"> Qu'est ce qu'un projet ?</div>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading1">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para" >Un projet est composé :</p>
+                                    <ul>
+                                        <li><p id="para" > une référence de fiche de liaison (FL)</p></li>
+                                        <li><p id="para" >un domaine</p></li>
+                                        <li><p id="para" >un sous-domaine</p></li>
+                                        <li><p id="para" >un fournisseur</p></li>
+                                        <li><p id="para" >un type de BU</p></li>
+                                        <li><p id="para" >une description du projet</p></li>
+                                        <li><p id="para" >une priorité</p></li>
+                                        <li><p id="para" >un respect du planning</p></li>
+                                        <li><p  id="para">une phase</p></li>
+                                        <li><p id="para"  >un niveau de risque</p></li>
+                                        <li><p id="para" >un taux d'avancement (en %)</p></li>
+                                        <li><p id="para" >un chef de projet</p></li>
+                                        <li><p id="para"  >un mode de paiement</p></li>
+                                        <li><p id="para"  >un coût en fonction des profils demandés</p></li>
+                                        <li><p id="para" >un taux d'avancement (en %)</p></li>
+                                        <li><p id="para" >des commentaires</p></li>
+                                        <li><p id="para"  >une date de dernière mise à jour</p></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+<br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading2">
+                                <h3 class="panel-title">
+                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse2" aria-expanded="true" aria-controls="collapse2">
+                                        <div id="fontttilile">  Quels sont les différentes phases d'un projet et quels sont les éléments demandés par rapport à ces dernières ?</div>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading2">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para" >Les phases d'un projet sont les suivantes :</p>
+                                    <ul>
+                                        <li><p id="para"  > non démarré</p></li>
+                                        <li><p id="para" > en cadrage : il est possible de sauter cette étape. Si la phase est en cadrage, la date T-1 sera demandée</p> </li>
+                                        <li><p id="para" > en étude : si la phase précédente était la phase de cadrage, il est demandé à l'utilisateur si la date T-1 a connu un retard. Il est égalemnt demandé la date T0</p></li>
+                                        <li><p id="para" > en construction - conception : c'est à partir de cette phase que sont demandé les dates T1, T2 et T3 et que le paiement commence. Un projet peut subir un paiement par bilan mensuels ou modalités, en fonction du paiement choisi des informations supplémentaires seront demandées.</p></li>
+                                        <li><p id="para" > en construction - codage ; il est demandé à l'utilisateur si la date T1 a connu un retard. </p></li>
+                                        <li><p id="para" > en test ; il est demandé à l'utilisateur si la date T2 a connu un retard. </p></li>
+                                        <li><p id="para"  > en recette </p></li>
+                                        <li><p id="para" > en production ; il est demandé à l'utilisateur si la date T3 a connu un retard. Normalement, à partir de cette phase, le projet est considéré comme fini</p></li>
+                                        <li><p id="para" > non demarré</p></li>
+                                        <li><p id="para" > en stand-by ; le projet est momentanement arrêté et peut revenir à tout moment à son ancienne phase </p></li>
+                                        <li><p id="para" > abandonné ; à ce stade, il n'est plus possible de modifier ou de changer de phase le projet</p></li>
+
+                                    </ul>
+                                </div>
+                                <br>
+                        </div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading3">
+                                <h3 class="panel-title">
+                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse3" aria-expanded="true" aria-controls="collapse3">
+                                        <div id="fontttilile">Quels sont les mode de paiement possible d'un projet ?</div>
+                                    </a>
+                                </h3>
+                            </div>
+                            <div id="collapse3" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading3">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para"  >Il existe deux mode de paiement possible</p>
+                                    <ul>
+                                        <li><p id="para" >par bilan mensuel</p></li>
+                                        <li><p id="para" >par modalités</p> </li>
+                                    </ul>
+                                <p id="para" >Les deux modes de paiement commencent lorsque le projet est en construction - conception.</p>
+                                <p id="para" > Pour un bilan mensuel, chaque mois est édité un bilan mensuel auquel seul l'interlocuteur du fournisseur a accès. Si le projet est par bilan mensuel, le chef de projet doit indiquer dans l'application le cout (en pourcentage) qui peut être débité pour chaque phase ( construction - conception, conception - codage, test, recette )</p>
+                                <p id="para" > Pour un projet par modalités, chaque mois, il est demandé au chef de projet ou manager de remplir un pv interne de réception. Le chef ou manager doit également approuver les modalités d'un projet lorsque ces dernières sont atteintes. Un projet par modalités possède une garantie en mois et des jalons. Un jalon correspond à un pourcentage, une condition (date T1 atteinte, date T2 atteinte ou date T3 atteinte)  et éventuellement un commentaire.</p>
+                            </div>
+                        </div>
+                        </div>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading4">
+                                <div class="panel-title">
+                                    <a class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse4" aria-expanded="true" aria-controls="collapse4">
+                                        <div id="fontttilile">A quoi correspondent les couleurs à côté de chaque projet sur la page de la liste des projets ?</div>
+                                    </a>
+                                </div>
+                            </div>
+                            <div id="collapse4" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading4">
+                                <div class="panel-body px-3 mb-4">
+                                <p id="para"  >Chaque couleur, correspond au niveau de risque du projet. Si la couleur est rouge, le projet pose problème. Si la couleur est orange, le projet est à surveiller. Si la couleur est verte, le projet est maitrisé.
+                                 </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading5">
+                                <div class="panel-title">
+                                    <div class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="true" aria-controls="collapse5">
+                                        <div id="fontttilile">
+                                            Quels sont les types de BU, les priorités et risques disponibles ?   </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
+                                <div class="panel-body px-3 mb-4">
+                                    <ul>
+                                        <li><p id="para">Les types de BU existants sont : BtoB, BtoC, fixe et interne </p></li>
+                                        <li><p id="para">Les types de priorité sont les suivants : basse, moyenne et haute </p></li>
+                                        <li><p id="para">Les types de risque sont les suivants : maitrisé, pose problème et à surveiller </p></li>
+                                    </ul>
+                                </div>
+                             </div>
+                        </div>
+
+                        <br>
+                        <p style="font-size: x-large; font-style:oblique ; text-decoration: underline">Fournisseur : </p>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading6">
+                                <div class="panel-title">
+                                    <div class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse6" aria-expanded="true" aria-controls="collapse6">
+                                        <div id="fontttilile">
+                                            Comment est défini un fournisseur ?   </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse6" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading6">
+                                <div class="panel-body px-3 mb-4">
+                                  <p id="para">Un fournisseur est défini par son nom, son adresse e-mail, son adresse, son téléphone, un interlocuteur ainsi qu'une devise </p>
+                                 <p id="para">Chaque fournisseur possède des profils spécifiques ; chaque profil possède quand à lui une dénomination et un tarif.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <p style="font-size: x-large; font-style:oblique ; text-decoration: underline">Stockage des données : </p>
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading7">
+                                <div class="panel-title">
+                                    <div class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse7" aria-expanded="true" aria-controls="collapse7">
+                                        <div id="fontttilile">
+                                            Peut-on changer de chef de projet au cours d'un projet ?   </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse7" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading7">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para"> Oui, il est possible de changer de chef de projet en cours de route. L'historique des chefs de projet sera gardé dans des commentaires.</p>
+                                        </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading8">
+                                <div class="panel-title">
+                                    <div class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse8" aria-expanded="true" aria-controls="collapse8">
+                                        <div id="fontttilile">
+                                            Y-a-t-il une trace des anciennes dates (T-1, T0, T1, T2, T3) ? </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse8" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading8">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para"> Oui, si une date est modifiée dans l'application ; l'ancienne date est gardée en mémoire. Les anciennes dates peuvent être visulisées dans la page détails d'un projet - retard dans la planification</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+                        <div class="panel panel-default">
+                            <div class="panel-heading p-3 mb-3" role="tab" id="heading9">
+                                <div class="panel-title">
+                                    <div class="collapsed" role="button" title="" data-toggle="collapse" data-parent="#accordion" href="#collapse9" aria-expanded="true" aria-controls="collapse9">
+                                        <div id="fontttilile">Est ce que le contenu des fiches de liaison, PAC et PV internes de réception sont gardés en mémoire ?</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="collapse9" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading9">
+                                <div class="panel-body px-3 mb-4">
+                                    <p id="para">Non, le contenu des pdfs n'est pas sauvegardé dans une base de données. Il est néanmoins possible de rééditer ces pdfs autant de fois qu'on le souhaite. </p>
+                                </div>
+                            </div>
+                        </div>
+
+</div>
+            </section>
+
+
+        </div>
+    </main>
+    </div>
+    </main>
+    </body>
+
+
+{% endblock  %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="//code.jquery.com/jquery-1.12.3.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script
+            src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+    <script src="{{ asset('javascript/indexFournisseur.js') }}"></script>
+
+    <script>
+
+
+
+
+
+    </script>
+
+{% endblock  %}

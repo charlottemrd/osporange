@@ -2060,7 +2060,7 @@ class ProjetController extends AbstractController
                 $projet->setPhase($phaseRepository->find( $projet->getHighestphase()));
                 $projet->setDatemaj(new \DateTime());
                 if($projet->getHighestphase()>=6){
-                    if($projet->getPaiement()->getId()==1){
+                    if(($projet->getPaiement()->getId()==1)&&($projet->getIsfinish()!=true)) {
                         $projet->setIseligibletobm(true);
                         $dateactuelle=new \DateTime();
                         $moisencours=date_format($dateactuelle, 'm');
@@ -2115,7 +2115,7 @@ class ProjetController extends AbstractController
                                 $this->getDoctrine()->getManager()->persist($info1);
                             }
                         }
-                    }
+                    } //type= 1
                     else {
 
                         $maxpvs=$pvinternesRepository->maxpv($projet->getId());
