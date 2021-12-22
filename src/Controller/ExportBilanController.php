@@ -37,7 +37,7 @@ class ExportBilanController extends AbstractController
      * @Route("/export/bilan/{name}/{idmonthbm}/{month}/{year}", name="export_bilan",methods={"GET","POST"})
      */
     public function indexgetData(InfobilanRepository $infobilanRepository,  Fournisseur $fournisseur, Idmonthbm $idmonthbm, BilanmensuelRepository $bilanmensuelRepository, ProfilRepository $profilRepository, Request $request)
-    {
+    { //on exporte les bilans mensuels
 
 
         // return $this->redirectToRoute('projet_index', ['fournisseur'=>$fournisseur,'idmon'=>$idmonthbm], Response::HTTP_SEE_OTHER);

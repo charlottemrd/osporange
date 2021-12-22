@@ -43,7 +43,7 @@ class BilanMensuelController extends AbstractController
      * @Route("/", name="bilanmensuel_index",methods={"GET"})
      */
     public function index(ProjetRepository $projetRepository, FournisseurRepository $fournisseurRepository,Request $request)
-    {
+    {  //liste des bilans mensuels
 
 
         $user = $this->getUser();
@@ -58,7 +58,8 @@ class BilanMensuelController extends AbstractController
      * @Entity("comment", expr="repository.find(name)")
      */
     public function fournisseur(Fournisseur $fournisseur, IdmonthbmRepository $idmonthbmRepository, Request $request)
-    {
+    {   //bilan mensuel par fournisseur avec interlocuteur = utilisateur connecte
+
         $data=new SearchBilanmensuel();
         $form=$this->createForm(SearchBilanType::class,$data);
         $form->handleRequest($request);

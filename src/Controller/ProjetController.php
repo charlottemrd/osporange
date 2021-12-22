@@ -1858,8 +1858,11 @@ class ProjetController extends AbstractController
                             $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
-                                    $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanmensuel($bmtodeletes);
+                                    foreach ($bmtodeletes->getInfobilans() as $inftox) {
+                                        $this->getDoctrine()->getManager()->remove($inftox);
+                                    }
+                                    $this->getDoctrine()->getManager()->remove($bmtodeletes);
+
                                 }
                             }
 
@@ -1904,8 +1907,10 @@ class ProjetController extends AbstractController
                             $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
-                                    $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanmensuel($bmtodeletes);
+                                    foreach ($bmtodeletes->getInfobilans() as $inftox) {
+                                        $this->getDoctrine()->getManager()->remove($inftox);
+                                    }
+                                    $this->getDoctrine()->getManager()->remove($bmtodeletes);
                                 }
                             }
 
@@ -1963,8 +1968,10 @@ class ProjetController extends AbstractController
                             $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
-                                    $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanmensuel($bmtodeletes);
+                                    foreach ($bmtodeletes->getInfobilans() as $inftox) {
+                                        $this->getDoctrine()->getManager()->remove($inftox);
+                                    }
+                                    $this->getDoctrine()->getManager()->remove($bmtodeletes);
                                 }
                             }
 
@@ -2006,13 +2013,15 @@ class ProjetController extends AbstractController
                     if($projet->getPaiement()->getId()==1){
                         $projet->setIseligibletobm(false);
                         $idmonthy=$idmonthbmRepository->findBy(array('fournisseur'=>$projet->getFournisseur()->getId(),'isaccept'=>0));
+
                         foreach ($idmonthy as $idmonthies){
                             $bmtodelete=$idmonthies->getBilanmensuels();
                             foreach ($bmtodelete as $bmtodeletes){
                                 if($bmtodeletes->getProjet()->getId()==$projet->getId()){
-                                    $bmtodeletes->removeInfobilan();
-                                    $idmonthies->removeBilanmensuel($bmtodeletes);
-
+                                    foreach ($bmtodeletes->getInfobilans() as $inftox) {
+                                        $this->getDoctrine()->getManager()->remove($inftox);
+                                    }
+                                    $this->getDoctrine()->getManager()->remove($bmtodeletes);
                                 }
                             }
 

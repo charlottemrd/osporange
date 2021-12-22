@@ -66,7 +66,7 @@ class ExporthomeController extends AbstractController
                 $projet->getPriorite(),
                 $projet->getPhase(),
                 $projet->getFournisseur(),
-                $projet->getFullnamechefprojet(),
+                $projet->getUserchef(),
 
 
 
